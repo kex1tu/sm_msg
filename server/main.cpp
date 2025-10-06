@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include <QDataStream>
 #include <QSqlRecord>
+#include <algorithm>
 #include "structures.h"
 
 class Server : public QTcpServer
@@ -21,8 +22,108 @@ public:
         if(!initDatabase()){
             qFatal("Fatal: Database initialization failed!");
         }
-    }
+        initHandlers();
+    };
 protected:
+    void initHandlers() {
+        m_handlers["login"] = &Server::handleLogin;
+        m_handlers["register"] = &Server::handleRegister;
+        m_handlers["search_users"] = &Server::handleSearchUsers;
+        m_handlers["private_message"] = &Server::handlePrivateMessage;
+        m_handlers["get_history"] = &Server::handleGetHistory;
+        m_handlers["add_contact_request"] = &Server::handleAddContactRequest;
+        m_handlers["contact_request_response"] = &Server::handleContactRequestResponse;
+        m_handlers["delete_message"] = &Server::handleDeleteMessage;
+        m_handlers["edit_message"] = &Server::handleEditMessage;
+        m_handlers["typing"] = &Server::handleTyping;
+        m_handlers["message_delivered"] = &Server::handleMessageDelivered;
+        m_handlers["message_read"] = &Server::handleMessageRead;
+        m_handlers["logout_request"] = &Server::handleLogoutRequest;
+    }
+    void handleTyping(QTcpSocket* socket, const QJsonObject& request){
+
+    }
+    void handleMessageDelivered(QTcpSocket* socket, const QJsonObject& request){
+        quint64 messageId = request["id"].toInt();
+        QSqlQuery updateQuery;
+        updateQuery.prepare("UPDATE messages SET is_delivered = 1 WHERE id = :id");
+        updateQuery.bindValue(":id", messageId);
+        if (!updateQuery.exec()) {
+            qDebug() << "[SERVER] Failed to mark INSTANT message as delivered:" << updateQuery.lastError().text();
+        } else {
+            qDebug() << "[SERVER] Marked message" << messageId << "as delivered to online user";
+        }
+
+        QSqlQuery query;
+        query.prepare("SELECT fromUser FROM messages WHERE id = :id");
+        query.bindValue(":id", messageId);
+
+        if (!query.exec()) {
+            qDebug() << "DB Error: History request failed:" << query.lastError().text();
+            return;
+        }
+        QString toUser = "";
+        while(query.next()){
+            toUser = query.record().value("fromUser").toString();
+        }
+
+        qDebug() << "[SERVER] message " << (double)messageId << "delivered, info from user, sending to" << toUser;
+        QJsonObject deliveredCmd;
+        deliveredCmd["type"] = "message_delivered";
+        deliveredCmd["id"] = (double)messageId;
+
+        sendJson(loggedInUsers.value(toUser), deliveredCmd);
+    }
+    void handleMessageRead(QTcpSocket* socket, const QJsonObject& request){
+        quint64 messageId = request["id"].toInt();
+        QSqlQuery updateQuery;
+        updateQuery.prepare("UPDATE messages SET is_read = 1 WHERE id = :id");
+        updateQuery.bindValue(":id", messageId);
+        if (!updateQuery.exec()) {
+            qDebug() << "[SERVER] Failed to mark INSTANT message as read:" << updateQuery.lastError().text();
+        } else {
+            qDebug() << "[SERVER] Marked message" << messageId << "as read to online user" ;
+        }
+
+        QSqlQuery query;
+        query.prepare("SELECT fromUser FROM messages WHERE id = :id");
+        query.bindValue(":id", messageId);
+
+        if (!query.exec()) {
+            qDebug() << "DB Error: History request failed:" << query.lastError().text();
+            return;
+        }
+        QString toUser = "";
+        while(query.next()){
+            toUser = query.record().value("fromUser").toString();
+        }
+        qDebug() << "[SERVER] message " << (double)messageId << "read, info from user, sending tosending to" << toUser;
+
+        QJsonObject readCmd;
+        readCmd["type"] = "message_read";
+        readCmd["id"] = (double)messageId;
+
+        sendJson(loggedInUsers.value(toUser), readCmd);
+    }
+    void handleLogoutRequest(QTcpSocket* socket, const QJsonObject& request){
+        QString fromUser = request["username"].toString();
+        QString requestingUser = loggedInUsers.key(socket);
+        QJsonObject response;
+        if(fromUser != requestingUser){
+            qDebug() << "[SERVER]" << requestingUser << "trying to log out as"<<  fromUser;
+
+            response["type"] = "logout_request_failure";
+            response["reason"] = requestingUser + "trying to log out as" + fromUser;
+            sendJson(socket, response);
+            return;
+        } else{
+            response["type"] = "logout_request_success";
+            sendJson(socket, response);
+            QString username = loggedInUsers.key(socket);
+            loggedInUsers.remove(username);
+            broadcastUserList();
+        }
+    }
     void incomingConnection(qintptr socketDescriptor) override
     {
         QTcpSocket *clientSocket = new QTcpSocket(this);
@@ -44,7 +145,6 @@ private slots:
 
         QDataStream in(clientSocket);
         in.setVersion(QDataStream::Qt_6_2);
-        //[SIZE][JSON]
         while(true){
             quint32 &nextBlockSize = m_nextBlockSizes[clientSocket];
             if (nextBlockSize == 0){
@@ -72,89 +172,16 @@ private slots:
 
             qDebug() << "[SERVER] Processing message of type:" << type;
 
-            if (type == "register"){
-                handleRegister(clientSocket, request);
-            } else if(type == "login"){
-                handleLogin(clientSocket, request);
-            } else if (type == "private_message") {
-                handlePrivateMessage(clientSocket, request);
-            } else if (type == "get_history") {
-                handleGetHistory(clientSocket, request);
-            } else if (type == "typing") {
-                QString fromUser = loggedInUsers.key(clientSocket);
-                QString to = request["toUser"].toString();
-                QTcpSocket *toUserSocket = loggedInUsers.value(to, nullptr);
-                if (toUserSocket) {
-                    QJsonObject forwardMessage = request;
-                    forwardMessage["fromUser"] = fromUser;
-                    sendJson(toUserSocket, forwardMessage);
-                }
-            } else if (type == "delete_message") {
-                handleDeleteMessage(clientSocket, request);
-            } else if (type == "edit_message") {
-                handleEditMessage(clientSocket, request);
-            } else if(type == "message_delivered"){
-                quint64 messageId = request["id"].toInt();
-                QSqlQuery updateQuery;
-                updateQuery.prepare("UPDATE messages SET is_delivered = 1 WHERE id = :id");
-                updateQuery.bindValue(":id", messageId);
-                if (!updateQuery.exec()) {
-                    qDebug() << "[SERVER] Failed to mark INSTANT message as delivered:" << updateQuery.lastError().text();
-                } else {
-                    qDebug() << "[SERVER] Marked message" << messageId << "as delivered to online user";
-                }
 
-                QSqlQuery query;
-                query.prepare("SELECT fromUser FROM messages WHERE id = :id");
-                query.bindValue(":id", messageId);
 
-                if (!query.exec()) {
-                    qDebug() << "DB Error: History request failed:" << query.lastError().text();
-                    return;
-                }
-                QString toUser = "";
-                while(query.next()){
-                    toUser = query.record().value("fromUser").toString();
-                }
+            if (m_handlers.contains(type)) {
+                Handler handler = m_handlers[type];
+                (this->*handler)(clientSocket, request);
 
-                qDebug() << "[SERVER] message " << (double)messageId << "delivered, info from user, sending to" << toUser;
-                QJsonObject deliveredCmd;
-                deliveredCmd["type"] = "message_delivered";
-                deliveredCmd["id"] = (double)messageId;
-
-                sendJson(loggedInUsers.value(toUser), deliveredCmd);
-            } else if(type == "message_read"){
-                quint64 messageId = request["id"].toInt();
-                QSqlQuery updateQuery;
-                updateQuery.prepare("UPDATE messages SET is_read = 1 WHERE id = :id");
-                updateQuery.bindValue(":id", messageId);
-                if (!updateQuery.exec()) {
-                    qDebug() << "[SERVER] Failed to mark INSTANT message as read:" << updateQuery.lastError().text();
-                } else {
-                    qDebug() << "[SERVER] Marked message" << messageId << "as read to online user" ;
-                }
-
-                QSqlQuery query;
-                query.prepare("SELECT fromUser FROM messages WHERE id = :id");
-                query.bindValue(":id", messageId);
-
-                if (!query.exec()) {
-                    qDebug() << "DB Error: History request failed:" << query.lastError().text();
-                    return;
-                }
-                QString toUser = "";
-                while(query.next()){
-                    toUser = query.record().value("fromUser").toString();
-                }
-                qDebug() << "[SERVER] message " << (double)messageId << "read, info from user, sending tosending to" << toUser;
-
-                QJsonObject readCmd;
-                readCmd["type"] = "message_read";
-                readCmd["id"] = (double)messageId;
-
-                sendJson(loggedInUsers.value(toUser), readCmd);
+            } else {
+                qDebug() << "[SERVER] Unknown request type received:" << type;
+                sendJson(clientSocket, {{"type", "error"}, {"reason", "Unknown command: " + type}});
             }
-
         }
     }
     void onDisconnected(){
@@ -168,10 +195,22 @@ private slots:
         if (!username.isEmpty()) {
             loggedInUsers.remove(username);
             qDebug() << "User" << username << "disconnected.";
+
+            QSqlQuery updateQuery;
+            updateQuery.prepare("UPDATE users SET last_seen = :lastSeen WHERE username = :username");
+            updateQuery.bindValue(":lastSeen", QDateTime::currentDateTime().toString(Qt::ISODate));
+            updateQuery.bindValue(":username", username);
+            if (!updateQuery.exec()) {
+                qDebug() << "[SERVER][ERROR] Failed to update last_seen for user" << username << ":" << updateQuery.lastError().text();
+            } else {
+                qDebug() << "[SERVER] Updated last_seen for user" << username;
+            }
+
             broadcastUserList();
         }
     }
 private:
+    using Handler = void (Server::*)(QTcpSocket*, const QJsonObject&);
     bool initDatabase()
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -211,6 +250,21 @@ private:
                         "media_url TEXT"
                         ");")) {
             qDebug() << "[SERVER] DB Error: failed to create 'messages' table:" << query.lastError().text();
+            return false;
+        }
+        if (!query.exec("CREATE TABLE IF NOT EXISTS contacts ("
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        "user_id_1 INTEGER NOT NULL, "
+                        "user_id_2 INTEGER NOT NULL, "
+                        "status INTEGER NOT NULL DEFAULT 0, " // 0: Pending, 1: Accepted, 2: Blocked
+                        "creation_date TEXT NOT NULL, "
+                        "FOREIGN KEY(user_id_1) REFERENCES users(id), "
+                        "FOREIGN KEY(user_id_2) REFERENCES users(id), "
+                        "UNIQUE(user_id_1, user_id_2), "
+                        "CHECK(user_id_1 < user_id_2)"
+                        ");"))
+        {
+            qDebug() << "DB Error: failed to create 'contacts' table:" << query.lastError().text();
             return false;
         }
         return true;
@@ -265,7 +319,7 @@ private:
     }
     void handleRegister(QTcpSocket* socket, const QJsonObject& request){
         QString username = request["username"].toString();
-        QString display_name = request["display_name"].toString();
+        QString display_name = request["displayname"].toString();
         QString password = request["password"].toString();
         QByteArray passwordHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 
@@ -289,6 +343,162 @@ private:
         }
         sendJson(socket, response);
     }
+    void handleSearchUsers(QTcpSocket* socket, const QJsonObject& request)
+    {
+        QString searchTerm = request["term"].toString();
+        QString currentUser = loggedInUsers.key(socket);
+
+
+        QSqlQuery query;
+        query.prepare("SELECT username, display_name FROM users WHERE (username LIKE :term OR display_name LIKE :term) AND username != :currentUser LIMIT 20");
+        query.bindValue(":term", "%" + searchTerm + "%");
+        query.bindValue(":currentUser", currentUser);
+
+        if (!query.exec()) {
+            return;
+        }
+
+        QJsonArray usersFound;
+        while (query.next()) {
+            QJsonObject userObject;
+            userObject["username"] = query.value(0).toString();
+            userObject["displayname"] = query.value(1).toString();
+            usersFound.append(userObject);
+        }
+
+        QJsonObject response;
+        response["type"] = "search_results";
+        response["users"] = usersFound;
+        sendJson(socket, response);
+    }
+    void sendContactList(QTcpSocket* socket,const QString& username){
+        QSqlQuery userQuery;
+        userQuery.prepare("SELECT id FROM users WHERE username = :username");
+        userQuery.bindValue(":username", username);
+
+        if (!userQuery.exec() || !userQuery.next()) return;
+        qint64 userId = userQuery.value("id").toLongLong();
+
+        QSqlQuery query;
+        query.prepare(
+            "SELECT u.username, u.display_name, u.last_seen FROM users u "
+            "JOIN contacts c ON (u.id = c.user_id_1 OR u.id = c.user_id_2) "
+            "WHERE (c.user_id_1 = :userId OR c.user_id_2 = :userId) "
+            "AND c.status = 1 AND u.id != :userId"
+            );
+        query.bindValue(":userId", userId);
+
+        if (!query.exec()) {
+            qDebug() << "[SERVER] Failed to get contact list:" << query.lastError().text();
+            return;
+        }
+
+        QJsonArray contactsArray;
+        while (query.next()) {
+            QJsonObject userObject;
+            userObject["username"] = query.value(0).toString();
+            userObject["displayname"] = query.value(1).toString();
+            userObject["last_seen"] = query.value(2).toString();
+            contactsArray.append(userObject);
+        }
+
+        QJsonObject message;
+        message["type"] = "contact_list";
+        message["users"] = contactsArray;
+        sendJson(socket, message);
+    }
+    void handleAddContactRequest(QTcpSocket* socket, const QJsonObject& request)
+    {
+        QString fromUsername = loggedInUsers.key(socket);
+        QString toUsername = request["username"].toString();
+
+
+        if (toUsername.isEmpty()) {
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "Invalid username provided."}});
+            return;
+        }
+
+        if (fromUsername == toUsername) {
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "You cannot add yourself as a contact."}});
+            return;
+        }
+
+        QSqlQuery idQuery;
+        idQuery.prepare("SELECT id, username, display_name FROM users WHERE username = :from OR username = :to");
+        idQuery.bindValue(":from", fromUsername);
+        idQuery.bindValue(":to", toUsername);
+
+        if (!idQuery.exec()) {
+            qDebug() << "[SERVER] DB Error: Failed to find user IDs:" << idQuery.lastError().text();
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "A database error occurred."}});
+            return;
+        }
+
+        qint64 fromId = -1, toId = -1;
+        QString fromDisplayName;
+        while (idQuery.next()) {
+            if (idQuery.value("username").toString() == fromUsername) {
+                fromId = idQuery.value("id").toLongLong();
+                fromDisplayName = idQuery.value("displayname").toString();
+            } else {
+                toId = idQuery.value("id").toLongLong();
+            }
+        }
+
+        if (fromId == -1 || toId == -1) {
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "The requested user does not exist."}});
+            return;
+        }
+
+        qint64 userId1 = std::min(fromId, toId);
+        qint64 userId2 = std::max(fromId, toId);
+
+        QSqlQuery checkQuery;
+        checkQuery.prepare("SELECT status FROM contacts WHERE user_id_1 = :id1 AND user_id_2 = :id2");
+        checkQuery.bindValue(":id1", userId1);
+        checkQuery.bindValue(":id2", userId2);
+        if (!checkQuery.exec()) {
+            qDebug() << "[SERVER] DB Error: Failed to check for existing contact:" << checkQuery.lastError().text();
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "A database error occurred."}});
+            return;
+        }
+
+        if (checkQuery.next()) {
+            int status = checkQuery.value(0).toInt();
+            QString reason = "A relationship with this user already exists.";
+            if (status == 0) reason = "A contact request is already pending with this user.";
+            if (status == 1) reason = "This user is already in your contacts.";
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", reason}});
+            return;
+        }
+
+        QSqlQuery insertQuery;
+        insertQuery.prepare("INSERT INTO contacts (user_id_1, user_id_2, status, creation_date) "
+                            "VALUES (:id1, :id2, 0, :date)");
+        insertQuery.bindValue(":id1", userId1);
+        insertQuery.bindValue(":id2", userId2);
+        insertQuery.bindValue(":date", QDateTime::currentDateTime().toString(Qt::ISODate));
+
+        if (!insertQuery.exec()) {
+            qDebug() << "[SERVER] DB Error: Failed to insert contact request:" << insertQuery.lastError().text();
+            sendJson(socket, {{"type", "add_contact_failure"}, {"reason", "A database error occurred while sending the request."}});
+            return;
+        }
+
+
+        QTcpSocket* toSocket = loggedInUsers.value(toUsername, nullptr);
+        if (toSocket) {
+            QJsonObject notification;
+            notification["type"] = "incoming_contact_request";
+            notification["fromUsername"] = fromUsername;
+            notification["fromDisplayname"] = fromDisplayName;
+            sendJson(toSocket, notification);
+            qDebug() << "[SERVER] Sent incoming contact request notification to" << toUsername;
+        }
+
+        sendJson(socket, {{"type", "add_contact_success"}, {"reason", "Contact request sent successfully to " + toUsername + "."}});
+        qDebug() << "[SERVER] User" << fromUsername << "sent a contact request to" << toUsername;
+    }
     void handleLogin(QTcpSocket* socket, const QJsonObject& request)
     {
 
@@ -308,8 +518,9 @@ private:
                 response["type"] = "login_success";
                 loggedInUsers[username]=socket;
                 sendJson(socket, response);
+                sendContactList(socket, username);
                 broadcastUserList();
-                sendOfflineMessages(socket, username);
+                sendPendingContactRequests(socket, username);
             }
             else{
                 response["type"] = "login_failure";
@@ -352,7 +563,6 @@ private:
         }
 
         quint64 messageId = query.lastInsertId().toULongLong();
-        //добавить остальные поля при необходимости
         QJsonObject echoMessage;
         echoMessage["type"] = "private_message";
         echoMessage["id"] = (double)messageId;
@@ -409,7 +619,7 @@ private:
         while (query.next()) {
             QJsonObject userObject;
             userObject["username"] = query.value(0).toString();
-            userObject["display_name"] = query.value(1).toString();
+            userObject["displayname"] = query.value(1).toString();
             allUsers.append(userObject);
         }
 
@@ -427,8 +637,8 @@ private:
         message["type"] = "user_list";
         message["users"] = QJsonArray::fromStringList(onlineUsers);
 
+
         for (QTcpSocket *socket : loggedInUsers.values()) {
-            sendFullUserList(socket);
             sendJson(socket, message);
         }
     }
@@ -541,8 +751,135 @@ private:
             }
         }
     }
+    void handleContactRequestResponse(QTcpSocket* socket, const QJsonObject& request){
+
+        qDebug() << "[SERVER] Received contact_request_response:" << request;
+
+        QString toUsername = loggedInUsers.key(socket);
+
+        QString fromUsername = request["fromUsername"].toString();
+        QString response = request["response"].toString();
+
+
+        QSqlQuery idQuery;
+        idQuery.prepare("SELECT id, username FROM users WHERE username = :from OR username = :to");
+        idQuery.bindValue(":from", fromUsername);
+        idQuery.bindValue(":to", toUsername);
+
+        if (!idQuery.exec()) {
+            return;
+        }
+
+        qint64 fromId = -1, toId = -1;
+        while (idQuery.next()) {
+            if (idQuery.value("username").toString() == fromUsername) {
+                fromId = idQuery.value("id").toLongLong();
+            } else {
+                toId = idQuery.value("id").toLongLong();
+            }
+        }
+
+        if (fromId == -1 || toId == -1) {
+            return;
+        }
+
+        qint64 userId1 = std::min(fromId, toId);
+        qint64 userId2 = std::max(fromId, toId);
+        qDebug() << response;
+        if (response == "accepted") {
+            QSqlQuery debugSelect;
+            debugSelect.prepare("SELECT status FROM contacts WHERE user_id_1 = :id1 AND user_id_2 = :id2");
+            debugSelect.bindValue(":id1", userId1);
+            debugSelect.bindValue(":id2", userId2);
+            if (debugSelect.exec() && debugSelect.next()) {
+                qDebug() << "[SERVER][DEBUG] Current status before update is:" << debugSelect.value(0).toInt();
+            } else {
+                qDebug() << "[SERVER][DEBUG] No contact record found before update.";
+            }
+
+            QSqlQuery updateQuery;
+            updateQuery.prepare("UPDATE contacts SET status = 1 "
+                                "WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
+            updateQuery.bindValue(":id1", userId1);
+            updateQuery.bindValue(":id2", userId2);
+
+            if (updateQuery.exec() && updateQuery.numRowsAffected() > 0) {
+                qDebug() << "[SERVER]" << toUsername << "accepted contact request from" << fromUsername;
+                QTcpSocket* fromSocket = loggedInUsers.value(fromUsername, nullptr);
+                QTcpSocket* toSocket = loggedInUsers.value(toUsername, nullptr);
+
+                if (fromSocket) {
+
+                    sendContactList(fromSocket, fromUsername);
+                }
+                if (toSocket) {
+                    sendContactList(toSocket, toUsername);
+                }
+                broadcastUserList();
+            }
+        } else if (response == "declined") {
+            QSqlQuery deleteQuery;
+            deleteQuery.prepare("DELETE FROM contacts "
+                                "WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
+            deleteQuery.bindValue(":id1", userId1);
+            deleteQuery.bindValue(":id2", userId2);
+
+            if (deleteQuery.exec()) {
+                qDebug() << "[SERVER]" << toUsername << "declined contact request from" << fromUsername;
+            }
+        }
+    }
+    void sendPendingContactRequests(QTcpSocket* socket, const QString& username){
+        qDebug() << "[SERVER][PENDING] Checking for pending requests for user:" << username;
+        QSqlQuery userQuery;
+        userQuery.prepare("SELECT id FROM users WHERE username = :username");
+        userQuery.bindValue(":username", username);
+        if (!userQuery.exec() || !userQuery.next()) {
+            qDebug() << "[SERVER][PENDING][ERROR] Could not find ID for user:" << username;
+            return;
+        }
+        qint64 userId = userQuery.value(0).toLongLong();
+        qDebug() << "[SERVER][PENDING] User ID is:" << userId;
+        QSqlQuery query;
+        query.prepare(
+            "SELECT u.username, u.display_name FROM users u "
+            "JOIN contacts c ON u.id = (CASE WHEN c.user_id_1 = :userId THEN c.user_id_2 ELSE c.user_id_1 END) "
+            "WHERE (c.user_id_1 = :userId OR c.user_id_2 = :userId) AND c.status = 0"
+            );
+        query.bindValue(":userId", QVariant(userId));
+
+        if (!query.exec()) {
+            qDebug() << "[SERVER][PENDING][ERROR] DB Error: Failed to fetch pending requests:" << query.lastError().text();
+            return;
+        }
+        qDebug() << "[SERVER][PENDING] Main SQL query executed successfully. Processing results...";
+
+        QJsonArray pendingRequests;
+        while (query.next()) {
+            QString fromUser = query.value(0).toString();
+            qDebug() << "[SERVER][PENDING] Found a pending request from:" << fromUser;
+
+            QJsonObject reqObject;
+            reqObject["fromUsername"] = fromUser;
+            reqObject["fromDisplayname"] = query.value(1).toString();
+            pendingRequests.append(reqObject);
+        }
+        qDebug() << "[SERVER][PENDING] Total pending requests found:" << pendingRequests.count();
+        if (!pendingRequests.isEmpty()) {
+            qDebug() << "[SERVER] Sending" << pendingRequests.count() << "pending contact requests to" << username;
+            QJsonObject response;
+            response["type"] = "pending_requests_list";
+            response["requests"] = pendingRequests;
+            sendJson(socket, response);
+        }
+        else {
+            qDebug() << "[SERVER][PENDING] No requests to send. Function finished.";
+        }
+    }
+
 private:
     QMap<QString, QTcpSocket*> loggedInUsers;
+    QMap<QString, Handler> m_handlers;
     QMap<QTcpSocket*, quint32> m_nextBlockSizes;
 
 };
