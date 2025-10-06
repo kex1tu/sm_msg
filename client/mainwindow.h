@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "searchresultspopup.h"
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QJsonObject>
@@ -36,6 +37,8 @@ private slots:
     void handleGoToLogPageButtonClick();
     void handleLoginButtonClick();
     void handleRegisterButtonClick();
+    void handleLogOutButtonClick();
+    void performSearch();
 
 
 
@@ -50,6 +53,30 @@ private slots:
     void onMessageTextChanged(const QString &text);
 
 private:
+    using ResponseHandler = void (MainWindow::*)(const QJsonObject&);
+    QMap<QString, ResponseHandler> m_responseHandlers;
+
+    void initResponseHandlers();
+    void handleLoginSuccess(const QJsonObject& response);
+    void handleLoginFailure(const QJsonObject& response);
+    void handleRegisterSuccess(const QJsonObject& response);
+    void handleRegisterFailure(const QJsonObject& response);
+    void handleContactList(const QJsonObject& response);
+    void handleHistoryData(const QJsonObject& response);
+    void handlePrivateMessage(const QJsonObject& response);
+    void handleUserList(const QJsonObject& response);
+    void handleMessageDelivered(const QJsonObject& response);
+    void handleMessageRead(const QJsonObject& response);
+    void handleEditMessage(const QJsonObject& response);
+    void handleDeleteMessage(const QJsonObject& response);
+    void handleSearchResults(const QJsonObject& response);
+    void handleAddContactSuccess(const QJsonObject& response);
+    void handleAddContactFailure(const QJsonObject& response);
+    void handleIncomingContactRequest(const QJsonObject& response);
+    void handlePendingRequestsList(const QJsonObject& response);
+    void handleLogoutSuccess(const QJsonObject& response);
+    void handleLogoutFailure(const QJsonObject& response);
+
     Ui::MainWindow *ui;
     QTcpSocket *socket;
 
@@ -61,7 +88,10 @@ private:
     QMap<QString, User> m_userCache;
     QMap<qint64, ChatMessage> m_currentChatMessages;
     QMap<QString, QTimer*> m_typingTimers;
+    QTimer *m_searchTimer;
     QMap<QString, ChatMessage> m_pendingMessages;
+
+    SearchResultsPopup *m_searchResultsPopup;
 
     qint64 m_replyToMessageId;
     qint64 m_editingMessageId;
@@ -81,5 +111,8 @@ private:
     QListWidgetItem* findItemById(qint64 messageId,  std::optional<std::reference_wrapper<quint64>> posInWidget_optional = std::nullopt);
     QListWidgetItem* findItemByTempId(QString tempId);
     QString createTempId();
+    void showContactRequestPrompt(const QString& fromUsername, const QString& fromDisplayName);
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 #endif // MAINWINDOW_H

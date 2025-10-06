@@ -1,0 +1,116 @@
+/* styles.qss - Глобальный стиль "Розовая тема" */
+
+/* --- ОБЩИЕ СТИЛИ ДЛЯ ВСЕХ ВИДЖЕТОВ --- */
+QWidget {
+    background-color: #282426; /* Глубокий, теплый темно-серый фон */
+    color: #f0f0f0;            /* Светлый текст */
+    font-family: Segoe UI, sans-serif;
+    font-size: 10pt;
+    border: none; /* Убираем все рамки по умолчанию */
+}
+
+/* --- ОКНО И ПАНЕЛИ --- */
+QMainWindow {
+    background-color: #282426;
+}
+
+/* --- СПИСКИ (КОНТАКТЫ, ЧАТ, РЕЗУЛЬТАТЫ ПОИСКА) --- */
+QListWidget {
+    background-color: #3D383A; /* Более светлый фон для панелей */
+    border-radius: 8px;
+    padding: 5px;
+    outline: none; /* Убираем рамку фокуса */
+}
+
+QListWidget::item {
+    padding: 8px 10px;
+    margin: 1px 0px;
+    border-radius: 6px; /* Скругляем элементы */
+}
+
+QListWidget::item:hover {
+    background-color: #524C4E; /* Подсветка при наведении */
+}
+
+QListWidget::item:selected {
+    background-color: #E072A4;  /* ГЛАВНЫЙ РОЗОВЫЙ АКЦЕНТ */
+    color: white;
+}
+
+/* --- ПОЛЯ ВВОДА --- */
+QLineEdit {
+    background-color: #524C4E;
+    border: 1px solid #3D383A;
+    border-radius: 8px;
+    padding: 6px;
+    color: #f0f0f0;
+}
+
+QLineEdit:focus {
+    border: 1px solid #E072A4; /* Розовая подсветка при фокусе */
+}
+
+/* --- КНОПКИ --- */
+QPushButton, QToolButton {
+    background-color: #524C4E;
+    color: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+QPushButton:hover, QToolButton:hover {
+    background-color: #615A5D;
+}
+
+QPushButton:pressed, QToolButton:pressed {
+    background-color: #3D383A;
+}
+
+/* --- ПАНЕЛЬ ЗАГОЛОВКА ЧАТА --- */
+#chatHeaderWidget {
+    background-color: #3D383A;
+    border-radius: 8px;
+    margin-bottom: 2px;
+}
+/* Делаем фон виджетов внутри панели прозрачным */
+#chatHeaderWidget QToolButton, #chatHeaderWidget QLabel {
+    background-color: transparent;
+}
+#chatHeaderWidget QToolButton:hover {
+    background-color: #524C4E;
+}
+
+
+/* --- СТИЛИЗАЦИЯ СТАТУСА --- */
+#chatPartnerNameLabel {
+    font-weight: bold;
+}
+#chatPartnerStatusLabel {
+    color: #a0a0a0; /* Этот цвет будет переопределен в коде для статуса "онлайн" */
+}
+
+/* --- УНИКАЛЬНАЯ КНОПКА ВЫХОДА --- */
+#logoutButton {
+    background-color: #C2185B; /* Глубокий малиновый цвет */
+}
+#logoutButton:hover {
+    background-color: #D81B60;
+}
+
+
+/* --- СКРОЛЛБАР --- */
+QScrollBar:vertical {
+    background: #3D383A;
+    width: 8px;
+    margin: 0px;
+    border-radius: 4px;
+}
+QScrollBar::handle:vertical {
+    background: #615A5D;
+    min-height: 20px;
+    border-radius: 4px;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
