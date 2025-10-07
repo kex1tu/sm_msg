@@ -1,5 +1,6 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
+
 #include <QString>
 struct User {
     qint64 id = 0;
