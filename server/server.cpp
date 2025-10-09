@@ -18,12 +18,52 @@
 #include "server.h"
 
 
-Server::Server(QObject *parent) : QTcpServer(parent){
+Server::Server(QObject *parent) : QObject(parent){
+    m_tcpServer = new QTcpServer(this);
+    m_webSocketServer = new QWebSocketServer("MessengerServer", QWebSocketServer::NonSecureMode, this);
+
+    connect(m_tcpServer, &QTcpServer::newConnection, this, &Server::onNewTcpConnection);
+    connect(m_webSocketServer, &QWebSocketServer::newConnection, this, &Server::onNewWebSocketConnection);
+
     if(!initDatabase()){
         qFatal("Fatal: Database initialization failed!");
     }
     initHandlers();
-};
+}
+bool Server::listen(const QHostAddress &address, quint16 tcpPort, quint16 wsPort)
+{
+    bool tcpSuccess = m_tcpServer->listen(address, tcpPort);
+    bool wsSuccess = m_webSocketServer->listen(address, wsPort);
+
+    if (tcpSuccess && wsSuccess) {
+        qDebug() << "TCP Server listening on port" << tcpPort;
+        qDebug() << "WebSocket Server listening on port" << wsPort;
+        return true;
+    }
+    if (!tcpSuccess) qDebug() << "TCP Server failed to start:" << m_tcpServer->errorString();
+    if (!wsSuccess) qDebug() << "WebSocket Server failed to start:" << m_webSocketServer->errorString();
+    return false;
+}
+
+void Server::onNewTcpConnection()
+{
+    QTcpSocket *socket = m_tcpServer->nextPendingConnection();
+    qDebug() << "New TCP client connected from:" << socket->peerAddress().toString();
+
+    connect(socket, &QTcpSocket::readyRead, this, &Server::onTcpReadyRead);
+    connect(socket, &QTcpSocket::disconnected, this, &Server::onClientDisconnected);
+
+    m_nextBlockSizes.insert(socket, 0);
+}
+
+void Server::onNewWebSocketConnection()
+{
+    QWebSocket *socket = m_webSocketServer->nextPendingConnection();
+    qDebug() << "New WebSocket client connected from:" << socket->peerAddress().toString();
+
+    connect(socket, &QWebSocket::textMessageReceived, this, &Server::onWebSocketTextMessageReceived);
+    connect(socket, &QWebSocket::disconnected, this, &Server::onClientDisconnected);
+}
 
 void Server::initHandlers() {
     m_handlers["login"] = &Server::handleLogin;
@@ -41,11 +81,8 @@ void Server::initHandlers() {
     m_handlers["logout_request"] = &Server::handleLogoutRequest;
 }
 
-void Server::handleTyping(QTcpSocket* socket, const QJsonObject& request){
-    return;
-}
 
-void Server::handleMessageDelivered(QTcpSocket* socket, const QJsonObject& request){
+void Server::handleMessageDelivered(QObject* socket, const QJsonObject& request){
     quint64 messageId = request["id"].toInt();
     QSqlQuery updateQuery;
     updateQuery.prepare("UPDATE messages SET is_delivered = 1 WHERE id = :id");
@@ -74,10 +111,10 @@ void Server::handleMessageDelivered(QTcpSocket* socket, const QJsonObject& reque
     deliveredCmd["type"] = "message_delivered";
     deliveredCmd["id"] = (double)messageId;
 
-    sendJson(loggedInUsers.value(toUser), deliveredCmd);
+    sendJson(m_clients.value(toUser), deliveredCmd);
 }
 
-void Server::handleMessageRead(QTcpSocket* socket, const QJsonObject& request){
+void Server::handleMessageRead(QObject* socket, const QJsonObject& request){
     quint64 messageId = request["id"].toInt();
     QSqlQuery updateQuery;
     updateQuery.prepare("UPDATE messages SET is_read = 1 WHERE id = :id");
@@ -106,12 +143,12 @@ void Server::handleMessageRead(QTcpSocket* socket, const QJsonObject& request){
     readCmd["type"] = "message_read";
     readCmd["id"] = (double)messageId;
 
-    sendJson(loggedInUsers.value(toUser), readCmd);
+    sendJson(m_clients.value(toUser), readCmd);
 }
 
-void Server::handleLogoutRequest(QTcpSocket* socket, const QJsonObject& request){
+void Server::handleLogoutRequest(QObject* socket, const QJsonObject& request){
     QString fromUser = request["username"].toString();
-    QString requestingUser = loggedInUsers.key(socket);
+    QString requestingUser = m_clientsReverse.value(socket);
     QJsonObject response;
     if(fromUser != requestingUser){
         qDebug() << "[SERVER]" << requestingUser << "trying to log out as"<<  fromUser;
@@ -123,40 +160,29 @@ void Server::handleLogoutRequest(QTcpSocket* socket, const QJsonObject& request)
     } else{
         response["type"] = "logout_request_success";
         sendJson(socket, response);
-        QString username = loggedInUsers.key(socket);
-        loggedInUsers.remove(username);
+        QString username = m_clientsReverse.value(socket);
+        m_clients.remove(username);
+
+        m_clientsReverse.remove(socket);
         broadcastUserList();
     }
 }
-void Server::incomingConnection(qintptr socketDescriptor)
-{
-    QTcpSocket *clientSocket = new QTcpSocket(this);
-    clientSocket->setSocketDescriptor(socketDescriptor);
 
-    qDebug() << "New client connected!";
+void Server::onTcpReadyRead(){
+    auto socket = qobject_cast<QTcpSocket*>(sender());
+    if (!socket) return;
 
-    m_nextBlockSizes.insert(clientSocket, 0);
-
-
-    connect(clientSocket, &QTcpSocket::readyRead, this, &Server::onReadyRead);
-    connect(clientSocket, &QTcpSocket::disconnected, this, &Server::onDisconnected);
-}
-
-void Server::onReadyRead(){
-    QTcpSocket *clientSocket = qobject_cast<QTcpSocket*>(sender());
-    if (!clientSocket) return;
-
-    QDataStream in(clientSocket);
+    QDataStream in(socket);
     in.setVersion(QDataStream::Qt_6_2);
     while(true){
-        quint32 &nextBlockSize = m_nextBlockSizes[clientSocket];
+        quint32 &nextBlockSize = m_nextBlockSizes[socket];
         if (nextBlockSize == 0){
-            if(clientSocket->bytesAvailable() < sizeof(quint32)){
+            if(socket->bytesAvailable() < sizeof(quint32)){
                 break;
             }
             in>>nextBlockSize;
         }
-        if (clientSocket->bytesAvailable() < nextBlockSize){
+        if (socket->bytesAvailable() < nextBlockSize){
             break;
         }
 
@@ -165,9 +191,8 @@ void Server::onReadyRead(){
 
         nextBlockSize = 0;
         QJsonDocument doc = QJsonDocument::fromJson(messageData);
-        if (doc.isNull() || !doc.isObject()){
-            qDebug() << "[SERVER] FAILED TO PARSE JSON";
-            continue;
+        if (!doc.isNull() && !doc.isObject()){
+            processJsonRequest(doc.object(), socket);
         }
 
         QJsonObject request = doc.object();
@@ -179,25 +204,42 @@ void Server::onReadyRead(){
 
         if (m_handlers.contains(type)) {
             Handler handler = m_handlers[type];
-            (this->*handler)(clientSocket, request);
+            (this->*handler)(socket, request);
 
         } else {
             qDebug() << "[SERVER] Unknown request type received:" << type;
-            sendJson(clientSocket, {{"type", "error"}, {"reason", "Unknown command: " + type}});
+            sendJson(socket, {{"type", "error"}, {"reason", "Unknown command: " + type}});
         }
     }
 }
 
-void Server::onDisconnected(){
-    QTcpSocket *clientSocket = qobject_cast<QTcpSocket*>(sender());
-    if (!clientSocket) return;
+void Server::onWebSocketTextMessageReceived(const QString &message)
+{
+    auto socket = qobject_cast<QWebSocket*>(sender());
+    if (!socket) return;
 
+    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        processJsonRequest(doc.object(), socket);
+    }
+}
 
-    m_nextBlockSizes.remove(clientSocket);
+void Server::processJsonRequest(const QJsonObject& request, QObject* socket)
+{
+    QString type = request["type"].toString();
+    qDebug() << "[SERVER] Processing message of type:" << type << "from" << m_clientsReverse.value(socket);
 
-    QString username = loggedInUsers.key(clientSocket);
+    Handler handler = m_handlers[type];
+    (this->*handler)(socket, request);
+}
+
+void Server::onClientDisconnected()
+{
+    auto socket = qobject_cast<QObject*>(sender());
+    if (!socket) return;
+
+    QString username = m_clientsReverse.value(socket);
     if (!username.isEmpty()) {
-        loggedInUsers.remove(username);
         qDebug() << "User" << username << "disconnected.";
 
         QSqlQuery updateQuery;
@@ -209,9 +251,17 @@ void Server::onDisconnected(){
         } else {
             qDebug() << "[SERVER] Updated last_seen for user" << username;
         }
+        m_clients.remove(username);
+        m_clientsReverse.remove(socket);
 
         broadcastUserList();
     }
+
+    if (auto tcpSocket = qobject_cast<QTcpSocket*>(socket)) {
+        m_nextBlockSizes.remove(tcpSocket);
+    }
+
+    sender()->deleteLater(); // Безопасно удаляем объект сокета
 }
 
 bool Server::initDatabase()
@@ -273,24 +323,53 @@ bool Server::initDatabase()
     return true;
 }
 
-void Server::handleGetHistory(QTcpSocket* socket, const QJsonObject& request){
-    QString requestingUser = loggedInUsers.key(socket);
+void Server::handleTyping(QObject *socket, const QJsonObject &request){
+    QString fromUsername = m_clientsReverse.value(socket);
+
+    QString toUsername = request["toUser"].toString();
+    QObject* toSocket = m_clients.value(toUsername, nullptr);
+    if (toSocket) {
+        QJsonObject forwardMessage;
+        forwardMessage["type"] = "typing";
+        forwardMessage["fromUser"] = fromUsername;
+
+        sendJson(toSocket, forwardMessage);
+    }
+}
+void Server::handleGetHistory(QObject* socket, const QJsonObject& request){
+    QString requestingUser = m_clientsReverse.value(socket);
     QString chatPartner = request["with_user"].toString();
-    qDebug() << "[SERVER] History request from" << requestingUser << "for chat with" << chatPartner;
+    qint64 beforeId = request["before_id"].toDouble();
+
+    qDebug() << "[SERVER] History request from" << requestingUser
+             << "for chat with" << chatPartner
+             << "before message ID:" << beforeId;
+
 
     QSqlQuery query;
-    query.prepare("SELECT id, fromUser, payload, timestamp, reply_to_id, is_read, is_edited, is_delivered FROM messages WHERE "
-                  "((fromUser = :user1 AND toUser = :user2) OR "
-                  "(fromUser = :user2 AND toUser = :user1)) "
-                  "ORDER BY id DESC LIMIT 50");
+
+    QString queryString =
+        "SELECT id, fromUser, toUser, payload, timestamp, reply_to_id, is_read, is_edited, is_delivered FROM messages "
+        "WHERE ((fromUser = :user1 AND toUser = :user2) OR (fromUser = :user2 AND toUser = :user1)) ";
+
+    if (beforeId > 0) {
+        queryString += "AND id < :beforeId ";
+    }
+
+    queryString += "ORDER BY id DESC LIMIT 20";
+
+    query.prepare(queryString);
     query.bindValue(":user1", requestingUser);
     query.bindValue(":user2", chatPartner);
+
+    if (beforeId > 0) {
+        query.bindValue(":beforeId", beforeId);
+    }
 
     if (!query.exec()) {
         qDebug() << "DB Error: History request failed:" << query.lastError().text();
         return;
     }
-
     QJsonArray historyArray;
     while (query.next()) {
         QSqlRecord record = query.record();
@@ -314,15 +393,20 @@ void Server::handleGetHistory(QTcpSocket* socket, const QJsonObject& request){
         reversedArray.append(historyArray.at(i));
     }
 
+
     QJsonObject response;
-    response["type"] = "history_data";
+    response["type"] = "old_history_data";
+    if (beforeId == 0) {
+        response["type"] = "history_data";
+    }
+
     response["with_user"] = chatPartner;
     response["history"] = reversedArray;
     sendJson(socket, response);
 
 }
 
-void Server::handleRegister(QTcpSocket* socket, const QJsonObject& request){
+void Server::handleRegister(QObject* socket, const QJsonObject& request){
     QString username = request["username"].toString();
     QString display_name = request["displayname"].toString();
     QString password = request["password"].toString();
@@ -339,7 +423,7 @@ void Server::handleRegister(QTcpSocket* socket, const QJsonObject& request){
     QJsonObject response;
     if (query.exec()) {
         response["type"] = "register_success";
-        for (QTcpSocket *socket : loggedInUsers.values()) {
+        for (QObject *socket : m_clients.values()) {
             broadcastUserList();
         }
     } else {
@@ -349,11 +433,10 @@ void Server::handleRegister(QTcpSocket* socket, const QJsonObject& request){
     sendJson(socket, response);
 }
 
-void Server::handleSearchUsers(QTcpSocket* socket, const QJsonObject& request)
+void Server::handleSearchUsers(QObject* socket, const QJsonObject& request)
 {
     QString searchTerm = request["term"].toString();
-    QString currentUser = loggedInUsers.key(socket);
-
+    QString currentUser = m_clientsReverse.value(socket);
 
     QSqlQuery query;
     query.prepare("SELECT username, display_name FROM users WHERE (username LIKE :term OR display_name LIKE :term) AND username != :currentUser LIMIT 20");
@@ -378,7 +461,7 @@ void Server::handleSearchUsers(QTcpSocket* socket, const QJsonObject& request)
     sendJson(socket, response);
 }
 
-void Server::sendContactList(QTcpSocket* socket,const QString& username){
+void Server::sendContactList(QObject* socket,const QString& username){
     QSqlQuery userQuery;
     userQuery.prepare("SELECT id FROM users WHERE username = :username");
     userQuery.bindValue(":username", username);
@@ -415,9 +498,9 @@ void Server::sendContactList(QTcpSocket* socket,const QString& username){
     sendJson(socket, message);
 }
 
-void Server::handleAddContactRequest(QTcpSocket* socket, const QJsonObject& request)
+void Server::handleAddContactRequest(QObject* socket, const QJsonObject& request)
 {
-    QString fromUsername = loggedInUsers.key(socket);
+    QString fromUsername = m_clientsReverse.value(socket);
     QString toUsername = request["username"].toString();
 
 
@@ -494,7 +577,7 @@ void Server::handleAddContactRequest(QTcpSocket* socket, const QJsonObject& requ
     }
 
 
-    QTcpSocket* toSocket = loggedInUsers.value(toUsername, nullptr);
+    QObject* toSocket = m_clients.value(toUsername, nullptr);;
     if (toSocket) {
         QJsonObject notification;
         notification["type"] = "incoming_contact_request";
@@ -508,11 +591,13 @@ void Server::handleAddContactRequest(QTcpSocket* socket, const QJsonObject& requ
     qDebug() << "[SERVER] User" << fromUsername << "sent a contact request to" << toUsername;
 }
 
-void Server::handleLogin(QTcpSocket* socket, const QJsonObject& request)
+void Server::handleLogin(QObject* socket, const QJsonObject& request)
 {
 
     QString username = request["username"].toString();
     QString password = request["password"].toString();
+    qDebug() << request;
+    qDebug() <<username << " " << password;
     QString passwordHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 
     QSqlQuery query;
@@ -524,8 +609,12 @@ void Server::handleLogin(QTcpSocket* socket, const QJsonObject& request)
     if (query.exec() && query.next()){
         QString storedHash = query.value(0).toString();
         if (storedHash == passwordHash){
+            qDebug() << "LOgged in success";
             response["type"] = "login_success";
-            loggedInUsers[username]=socket;
+
+            m_clients[username] = socket; // socket - это QObject*
+            m_clientsReverse[socket] = username;
+
             sendJson(socket, response);
             sendContactList(socket, username);
             broadcastUserList();
@@ -543,7 +632,7 @@ void Server::handleLogin(QTcpSocket* socket, const QJsonObject& request)
     }
 }
 
-void Server::handlePrivateMessage(QTcpSocket* fromUserSocket, const QJsonObject& request)
+void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
 {
     QString fromUser = request["fromUser"].toString();
     QString toUser = request["toUser"].toString();
@@ -553,11 +642,12 @@ void Server::handlePrivateMessage(QTcpSocket* fromUserSocket, const QJsonObject&
     QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
 
 
-    if(fromUser != loggedInUsers.key(fromUserSocket)){
-        qWarning() << "[SERVER] SECURITY WARNING: User" << loggedInUsers.key(fromUserSocket)
-        << "tried to send a message as" << fromUser;
+    if(fromUser != m_clientsReverse.value(socket)) { // socket - это QObject*
+        qWarning() << "[SERVER] SECURITY WARNING: User" << m_clientsReverse.value(socket)
+                   << "tried to send a message as" << fromUser;
         return;
     }
+
     QSqlQuery query;
     query.prepare("INSERT INTO messages (fromUser, toUser, payload, timestamp, reply_to_id) "
                   "VALUES (:fromUser, :toUser, :payload, :timestamp, :reply_to_id)");
@@ -587,10 +677,10 @@ void Server::handlePrivateMessage(QTcpSocket* fromUserSocket, const QJsonObject&
 
 
     if (replyToId > 0) echoMessage["reply_to_id"] = replyToId;
-    sendJson(fromUserSocket, echoMessage);
+    sendJson(socket, echoMessage);
 
 
-    QTcpSocket *toUserSocket = loggedInUsers.value(toUser, nullptr);
+    QObject *toUserSocket = m_clients.value(toUser, nullptr);
 
 
     if(toUserSocket){
@@ -602,23 +692,28 @@ void Server::handlePrivateMessage(QTcpSocket* fromUserSocket, const QJsonObject&
     }
 }
 
-void Server::sendJson(QTcpSocket* socket, const QJsonObject& response)
+void Server::sendJson(QObject* socket, const QJsonObject& json)
 {
-    if(socket == nullptr){
-        return;
+    if (!socket) return;
+
+    QByteArray jsonData = QJsonDocument(json).toJson(QJsonDocument::Compact);
+
+    if (auto sendsocket = qobject_cast<QTcpSocket*>(socket)) {
+        QByteArray block;
+        QDataStream out(&block, QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_6_2);
+        out << (quint32)0;
+        out << jsonData;
+        out.device()->seek(0);
+        out << (quint32)(block.size() - sizeof(quint32));
+        sendsocket->write(block);
+
+    } else if (auto sendsocket = qobject_cast<QWebSocket*>(socket)) {
+        sendsocket->sendTextMessage(QString::fromUtf8(jsonData));
     }
-    QByteArray jsonData = QJsonDocument(response).toJson();
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_2);
-    out << (quint32)0;
-    out << jsonData;
-    out.device()->seek(0);
-    out << (quint32)(block.size() - sizeof(quint32));
-    socket->write(block);
 }
 
-void Server::sendFullUserList(QTcpSocket* socket)
+void Server::sendFullUserList(QObject* socket)
 {
     QSqlQuery query;
     query.prepare("SELECT username, display_name FROM users");
@@ -643,7 +738,7 @@ void Server::sendFullUserList(QTcpSocket* socket)
 }
 
 void Server::broadcastUserList(){
-    QStringList onlineUsers = loggedInUsers.keys();
+    QStringList onlineUsers = m_clients.keys();
     qDebug() << "Broadcasting ONLINE user list:" << onlineUsers;
 
     QJsonObject message;
@@ -651,12 +746,12 @@ void Server::broadcastUserList(){
     message["users"] = QJsonArray::fromStringList(onlineUsers);
 
 
-    for (QTcpSocket *socket : loggedInUsers.values()) {
+    for (QObject  *socket :  m_clients.values()) {
         sendJson(socket, message);
     }
 }
 
-void Server::sendOfflineMessages(QTcpSocket* socket, const QString& username){ // доделать
+void Server::sendOfflineMessages(QObject* socket, const QString& username){ // доделать
     QSqlQuery selectQuery;
     selectQuery.prepare("SELECT id, fromUser, payload, timestamp, reply_to_id, is_edited "
                         "FROM messages "
@@ -665,31 +760,37 @@ void Server::sendOfflineMessages(QTcpSocket* socket, const QString& username){ /
     selectQuery.bindValue(":toUser", username);
 }
 
-void Server::handleEditMessage(QTcpSocket* socket, const QJsonObject& request){
-    QString requestingUser = loggedInUsers.key(socket);
+void Server::handleEditMessage(QObject* clientSocket, const QJsonObject& request)
+{
+    QString requestingUser = m_clientsReverse.value(clientSocket);
     quint64 messageId = request["id"].toDouble();
-    qDebug() <<requestingUser <<" wanna edit message with id: " << messageId;
+
+    qDebug() << requestingUser << "wants to edit message with id:" << messageId;
     if (messageId == 0) return;
-    if(requestingUser != loggedInUsers.key(socket)){
-        qWarning() << "SECURITY: Edit request from wrong user!";
+
+    if (requestingUser.isEmpty()) {
+        qWarning() << "SECURITY: Edit request from an unauthenticated socket!";
         return;
     }
+
+
     QSqlQuery query;
-    query.prepare("SELECT fromUser, toUser FROM messages where id = :id");
+    query.prepare("SELECT fromUser, toUser FROM messages WHERE id = :id");
     query.bindValue(":id", messageId);
-    if(query.exec() && query.next()){
+    if (query.exec() && query.next()) {
         QString fromUser = query.value("fromUser").toString();
         QString toUser = query.value("toUser").toString();
-        qDebug() <<"Requesting user: "<< requestingUser <<" fromUser: "<< fromUser << " toUser: " << toUser;
 
-        if(fromUser == requestingUser){
+        qDebug() << "Requesting user:" << requestingUser << " fromUser in DB:" << fromUser << " toUser in DB:" << toUser;
+
+        if (fromUser == requestingUser) {
             QSqlQuery updateQuery;
             QString newPayload = request["payload"].toString();
-            updateQuery.prepare("UPDATE messages SET payload = :payload WHERE id = :id");
+            updateQuery.prepare("UPDATE messages SET payload = :payload, is_edited = 1 WHERE id = :id");
             updateQuery.bindValue(":payload", newPayload);
             updateQuery.bindValue(":id", messageId);
 
-            if(updateQuery.exec()){
+            if (updateQuery.exec()) {
                 qDebug() << "[SERVER] User" << requestingUser << "edited message" << messageId;
 
                 QJsonObject editCmd;
@@ -697,39 +798,33 @@ void Server::handleEditMessage(QTcpSocket* socket, const QJsonObject& request){
                 editCmd["id"] = (double)messageId;
                 editCmd["payload"] = newPayload;
 
-                QTcpSocket* fromSocket = loggedInUsers.value(requestingUser, nullptr);
+                QObject* fromSocket = m_clients.value(fromUser, nullptr);
                 if (fromSocket) {
                     editCmd["with_user"] = toUser;
                     sendJson(fromSocket, editCmd);
                 }
 
-
-                QTcpSocket* toSocket = loggedInUsers.value(toUser, nullptr);
+                QObject* toSocket = m_clients.value(toUser, nullptr);
                 if (toSocket) {
                     editCmd["with_user"] = fromUser;
                     sendJson(toSocket, editCmd);
                 }
             }
-
-
-            updateQuery.prepare("UPDATE messages SET is_edited = :is_edited WHERE id = :id");
-            updateQuery.bindValue(":is_edited", 1);
-            updateQuery.bindValue(":id", messageId);
-
-            if(updateQuery.exec()){
-                qDebug() << "[SERVER] Database record parameter is edited changed";
-            }
+        } else {
+            qWarning() << "SECURITY: User" << requestingUser << "tried to edit a message they do not own (author:" << fromUser << ")";
         }
     }
 }
-
-void Server::handleDeleteMessage(QTcpSocket* socket, const QJsonObject& request){
-    QString requestingUser = loggedInUsers.key(socket);
+void Server::handleDeleteMessage(QObject* clientSocket, const QJsonObject& request)
+{
+    QString requestingUser = m_clientsReverse.value(clientSocket);
     quint64 messageId = request["id"].toDouble();
-    qDebug() <<requestingUser <<" wanna delete message with id: " << messageId;
+
+    qDebug() << requestingUser << "wants to delete message with id:" << messageId;
     if (messageId == 0) return;
-    if(requestingUser != loggedInUsers.key(socket)){
-        qWarning() << "SECURITY: Edit request from wrong user!";
+
+    if (requestingUser.isEmpty()) {
+        qWarning() << "SECURITY: Delete request from an unauthenticated socket!";
         return;
     }
 
@@ -737,55 +832,58 @@ void Server::handleDeleteMessage(QTcpSocket* socket, const QJsonObject& request)
     query.prepare("SELECT fromUser, toUser FROM messages WHERE id = :id");
     query.bindValue(":id", messageId);
 
-    if(query.exec()&& query.next() ){
-        qDebug() << "User" << requestingUser << "deleted message" << messageId;
-
+    if (query.exec() && query.next()) {
         QString fromUser = query.value("fromUser").toString();
         QString toUser = query.value("toUser").toString();
 
-        if(requestingUser == fromUser){
+        if (requestingUser == fromUser) {
             QSqlQuery deleteQuery;
             deleteQuery.prepare("DELETE FROM messages WHERE id = :id");
             deleteQuery.bindValue(":id", messageId);
 
-            if(deleteQuery.exec()){
+            if (deleteQuery.exec()) {
+                qDebug() << "[SERVER] User" << requestingUser << "deleted message" << messageId;
+
                 QJsonObject deleteCmd;
                 deleteCmd["type"] = "delete_message";
-                deleteCmd["id"] = (double)messageId;;
-                QTcpSocket* fromSocket = loggedInUsers.value(requestingUser, nullptr);
+                deleteCmd["id"] = (double)messageId;
+
+                QObject* fromSocket = m_clients.value(fromUser, nullptr);
                 if (fromSocket) {
                     deleteCmd["with_user"] = toUser;
                     sendJson(fromSocket, deleteCmd);
                 }
-                QTcpSocket* toSocket = loggedInUsers.value(toUser, nullptr);
+
+                QObject* toSocket = m_clients.value(toUser, nullptr);
                 if (toSocket) {
                     deleteCmd["with_user"] = fromUser;
                     sendJson(toSocket, deleteCmd);
                 }
             }
-
+        } else {
+            qWarning() << "SECURITY: User" << requestingUser << "tried to delete a message they do not own (author:" << fromUser << ")";
         }
     }
 }
 
-void Server::handleContactRequestResponse(QTcpSocket* socket, const QJsonObject& request){
-
+void Server::handleContactRequestResponse(QObject* clientSocket, const QJsonObject& request)
+{
     qDebug() << "[SERVER] Received contact_request_response:" << request;
 
-    QString toUsername = loggedInUsers.key(socket);
+
+    QString toUsername = m_clientsReverse.value(clientSocket);
 
     QString fromUsername = request["fromUsername"].toString();
     QString response = request["response"].toString();
 
+    qDebug() << "[SERVER] Parsed response value:" << response;
 
     QSqlQuery idQuery;
     idQuery.prepare("SELECT id, username FROM users WHERE username = :from OR username = :to");
     idQuery.bindValue(":from", fromUsername);
     idQuery.bindValue(":to", toUsername);
 
-    if (!idQuery.exec()) {
-        return;
-    }
+    if (!idQuery.exec()) { return; }
 
     qint64 fromId = -1, toId = -1;
     while (idQuery.next()) {
@@ -796,48 +894,33 @@ void Server::handleContactRequestResponse(QTcpSocket* socket, const QJsonObject&
         }
     }
 
-    if (fromId == -1 || toId == -1) {
-        return;
-    }
+    if (fromId == -1 || toId == -1) { return; }
 
     qint64 userId1 = std::min(fromId, toId);
     qint64 userId2 = std::max(fromId, toId);
-    qDebug() << response;
-    if (response == "accepted") {
-        QSqlQuery debugSelect;
-        debugSelect.prepare("SELECT status FROM contacts WHERE user_id_1 = :id1 AND user_id_2 = :id2");
-        debugSelect.bindValue(":id1", userId1);
-        debugSelect.bindValue(":id2", userId2);
-        if (debugSelect.exec() && debugSelect.next()) {
-            qDebug() << "[SERVER][DEBUG] Current status before update is:" << debugSelect.value(0).toInt();
-        } else {
-            qDebug() << "[SERVER][DEBUG] No contact record found before update.";
-        }
 
+    if (response == "accepted") {
         QSqlQuery updateQuery;
-        updateQuery.prepare("UPDATE contacts SET status = 1 "
-                            "WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
+        updateQuery.prepare("UPDATE contacts SET status = 1 WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
         updateQuery.bindValue(":id1", userId1);
         updateQuery.bindValue(":id2", userId2);
 
         if (updateQuery.exec() && updateQuery.numRowsAffected() > 0) {
             qDebug() << "[SERVER]" << toUsername << "accepted contact request from" << fromUsername;
-            QTcpSocket* fromSocket = loggedInUsers.value(fromUsername, nullptr);
-            QTcpSocket* toSocket = loggedInUsers.value(toUsername, nullptr);
+
+            QObject* fromSocket = m_clients.value(fromUsername, nullptr);
+            QObject* toSocket = m_clients.value(toUsername, nullptr);
 
             if (fromSocket) {
-
                 sendContactList(fromSocket, fromUsername);
             }
             if (toSocket) {
                 sendContactList(toSocket, toUsername);
             }
-            broadcastUserList();
         }
     } else if (response == "declined") {
         QSqlQuery deleteQuery;
-        deleteQuery.prepare("DELETE FROM contacts "
-                            "WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
+        deleteQuery.prepare("DELETE FROM contacts WHERE user_id_1 = :id1 AND user_id_2 = :id2 AND status = 0");
         deleteQuery.bindValue(":id1", userId1);
         deleteQuery.bindValue(":id2", userId2);
 
@@ -847,7 +930,7 @@ void Server::handleContactRequestResponse(QTcpSocket* socket, const QJsonObject&
     }
 }
 
-void Server::sendPendingContactRequests(QTcpSocket* socket, const QString& username){
+void Server::sendPendingContactRequests(QObject* socket, const QString& username){
     qDebug() << "[SERVER][PENDING] Checking for pending requests for user:" << username;
     QSqlQuery userQuery;
     userQuery.prepare("SELECT id FROM users WHERE username = :username");

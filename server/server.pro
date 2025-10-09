@@ -1,6 +1,7 @@
 QT = core
 QT += network
 QT += sql
+QT += websockets
 CONFIG += c++17 cmdline
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -17,5 +18,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    structures.h \
-    server.h
+    server.h \
+    structures.h

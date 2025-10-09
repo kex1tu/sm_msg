@@ -15,51 +15,70 @@
 #include <QDataStream>
 #include <QSqlRecord>
 
+#include <QWebSocketServer>
+#include <QWebSocket>
+
 #include "structures.h"
 
+class QTcpSocket;
 
-class Server : public QTcpServer
+class Server : public QObject
 {
     Q_OBJECT
 public:
-    Server(QObject *parent = nullptr);
+    explicit Server(QObject *parent = nullptr);
+    bool listen(const QHostAddress &address = QHostAddress::Any, quint16 tcpPort = 1234, quint16 wsPort = 8080);
 
 protected:
     void initHandlers();
-    void handleTyping(QTcpSocket* socket, const QJsonObject& request);
-    void handleMessageDelivered(QTcpSocket* socket, const QJsonObject& request);
-    void handleMessageRead(QTcpSocket* socket, const QJsonObject& request);
-    void handleLogoutRequest(QTcpSocket* socket, const QJsonObject& request);
+    void handleMessageDelivered(QObject* socket, const QJsonObject& request);
+    void handleMessageRead(QObject* socket, const QJsonObject& request);
+    void handleLogoutRequest(QObject* socket, const QJsonObject& request);
 
-    void incomingConnection(qintptr socketDescriptor) override;
 
 private slots:
-    void onReadyRead();
-    void onDisconnected();
+
+    void onNewTcpConnection();
+    void onTcpReadyRead();
+    void onClientDisconnected();
+
+    void onNewWebSocketConnection();
+    void onWebSocketTextMessageReceived(const QString &message);
 
 private:
-    using Handler = void (Server::*)(QTcpSocket*, const QJsonObject&);
+    using Handler = void (Server::*)(QObject*, const QJsonObject&);
     bool initDatabase();
-    void handleGetHistory(QTcpSocket* socket, const QJsonObject& request);
-    void handleRegister(QTcpSocket* socket, const QJsonObject& request);
-    void handleSearchUsers(QTcpSocket* socket, const QJsonObject& request);
-    void sendContactList(QTcpSocket* socket,const QString& username);
-    void handleAddContactRequest(QTcpSocket* socket, const QJsonObject& request);
-    void handleLogin(QTcpSocket* socket, const QJsonObject& request);
-    void handlePrivateMessage(QTcpSocket* fromUserSocket, const QJsonObject& request);
-    void sendJson(QTcpSocket* socket, const QJsonObject& response);
-    void sendFullUserList(QTcpSocket* socket);
+    void handleGetHistory(QObject* socket, const QJsonObject& request);
+    void handleRegister(QObject* socket, const QJsonObject& request);
+    void handleSearchUsers(QObject* socket, const QJsonObject& request);
+    void sendContactList(QObject* socket,const QString& username);
+    void handleAddContactRequest(QObject* socket, const QJsonObject& request);
+    void handleLogin(QObject* socket, const QJsonObject& request);
+    void handlePrivateMessage(QObject* fromUserSocket, const QJsonObject& request);
+    void handleEditMessage(QObject* socket, const QJsonObject& request);
+    void handleDeleteMessage(QObject* socket, const QJsonObject& request);
+    void handleContactRequestResponse(QObject* socket, const QJsonObject& request);
+    void handleTyping(QObject *socket, const QJsonObject &request);
+    void sendJson(QObject* socket, const QJsonObject& response);
+    void sendFullUserList(QObject* socket);
     void broadcastUserList();
-    void sendOfflineMessages(QTcpSocket* socket, const QString& username); // доделать
-    void handleEditMessage(QTcpSocket* socket, const QJsonObject& request);
-    void handleDeleteMessage(QTcpSocket* socket, const QJsonObject& request);
-    void handleContactRequestResponse(QTcpSocket* socket, const QJsonObject& request);
-    void sendPendingContactRequests(QTcpSocket* socket, const QString& username);
+    void sendOfflineMessages(QObject* socket, const QString& username);
+
+    void sendPendingContactRequests(QObject* socket, const QString& username);
 
 private:
-    QMap<QString, QTcpSocket*> loggedInUsers;
-    QMap<QString, Handler> m_handlers;
+    QTcpServer *m_tcpServer;
+    QWebSocketServer *m_webSocketServer;
+
+    QMap<QString, QObject*> m_clients;
+    QMap<QObject*, QString> m_clientsReverse;
+
+    void processJsonRequest(const QJsonObject& request, QObject* clientSocket);
+    void removeClient(QObject* clientSocket);
+
     QMap<QTcpSocket*, quint32> m_nextBlockSizes;
+
+    QMap<QString, Handler> m_handlers;
 
 };
 
