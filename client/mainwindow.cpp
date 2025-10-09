@@ -60,7 +60,10 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     connect(m_searchTimer, &QTimer::timeout, this, &MainWindow::performSearch);
-
+    m_typingTimer = new QTimer(this);
+    m_typingTimer->setInterval(2000);
+    m_typingTimer->setSingleShot(true);
+    connect(ui->messageLineEdit, &QLineEdit::textChanged, this, &MainWindow::onMessageTextChanged);
 
     connect(ui->goToRegisterButton, &QPushButton::clicked, this, &MainWindow::handleGoToRegPageButtonClick);
     connect(ui->goToLoginButton, &QPushButton::clicked, this, &MainWindow::handleGoToLogPageButtonClick);
@@ -76,17 +79,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->chatHistoryWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onMessageDoubleClicked);
     connect(ui->chatHistoryWidget->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::onChatScroll);
 
-
-    connect(ui->messageLineEdit, &QLineEdit::textChanged, this, &MainWindow::onMessageTextChanged);
+    connect(ui->searchInChatButton, &QToolButton::clicked, this, &MainWindow::showChatSearchUI);
+    connect(ui->closeSearchButton, &QToolButton::clicked, this, &MainWindow::hideChatSearchUI);
+    connect(ui->chatSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::onChatSearchTriggered);
 
     connect(ui->callButton, &QToolButton::clicked, this, [](){
         QMessageBox::information(nullptr, "Info", "Функция звонка еще не реализована.");
     });
     connect(ui->videoCallButton, &QToolButton::clicked, this, [](){
         QMessageBox::information(nullptr, "Info", "Функция видеозвонка еще не реализована.");
-    });
-    connect(ui->searchInChatButton, &QToolButton::clicked, this, [](){
-        QMessageBox::information(nullptr, "Info", "Функция поиска в чате еще не реализована.");
     });
     connect(ui->moreOptionsButton, &QToolButton::clicked, this, [](){
         QMessageBox::information(nullptr, "Info", "Функция доп опций в чате еще не реализована.");
@@ -102,6 +103,51 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);
 
     connectToServer();
+}
+void MainWindow::showChatSearchUI()
+{
+    ui->headerStackedWidget->setCurrentIndex(1);
+
+    ui->chatSearchLineEdit->setFocus();
+}
+
+void MainWindow::hideChatSearchUI()
+{
+
+    if (!ui->chatSearchLineEdit->text().isEmpty()) {
+        ui->chatSearchLineEdit->clear();
+    }
+
+    ui->headerStackedWidget->setCurrentIndex(0);
+}
+void MainWindow::onChatSearchTriggered(const QString &text)
+{
+    QString searchText = text.trimmed();
+
+    for (int i = 0; i < ui->chatHistoryWidget->count(); ++i) {
+        QListWidgetItem* item = ui->chatHistoryWidget->item(i);
+        if (!item) continue;
+
+        qint64 messageId = item->data(Qt::UserRole).toLongLong();
+
+        if (messageId <= 0) {
+            item->setHidden(!searchText.isEmpty());
+            continue;
+        }
+
+        if (m_currentChatMessages.contains(messageId)) {
+            const ChatMessage& msg = m_currentChatMessages[messageId];
+
+            if (searchText.isEmpty()) {
+                item->setHidden(false);
+            } else {
+                bool match = msg.payload.contains(searchText, Qt::CaseInsensitive);
+                item->setHidden(!match);
+            }
+        } else {
+            item->setHidden(!searchText.isEmpty());
+        }
+    }
 }
 
 void MainWindow::connectToServer(){
@@ -196,6 +242,7 @@ void MainWindow::initResponseHandlers()
     m_responseHandlers["register_failure"] = &MainWindow::handleRegisterFailure;
     m_responseHandlers["contact_list"] = &MainWindow::handleContactList;
     m_responseHandlers["history_data"] = &MainWindow::handleHistoryData;
+    m_responseHandlers["old_history_data"] = &MainWindow::handleOldHistoryData;
     m_responseHandlers["private_message"] = &MainWindow::handlePrivateMessage;
     m_responseHandlers["user_list"] = &MainWindow::handleUserList;
     m_responseHandlers["message_delivered"] = &MainWindow::handleMessageDelivered;
@@ -209,18 +256,19 @@ void MainWindow::initResponseHandlers()
     m_responseHandlers["pending_requests_list"] = &MainWindow::handlePendingRequestsList;
     m_responseHandlers["logout_request_success"] = &MainWindow::handleLogoutSuccess;
     m_responseHandlers["logout_request_failure"] = &MainWindow::handleLogoutFailure;
+    m_responseHandlers["typing"] = &MainWindow::handleTypingResponse;
 }
 void MainWindow::handleLoginSuccess(const QJsonObject& response){
-    m_currentUsername = ui->loginUsernameEdit->text().trimmed();//для лога клиента
+    m_currentUsername = ui->loginUsernameEdit->text().trimmed();
     qDebug() << "[CLIENT] m_currentUsername: " << m_currentUsername;
     ui->loginUsernameEdit->clear();
-    ui->loginPasswordEdit->clear();//очистка поля пароля для безопасности
+    ui->loginPasswordEdit->clear();
     ui->stackedWidget->setCurrentIndex(2);
 
-    this->setWindowTitle(m_currentUsername);//вверху окна пишем имя вошедшего плоьзователя
+    this->setWindowTitle(m_currentUsername);
 }
 void MainWindow::handleLoginFailure(const QJsonObject& response){
-    QMessageBox::warning(this, "error login", response["reason"].toString());//выводим ошибку
+    QMessageBox::warning(this, "error login", response["reason"].toString());
 }
 void MainWindow::handleRegisterSuccess(const QJsonObject& response){
     QMessageBox::information(this, "registration succes", "U ve been registred");
@@ -261,7 +309,6 @@ void MainWindow::handleHistoryData(const QJsonObject& response){
     }
     ui->chatHistoryWidget->clear();
     m_currentChatMessages.clear();
-    ui->chatHistoryWidget->addItem("--- Chat with " + historyForUser + " ---");
 
     QJsonArray history = response["history"].toArray();
     qDebug() << "[CLIENT] Displaying" << history.count() << "history messages for" << historyForUser;
@@ -311,6 +358,12 @@ void MainWindow::handleHistoryData(const QJsonObject& response){
         }
 
     }
+
+    ui->chatHistoryWidget->scrollToBottom();
+
+    m_oldestMessageId = history.first().toObject()["id"].toDouble();
+    qDebug() << m_oldestMessageId;
+    m_isLoadingHistory = false;
 }
 void MainWindow::handlePrivateMessage(const QJsonObject& response){
 
@@ -483,7 +536,7 @@ void MainWindow::handleLogoutSuccess(const QJsonObject& response){
     m_currentUsername.clear();
     m_userCache.clear();
     m_currentChatMessages.clear();
-    m_typingTimers.clear();
+    m_typingStatusTimers.clear();
 
     m_pendingMessages.clear();
 
@@ -506,12 +559,12 @@ void MainWindow::handleGoToLogPageButtonClick(){
     ui->stackedWidget->setCurrentIndex(0);
 }
 void MainWindow::handleLoginButtonClick(){
-    QString username = ui->loginUsernameEdit->text().trimmed();// логин(username) без проблелов в начале и конце
-    QString password = ui->loginPasswordEdit->text(); //пароль
+    QString username = ui->loginUsernameEdit->text().trimmed();
+    QString password = ui->loginPasswordEdit->text();
 
-    if(username.isEmpty() || password.isEmpty()) return;//если что-то пустое, то делать ничего не надо
+    if(username.isEmpty() || password.isEmpty()) return;
 
-    QJsonObject loginRequest;//формируем запрпос на  сервер
+    QJsonObject loginRequest;
     loginRequest["type"] = "login";
     loginRequest["username"] = username;
     loginRequest["password"] = password;
@@ -701,6 +754,7 @@ void MainWindow::updateMessageWidget(QListWidgetItem* item, const ChatMessage &m
 void MainWindow::displayMessage(const ChatMessage &msg, int position)
 {
     m_currentChatMessages[msg.id] = msg;
+    qDebug() <<msg.id;
 
     if (msg.replyToId > 0 && m_currentChatMessages.contains(msg.replyToId)) {
         const ChatMessage& quotedMsg = m_currentChatMessages.value(msg.replyToId);
@@ -730,7 +784,6 @@ void MainWindow::displayMessage(const ChatMessage &msg, int position)
     } else {
         ui->chatHistoryWidget->insertItem(position, mainItem);
     }
-    ui->chatHistoryWidget->scrollToBottom();
 }
 
 void MainWindow::displaySendingMessage(const ChatMessage &msg, int position){
@@ -768,6 +821,9 @@ void MainWindow::displaySendingMessage(const ChatMessage &msg, int position){
 
 void MainWindow::handleUserSelectionChanged(QListWidgetItem *current){
 
+    if (ui->headerStackedWidget->currentIndex() == 1) {
+        hideChatSearchUI();
+    }
     if (!current) {
         ui->chatHistoryWidget->clear();
         ui->chatHeaderWidget->hide();
@@ -781,6 +837,7 @@ void MainWindow::handleUserSelectionChanged(QListWidgetItem *current){
         m_replyToMessageId = 0;
         m_editingMessageId = 0;
         m_oldestMessageId = -1;
+        m_isLoadingHistory = false;
 
 
         ui->sendButton->setText("Отправить");
@@ -798,7 +855,10 @@ void MainWindow::handleUserSelectionChanged(QListWidgetItem *current){
 
     ui->chatHistoryWidget->clear();
     m_currentChatMessages.clear();
+
     m_oldestMessageId = -1;
+    m_isLoadingHistory = true;
+
     m_editingMessageId = 0;
     m_replyToMessageId = 0;
     m_currentChatPartner = m_userCache.value(selectedUserDisplayName);
@@ -806,19 +866,62 @@ void MainWindow::handleUserSelectionChanged(QListWidgetItem *current){
     ui->messageLineEdit->setPlaceholderText("");
     ui->chatHistoryWidget->addItem("--- Chat with " + selectedUserDisplayName + " ---");
 
-    ui->chatPartnerNameLabel->setText(m_currentChatPartner.displayName);
-    if(m_currentChatPartner.isOnline){
-        ui->chatPartnerStatusLabel->setText("online");
-        ui->chatPartnerStatusLabel->setStyleSheet("color: #4CAF50;");
-    } else{
-        ui->chatPartnerStatusLabel->setText( "was at " + m_currentChatPartner.lastSeen);
-        ui->chatPartnerStatusLabel->setStyleSheet("color: #a0a0a0;");
-    }
+    updateChatHeader();
 
     QJsonObject request;
     request["type"] = "get_history";
     request["with_user"] = m_currentChatPartner.username;
     sendJson(request);
+}
+
+
+QString pluralize(int n, const QString& form1, const QString& form2, const QString& form5) {
+    n = abs(n) % 100;
+    int n1 = n % 10;
+    if (n > 10 && n < 20) return form5;
+    if (n1 > 1 && n1 < 5) return form2;
+    if (n1 == 1) return form1;
+    return form5;
+}
+
+
+
+QString MainWindow::formatLastSeen(const User &user)
+{
+    if (user.isOnline) {
+        return "в сети";
+    }
+
+    if (user.lastSeen.isEmpty()) {
+        return "не в сети";
+    }
+
+    QDateTime lastSeenTime = QDateTime::fromString(user.lastSeen, Qt::ISODate);
+    if (!lastSeenTime.isValid()) {
+        return "не в сети";
+    }
+
+    QDateTime now = QDateTime::currentDateTime();
+    qint64 diffSeconds = lastSeenTime.secsTo(now);
+
+    if (diffSeconds < 60) {
+        return "был(а) только что";
+    }
+    else if (diffSeconds < 3600) {
+        int minutes = diffSeconds / 60;
+        return QString("был(а) %1 %2 назад")
+            .arg(minutes)
+            .arg(pluralize(minutes, "минуту", "минуты", "минут"));
+    }
+    else if (lastSeenTime.date() == now.date()) {
+        return "был(а) сегодня в " + lastSeenTime.toString("HH:mm");
+    }
+    else if (lastSeenTime.date() == now.date().addDays(-1)) {
+        return "был(а) вчера в " + lastSeenTime.toString("HH:mm");
+    }
+    else {
+        return "был(а) " + QLocale::system().toString(lastSeenTime, QLocale::ShortFormat);
+    }
 }
 QString MainWindow::createTempId(){// переписать ибо такие tempId могут совпадать
     QString tempId = QDateTime::currentDateTime().toString(Qt::ISODate) + "_tempId";
@@ -936,9 +1039,169 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
     return QMainWindow::eventFilter(watched, event);
 }
-void MainWindow::onChatScroll(int value){};
+void MainWindow::onChatScroll(int value){
+    if (ui->headerStackedWidget->currentIndex() == 1) { // 1 - индекс страницы поиска
+        return;
+    }
+    if (m_isLoadingHistory) {
+        return;
+    }
 
-void MainWindow::onMessageTextChanged(const QString &text){};
+    if (value == 0 && !m_isLoadingHistory && m_oldestMessageId != 0) {
+        qDebug() << "[CLIENT] Scrolled to top. Requesting older history before ID:" << m_oldestMessageId;
+
+
+        m_isLoadingHistory = true;
+
+        QJsonObject request;
+        request["type"] = "get_history";
+        request["with_user"] = m_currentChatPartner.username;
+        request["before_id"] = m_oldestMessageId;
+        sendJson(request);
+    }
+}
+
+void MainWindow::onMessageTextChanged(const QString &text){
+    if (m_currentChatPartner.username.isEmpty() || text.isEmpty()) {
+        return;
+    }
+    if (m_typingTimer->isActive()) {
+        return;
+    }
+    QJsonObject typingNotification;
+    typingNotification["type"] = "typing";
+    typingNotification["toUser"] = m_currentChatPartner.username;
+    sendJson(typingNotification);
+    m_typingTimer->start();
+}
+void MainWindow::handleOldHistoryData(const QJsonObject& response){
+    QString historyForUser = response["with_user"].toString();
+
+    if (historyForUser != m_currentChatPartner.username) {
+
+        m_isLoadingHistory = false;
+        return;
+    }
+
+    QJsonArray history = response["history"].toArray();
+    qDebug() << "[CLIENT] Displaying" << history.count() << "history messages for" << historyForUser;
+
+    if (history.isEmpty()) {
+        m_oldestMessageId = 0;
+        m_isLoadingHistory = false;
+        qDebug() << "[CLIENT] Reached the beginning of history.";
+        if (ui->chatHistoryWidget->count() > 0) {
+            ui->chatHistoryWidget->insertItem(0, "--- Начало переписки ---");
+        }
+        return;
+    }
+
+
+
+    QScrollBar* scrollBar = ui->chatHistoryWidget->verticalScrollBar();
+    int oldScrollValue = scrollBar->value();
+    int oldScrollMax = scrollBar->maximum();
+
+
+    for (int i = 0; i < history.count(); ++i) {
+        const QJsonValue &value = history[i];
+        ChatMessage msg;
+        QJsonObject msgObj = value.toObject();
+        msg.id = msgObj["id"].toDouble();
+        msg.fromUser = msgObj["fromUser"].toString();
+        msg.toUser = msgObj["toUser"].toString();
+        msg.payload = msgObj["payload"].toString();
+        msg.timestamp = msgObj["timestamp"].toString();
+        msg.replyToId = msgObj["reply_to_id"].toDouble();
+        msg.isOutgoing = (msg.fromUser == m_currentUsername);
+        msg.isEdited = msgObj["is_edited"].toInt();
+        if(msgObj["is_delivered"].toInt() == 1){
+            msg.status = ChatMessage::Delivered;
+        }
+        else{
+            msg.status = ChatMessage::Sent;
+        }
+        if(msgObj["is_read"].toInt() == 1){
+            msg.status = ChatMessage::Read;
+        }
+        m_currentChatMessages.insert(msg.id, msg);
+        //qDebug() <<msg.id;
+        displayMessage(msg, i);
+        if(msg.isOutgoing == false){
+            if(msg.status != ChatMessage::Delivered && msg.status != ChatMessage::Read ){
+                QJsonObject deliveredCmd;
+                deliveredCmd["type"] = "message_delivered";
+                deliveredCmd["id"] = (double)msg.id;
+                qDebug() << "[CLIENT] message " << (double)msg.id << "delivered, sending this info to server";
+                sendJson(deliveredCmd);
+                msg.status = ChatMessage::Delivered;
+            }
+            if(msg.status != ChatMessage::Read){
+                if (msg.fromUser == m_currentChatPartner.username) {
+
+                    QJsonObject readCmd;
+                    readCmd["type"] = "message_read";
+                    readCmd["id"] = (double)msg.id;
+                    qDebug() << "[CLIENT] message " << (double)msg.id << "read, sending this info to server";
+                    sendJson(readCmd);
+                    msg.status = ChatMessage::Read;
+                }
+            }
+        }
+    }
+
+
+    int newScrollMax = scrollBar->maximum();
+    scrollBar->setValue(oldScrollValue + (newScrollMax - oldScrollMax));
+    m_oldestMessageId = history.first().toObject()["id"].toDouble();
+
+    qDebug() << m_oldestMessageId;
+    m_isLoadingHistory = false;
+}
+void MainWindow::handleTypingResponse(const QJsonObject& response){
+    QString fromUser = response["fromUser"].toString();
+    qDebug() << fromUser;
+    if (fromUser == m_currentChatPartner.username) {
+
+        if (!m_typingStatusTimers.contains(fromUser)) {
+            m_typingStatusTimers[fromUser] = new QTimer(this);
+            m_typingStatusTimers[fromUser]->setInterval(2000);
+            m_typingStatusTimers[fromUser]->setSingleShot(true);
+
+            connect(m_typingStatusTimers[fromUser], &QTimer::timeout, this, [this, fromUser](){
+                if (fromUser == m_currentChatPartner.username) {
+                    updateChatHeader();
+                }
+            });
+        }
+        m_typingStatusTimers[fromUser]->start();
+        updateChatHeader(); //ПРОВЕРИТЬ
+    }
+}
+
+void MainWindow::updateChatHeader(){
+    if (m_currentChatPartner.username.isEmpty()) {
+        return;
+    }
+
+    ui->chatPartnerNameLabel->setText(m_currentChatPartner.displayName);
+
+    if (m_typingStatusTimers.contains(m_currentChatPartner.username) &&
+        m_typingStatusTimers[m_currentChatPartner.username]->isActive())
+    {
+        ui->chatPartnerStatusLabel->setText("печатает...");
+        ui->chatPartnerStatusLabel->setStyleSheet("color: #F4ABC4;");
+    } else {
+        QString statusText = formatLastSeen(m_currentChatPartner);
+        ui->chatPartnerStatusLabel->setText(statusText);
+        if (m_currentChatPartner.isOnline) {
+            ui->chatPartnerStatusLabel->setStyleSheet("color: #4CAF50;");
+        } else {
+            ui->chatPartnerStatusLabel->setStyleSheet("color: #a0a0a0;");
+        }
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;

@@ -63,6 +63,7 @@ private:
     void handleRegisterFailure(const QJsonObject& response);
     void handleContactList(const QJsonObject& response);
     void handleHistoryData(const QJsonObject& response);
+    void handleOldHistoryData(const QJsonObject& response);
     void handlePrivateMessage(const QJsonObject& response);
     void handleUserList(const QJsonObject& response);
     void handleMessageDelivered(const QJsonObject& response);
@@ -76,6 +77,14 @@ private:
     void handlePendingRequestsList(const QJsonObject& response);
     void handleLogoutSuccess(const QJsonObject& response);
     void handleLogoutFailure(const QJsonObject& response);
+    void handleTypingResponse(const QJsonObject& response);
+    void showChatSearchUI();
+    void hideChatSearchUI();
+    void onChatSearchTriggered(const QString &text);
+
+    void updateChatHeader();
+
+    QString formatLastSeen(const User &user);
 
     Ui::MainWindow *ui;
     QTcpSocket *socket;
@@ -87,8 +96,9 @@ private:
     User m_currentChatPartner;
     QMap<QString, User> m_userCache;
     QMap<qint64, ChatMessage> m_currentChatMessages;
-    QMap<QString, QTimer*> m_typingTimers;
+    QMap<QString, QTimer*> m_typingStatusTimers;
     QTimer *m_searchTimer;
+    QTimer *m_typingTimer;
     QMap<QString, ChatMessage> m_pendingMessages;
 
     SearchResultsPopup *m_searchResultsPopup;
@@ -96,6 +106,7 @@ private:
     qint64 m_replyToMessageId;
     qint64 m_editingMessageId;
     qint64 m_oldestMessageId;
+    bool m_isLoadingHistory;
     QString m_forwardedFromUsername;
 
     void connectToServer();

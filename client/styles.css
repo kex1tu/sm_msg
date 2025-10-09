@@ -14,6 +14,29 @@ QMainWindow {
     background-color: #282426;
 }
 
+
+#headerStackedWidget {
+    background-color: #3D383A;
+    border-radius: 8px;
+    margin-bottom: 2px;
+}
+
+/* Стили для виджетов внутри displayPage */
+#displayPage QLabel, #displayPage QToolButton {
+    background-color: transparent;
+}
+/* ... и так далее */
+
+/* Стили для виджетов внутри searchPage */
+#searchPage QLineEdit {
+    /* Можно задать прозрачный фон, чтобы он сливался с панелью */
+    background-color: transparent;
+    border: none;
+}
+#searchPage QToolButton {
+    background-color: transparent;
+}
+
 /* --- СПИСКИ (КОНТАКТЫ, ЧАТ, РЕЗУЛЬТАТЫ ПОИСКА) --- */
 QListWidget {
     background-color: #3D383A; /* Более светлый фон для панелей */

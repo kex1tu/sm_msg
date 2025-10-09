@@ -12,10 +12,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    searchresultspopup.cpp
 
 HEADERS += \
     mainwindow.h \
+    searchresultspopup.h \
     structures.h
 
 FORMS += \
@@ -25,3 +27,11 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    styles.css \
+    styles.сss \
+    styles.сss
+
+RESOURCES += \
+    resources.qrc
