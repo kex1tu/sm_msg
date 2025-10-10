@@ -261,7 +261,7 @@ void Server::onClientDisconnected()
         m_nextBlockSizes.remove(tcpSocket);
     }
 
-    sender()->deleteLater(); // Безопасно удаляем объект сокета
+    sender()->deleteLater();
 }
 
 bool Server::initDatabase()
@@ -408,7 +408,7 @@ void Server::handleGetHistory(QObject* socket, const QJsonObject& request){
 
 void Server::handleRegister(QObject* socket, const QJsonObject& request){
     QString username = request["username"].toString();
-    QString display_name = request["displayname"].toString();
+    QString display_name = request["display_name"].toString();
     QString password = request["password"].toString();
     QByteArray passwordHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 
@@ -612,7 +612,7 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
             qDebug() << "LOgged in success";
             response["type"] = "login_success";
 
-            m_clients[username] = socket; // socket - это QObject*
+            m_clients[username] = socket;
             m_clientsReverse[socket] = username;
 
             sendJson(socket, response);
@@ -642,7 +642,7 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
     QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
 
 
-    if(fromUser != m_clientsReverse.value(socket)) { // socket - это QObject*
+    if(fromUser != m_clientsReverse.value(socket)) {
         qWarning() << "[SERVER] SECURITY WARNING: User" << m_clientsReverse.value(socket)
                    << "tried to send a message as" << fromUser;
         return;
@@ -668,7 +668,7 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
     echoMessage["id"] = (double)messageId;
     echoMessage["fromUser"] = fromUser;
     echoMessage["toUser"] = toUser;
-    echoMessage["temp_id"] = tempId;
+
     echoMessage["payload"] = payload;
     echoMessage["timestamp"] = timestamp;
     echoMessage["is_delivered"] = 1;
@@ -677,9 +677,10 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
 
 
     if (replyToId > 0) echoMessage["reply_to_id"] = replyToId;
+    echoMessage["temp_id"] = tempId;
     sendJson(socket, echoMessage);
 
-
+    echoMessage["temp_id"] = "";
     QObject *toUserSocket = m_clients.value(toUser, nullptr);
 
 
