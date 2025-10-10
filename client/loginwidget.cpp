@@ -1,0 +1,82 @@
+#include "loginwidget.h"
+#include "ui_loginwidget.h"
+#include <QMessageBox>
+
+LoginWidget::LoginWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::LoginWidget)
+{
+    ui->setupUi(this);
+    connect(ui->goToRegisterButton, &QPushButton::clicked, this, &LoginWidget::ongoToRegisterButtonclicked);
+    connect(ui->goToLoginButton, &QPushButton::clicked, this, &LoginWidget::ongoToLoginButtonclicked);
+    connect(ui->loginButton, &QPushButton::clicked, this, [this](){
+        qDebug() << "LoginWidget: loginButton clicked. Emitting loginRequested signal.";
+
+        QString username = ui->loginUsernameEdit->text().trimmed();
+        QString password = ui->loginPasswordEdit->text();
+
+        emit loginRequested(username, password);
+    });
+
+    connect(ui->registerButton, &QPushButton::clicked, this, [this](){
+        qDebug() << "LoginWidget: registerButton clicked. Emitting registerRequested signal.";
+
+        QString username = ui->registerUsernameEdit->text().trimmed();
+        QString displayName = ui->registerDisplayNameEdit->text().trimmed();
+        QString password = ui->registerPasswordEdit->text();
+
+        emit registerRequested(username, displayName, password);
+    });
+
+
+}
+QString LoginWidget::username() const
+{
+    return ui->loginUsernameEdit->text().trimmed();
+}
+void LoginWidget::onRegistrationSuccess()
+{
+    QMessageBox::information(this, "Регистрация успешна", "Теперь вы можете войти, используя свои данные.");
+
+    ui->registerUsernameEdit->clear();
+    ui->registerDisplayNameEdit->clear();
+    ui->registerPasswordEdit->clear();
+
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void LoginWidget::ongoToRegisterButtonclicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void LoginWidget::ongoToLoginButtonclicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void LoginWidget::clearFields()
+{
+    ui->loginUsernameEdit->clear();
+    ui->loginPasswordEdit->clear();
+    ui->registerUsernameEdit->clear();
+    ui->registerPasswordEdit->clear();
+    ui->registerDisplayNameEdit->clear();
+}
+
+void LoginWidget::setUiEnabled(bool enabled)
+{
+    ui->loginUsernameEdit->setEnabled(enabled);
+    ui->loginPasswordEdit->setEnabled(enabled);
+    ui->loginButton->setEnabled(enabled);
+    ui->goToRegisterButton->setEnabled(enabled);
+    ui->registerUsernameEdit->setEnabled(enabled);
+    ui->registerPasswordEdit->setEnabled(enabled);
+    ui->registerDisplayNameEdit->setEnabled(enabled);
+    ui->registerButton->setEnabled(enabled);
+}
+
+LoginWidget::~LoginWidget()
+{
+    delete ui;
+}

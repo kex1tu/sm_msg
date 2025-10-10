@@ -1,23 +1,29 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "searchresultspopup.h"
 #include <QMainWindow>
-#include <QTcpSocket>
-#include <QJsonObject>
-#include <QListWidgetItem>
-#include <QTimer>
-#include <QScrollBar>
 #include <QMap>
-#include <structures.h>
-#include <optional>
-#include <functional>
+#include "chatfilterproxymodel.h"
+#include "structures.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
+class QTcpSocket;
+class QJsonObject;
+class QListWidget;
+class QListWidgetItem;
+class QLineEdit;
+class QPushButton;
+class QStackedLayout;
+class QTimer;
+class QPoint;
 QT_END_NAMESPACE
+
+class LoginWidget;
+class ChatViewWidget;
+class ProfileViewWidget;
+class ChatMessageModel;
+class SearchResultsPopup;
 
 class MainWindow : public QMainWindow
 {
@@ -27,36 +33,43 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private slots:
-
     void onConnected();
-    void onReadyRead();
     void onDisconnected();
+    void onReadyRead();
 
-    void handleGoToRegPageButtonClick();
-    void handleGoToLogPageButtonClick();
-    void handleLoginButtonClick();
-    void handleRegisterButtonClick();
-    void handleLogOutButtonClick();
-    void performSearch();
+    void onLoginRequested(const QString& username, const QString& password);
+    void onRegisterRequested(const QString& username, const QString& displayName, const QString& password);
+    void onSendMessageRequested(const QString& text);
+    void onUserSelectionChanged(QListWidgetItem *current);
+    void onLogoutButtonClicked();
+    void onAddContactRequested(const QString& username);
+    void onEditMessageRequested(qint64 messageId, const QString& oldText);
+    void onDeleteMessageRequested(qint64 messageId);
+    void onChatSearchTriggered(const QString &text);
+
+    void showProfileView();
+
+    void onReplyToMessage(qint64 messageId);
 
 
 
-
-    void handleUserSelectionChanged(QListWidgetItem *current);
-    void onChatContextMenuRequested(const QPoint &pos);
-    void onMessageDoubleClicked(QListWidgetItem *item);
+    void onGlobalSearchTriggered();
     void onChatScroll(int value);
-    void handleSendButtonClick();
-
-
-    void onMessageTextChanged(const QString &text);
+    void onTypingNotificationFired();
 
 private:
+    void buildMainUI();
+    void setupConnections();
+    void initResponseHandlers();
+    void connectToServer();
+    void resetApplicationState();
+
     using ResponseHandler = void (MainWindow::*)(const QJsonObject&);
     QMap<QString, ResponseHandler> m_responseHandlers;
-
-    void initResponseHandlers();
     void handleLoginSuccess(const QJsonObject& response);
     void handleLoginFailure(const QJsonObject& response);
     void handleRegisterSuccess(const QJsonObject& response);
@@ -78,52 +91,49 @@ private:
     void handleLogoutSuccess(const QJsonObject& response);
     void handleLogoutFailure(const QJsonObject& response);
     void handleTypingResponse(const QJsonObject& response);
-    void showChatSearchUI();
-    void hideChatSearchUI();
-    void onChatSearchTriggered(const QString &text);
-
+    void sendJson(const QJsonObject& json);
+    void updateUserList();
     void updateChatHeader();
-
+    void showContactRequestPrompt(const QString& fromUsername, const QString& fromDisplayName);
     QString formatLastSeen(const User &user);
 
+private:
     Ui::MainWindow *ui;
     QTcpSocket *socket;
-
-    QByteArray m_buffer;
     quint32 m_nextBlockSize;
 
     QString m_currentUsername;
     User m_currentChatPartner;
+    bool m_isLoadingHistory = false;
+    qint64 m_oldestMessageId = 0;
+    qint64 m_editingMessageId = 0;
+    qint64 m_replyToMessageId = 0;
+
     QMap<QString, User> m_userCache;
-    QMap<qint64, ChatMessage> m_currentChatMessages;
-    QMap<QString, QTimer*> m_typingStatusTimers;
-    QTimer *m_searchTimer;
-    QTimer *m_typingTimer;
-    QMap<QString, ChatMessage> m_pendingMessages;
 
-    SearchResultsPopup *m_searchResultsPopup;
+    LoginWidget* m_loginWidget;
+    QWidget* m_mainChatWidget;
 
-    qint64 m_replyToMessageId;
-    qint64 m_editingMessageId;
-    qint64 m_oldestMessageId;
-    bool m_isLoadingHistory;
-    QString m_forwardedFromUsername;
+    QWidget* m_chatListPanel;
+    QLineEdit* m_searchLineEdit;
+    QListWidget* m_userListWidget;
+    QPushButton* m_logoutButton;
 
-    void connectToServer();
+    QWidget* m_rightSideContainer;
+    QStackedLayout* m_rightSideLayout;
+    QWidget* m_placeholderWidget;
+    ChatViewWidget* m_chatViewWidget;
+    ProfileViewWidget* m_profileViewWidget;
 
-    void sendJson(const QJsonObject& json);
-    void addMessageToChat(const QJsonObject &messageObject);
-    void displayMessage(const ChatMessage &message, int position = -1);
-    void displaySendingMessage(const ChatMessage &message, int position = -1);
-    void removeMessageById(qint64 messageId);
-    void editMessageById(qint64 messageId, const QString newPayload);
-    void updateUserListWidget();
-    void updateMessageWidget(QListWidgetItem* item, const ChatMessage &msg);
-    QListWidgetItem* findItemById(qint64 messageId,  std::optional<std::reference_wrapper<quint64>> posInWidget_optional = std::nullopt);
-    QListWidgetItem* findItemByTempId(QString tempId);
-    QString createTempId();
-    void showContactRequestPrompt(const QString& fromUsername, const QString& fromDisplayName);
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    ChatMessageModel* m_chatModel;
+    QSortFilterProxyModel* m_chatFilterProxyModel;
+
+    SearchResultsPopup* m_searchResultsPopup;
+    QTimer* m_globalSearchTimer;
+    QTimer* m_typingSendTimer;
+    QMap<QString, QTimer*> m_typingReceiveTimers;
+
+    bool m_isChatSearchActive = false;
 };
+
 #endif // MAINWINDOW_H

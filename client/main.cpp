@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    QFile styleFile(":/styles.css"); // Путь к файлу в ресурсах
+    QFile styleFile(":/styles.css");
     if (!styleFile.open(QFile::ReadOnly)) {
         qWarning() << "Warning: Could not open style file from resources.";
     } else {
@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
         qDebug() << "Style sheet loaded successfully.";
         styleFile.close();
     }
-    //a.setStyleSheet(styleSheet);
 
     MainWindow w;
     w.show();

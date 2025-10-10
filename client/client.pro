@@ -11,16 +11,28 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chatfilterproxymodel.cpp \
+    chatmessagedelegate.cpp \
+    chatmessagemodel.cpp \
+    chatviewwidget.cpp \
+    loginwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     searchresultspopup.cpp
 
 HEADERS += \
+    chatfilterproxymodel.h \
+    chatmessagedelegate.h \
+    chatmessagemodel.h \
+    chatviewwidget.h \
+    loginwidget.h \
     mainwindow.h \
     searchresultspopup.h \
     structures.h
 
 FORMS += \
+    chatviewwidget.ui \
+    loginwidget.ui \
     mainwindow.ui
 
 # Default rules for deployment.
