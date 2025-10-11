@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="RegisterPage">
       <layout class="QGridLayout" name="gridLayout">
@@ -90,7 +90,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="registerPasswordEdit"/>
+            <widget class="QLineEdit" name="registerPasswordEdit">
+             <property name="echoMode">
+              <enum>QLineEdit::EchoMode::Password</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -237,7 +241,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="loginPasswordEdit"/>
+            <widget class="QLineEdit" name="loginPasswordEdit">
+             <property name="echoMode">
+              <enum>QLineEdit::EchoMode::Password</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

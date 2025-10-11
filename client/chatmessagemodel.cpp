@@ -79,11 +79,14 @@ void ChatMessageModel::editMessage(qint64 messageId, const QString& newPayload)
 {
     for (int i = 0; i < m_messages.count(); ++i) {
         if (m_messages[i].id == messageId) {
+
+            qDebug() << "[MODEL] Found message to edit at index:" << i;
             m_messages[i].payload = newPayload;
             m_messages[i].isEdited = true;
 
             QModelIndex idx = index(i, 0);
             emit dataChanged(idx, idx, {Qt::UserRole});
+
 
             qDebug() << "[MODEL] Edited message with ID:" << messageId;
             return;
@@ -123,11 +126,16 @@ void ChatMessageModel::addMessages(const QList<ChatMessage> &messages)
 void ChatMessageModel::prependMessages(const QList<ChatMessage> &messages)
 {
     if (messages.isEmpty()) return;
+    qDebug() << "Model: about to insert" << messages.count() << "rows.";
+
+
     beginInsertRows(QModelIndex(), 0, messages.count() - 1);
     for (int i = messages.count() - 1; i >= 0; --i) {
         m_messages.prepend(messages.at(i));
     }
+
     endInsertRows();
+    qDebug() << "Model: insertion finished. New total rows:" << m_messages.count();
 }
 
 void ChatMessageModel::clearMessages()

@@ -25,9 +25,11 @@ signals:
 
 private:
     Ui::LoginWidget *ui;
+    QAction* m_passwordVisibilityAction;
 private slots:
     void ongoToRegisterButtonclicked();
     void ongoToLoginButtonclicked();
+    void on_togglePasswordVisibility_triggered();
 
 };
 

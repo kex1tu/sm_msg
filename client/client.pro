@@ -42,8 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     styles.css \
-    styles.сss \
-    styles.сss
+    styles.css
 
 RESOURCES += \
     resources.qrc

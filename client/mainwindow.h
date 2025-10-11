@@ -98,6 +98,7 @@ private:
     QString formatLastSeen(const User &user);
 
 private:
+
     Ui::MainWindow *ui;
     QTcpSocket *socket;
     quint32 m_nextBlockSize;

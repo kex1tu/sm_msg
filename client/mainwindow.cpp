@@ -168,9 +168,10 @@ void MainWindow::setupConnections()
 }
 void MainWindow::onEditMessageRequested(qint64 messageId, const QString& oldText)
 {
+    qDebug() << "MainWindow: Caught editMessageRequested signal for ID:" << messageId;
+
     m_editingMessageId = messageId;
-    m_chatViewWidget->messageLineEdit()->setText(oldText);
-    m_chatViewWidget->messageLineEdit()->setFocus();
+    m_chatViewWidget->setEditMode(true, oldText);
 }
 
 void MainWindow::onDeleteMessageRequested(qint64 messageId)
@@ -678,31 +679,48 @@ void MainWindow::onSendMessageRequested(const QString& text)
     if (text.isEmpty() || m_currentChatPartner.username.isEmpty()) {
         return;
     }
+    if (m_editingMessageId > 0) {
+        // Мы в режиме редактирования. Отправляем запрос "edit_message".
+        qDebug() << "[CLIENT] Sending 'edit_message' request for ID:" << m_editingMessageId;
 
-    ChatMessage msg;
-    msg.fromUser = m_currentUsername;
-    msg.toUser = m_currentChatPartner.username;
-    msg.payload = text;
-    msg.status = ChatMessage::Sending;
-    msg.isOutgoing = true;
-    msg.timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
-    msg.tempId = QUuid::createUuid().toString(QUuid::WithoutBraces);
-    msg.replyToId = m_replyToMessageId = 0;
+        QJsonObject request;
+        request["type"] = "edit_message";
+        request["id"] = m_editingMessageId;
+        request["payload"] = text;
+        sendJson(request);
 
-    m_chatModel->addMessage(msg);
-    m_chatViewWidget->chatHistoryView()->scrollToBottom();
+        //Сбрасываем режим редактирования
+        m_editingMessageId = 0;
+        m_chatViewWidget->setEditMode(false);
+    } else {
 
-    QJsonObject request;
-    request["type"] = "private_message";
-    request["fromUser"] = msg.fromUser;
-    request["toUser"] = msg.toUser;
-    request["payload"] = msg.payload;
-    request["reply_to_id"] = msg.replyToId;
-    request["temp_id"] = msg.tempId;
+        ChatMessage msg;
+        msg.fromUser = m_currentUsername;
+        msg.toUser = m_currentChatPartner.username;
+        msg.payload = text;
+        msg.status = ChatMessage::Sending;
+        msg.isOutgoing = true;
+        msg.timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
+        msg.tempId = QUuid::createUuid().toString(QUuid::WithoutBraces);
+        msg.replyToId = m_replyToMessageId = 0;
+        m_chatModel->addMessage(msg);
+        m_chatViewWidget->chatHistoryView()->scrollToBottom();
 
-    m_replyToMessageId = 0;
+        QJsonObject request;
+        request["type"] = "private_message";
+        request["fromUser"] = msg.fromUser;
+        request["toUser"] = msg.toUser;
+        request["payload"] = msg.payload;
+        request["reply_to_id"] = msg.replyToId;
+        request["temp_id"] = msg.tempId;
 
-    sendJson(request);
+        m_replyToMessageId = 0;
+
+        sendJson(request);
+    }
+
+
+
 }
 
 void MainWindow::onLogoutButtonClicked()
@@ -925,7 +943,7 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
     QListView* chatView = m_chatViewWidget->chatHistoryView();
     QScrollBar* scrollBar = chatView->verticalScrollBar();
 
-    int oldScrollValue = scrollBar->value();
+    //int oldScrollValue = scrollBar->value();
     int oldScrollMax = scrollBar->maximum();
     QList<ChatMessage> messages;
 
@@ -976,14 +994,17 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
 
     m_chatModel->prependMessages(messages);
 
-    if (oldScrollMax > 0) {
-        int newScrollMax = scrollBar->maximum();
-        scrollBar->setValue(oldScrollValue + (newScrollMax - oldScrollMax));
-    }
+    qDebug() << oldScrollMax;
+    QApplication::processEvents();
+
+    int newScrollMax = scrollBar->maximum();
+    scrollBar->setValue(newScrollMax - oldScrollMax);
+
     m_oldestMessageId = history.first().toObject()["id"].toDouble();
 
     qDebug() << m_oldestMessageId;
     m_isLoadingHistory = false;
+    //onChatScroll(m_chatViewWidget->chatHistoryView()->verticalScrollBar()->value());
 }
 void MainWindow::handleTypingResponse(const QJsonObject& response){
     QString fromUser = response["fromUser"].toString();
@@ -996,13 +1017,25 @@ void MainWindow::handleTypingResponse(const QJsonObject& response){
             m_typingReceiveTimers[fromUser]->setSingleShot(true);
 
             connect(m_typingReceiveTimers[fromUser], &QTimer::timeout, this, [this, fromUser](){
+                qDebug() << "[CLIENT] Typing timer for" << fromUser << "has TIMED OUT.";
+
+                // Проверяем, что мы все еще в том же чате
                 if (fromUser == m_currentChatPartner.username) {
-                    m_chatViewWidget->updateHeader(m_currentChatPartner, true);
+                    qDebug() << "  -> User is still the current chat partner. Updating header to NOT TYPING.";
+                    // Вызываем updateHeader с флагом isTyping = false
+                    m_chatViewWidget->updateHeader(m_currentChatPartner, false);
+                } else {
+                    qDebug() << "  -> User is no longer the current chat partner. Doing nothing.";
                 }
             });
         }
-        m_typingReceiveTimers[fromUser]->start();
+        // Получили уведомление -> немедленно обновляем заголовок, чтобы показать "печатает..."
+        qDebug() << "  -> Updating header to IS TYPING.";
         m_chatViewWidget->updateHeader(m_currentChatPartner, true);
+
+        // И перезапускаем таймер
+        qDebug() << "  -> Restarting 3-second timer for" << fromUser;
+        m_typingReceiveTimers[fromUser]->start();
     }
 }
 

@@ -21,7 +21,7 @@ public slots:
     void addMessages(const QList<ChatMessage> &messages);
     void prependMessages(const QList<ChatMessage> &messages);
     void clearMessages();
-     void removeMessage(qint64 messageId);
+    void removeMessage(qint64 messageId);
     void confirmMessage(const QString& tempId, const ChatMessage& confirmedMessage);
     void updateMessageStatus(qint64 messageId, ChatMessage::MessageStatus newStatus);
     void editMessage(qint64 messageId, const QString& newPayload);

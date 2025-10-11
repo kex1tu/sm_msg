@@ -31,6 +31,7 @@ public:
 
 public slots:
     void updateHeader(const User& chatPartner, bool isTyping);
+    void setEditMode(bool enabled, const QString& text = QString());
 
 signals:
     void sendMessageRequested(const QString& text);

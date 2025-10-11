@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>styles.css</file>
+        <file>icons/crossed_eye.png</file>
+        <file>icons/eye.png</file>
+        <file>icons/audioCall.png</file>
+        <file>icons/dotsVertical.png</file>
+        <file>icons/search.png</file>
+        <file>icons/videoCall.png</file>
     </qresource>
+    <qresource prefix="/icons"/>
+    <qresource lang=".png" prefix="/icons"/>
 </RCC>

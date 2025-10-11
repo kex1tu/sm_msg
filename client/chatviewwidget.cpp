@@ -19,6 +19,7 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
 {
     ui->setupUi(this);
     setupHeaderUI();
+    ui->chatHistoryView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(ui->sendButton, &QPushButton::clicked, this, [this](){
         QString text = ui->messageLineEdit->text().trimmed();
@@ -28,6 +29,7 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
         }
     });
     ui->chatHistoryView->setContextMenuPolicy(Qt::CustomContextMenu);
+
     connect(ui->chatHistoryView, &QWidget::customContextMenuRequested, this, &ChatViewWidget::onChatContextMenuRequested);
     connect(ui->chatHistoryView, &QListView::doubleClicked, this, &ChatViewWidget::onMessageDoubleClicked);
 }
@@ -42,19 +44,20 @@ void ChatViewWidget::setupHeaderUI()
 
     m_searchButton = new QToolButton();
     m_searchButton->setObjectName("searchInChatButton");
-    m_searchButton->setText("🔍");
+    //m_searchButton->setText("🔍");
+    m_searchButton->setIcon(QIcon(":/icons/search.png"));
 
     m_callButton = new QToolButton();
     m_callButton->setObjectName("callButton");
-    m_callButton->setText("📞");
+    m_callButton->setIcon(QIcon(":/icons/audioCall.png"));
 
     m_videoCallButton = new QToolButton();
     m_videoCallButton->setObjectName("videoCallButton");
-    m_videoCallButton->setText("📹");
+    m_videoCallButton->setIcon(QIcon(":/icons/videoCall.png"));
 
     m_moreOptionsButton = new QToolButton();
     m_moreOptionsButton->setObjectName("moreOptionsButton");
-    m_moreOptionsButton->setText("...");
+    m_moreOptionsButton->setIcon(QIcon(":/icons/dotsVertical.png"));
 
     QVBoxLayout* userInfoLayout = new QVBoxLayout();
     userInfoLayout->addWidget(m_nameLabel);
@@ -86,9 +89,31 @@ ChatViewWidget::~ChatViewWidget()
 {
     delete ui;
 }
+
+void ChatViewWidget::setEditMode(bool enabled, const QString& text)
+{
+    if (enabled) {
+        // Входим в режим редактирования
+        ui->sendButton->setText("Сохранить");
+        //ui->sendButton->setIcon(QIcon(":/icons/save.png")); // (Опционально) меняем иконку
+        ui->messageLineEdit->setText(text);
+        ui->messageLineEdit->setFocus();
+        ui->messageLineEdit->selectAll(); // Выделяем весь текст для удобства
+    } else {
+        // Выходим из режима редактирования
+        ui->sendButton->setText("Отправить");
+        //ui->sendButton->setIcon(QIcon(":/icons/send.png")); // Возвращаем иконку
+        ui->messageLineEdit->clear();
+        ui->messageLineEdit->setPlaceholderText("Напишите сообщение...");
+    }
+}
+
 void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
+    qDebug() << "ChatViewWidget: onContextMenuRequested called.";
+
     QModelIndex index = ui->chatHistoryView->indexAt(pos);
     if (!index.isValid()) {
+        qDebug() << "  -> Invalid index, exiting.";
         return;
     }
 
@@ -115,6 +140,7 @@ void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
     if (selectedAction == replyAction) {
         emit replyToMessageRequested(msg.id);
     } else if (selectedAction == editAction) {
+        qDebug() << "ChatViewWidget: 'Edit' action selected. Emitting editMessageRequested signal.";
         emit editMessageRequested(msg.id, msg.payload);
     } else if (selectedAction == deleteAction) {
         emit deleteMessageRequested(msg.id);
@@ -127,6 +153,7 @@ QLineEdit* ChatViewWidget::messageLineEdit() const { return ui->messageLineEdit;
 
 void ChatViewWidget::updateHeader(const User& chatPartner, bool isTyping)
 {
+    qDebug() << "ChatViewWidget::updateHeader called. isTyping:" << isTyping;
     m_nameLabel->setText(chatPartner.displayName);
 
     if (isTyping) {

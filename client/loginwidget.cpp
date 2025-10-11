@@ -1,12 +1,32 @@
 #include "loginwidget.h"
 #include "ui_loginwidget.h"
 #include <QMessageBox>
+#include <QAction>
+#include <QIcon>
 
 LoginWidget::LoginWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::LoginWidget)
 {
     ui->setupUi(this);
+
+
+    // --- НАСТРОЙКА КНОПКИ "ПОКАЗАТЬ ПАРОЛЬ" ---
+
+    // 1. Создаем QAction
+    m_passwordVisibilityAction = new QAction(this);
+    // Изначально пароль скрыт, поэтому ставим иконку "закрытого глаза"
+    m_passwordVisibilityAction->setIcon(QIcon(":/icons/crossed_eye.png"));
+
+    // 2. Добавляем QAction в поле ввода пароля справа
+    ui->loginPasswordEdit->addAction(m_passwordVisibilityAction, QLineEdit::TrailingPosition);
+
+    // 3. Устанавливаем начальный режим отображения пароля
+    ui->loginPasswordEdit->setEchoMode(QLineEdit::Password);
+
+    // 4. Подключаем сигнал от QAction к нашему слоту
+    connect(m_passwordVisibilityAction, &QAction::triggered, this, &LoginWidget::on_togglePasswordVisibility_triggered);
+
     connect(ui->goToRegisterButton, &QPushButton::clicked, this, &LoginWidget::ongoToRegisterButtonclicked);
     connect(ui->goToLoginButton, &QPushButton::clicked, this, &LoginWidget::ongoToLoginButtonclicked);
     connect(ui->loginButton, &QPushButton::clicked, this, [this](){
@@ -30,6 +50,25 @@ LoginWidget::LoginWidget(QWidget *parent)
 
 
 }
+
+
+
+void LoginWidget::on_togglePasswordVisibility_triggered()
+{
+    // Проверяем текущий режим отображения
+    if (ui->loginPasswordEdit->echoMode() == QLineEdit::Password) {
+        // Если пароль был скрыт -> показываем его
+        ui->loginPasswordEdit->setEchoMode(QLineEdit::Normal);
+        // Меняем иконку на "открытый глаз"
+        m_passwordVisibilityAction->setIcon(QIcon(":/icons/eye.png"));
+    } else {
+        // Если пароль был виден -> скрываем его
+        ui->loginPasswordEdit->setEchoMode(QLineEdit::Password);
+        // Меняем иконку на "закрытый глаз"
+        m_passwordVisibilityAction->setIcon(QIcon(":/icons/crossed_eye.png"));
+    }
+}
+
 QString LoginWidget::username() const
 {
     return ui->loginUsernameEdit->text().trimmed();
