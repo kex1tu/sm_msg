@@ -126,36 +126,41 @@ void ChatMessageModel::addMessages(const QList<ChatMessage> &messages)
     qDebug() << "Model: about to insert" << messages.count() << "rows.";
 
     int first = m_messages.count();
+    int last = first + messages.count() - 1;
 
+     
+    beginInsertRows(QModelIndex(), first, last);
+
+     
     m_messages.append(messages);
-    for(auto msg: messages){
+    for(const auto& msg : messages){
         m_messageMap[msg.id] = msg;
     }
 
-
-    int last = m_messages.count() - 1;
-    beginInsertRows(QModelIndex(), first, last);
+     
     endInsertRows();
 
     qDebug() << "Model: insertion finished. New total rows:" << m_messages.count();
 }
-
 void ChatMessageModel::prependMessages(const QList<ChatMessage> &messages)
 {
     if (messages.isEmpty()) return;
-    qDebug() << "Model: about to insert" << messages.count() << "rows.";
+    qDebug() << "Model: about to insert" << messages.count() << "rows at the beginning.";
 
-
+     
     beginInsertRows(QModelIndex(), 0, messages.count() - 1);
+
+     
     for (int i = messages.count() - 1; i >= 0; --i) {
-        m_messages.prepend(messages.at(i));
-        m_messageMap[messages[i].id] = messages[i];
+        const auto& msg = messages.at(i);
+        m_messages.prepend(msg);
+        m_messageMap[msg.id] = msg;
     }
 
+     
     endInsertRows();
     qDebug() << "Model: insertion finished. New total rows:" << m_messages.count();
 }
-
 void ChatMessageModel::clearMessages()
 {
     if (m_messages.isEmpty()) return;
@@ -163,4 +168,27 @@ void ChatMessageModel::clearMessages()
     m_messages.clear();
     m_messageMap.clear();
     endResetModel();
+}
+void ChatMessageModel::markMessageAsRead(const QModelIndex &index)
+{
+    if (!index.isValid() || index.row() >= m_messages.count())
+        return;
+
+     
+    if (m_messages[index.row()].status == ChatMessage::Delivered) {
+        qint64 messageId = m_messages[index.row()].id;
+
+         
+        m_messages[index.row()].status = ChatMessage::Read;
+        if (m_messageMap.contains(messageId)) {
+            m_messageMap[messageId].status = ChatMessage::Read;
+        }
+
+         
+        emit dataChanged(index, index, {Qt::UserRole});
+
+         
+        qDebug() << "[MODEL] Message" << messageId << "was rendered. Emitting receipt signal.";
+        emit messageNeedsReadReceipt(messageId);
+    }
 }

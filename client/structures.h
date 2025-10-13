@@ -1,6 +1,8 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include <QString>
+#include <QList>
+
 struct User {
     qint64 id = 0;
     QString username;
@@ -44,6 +46,11 @@ struct ChatMessage {
     MessageStatus status;
     QString mediaUrl;
     bool isOutgoing;
+};
+struct ChatCache {
+    QList<ChatMessage> messages;
+    qint64 oldestMessageId = -1;  
+    bool allMessagesLoaded = false;  
 };
 
 

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QStyledItemDelegate>
 #include "structures.h"
-class ChatMessageModel;  
+class ChatMessageModel;
 
 class ChatMessageDelegate : public QStyledItemDelegate
 {
@@ -14,7 +14,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 private:
-    const ChatMessageModel* m_model;  
+    const ChatMessageModel* m_model;
 };
 
-#endif  
+#endif

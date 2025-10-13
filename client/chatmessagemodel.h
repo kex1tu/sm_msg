@@ -26,6 +26,10 @@ public slots:
     void updateMessageStatus(qint64 messageId, ChatMessage::MessageStatus newStatus);
     void editMessage(qint64 messageId, const QString& newPayload);
     bool getMessageById(qint64 id, ChatMessage &msg) const;
+    void markMessageAsRead(const QModelIndex &index);
+signals:
+     
+    void messageNeedsReadReceipt(qint64 messageId);
 
 private:
     QList<ChatMessage> m_messages;

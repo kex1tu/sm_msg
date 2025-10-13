@@ -2,6 +2,7 @@
 #include "ui_chatviewwidget.h"
 
 
+
 #include <QStackedWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -13,13 +14,32 @@
 #include <QListView>
 #include <QMenu>
 #include <QAction>
+#include <QScrollBar>   
+#include <QResizeEvent> 
 
 ChatViewWidget::ChatViewWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatViewWidget)
 {
     ui->setupUi(this);
+
     setupHeaderUI();
-    ui->chatHistoryView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+     
+    m_scrollToBottomButton = new QToolButton(this);
+    m_scrollToBottomButton->setObjectName("scrollToBottomButton");
+    m_scrollToBottomButton->setIcon(QIcon(":/icons/down_arrow.png"));
+    m_scrollToBottomButton->setIconSize(QSize(24, 24));
+    m_scrollToBottomButton->setFixedSize(40, 40);
+    m_scrollToBottomButton->hide();  
+
+    m_unreadCountLabel = new QLabel(this);
+    m_unreadCountLabel->setObjectName("unreadCountLabel");
+    m_unreadCountLabel->setAlignment(Qt::AlignCenter);
+    m_unreadCountLabel->setFixedSize(22, 22);
+    m_unreadCountLabel->hide();  
+     
+
+
 
     ui->replyWidget->hide();
     connect(ui->closeReplyButton, &QToolButton::clicked, this, &ChatViewWidget::hideReplyUI);
@@ -35,6 +55,9 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
 
     connect(ui->chatHistoryView, &QWidget::customContextMenuRequested, this, &ChatViewWidget::onChatContextMenuRequested);
     connect(ui->chatHistoryView, &QListView::doubleClicked, this, &ChatViewWidget::onMessageDoubleClicked);
+    connect(m_scrollToBottomButton, &QToolButton::clicked, this, &ChatViewWidget::scrollToBottom);
+    connect(ui->chatHistoryView->verticalScrollBar(), &QScrollBar::valueChanged, this, &ChatViewWidget::onChatScrolled);
+
 }
 
 void ChatViewWidget::showReplyUI(const QString& name, const QString& text)
@@ -243,7 +266,70 @@ QString ChatViewWidget::formatLastSeen(const User &user)
     }
 }
 
+void ChatViewWidget::onNewMessageReceived()
+{
+    QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
+     
+    if (scrollBar->value() < scrollBar->maximum()) {
+        m_unreadMessageCount++;
+        updateScrollToBottomButton();
+    }
+}
 
+void ChatViewWidget::scrollToBottom()
+{
+    ui->chatHistoryView->scrollToBottom();
+     
+    m_unreadMessageCount = 0;
+    updateScrollToBottomButton();
+}
+void ChatViewWidget::onChatScrolled(int value)
+{
+    QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
+     
+     
+    if (value == scrollBar->maximum() && m_unreadMessageCount > 0) {
+        m_unreadMessageCount = 0;
+        updateScrollToBottomButton();
+    }
+}
+bool ChatViewWidget::isScrolledToBottom() const
+{
+    QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
+     
+     
+    return scrollBar->value() >= scrollBar->maximum() - 5;
+}
+
+void ChatViewWidget::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+     
+    updateScrollToBottomButton();
+}
+
+void ChatViewWidget::updateScrollToBottomButton()
+{
+    if (m_unreadMessageCount > 0) {
+         
+        int margin = 15;
+        QPoint buttonPos(width() - m_scrollToBottomButton->width() - margin,
+                         height() - m_scrollToBottomButton->height() - ui->messageInputWidget->height() - margin);
+        m_scrollToBottomButton->move(buttonPos);
+
+         
+        m_unreadCountLabel->setText(QString::number(m_unreadMessageCount));
+        QPoint labelPos(buttonPos.x() + (m_scrollToBottomButton->width() / 2),
+                        buttonPos.y() - m_unreadCountLabel->height() / 2);
+        m_unreadCountLabel->move(labelPos);
+
+        m_scrollToBottomButton->show();
+        m_unreadCountLabel->show();
+    } else {
+        m_scrollToBottomButton->hide();
+        m_unreadCountLabel->hide();
+    }
+}
 
 void ChatViewWidget::onSearchTriggered(const QString& text)
 {

@@ -26,7 +26,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListView" name="chatHistoryView"/>
+    <widget class="SmoothListView" name="chatHistoryView"/>
    </item>
    <item>
     <widget class="QWidget" name="messageInputWidget" native="true">
@@ -97,6 +97,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SmoothListView</class>
+   <extends>QListView</extends>
+   <header location="global">smoothlistview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

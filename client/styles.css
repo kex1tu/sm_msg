@@ -56,7 +56,25 @@ QListWidget::item {
 QListWidget::item:hover {
     background-color: #3A3B3C;
 }
+/* --- КНОПКА ПРОКРУТКИ ВНИЗ --- */
+#scrollToBottomButton {
+    background-color: #3D383A;
+    border: 1px solid #555;
+    border-radius: 20px; /* Делает ее идеально круглой */
+}
+#scrollToBottomButton:hover {
+    background-color: #504A4C;
+}
 
+/* --- СЧЕТЧИК НЕПРОЧИТАННЫХ СООБЩЕНИЙ --- */
+#unreadCountLabel {
+    background-color: white;
+    color: #18191A; /* Темный текст */
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 11px; /* Делает его идеально круглым */
+    padding: 2px;
+}
 /* ВЫБРАННЫЙ элемент списка */
 QListWidget::item:selected {
     background-color: #D81B60; /* Яркий розовый акцент */

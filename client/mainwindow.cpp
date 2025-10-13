@@ -85,6 +85,10 @@ void MainWindow::buildMainUI()
 
     m_userListWidget = new QListWidget();
 
+    auto* contactDelegate = new ContactListDelegate(&m_unreadCounts, this);
+    m_userListWidget->setItemDelegate(contactDelegate);
+
+
     m_logoutButton = new QPushButton("Выйти");
     m_logoutButton->setObjectName("logoutButton");
 
@@ -118,10 +122,7 @@ void MainWindow::buildMainUI()
     mainLayout->addWidget(m_rightSideContainer, 1);
 
 
-
-    m_chatFilterProxyModel = new ChatFilterProxyModel(this);
-    m_chatFilterProxyModel->setSourceModel(m_chatModel);
-    m_chatFilterProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+     
 
     QListView* chatView = m_chatViewWidget->chatHistoryView();
 
@@ -130,7 +131,6 @@ void MainWindow::buildMainUI()
 
     ChatMessageDelegate* delegate = new ChatMessageDelegate(m_chatModel, this);
     chatView->setItemDelegate(delegate);
-
 }
 
 void MainWindow::setupConnections()
@@ -168,6 +168,10 @@ void MainWindow::setupConnections()
     connect(m_searchResultsPopup, &SearchResultsPopup::userSelected, this, &MainWindow::onAddContactRequested);
 
     connect(m_logoutButton, &QPushButton::clicked, this, &MainWindow::onLogoutButtonClicked);
+
+    connect(this, &MainWindow::newMessageForCurrentChat, m_chatViewWidget, &ChatViewWidget::onNewMessageReceived);
+
+    connect(m_chatModel, &ChatMessageModel::messageNeedsReadReceipt, this, &MainWindow::onSendMessageReadReceipt);
 }
 void MainWindow::onEditMessageRequested(qint64 messageId, const QString& oldText)
 {
@@ -233,7 +237,7 @@ void MainWindow::onReplyToMessage(qint64 messageId)
 
 void MainWindow::onChatSearchTriggered(const QString &text)
 {
-    m_chatFilterProxyModel->setFilterFixedString(text);
+     
 }
 
 void MainWindow::connectToServer(){
@@ -444,6 +448,17 @@ void MainWindow::handleHistoryData(const QJsonObject& response)
     }
 
     m_chatModel->addMessages(messages);
+    ChatCache& cache = m_chatHistoryCache[historyForUser];
+    cache.messages = messages;  
+    if (!messages.isEmpty()) {
+        cache.oldestMessageId = messages.first().id;
+    } else {
+        cache.allMessagesLoaded = true;  
+    }
+     
+    m_chatModel->clearMessages();
+    m_chatModel->addMessages(messages);
+    m_oldestMessageId = cache.oldestMessageId;
 
     QMetaObject::invokeMethod(m_chatViewWidget->chatHistoryView(), "scrollToBottom", Qt::QueuedConnection);
 
@@ -498,21 +513,45 @@ void MainWindow::handlePrivateMessage(const QJsonObject& response){
         incomingMsg.status = ChatMessage::Read;
     }
 
+    QString chatPartner = incomingMsg.fromUser;
+    if (m_chatHistoryCache.contains(chatPartner)) {
+        m_chatHistoryCache[chatPartner].messages.append(incomingMsg);
+    }
+
     QJsonObject deliveredCmd;
     deliveredCmd["type"] = "message_delivered";
     deliveredCmd["id"] = (double)incomingMsg.id;
     qDebug() << "[CLIENT] message " << (double)incomingMsg.id << "delivered, sending this info to server";
     sendJson(deliveredCmd);
 
+
     if (incomingMsg.fromUser == m_currentChatPartner.username) {
+        bool wasScrolledToBottom = m_chatViewWidget->isScrolledToBottom();
+
+         
         m_chatModel->addMessage(incomingMsg);
+        if (wasScrolledToBottom) {
+             
+             
+             
+            QMetaObject::invokeMethod(m_chatViewWidget, "scrollToBottom", Qt::QueuedConnection);
+        } else {
+             
+             
+            emit newMessageForCurrentChat();
+        }
+    } else {
+         
+        m_unreadCounts[incomingMsg.fromUser]++;
 
-
-        QJsonObject readCmd;
-        readCmd["type"] = "message_read";
-        readCmd["id"] = (double)incomingMsg.id;
-        qDebug() << "[CLIENT] message " << (double)incomingMsg.id << "read, sending this info to server";
-        sendJson(readCmd);
+         
+        for (int i = 0; i < m_userListWidget->count(); ++i) {
+            QListWidgetItem* item = m_userListWidget->item(i);
+            if (item->data(Qt::UserRole).toString() == incomingMsg.fromUser) {
+                m_userListWidget->update(m_userListWidget->indexFromItem(item));
+                break;
+            }
+        }
     }
 
     if (incomingMsg.fromUser != m_currentChatPartner.username || isMinimized() || !isActiveWindow()) {
@@ -631,6 +670,7 @@ void MainWindow::resetApplicationState()
     m_currentUsername.clear();
     m_currentChatPartner = User();
 
+    m_chatHistoryCache.clear();  
     m_userCache.clear();
     m_chatModel->clearMessages();
     m_userListWidget->clear();
@@ -765,6 +805,15 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
     QString selectedUsername = current->data(Qt::UserRole).toString();
     qDebug() << "Step 2: Got username from UserRole:" << selectedUsername;
 
+
+
+
+    if (m_unreadCounts.value(selectedUsername, 0) > 0) {
+        m_unreadCounts[selectedUsername] = 0;
+         
+        m_userListWidget->update(m_userListWidget->indexFromItem(current));
+    }
+
     if (selectedUsername.isEmpty() || !m_userCache.contains(selectedUsername)) {
         qWarning() << "CRITICAL: Selected user not found in cache or username is empty!";
         qDebug() << "--- onUserSelectionChanged END (error) ---";
@@ -800,13 +849,32 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
     m_rightSideLayout->setCurrentWidget(m_chatViewWidget);
     qDebug() << "Step 8: Switched to ChatViewWidget.";
 
-    qDebug() << "Step 9: Preparing to send history request...";
-    QJsonObject request;
-    request["type"] = "get_history";
-    request["with_user"] = m_currentChatPartner.username;
-    sendJson(request);
-    qDebug() << "Step 10: History request sent.";
+     
+    if (m_chatHistoryCache.contains(selectedUsername)) {
+         
+        qDebug() << "[CACHE] Hit for user:" << selectedUsername << ". Loading from memory.";
+        const ChatCache& cache = m_chatHistoryCache.value(selectedUsername);
 
+        m_chatModel->clearMessages();
+        m_chatModel->addMessages(cache.messages);  
+
+        m_oldestMessageId = cache.oldestMessageId;  
+        m_isLoadingHistory = false;
+
+        QMetaObject::invokeMethod(m_chatViewWidget->chatHistoryView(), "scrollToBottom", Qt::QueuedConnection);
+
+    } else {
+         
+        qDebug() << "[CACHE] Miss for user:" << selectedUsername << ". Requesting from server.";
+        m_isLoadingHistory = true;
+        m_oldestMessageId = -1;
+        m_chatModel->clearMessages();
+
+        QJsonObject request;
+        request["type"] = "get_history";
+        request["with_user"] = m_currentChatPartner.username;
+        sendJson(request);
+    }
     qDebug() << "--- onUserSelectionChanged END (success) ---";
 }
 
@@ -1006,7 +1074,26 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
         messages.append(msg);
     }
 
+
+
+    ChatCache& cache = m_chatHistoryCache[historyForUser];
+
+     
+    for (int i = messages.count() - 1; i >= 0; --i) {
+        cache.messages.prepend(messages.at(i));
+    }
+
+    if (!history.isEmpty()) {
+        cache.oldestMessageId = history.first().toObject()["id"].toDouble();
+    } else {
+        cache.allMessagesLoaded = true;
+    }
+
     m_chatModel->prependMessages(messages);
+    m_oldestMessageId = cache.oldestMessageId;
+
+    qDebug() << m_oldestMessageId;
+
 
     qDebug() << oldScrollMax;
     QApplication::processEvents();
@@ -1014,9 +1101,6 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
     int newScrollMax = scrollBar->maximum();
     scrollBar->setValue(newScrollMax - oldScrollMax);
 
-    m_oldestMessageId = history.first().toObject()["id"].toDouble();
-
-    qDebug() << m_oldestMessageId;
     m_isLoadingHistory = false;
      
 }
@@ -1052,7 +1136,14 @@ void MainWindow::handleTypingResponse(const QJsonObject& response){
         m_typingReceiveTimers[fromUser]->start();  
     }
 }
-
+void MainWindow::onSendMessageReadReceipt(qint64 messageId)
+{
+    qDebug() << "[CLIENT] Received receipt signal for message ID:" << messageId << ". Sending to server.";
+    QJsonObject readCmd;
+    readCmd["type"] = "message_read";
+    readCmd["id"] = (double)messageId;
+    sendJson(readCmd);
+}
 MainWindow::~MainWindow()
 {
     delete ui;

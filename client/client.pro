@@ -15,19 +15,23 @@ SOURCES += \
     chatmessagedelegate.cpp \
     chatmessagemodel.cpp \
     chatviewwidget.cpp \
+    contactlistdelegate.cpp \
     loginwidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    searchresultspopup.cpp
+    searchresultspopup.cpp \
+    smoothlistview.cpp
 
 HEADERS += \
     chatfilterproxymodel.h \
     chatmessagedelegate.h \
     chatmessagemodel.h \
     chatviewwidget.h \
+    contactlistdelegate.h \
     loginwidget.h \
     mainwindow.h \
     searchresultspopup.h \
+    smoothlistview.h \
     structures.h
 
 FORMS += \

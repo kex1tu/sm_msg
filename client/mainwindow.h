@@ -5,6 +5,7 @@
 #include <QMap>
 #include "chatfilterproxymodel.h"
 #include "structures.h"
+#include "contactlistdelegate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,17 +51,17 @@ private slots:
     void onEditMessageRequested(qint64 messageId, const QString& oldText);
     void onDeleteMessageRequested(qint64 messageId);
     void onChatSearchTriggered(const QString &text);
-
     void showProfileView();
-
     void onReplyToMessage(qint64 messageId);
+    void onSendMessageReadReceipt(qint64 messageId);
 
 
 
     void onGlobalSearchTriggered();
     void onChatScroll(int value);
     void onTypingNotificationFired();
-
+signals:
+    void newMessageForCurrentChat();
 private:
     void buildMainUI();
     void setupConnections();
@@ -95,10 +96,11 @@ private:
     void updateUserList();
     void updateChatHeader();
     void showContactRequestPrompt(const QString& fromUsername, const QString& fromDisplayName);
+    QMap<QString, int> m_unreadCounts;  
     QString formatLastSeen(const User &user);
 
 private:
-
+    QMap<QString, ChatCache> m_chatHistoryCache;
     Ui::MainWindow *ui;
     QTcpSocket *socket;
     quint32 m_nextBlockSize;
@@ -127,7 +129,7 @@ private:
     ProfileViewWidget* m_profileViewWidget;
 
     ChatMessageModel* m_chatModel;
-    QSortFilterProxyModel* m_chatFilterProxyModel;
+     
 
     SearchResultsPopup* m_searchResultsPopup;
     QTimer* m_globalSearchTimer;

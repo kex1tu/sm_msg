@@ -13,6 +13,8 @@ class QToolButton;
 class QLineEdit;
 class QListView;
 
+
+
 namespace Ui {
 class ChatViewWidget;
 }
@@ -28,6 +30,7 @@ public:
 
     QListView* chatHistoryView() const;
     QLineEdit* messageLineEdit() const;
+    bool isScrolledToBottom() const;
 
 public slots:
     void updateHeader(const User& chatPartner, bool isTyping);
@@ -35,6 +38,8 @@ public slots:
     void clearReplyUI();
     void showReplyUI(const QString& name, const QString& text);
     void hideReplyUI();
+    void onNewMessageReceived();
+    void scrollToBottom();
 
 signals:
     void sendMessageRequested(const QString& text);
@@ -49,6 +54,10 @@ private slots:
     void onSearchTriggered(const QString& text);
     void onChatContextMenuRequested(const QPoint &pos);
     void onMessageDoubleClicked(const QModelIndex &index);
+     
+    void onChatScrolled(int value);
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 
 
 
@@ -66,6 +75,12 @@ private:
 
     QLineEdit* m_searchLineEdit;
     QToolButton* m_closeSearchButton;
+
+    QToolButton* m_scrollToBottomButton;
+    QLabel* m_unreadCountLabel;
+    int m_unreadMessageCount;
+
+    void updateScrollToBottomButton();  
 };
 
 #endif  
