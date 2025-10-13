@@ -21,6 +21,9 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
     setupHeaderUI();
     ui->chatHistoryView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    ui->replyWidget->hide();
+    connect(ui->closeReplyButton, &QToolButton::clicked, this, &ChatViewWidget::hideReplyUI);
+
     connect(ui->sendButton, &QPushButton::clicked, this, [this](){
         QString text = ui->messageLineEdit->text().trimmed();
         if (!text.isEmpty()) {
@@ -34,6 +37,25 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
     connect(ui->chatHistoryView, &QListView::doubleClicked, this, &ChatViewWidget::onMessageDoubleClicked);
 }
 
+void ChatViewWidget::showReplyUI(const QString& name, const QString& text)
+{
+    ui->replyNameLabel->setText("В ответ " + name);
+    QFontMetrics fm(ui->replyTextLabel->font());
+    QString elidedText = fm.elidedText(text, Qt::ElideRight, ui->replyTextLabel->width());
+    ui->replyTextLabel->setText(elidedText);
+
+    ui->replyWidget->show();
+    ui->messageLineEdit->setFocus();
+}
+
+void ChatViewWidget::hideReplyUI()
+{
+    ui->replyWidget->hide();
+    clearReplyUI();
+    emit replyCancelled();
+}
+
+
 void ChatViewWidget::setupHeaderUI()
 {
     m_nameLabel = new QLabel("Имя собеседника");
@@ -44,7 +66,7 @@ void ChatViewWidget::setupHeaderUI()
 
     m_searchButton = new QToolButton();
     m_searchButton->setObjectName("searchInChatButton");
-    //m_searchButton->setText("🔍");
+     
     m_searchButton->setIcon(QIcon(":/icons/search.png"));
 
     m_callButton = new QToolButton();
@@ -75,13 +97,19 @@ void ChatViewWidget::setupHeaderUI()
     headerLayout->addWidget(m_videoCallButton);
     headerLayout->addWidget(m_moreOptionsButton);
 }
+void ChatViewWidget::clearReplyUI()
+{
+    ui->messageLineEdit->setPlaceholderText("Напишите сообщение...");
+}
+
 void ChatViewWidget::onMessageDoubleClicked(const QModelIndex &index)
 {
     if (!index.isValid()) return;
     ChatMessage msg = index.data(Qt::UserRole).value<ChatMessage>();
+    showReplyUI(msg.fromUser, msg.payload);
 
-    ui->messageLineEdit->setPlaceholderText("Ответ на: " + msg.payload.left(30) + "...");
-    ui->messageLineEdit->setFocus();
+     
+     
 
     emit replyToMessageRequested(msg.id);
 }
@@ -93,16 +121,16 @@ ChatViewWidget::~ChatViewWidget()
 void ChatViewWidget::setEditMode(bool enabled, const QString& text)
 {
     if (enabled) {
-        // Входим в режим редактирования
+         
         ui->sendButton->setText("Сохранить");
-        //ui->sendButton->setIcon(QIcon(":/icons/save.png")); // (Опционально) меняем иконку
+         
         ui->messageLineEdit->setText(text);
         ui->messageLineEdit->setFocus();
-        ui->messageLineEdit->selectAll(); // Выделяем весь текст для удобства
+        ui->messageLineEdit->selectAll();  
     } else {
-        // Выходим из режима редактирования
+         
         ui->sendButton->setText("Отправить");
-        //ui->sendButton->setIcon(QIcon(":/icons/send.png")); // Возвращаем иконку
+         
         ui->messageLineEdit->clear();
         ui->messageLineEdit->setPlaceholderText("Напишите сообщение...");
     }
@@ -123,10 +151,6 @@ void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
     QAction *editAction = contextMenu.addAction("edit");
     QAction *deleteAction = contextMenu.addAction("delete");
 
-
-
-
-
     if (msg.isOutgoing) {
         editAction->setEnabled(true);
         deleteAction->setEnabled(true);
@@ -138,9 +162,11 @@ void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
     QAction *selectedAction = contextMenu.exec(ui->chatHistoryView->viewport()->mapToGlobal(pos));
 
     if (selectedAction == replyAction) {
-        emit replyToMessageRequested(msg.id);
+        onMessageDoubleClicked(index);
+         
     } else if (selectedAction == editAction) {
         qDebug() << "ChatViewWidget: 'Edit' action selected. Emitting editMessageRequested signal.";
+         
         emit editMessageRequested(msg.id, msg.payload);
     } else if (selectedAction == deleteAction) {
         emit deleteMessageRequested(msg.id);

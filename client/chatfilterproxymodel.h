@@ -15,4 +15,4 @@ protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 };
 
-#endif // CHATFILTERPROXYMODEL_H
+#endif  

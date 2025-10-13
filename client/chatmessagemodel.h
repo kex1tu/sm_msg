@@ -25,7 +25,9 @@ public slots:
     void confirmMessage(const QString& tempId, const ChatMessage& confirmedMessage);
     void updateMessageStatus(qint64 messageId, ChatMessage::MessageStatus newStatus);
     void editMessage(qint64 messageId, const QString& newPayload);
+    bool getMessageById(qint64 id, ChatMessage &msg) const;
 
 private:
     QList<ChatMessage> m_messages;
+    QMap<qint64, ChatMessage> m_messageMap;
 };

@@ -15,27 +15,27 @@ SearchResultsPopup::SearchResultsPopup(QWidget *parent) : QWidget(parent)
 
     setStyleSheet(
         "QListWidget {"
-        "background-color: #2A2A2A;" /* Цвет фона всего списка */
-        "border-radius: 10px;"      /* Скругляем углы контейнера */
-        "padding: 4px;"             /* Небольшой отступ от краев контейнера до элементов */
-        "border: none;"             /* Убираем стандартную рамку, чтобы не мешала */
+        "background-color: #2A2A2A;"  
+        "border-radius: 10px;"       
+        "padding: 4px;"              
+        "border: none;"              
         "}"
 
         "QListWidget::item {"
-        /* --- КЛЮЧЕВОЕ РЕШЕНИЕ --- */
-        "border-radius: 8px;"      /* Скругляем углы самого элемента! */
+         
+        "border-radius: 8px;"       
 
-        "padding: 5px;"            /* Внутренний отступ для текста */
-        "margin: 1px 0px;"         /* Внешний отступ, чтобы элементы не слипались */
-        "color: white;"            /* Цвет текста */
+        "padding: 5px;"             
+        "margin: 1px 0px;"          
+        "color: white;"             
         "}"
 
         "QListWidget::item:hover {"
-        "background-color: #444444;" /* Цвет подсветки при наведении */
+        "background-color: #444444;"  
         "}"
 
         "QListWidget::item:selected {"
-        "background-color: #00557F;" /* Цвет для выделенного (кликнутого) элемента */
+        "background-color: #00557F;"  
         "}"
         );
 
@@ -64,7 +64,7 @@ void SearchResultsPopup::showResults(const QJsonArray &users)
     }
 
     QFontMetrics fm(m_listWidget->font());
-    int itemHeight = fm.height() + 37;//test
+    int itemHeight = fm.height() + 37; 
     const int maxVisibleItems = 4;
 
     int targetHeight = 0;

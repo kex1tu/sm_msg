@@ -1,4 +1,4 @@
-// chatviewwidget.h
+ 
 
 #ifndef CHATVIEWWIDGET_H
 #define CHATVIEWWIDGET_H
@@ -32,19 +32,24 @@ public:
 public slots:
     void updateHeader(const User& chatPartner, bool isTyping);
     void setEditMode(bool enabled, const QString& text = QString());
+    void clearReplyUI();
+    void showReplyUI(const QString& name, const QString& text);
+    void hideReplyUI();
 
 signals:
     void sendMessageRequested(const QString& text);
     void headerClicked();
-    void searchButtonClicked(); // Сигнал для MainWindow
+    void searchButtonClicked();
     void replyToMessageRequested(qint64 messageId);
     void editMessageRequested(qint64 messageId, const QString& oldText);
     void deleteMessageRequested(qint64 messageId);
+    void replyCancelled();
 
 private slots:
     void onSearchTriggered(const QString& text);
     void onChatContextMenuRequested(const QPoint &pos);
     void onMessageDoubleClicked(const QModelIndex &index);
+
 
 
 private:
@@ -63,4 +68,4 @@ private:
     QToolButton* m_closeSearchButton;
 };
 
-#endif // CHATVIEWWIDGET_H
+#endif  

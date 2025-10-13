@@ -18,4 +18,4 @@ private:
 signals:
     void userSelected(const QString& username);
 };
-#endif // SEARCHRESULTSPOPUP_H
+#endif  

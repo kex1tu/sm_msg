@@ -37,6 +37,7 @@ void ChatMessageModel::addMessage(const ChatMessage &message)
     beginInsertRows(QModelIndex(), newRow, newRow);
 
     m_messages.append(message);
+    if (message.id > 0) m_messageMap[message.id] = message;  
 
     endInsertRows();
     qDebug() << "Model: Message added. New count:" << m_messages.count();
@@ -47,6 +48,7 @@ void ChatMessageModel::confirmMessage(const QString& tempId, const ChatMessage& 
     for (int i = 0; i < m_messages.count(); ++i) {
         if (m_messages[i].tempId == tempId) {
             m_messages[i] = confirmedMessage;
+            m_messageMap[confirmedMessage.id] = confirmedMessage;  
 
             QModelIndex idx = index(i, 0);
             emit dataChanged(idx, idx, {Qt::UserRole});
@@ -64,6 +66,7 @@ void ChatMessageModel::updateMessageStatus(qint64 messageId, ChatMessage::Messag
     for (int i = 0; i < m_messages.count(); ++i) {
         if (m_messages[i].id == messageId) {
             m_messages[i].status = newStatus;
+            m_messageMap[messageId].status = newStatus;
 
             QModelIndex idx = index(i, 0);
             emit dataChanged(idx, idx, {Qt::UserRole});
@@ -83,6 +86,8 @@ void ChatMessageModel::editMessage(qint64 messageId, const QString& newPayload)
             qDebug() << "[MODEL] Found message to edit at index:" << i;
             m_messages[i].payload = newPayload;
             m_messages[i].isEdited = true;
+            m_messageMap[messageId].payload  = newPayload;
+            m_messageMap[messageId].isEdited  = true;
 
             QModelIndex idx = index(i, 0);
             emit dataChanged(idx, idx, {Qt::UserRole});
@@ -101,12 +106,20 @@ void ChatMessageModel::removeMessage(qint64 messageId)
         if (m_messages[i].id == messageId) {
             beginRemoveRows(QModelIndex(), i, i);
             m_messages.removeAt(i);
+            m_messageMap.remove(messageId);
             endRemoveRows();
             return;
         }
     }
 }
-
+bool ChatMessageModel::getMessageById(qint64 id, ChatMessage &msg) const
+{
+    if (m_messageMap.contains(id)) {
+        msg = m_messageMap.value(id);
+        return true;
+    }
+    return false;
+}
 void ChatMessageModel::addMessages(const QList<ChatMessage> &messages)
 {
     if (messages.isEmpty()) return;
@@ -115,6 +128,10 @@ void ChatMessageModel::addMessages(const QList<ChatMessage> &messages)
     int first = m_messages.count();
 
     m_messages.append(messages);
+    for(auto msg: messages){
+        m_messageMap[msg.id] = msg;
+    }
+
 
     int last = m_messages.count() - 1;
     beginInsertRows(QModelIndex(), first, last);
@@ -132,6 +149,7 @@ void ChatMessageModel::prependMessages(const QList<ChatMessage> &messages)
     beginInsertRows(QModelIndex(), 0, messages.count() - 1);
     for (int i = messages.count() - 1; i >= 0; --i) {
         m_messages.prepend(messages.at(i));
+        m_messageMap[messages[i].id] = messages[i];
     }
 
     endInsertRows();
@@ -143,5 +161,6 @@ void ChatMessageModel::clearMessages()
     if (m_messages.isEmpty()) return;
     beginResetModel();
     m_messages.clear();
+    m_messageMap.clear();
     endResetModel();
 }

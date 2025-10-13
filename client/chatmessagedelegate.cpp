@@ -1,37 +1,112 @@
 #include "chatmessagedelegate.h"
 #include <QPainter>
 #include "structures.h"
+#include "chatmessagemodel.h"
+#include <algorithm>
 
-ChatMessageDelegate::ChatMessageDelegate(QObject *parent)
-    : QStyledItemDelegate(parent)
-{
+ChatMessageDelegate::ChatMessageDelegate(const ChatMessageModel* model, QObject *parent)
+    : QStyledItemDelegate(parent), m_model(model)
+{}
 
-}
+ 
 
-/*
 void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+     
+
+     
+    QStyleOptionViewItem opt = option;
+    opt.state &= ~(QStyle::State_Selected | QStyle::State_MouseOver | QStyle::State_HasFocus);
+    QStyledItemDelegate::paint(painter, opt, index);
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
 
+     
     ChatMessage message = index.data(Qt::UserRole).value<ChatMessage>();
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
-
-    QRect rect = option.rect;
-    int verticalSpacing = 20;
+    QRect originalRect = option.rect;
     int margin = 10;
     int padding = 10;
     int borderRadius = 15;
-    rect.adjust(0, verticalSpacing / 2, 0, -verticalSpacing / 2);
+    int verticalSpacing = 10;
     QFontMetrics fm(painter->font());
 
-    QString payloadText = message.payload;
-    QString metaText;
-    if (message.isEdited) {
-        metaText += "(изм.) ";
+     
+    QRect contentRect = originalRect.adjusted(0, verticalSpacing / 2, 0, -verticalSpacing / 2);
+
+     
+    ChatMessage repliedMsg;
+
+
+
+    int quoteHeight = 0;
+    bool foundReply = false;
+    if (message.replyToId > 0) {
+        foundReply = m_model->getMessageById(message.replyToId, repliedMsg);
     }
-    metaText += message.timestamp.mid(11, 5); // "HH:mm"
+    qDebug() << "paint for row" << index.row() << " (ID:" << message.id << "): "
+             << "replyToId is" << message.replyToId
+             << ", Found replied msg:" << foundReply;
+     
+
+    if (foundReply) {
+        quoteHeight = fm.height() * 2 + 15;
+
+         
+
+         
+        int nameWidth = fm.horizontalAdvance(repliedMsg.fromUser);
+
+         
+        QString elidedText = fm.elidedText(repliedMsg.payload, Qt::ElideRight, 250);  
+        int textWidth = fm.horizontalAdvance(elidedText);
+
+         
+        int quoteContentWidth = std::max(nameWidth, textWidth);
+        int quoteTotalWidth = quoteContentWidth + padding + 4 + 8;  
+
+         
+        QRectF quoteRect(0, 0, quoteTotalWidth, quoteHeight - 5);
+
+         
+        if (message.isOutgoing) {
+            quoteRect.moveTopRight(contentRect.topRight() - QPoint(margin, 0));
+        } else {
+            quoteRect.moveTopLeft(contentRect.topLeft() + QPoint(margin, 0));
+        }
+
+         
+        QRectF colorBarRect = quoteRect.adjusted(padding, 4, 0, -4);
+        colorBarRect.setWidth(4);
+        painter->setBrush(QColor("#E072A4"));
+        painter->setPen(Qt::NoPen);
+        painter->drawRoundedRect(colorBarRect, 2, 2);
+
+         
+        QRectF quoteTextRect = quoteRect.adjusted(colorBarRect.width() + padding + 4, 5, -padding, -5);
+        painter->setPen(QColor("#E072A4"));
+        painter->drawText(quoteTextRect, Qt::AlignTop | Qt::AlignLeft, repliedMsg.fromUser);
+
+        painter->setPen(Qt::gray);
+        QRectF repliedTextRect = quoteTextRect.adjusted(0, fm.height(), 0, 0);
+         
+        painter->drawText(repliedTextRect, Qt::AlignTop | Qt::AlignLeft, elidedText);
+
+         
+        contentRect.setTop(contentRect.top() + quoteHeight);
+
+    }
+
+     
+    int textWidth = contentRect.width() * 0.75 - 2 * padding;
+    if (textWidth <= 0) textWidth = 300;
+
+    QRect payloadRect = fm.boundingRect(QRect(0, 0, textWidth, 0), Qt::TextWrapAnywhere, message.payload);
+    int metaDataHeight = fm.height();
+
+    QString metaText;
+    if (message.isEdited) metaText += "(изм.) ";
+    metaText += message.timestamp.mid(11, 5);
 
     if (message.isOutgoing) {
         if (message.status == ChatMessage::Read) metaText += " ✔✔";
@@ -40,54 +115,43 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         else if (message.status == ChatMessage::Sending) metaText += " 🕒";
     }
 
-
-    // --- 2. РАССЧИТЫВАЕМ НЕОБХОДИМУЮ ГЕОМЕТРИЮ ---
-
-    // Прямоугольник для основного текста
-    QRect availableTextRect = rect.adjusted(margin + padding, padding, -margin - padding, -padding);
-    QRect payloadBoundingRect = fm.boundingRect(availableTextRect, Qt::TextWordWrap, payloadText);
-
-    // Ширина, необходимая для метаданных (без переноса строк)
     int metaTextWidth = fm.horizontalAdvance(metaText);
 
-    // --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ ---
-    // Ширина "пузыря" - это МАКСИМУМ из ширины payload и ширины метаданных.
-    int bubbleContentWidth = std::max(payloadBoundingRect.width(), metaTextWidth);
+    int bubbleContentWidth = std::max(payloadRect.width(), metaTextWidth);
+    int bubbleContentHeight = payloadRect.height() + metaDataHeight + 4;
 
-    // Рассчитываем финальный bubbleRect
-    QRect bubbleRect(0, 0, bubbleContentWidth + 2 * padding, payloadBoundingRect.height() + 2 * padding);
+    QRect bubbleRect(0, 0, bubbleContentWidth + 2 * padding, bubbleContentHeight + 2 * padding);
 
-    // --- 3. ВЫРАВНИВАНИЕ И ОТРИСОВКА ---
+    int minBubbleWidth = 100;
+    if (bubbleRect.width() < minBubbleWidth) bubbleRect.setWidth(minBubbleWidth);
 
-    // Выравниваем пузырь
-    if (message.isOutgoing) {
-        bubbleRect.moveTopRight(rect.topRight() - QPoint(margin, -padding)); // отступ сверху
-    } else {
-        bubbleRect.moveTopLeft(rect.topLeft() + QPoint(margin, padding));
-    }
+    if (message.isOutgoing) bubbleRect.moveTopRight(contentRect.topRight() - QPoint(margin, 0));
+    else bubbleRect.moveTopLeft(contentRect.topLeft() + QPoint(margin, 0));
 
-    // 2. РИСУЕМ ФОН ПУЗЫРЯ САМИ, с учетом :hover
+     
+
+     
     QColor bubbleColor = message.isOutgoing ? QColor("#E072A4") : QColor("#3D383A");
-
-    // Если на элемент наведен курсор, делаем цвет пузыря чуть светлее
     if (option.state & QStyle::State_MouseOver) {
-        bubbleColor = bubbleColor.lighter(115); // Увеличить яркость на 15%
+        bubbleColor = bubbleColor.lighter(120);
     }
-
     painter->setBrush(bubbleColor);
     painter->setPen(Qt::NoPen);
     painter->drawRoundedRect(bubbleRect, borderRadius, borderRadius);
 
-    // Рисуем основной текст
+     
     QRect textDrawRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
+    textDrawRect.setHeight(payloadRect.height());
     painter->setPen(Qt::white);
-    painter->drawText(textDrawRect, Qt::TextWordWrap |Qt::AlignRight, payloadText);
 
-    // Рисуем метаданные
-    QRect metaRect = bubbleRect;
-    metaRect.setTop(bubbleRect.bottom());
-    metaRect.setHeight(fm.height() + 4);
-    metaRect.adjust(0, 0, -padding/2, 0); // Небольшой отступ справа
+     
+     
+    painter->drawText(textDrawRect, Qt::TextWrapAnywhere, message.payload);
+     
+
+     
+    QRect metaRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
+    metaRect.setTop(textDrawRect.bottom() + 4);
 
     painter->setPen(Qt::gray);
     if (message.isOutgoing && message.status == ChatMessage::Read) {
@@ -97,121 +161,48 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
     painter->restore();
 }
-*/
-
-void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-    // Отключаем стандартную отрисовку фона, чтобы самим все контролировать
-    QStyleOptionViewItem opt = option;
-    opt.state &= ~QStyle::State_Selected;
-    opt.state &= ~QStyle::State_MouseOver;
-    QStyledItemDelegate::paint(painter, opt, index);
-
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
-
-    // --- 1. Получаем данные и базовую геометрию ---
-    ChatMessage message = index.data(Qt::UserRole).value<ChatMessage>();
-    QRect rect = option.rect;
-    int margin = 10;
-    int padding = 10;
-    int borderRadius = 15;
-    int verticalSpacing = 10;
-    QFontMetrics fm(painter->font());
-
-    // --- 2. Рассчитываем необходимую ширину ---
-    int contentWidth = rect.width() - 2 * (margin + padding);
-    if (contentWidth <= 0) contentWidth = 300;
-
-    QRect payloadRect = fm.boundingRect(QRect(0, 0, contentWidth, 0), Qt::TextWordWrap, message.payload);
-
-    QString metaText;
-
-    if (message.isEdited) {
-        metaText += "(изм.) ";
-    }
-    metaText += message.timestamp.mid(11, 5); // "HH:mm"
-
-    if (message.isOutgoing) {
-        if (message.status == ChatMessage::Read) metaText += " ✔✔";
-        else if (message.status == ChatMessage::Delivered) metaText += " ✔✔";
-        else if (message.status == ChatMessage::Sent) metaText += " ✔";
-        else if (message.status == ChatMessage::Sending) metaText += " 🕒";
-    }
-    int metaTextWidth = fm.horizontalAdvance(metaText);
-
-    // Ширина контента = максимум из ширины текста и метаданных
-    int bubbleContentWidth = std::max(payloadRect.width(), metaTextWidth);
-
-    // --- 3. Рассчитываем финальную геометрию ---
-
-    // Высота контента
-    int bubbleContentHeight = payloadRect.height() + fm.height() + 4; // текст + метаданные + зазор
-
-    // Финальный "пузырь"
-    QRect bubbleRect(0, 0, bubbleContentWidth + 2 * padding, bubbleContentHeight + 2 * padding);
-
-    // Выравниваем пузырь
-    if (message.isOutgoing) {
-        bubbleRect.moveTopRight(rect.topRight() - QPoint(margin, -(verticalSpacing / 2)));
-    } else {
-        bubbleRect.moveTopLeft(rect.topLeft() + QPoint(margin, verticalSpacing / 2));
-    }
-
-    // --- 4. Отрисовка ---
-
-    // Рисуем фон пузыря с учетом наведения
-    QColor bubbleColor = message.isOutgoing ? QColor("#E072A4") : QColor("#3D383A");
-    if (option.state & QStyle::State_MouseOver) {
-        bubbleColor = bubbleColor.lighter(120);
-    }
-    painter->setBrush(bubbleColor);
-    painter->setPen(Qt::NoPen);
-    painter->drawRoundedRect(bubbleRect, borderRadius, borderRadius);
-
-    // Рисуем основной текст в верхней части пузыря
-    QRect textDrawRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
-    textDrawRect.setHeight(payloadRect.height()); // Ограничиваем высоту
-    painter->setPen(Qt::white);
-    painter->drawText(textDrawRect, Qt::TextWordWrap, message.payload);
-
-    // Рисуем метаданные ВНУТРИ пузыря, в правом нижнем углу
-    QRect metaRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
-    painter->setPen(Qt::gray);
-    if (message.isOutgoing && message.status == ChatMessage::Read) {
-        painter->setPen(QColor(220, 240, 255, 200)); // Светлый сине-белый для прочитанных
-    }
-    painter->drawText(metaRect, Qt::AlignRight | Qt::AlignBottom, metaText);
-
-    painter->restore();
-}
 
 QSize ChatMessageDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+     
     ChatMessage message = index.data(Qt::UserRole).value<ChatMessage>();
-
-    int margin = 10;
     int padding = 10;
     int verticalSpacing = 10;
     QFontMetrics fm(option.font);
 
-    // Ширина, доступная для контента
-    int contentWidth = option.rect.width() - 2 * (margin + padding);
-    if (contentWidth <= 0) contentWidth = 300;
+     
+    int quoteHeight = 0;
+    ChatMessage repliedMsg;
+    bool foundReply = false;
+    if (message.replyToId > 0) {
+        foundReply = m_model->getMessageById(message.replyToId, repliedMsg);
+    }
+    qDebug() << "sizeHint for row" << index.row() << " (ID:" << message.id << "): "
+             << "replyToId is" << message.replyToId
+             << ", Found replied msg:" << foundReply;
+     
 
-    // --- НОВАЯ ЛОГИКА РАСЧЕТА ВЫСОТЫ ---
+    if (foundReply) {
+        quoteHeight = fm.height() * 2 + 15;  
+    }
 
-    // 1. Рассчитываем высоту для основного текста (payload)
-    QRect payloadRect = fm.boundingRect(QRect(0, 0, contentWidth, 0), Qt::TextWordWrap, message.payload);
+     
 
-    // 2. Рассчитываем высоту для строки метаданных
+     
+    int textWidth = option.rect.width() * 0.75 - 2 * padding;
+    if (textWidth <= 0) textWidth = 300;
+
+     
+    QRect payloadRect = fm.boundingRect(QRect(0, 0, textWidth, 0), Qt::TextWrapAnywhere, message.payload);
+
+     
     int metaDataHeight = fm.height();
 
-    // 3. Общая высота контента = высота текста + высота метаданных + небольшой зазор между ними
-    int totalContentHeight = payloadRect.height() + metaDataHeight + 4;
+     
+    int bubbleHeight = payloadRect.height() + metaDataHeight + 4 + (2 * padding);
 
-    // 4. Полная высота ячейки = высота контента + верхний/нижний паддинги + отступ между сообщениями
-    int finalHeight = totalContentHeight + 2 * padding + verticalSpacing;
+     
+    int totalHeight = quoteHeight + bubbleHeight + verticalSpacing;
 
-    return QSize(option.rect.width(), finalHeight);
+    return QSize(option.rect.width(), totalHeight);
 }

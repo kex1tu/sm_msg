@@ -7,6 +7,7 @@
         <file>icons/dotsVertical.png</file>
         <file>icons/search.png</file>
         <file>icons/videoCall.png</file>
+        <file>icons/cross.png</file>
     </qresource>
     <qresource prefix="/icons"/>
     <qresource lang=".png" prefix="/icons"/>

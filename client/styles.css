@@ -18,6 +18,24 @@ QMainWindow, QDialog {
 #placeholderLabel {
     color: #777;
 }
+#replyWidget {
+    background-color: transparent;
+    border-bottom: 1px solid #3A3B3C;
+    padding: 5px;
+}
+#replyColorBar {
+    background-color: #E072A4;
+    min-width: 3px;
+    max-width: 3px;
+    border-radius: 4px;
+}
+#replyNameLabel {
+    color: #E072A4; /* Розовый акцент */
+    font-weight: bold;
+}
+#replyTextLabel {
+    color: #AAAAAA;
+}
 
 /* --- СПИСОК КОНТАКТОВ --- */
 QListWidget {

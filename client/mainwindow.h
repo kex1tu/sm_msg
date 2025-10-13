@@ -137,4 +137,4 @@ private:
     bool m_isChatSearchActive = false;
 };
 
-#endif // MAINWINDOW_H
+#endif  

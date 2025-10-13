@@ -30,11 +30,8 @@
    </item>
    <item>
     <widget class="QWidget" name="messageInputWidget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLineEdit" name="messageLineEdit"/>
-      </item>
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="1">
        <widget class="QPushButton" name="sendButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -43,8 +40,56 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>send</string>
         </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLineEdit" name="messageLineEdit"/>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QWidget" name="replyWidget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QFrame" name="replyColorBar">
+           <property name="frameShape">
+            <enum>QFrame::Shape::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Shadow::Sunken</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="replyNameLabel">
+             <property name="text">
+              <string>replyName</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="replyTextLabel">
+             <property name="text">
+              <string>replyText</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QToolButton" name="closeReplyButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/cross.png</normaloff>:/icons/cross.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -52,6 +97,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

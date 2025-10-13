@@ -29,8 +29,8 @@ private:
 private slots:
     void ongoToRegisterButtonclicked();
     void ongoToLoginButtonclicked();
-    void on_togglePasswordVisibility_triggered();
+    void onTogglePasswordVisibilityTriggered();
 
 };
 
-#endif // LOGINWIDGET_H
+#endif  
