@@ -309,7 +309,7 @@ bool Server::initDatabase()
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     "user_id_1 INTEGER NOT NULL, "
                     "user_id_2 INTEGER NOT NULL, "
-                    "status INTEGER NOT NULL DEFAULT 0, " // 0: Pending, 1: Accepted, 2: Blocked
+                    "status INTEGER NOT NULL DEFAULT 0, "  
                     "creation_date TEXT NOT NULL, "
                     "FOREIGN KEY(user_id_1) REFERENCES users(id), "
                     "FOREIGN KEY(user_id_2) REFERENCES users(id), "
@@ -530,7 +530,7 @@ void Server::handleAddContactRequest(QObject* socket, const QJsonObject& request
     while (idQuery.next()) {
         if (idQuery.value("username").toString() == fromUsername) {
             fromId = idQuery.value("id").toLongLong();
-            fromDisplayName = idQuery.value("displayname").toString();
+            fromDisplayName = idQuery.value("display_name").toString();
         } else {
             toId = idQuery.value("id").toLongLong();
         }
@@ -752,7 +752,7 @@ void Server::broadcastUserList(){
     }
 }
 
-void Server::sendOfflineMessages(QObject* socket, const QString& username){ // доделать
+void Server::sendOfflineMessages(QObject* socket, const QString& username){  
     QSqlQuery selectQuery;
     selectQuery.prepare("SELECT id, fromUser, payload, timestamp, reply_to_id, is_edited "
                         "FROM messages "
@@ -914,10 +914,14 @@ void Server::handleContactRequestResponse(QObject* clientSocket, const QJsonObje
 
             if (fromSocket) {
                 sendContactList(fromSocket, fromUsername);
+
             }
             if (toSocket) {
                 sendContactList(toSocket, toUsername);
             }
+
+            if (fromSocket) sendOnlineStatusList(fromSocket);
+            if (toSocket) sendOnlineStatusList(toSocket);
         }
     } else if (response == "declined") {
         QSqlQuery deleteQuery;
@@ -929,6 +933,17 @@ void Server::handleContactRequestResponse(QObject* clientSocket, const QJsonObje
             qDebug() << "[SERVER]" << toUsername << "declined contact request from" << fromUsername;
         }
     }
+}
+void Server::sendOnlineStatusList(QObject* clientSocket)
+{
+    QStringList onlineUsers = m_clients.keys();
+
+    QJsonObject message;
+    message["type"] = "user_list";
+    message["users"] = QJsonArray::fromStringList(onlineUsers);
+
+    sendJson(clientSocket, message);
+    qDebug() << "[SERVER] Sent online status list to a single client.";
 }
 
 void Server::sendPendingContactRequests(QObject* socket, const QString& username){

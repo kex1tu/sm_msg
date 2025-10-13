@@ -24,11 +24,11 @@ struct ChatMessage {
         System
     };
     enum MessageStatus{
-        Sending, //0
-        Sent, //1
-        Delivered, //2
-        Read, //3
-        Error //4
+        Sending,  
+        Sent,  
+        Delivered,  
+        Read,  
+        Error  
     };
 
     quint64 id = 0;
@@ -49,4 +49,4 @@ struct ChatMessage {
 
 
 
-#endif // STRUCTURES_H
+#endif  

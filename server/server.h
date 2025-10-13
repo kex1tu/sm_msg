@@ -63,6 +63,7 @@ private:
     void sendFullUserList(QObject* socket);
     void broadcastUserList();
     void sendOfflineMessages(QObject* socket, const QString& username);
+    void sendOnlineStatusList(QObject* clientSocket);
 
     void sendPendingContactRequests(QObject* socket, const QString& username);
 
@@ -83,4 +84,4 @@ private:
 };
 
 
-#endif // SERVER_H
+#endif  

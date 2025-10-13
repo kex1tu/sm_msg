@@ -1,7 +1,7 @@
 #include <QCoreApplication>
 #include "server.h"
 
-// main.cpp
+ 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
