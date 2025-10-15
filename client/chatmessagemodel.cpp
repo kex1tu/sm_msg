@@ -142,6 +142,25 @@ void ChatMessageModel::addMessages(const QList<ChatMessage> &messages)
 
     qDebug() << "Model: insertion finished. New total rows:" << m_messages.count();
 }
+
+bool ChatMessageModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid() || role != Qt::UserRole) {
+        return false;
+    }
+
+    const ChatMessage& msg = value.value<ChatMessage>();
+
+     
+    if (m_messages[index.row()].id == msg.id) {
+        m_messages[index.row()] = msg;
+         
+        emit dataChanged(index, index, {Qt::UserRole});
+        return true;
+    }
+
+    return false;
+}
 void ChatMessageModel::prependMessages(const QList<ChatMessage> &messages)
 {
     if (messages.isEmpty()) return;

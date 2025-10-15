@@ -20,7 +20,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     searchresultspopup.cpp \
-    smoothlistview.cpp
+    smoothlistview.cpp \
+    smoothtextedit.cpp
 
 HEADERS += \
     chatfilterproxymodel.h \
@@ -32,6 +33,7 @@ HEADERS += \
     mainwindow.h \
     searchresultspopup.h \
     smoothlistview.h \
+    smoothtextedit.h \
     structures.h
 
 FORMS += \

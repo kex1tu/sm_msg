@@ -14,8 +14,14 @@
 #include <QListView>
 #include <QMenu>
 #include <QAction>
-#include <QScrollBar>   
-#include <QResizeEvent> 
+#include <QScrollBar>
+#include <QResizeEvent>
+#include <QTextEdit>    
+#include <QEvent>       
+#include <QKeyEvent>    
+#include <QPropertyAnimation>
+#include <QEasingCurve>
+#include <QTimer>
 
 ChatViewWidget::ChatViewWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatViewWidget)
@@ -24,20 +30,52 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
 
     setupHeaderUI();
 
+    m_replyAnimation = new QPropertyAnimation(ui->replyWidget, "maximumHeight", this);
+    m_replyAnimation->setDuration(200);
+    m_replyAnimation->setEasingCurve(QEasingCurve::OutCubic);
+
      
+    ui->replyWidget->hide();
+
+    connect(m_replyAnimation, &QPropertyAnimation::finished, this, [this]() {
+
+
+        qDebug() << ui->replyWidget->isVisible();
+    });
+
+    ui->messageTextEdit->setFixedHeight(ui->sendButton->height());
+    ui->messageTextEdit->installEventFilter(this);
+     
+    connect(ui->messageTextEdit, &QTextEdit::textChanged, this, [this](){
+         
+        int contentHeight = ui->messageTextEdit->document()->size().height();
+         
+        int newHeight = contentHeight;
+         
+         
+
+         
+        int minH = ui->sendButton->height();
+        int maxH = 150;
+        newHeight = std::min(std::max(newHeight, minH), maxH);
+
+         
+        ui->messageTextEdit->setFixedHeight(newHeight);
+    });
+
     m_scrollToBottomButton = new QToolButton(this);
     m_scrollToBottomButton->setObjectName("scrollToBottomButton");
     m_scrollToBottomButton->setIcon(QIcon(":/icons/down_arrow.png"));
     m_scrollToBottomButton->setIconSize(QSize(24, 24));
     m_scrollToBottomButton->setFixedSize(40, 40);
-    m_scrollToBottomButton->hide();  
+    m_scrollToBottomButton->hide();
 
     m_unreadCountLabel = new QLabel(this);
     m_unreadCountLabel->setObjectName("unreadCountLabel");
     m_unreadCountLabel->setAlignment(Qt::AlignCenter);
     m_unreadCountLabel->setFixedSize(22, 22);
-    m_unreadCountLabel->hide();  
-     
+    m_unreadCountLabel->hide();
+
 
 
 
@@ -45,10 +83,10 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
     connect(ui->closeReplyButton, &QToolButton::clicked, this, &ChatViewWidget::hideReplyUI);
 
     connect(ui->sendButton, &QPushButton::clicked, this, [this](){
-        QString text = ui->messageLineEdit->text().trimmed();
+        QString text = ui->messageTextEdit->toPlainText().trimmed();
         if (!text.isEmpty()) {
             emit sendMessageRequested(text);
-            ui->messageLineEdit->clear();
+            ui->messageTextEdit->clear();
         }
     });
     ui->chatHistoryView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -59,25 +97,61 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
     connect(ui->chatHistoryView->verticalScrollBar(), &QScrollBar::valueChanged, this, &ChatViewWidget::onChatScrolled);
 
 }
+bool ChatViewWidget::eventFilter(QObject *watched, QEvent *event)
+{
+     
+    if (watched == ui->messageTextEdit && event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+         
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+             
+            if (!(keyEvent->modifiers() & Qt::ShiftModifier)) {
+                 
+                ui->sendButton->click();
+                return true;  
+            }
+             
+        }
+    }
+
+     
+    return QWidget::eventFilter(watched, event);
+}
 
 void ChatViewWidget::showReplyUI(const QString& name, const QString& text)
 {
+    qDebug() <<"SHOW REPLY UI ANIMATION";
+     
     ui->replyNameLabel->setText("В ответ " + name);
     QFontMetrics fm(ui->replyTextLabel->font());
     QString elidedText = fm.elidedText(text, Qt::ElideRight, ui->replyTextLabel->width());
     ui->replyTextLabel->setText(elidedText);
 
+     
     ui->replyWidget->show();
-    ui->messageLineEdit->setFocus();
-}
 
+     
+    m_replyAnimation->setStartValue(0);
+    m_replyAnimation->setEndValue(50);  
+
+     
+    m_replyAnimation->setDirection(QAbstractAnimation::Forward);
+    m_replyAnimation->start();
+
+    ui->messageTextEdit->setFocus();
+}
 void ChatViewWidget::hideReplyUI()
 {
-    ui->replyWidget->hide();
+    qDebug() <<"HIDE REPLY UI ANIMATION";
+     
     clearReplyUI();
     emit replyCancelled();
-}
+    ui->replyWidget->hide();
 
+
+     
+}
 
 void ChatViewWidget::setupHeaderUI()
 {
@@ -89,7 +163,7 @@ void ChatViewWidget::setupHeaderUI()
 
     m_searchButton = new QToolButton();
     m_searchButton->setObjectName("searchInChatButton");
-     
+
     m_searchButton->setIcon(QIcon(":/icons/search.png"));
 
     m_callButton = new QToolButton();
@@ -122,7 +196,7 @@ void ChatViewWidget::setupHeaderUI()
 }
 void ChatViewWidget::clearReplyUI()
 {
-    ui->messageLineEdit->setPlaceholderText("Напишите сообщение...");
+    ui->messageTextEdit->setPlaceholderText("Напишите сообщение...");
 }
 
 void ChatViewWidget::onMessageDoubleClicked(const QModelIndex &index)
@@ -131,8 +205,7 @@ void ChatViewWidget::onMessageDoubleClicked(const QModelIndex &index)
     ChatMessage msg = index.data(Qt::UserRole).value<ChatMessage>();
     showReplyUI(msg.fromUser, msg.payload);
 
-     
-     
+
 
     emit replyToMessageRequested(msg.id);
 }
@@ -144,18 +217,18 @@ ChatViewWidget::~ChatViewWidget()
 void ChatViewWidget::setEditMode(bool enabled, const QString& text)
 {
     if (enabled) {
-         
+
         ui->sendButton->setText("Сохранить");
-         
-        ui->messageLineEdit->setText(text);
-        ui->messageLineEdit->setFocus();
-        ui->messageLineEdit->selectAll();  
+
+        ui->messageTextEdit->setText(text);
+        ui->messageTextEdit->setFocus();
+        ui->messageTextEdit->selectAll();
     } else {
-         
+
         ui->sendButton->setText("Отправить");
-         
-        ui->messageLineEdit->clear();
-        ui->messageLineEdit->setPlaceholderText("Напишите сообщение...");
+
+        ui->messageTextEdit->clear();
+        ui->messageTextEdit->setPlaceholderText("Напишите сообщение...");
     }
 }
 
@@ -186,10 +259,10 @@ void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
 
     if (selectedAction == replyAction) {
         onMessageDoubleClicked(index);
-         
+
     } else if (selectedAction == editAction) {
         qDebug() << "ChatViewWidget: 'Edit' action selected. Emitting editMessageRequested signal.";
-         
+
         emit editMessageRequested(msg.id, msg.payload);
     } else if (selectedAction == deleteAction) {
         emit deleteMessageRequested(msg.id);
@@ -198,14 +271,14 @@ void ChatViewWidget::onChatContextMenuRequested(const QPoint &pos){
 
 
 QListView* ChatViewWidget::chatHistoryView() const { return ui->chatHistoryView; }
-QLineEdit* ChatViewWidget::messageLineEdit() const { return ui->messageLineEdit; }
+QTextEdit* ChatViewWidget::messageTextEdit() const { return ui->messageTextEdit; }
 
-void ChatViewWidget::updateHeader(const User& chatPartner, bool isTyping)
+void ChatViewWidget::updateHeader(const User& chatPartner)
 {
-    qDebug() << "ChatViewWidget::updateHeader called. isTyping:" << isTyping;
+    qDebug() << "ChatViewWidget::updateHeader called. isTyping:" << chatPartner.isTyping;
     m_nameLabel->setText(chatPartner.displayName);
 
-    if (isTyping) {
+    if (chatPartner.isTyping) {
         m_statusLabel->setText("печатает...");
         m_statusLabel->setStyleSheet("color: #F4ABC4;");
     } else {
@@ -269,7 +342,7 @@ QString ChatViewWidget::formatLastSeen(const User &user)
 void ChatViewWidget::onNewMessageReceived()
 {
     QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
-     
+
     if (scrollBar->value() < scrollBar->maximum()) {
         m_unreadMessageCount++;
         updateScrollToBottomButton();
@@ -279,15 +352,15 @@ void ChatViewWidget::onNewMessageReceived()
 void ChatViewWidget::scrollToBottom()
 {
     ui->chatHistoryView->scrollToBottom();
-     
+
     m_unreadMessageCount = 0;
     updateScrollToBottomButton();
 }
 void ChatViewWidget::onChatScrolled(int value)
 {
     QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
-     
-     
+
+
     if (value == scrollBar->maximum() && m_unreadMessageCount > 0) {
         m_unreadMessageCount = 0;
         updateScrollToBottomButton();
@@ -296,28 +369,28 @@ void ChatViewWidget::onChatScrolled(int value)
 bool ChatViewWidget::isScrolledToBottom() const
 {
     QScrollBar* scrollBar = ui->chatHistoryView->verticalScrollBar();
-     
-     
+
+
     return scrollBar->value() >= scrollBar->maximum() - 5;
 }
 
 void ChatViewWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-     
+
     updateScrollToBottomButton();
 }
 
 void ChatViewWidget::updateScrollToBottomButton()
 {
     if (m_unreadMessageCount > 0) {
-         
+
         int margin = 15;
         QPoint buttonPos(width() - m_scrollToBottomButton->width() - margin,
                          height() - m_scrollToBottomButton->height() - ui->messageInputWidget->height() - margin);
         m_scrollToBottomButton->move(buttonPos);
 
-         
+
         m_unreadCountLabel->setText(QString::number(m_unreadMessageCount));
         QPoint labelPos(buttonPos.x() + (m_scrollToBottomButton->width() / 2),
                         buttonPos.y() - m_unreadCountLabel->height() / 2);

@@ -54,7 +54,9 @@ private slots:
     void showProfileView();
     void onReplyToMessage(qint64 messageId);
     void onSendMessageReadReceipt(qint64 messageId);
+    void handleUnreadCounts(const QJsonObject& response);
 
+    void updateMessageStatusInCacheAndModel(qint64 messageId, ChatMessage::MessageStatus newStatus);
 
 
     void onGlobalSearchTriggered();
@@ -68,6 +70,7 @@ private:
     void initResponseHandlers();
     void connectToServer();
     void resetApplicationState();
+    void updateContactItem(const QString& username);
 
     using ResponseHandler = void (MainWindow::*)(const QJsonObject&);
     QMap<QString, ResponseHandler> m_responseHandlers;

@@ -18,6 +18,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QStackedLayout>
+#include <QTextEdit>
 
 #include "searchresultspopup.h"
 #include "chatfilterproxymodel.h"
@@ -85,9 +86,10 @@ void MainWindow::buildMainUI()
 
     m_userListWidget = new QListWidget();
 
-    auto* contactDelegate = new ContactListDelegate(&m_unreadCounts, this);
+    auto* contactDelegate = new ContactListDelegate(
+        &m_userCache, &m_chatHistoryCache, &m_unreadCounts, &m_currentChatPartner.username, this
+        );
     m_userListWidget->setItemDelegate(contactDelegate);
-
 
     m_logoutButton = new QPushButton("Выйти");
     m_logoutButton->setObjectName("logoutButton");
@@ -145,7 +147,7 @@ void MainWindow::setupConnections()
 
     connect(m_chatViewWidget, &ChatViewWidget::sendMessageRequested, this, &MainWindow::onSendMessageRequested);
     connect(m_chatViewWidget, &ChatViewWidget::headerClicked, this, &MainWindow::showProfileView);
-    connect(m_chatViewWidget->messageLineEdit(), &QLineEdit::textChanged, this, &MainWindow::onTypingNotificationFired);
+    connect(m_chatViewWidget->messageTextEdit(), &QTextEdit::textChanged, this, &MainWindow::onTypingNotificationFired);
     connect(m_chatViewWidget->chatHistoryView()->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::onChatScroll);
     connect(m_chatViewWidget, &ChatViewWidget::replyToMessageRequested, this, &MainWindow::onReplyToMessage);
     connect(m_chatViewWidget, &ChatViewWidget::editMessageRequested, this, &MainWindow::onEditMessageRequested);
@@ -213,7 +215,7 @@ void MainWindow::onTypingNotificationFired()
 {
     if (m_currentChatPartner.username.isEmpty()) return;
 
-    if (m_chatViewWidget->messageLineEdit()->text().isEmpty()) return;
+    if (m_chatViewWidget->messageTextEdit()->toPlainText().isEmpty()) return;
 
     if (m_typingSendTimer->isActive()) return;
 
@@ -348,6 +350,7 @@ void MainWindow::initResponseHandlers()
     m_responseHandlers["logout_request_success"] = &MainWindow::handleLogoutSuccess;
     m_responseHandlers["logout_request_failure"] = &MainWindow::handleLogoutFailure;
     m_responseHandlers["typing"] = &MainWindow::handleTypingResponse;
+    m_responseHandlers["unread_counts"] = &MainWindow::handleUnreadCounts;
 }
 void MainWindow::handleLoginSuccess(const QJsonObject& response){
     m_currentUsername = m_loginWidget->username();
@@ -359,6 +362,31 @@ void MainWindow::handleLoginSuccess(const QJsonObject& response){
 
     this->setWindowTitle(m_currentUsername);
 }
+void MainWindow::handleUnreadCounts(const QJsonObject& response)
+{
+    qDebug() << "[CLIENT] Received initial unread counts from server.";
+    QJsonArray countsArray = response["counts"].toArray();
+
+     
+    m_unreadCounts.clear();
+
+    for (const QJsonValue &value : countsArray) {
+        QJsonObject countObj = value.toObject();
+        QString username = countObj["username"].toString();
+        int count = countObj["count"].toInt();
+
+        if (count > 0) {
+            m_unreadCounts[username] = count;
+        }
+    }
+
+     
+     
+     
+     
+    updateUserList();
+}
+
 void MainWindow::handleLoginFailure(const QJsonObject& response){
     QMessageBox::warning(this, "error login", response["reason"].toString());
 }
@@ -490,7 +518,21 @@ void MainWindow::handlePrivateMessage(const QJsonObject& response){
         msg.isEdited = false;
 
         m_chatModel->confirmMessage(tempId, msg);
-
+         
+         
+        QString chatPartner = msg.toUser;  
+        if (m_chatHistoryCache.contains(chatPartner)) {
+             
+            QList<ChatMessage>& messagesInCache = m_chatHistoryCache[chatPartner].messages;
+            for (int i = 0; i < messagesInCache.size(); ++i) {
+                if (messagesInCache[i].tempId == tempId) {
+                    messagesInCache[i] = msg;
+                    qDebug() << "[CACHE] Confirmed message with temp_id:" << tempId << "in cache for" << chatPartner;
+                    break;  
+                }
+            }
+        }
+         
         return;
     }
 
@@ -503,6 +545,7 @@ void MainWindow::handlePrivateMessage(const QJsonObject& response){
     incomingMsg.replyToId = response["reply_to_id"].toDouble();
     incomingMsg.isOutgoing = false;
     incomingMsg.isEdited = false;
+    updateContactItem(incomingMsg.fromUser);
     if(response["is_delivered"].toInt() == 1){
         incomingMsg.status = ChatMessage::Delivered;
     }
@@ -532,11 +575,8 @@ void MainWindow::handlePrivateMessage(const QJsonObject& response){
         m_chatModel->addMessage(incomingMsg);
         if (wasScrolledToBottom) {
              
-             
-             
             QMetaObject::invokeMethod(m_chatViewWidget, "scrollToBottom", Qt::QueuedConnection);
         } else {
-             
              
             emit newMessageForCurrentChat();
         }
@@ -573,15 +613,17 @@ void MainWindow::handleUserList(const QJsonObject& response){
             it->isOnline = false;
         }
     }
-
     updateUserList();
+
 }
 void MainWindow::handleMessageDelivered(const QJsonObject& response)
 {
+
+
     qint64 messageId = response["id"].toDouble();
     qDebug() << "[CLIENT] Message" << messageId << "delivered.";
 
-    m_chatModel->updateMessageStatus(messageId, ChatMessage::Delivered);
+    updateMessageStatusInCacheAndModel(messageId, ChatMessage::Delivered);
 }
 
 void MainWindow::handleMessageRead(const QJsonObject& response)
@@ -589,35 +631,119 @@ void MainWindow::handleMessageRead(const QJsonObject& response)
     qint64 messageId = response["id"].toDouble();
     qDebug() << "[CLIENT] Message" << messageId << "read.";
 
-    m_chatModel->updateMessageStatus(messageId, ChatMessage::Read);
+    updateMessageStatusInCacheAndModel(messageId, ChatMessage::Read);
 }
 void MainWindow::handleEditMessage(const QJsonObject& response)
 {
 
-    QString chatUser = response["with_user"].toString();
-    if (chatUser != m_currentChatPartner.username) {
-        return;
-    }
-
+    QString chatPartner = response["with_user"].toString();
     qint64 messageId = response["id"].toDouble();
     QString newPayload = response["payload"].toString();
 
     qDebug() << "[CLIENT] Received command to edit message" << messageId;
+    if (m_chatHistoryCache.contains(chatPartner)) {
+        QList<ChatMessage>& messagesInCache = m_chatHistoryCache[chatPartner].messages;
+        for (int i = 0; i < messagesInCache.size(); ++i) {
+            if (messagesInCache[i].id == messageId) {
+                messagesInCache[i].payload = newPayload;
+                messagesInCache[i].isEdited = true;
+                qDebug() << "[CACHE] Сообщение" << messageId << "отредактировано в кэше для" << chatPartner;
 
-    m_chatModel->editMessage(messageId, newPayload);
-}
-void MainWindow::handleDeleteMessage(const QJsonObject& response){
-    QString deleteMessageChatUser = response["with_user"].toString();
-    qDebug() << "[CLIENT] Received command to delete message from" << deleteMessageChatUser;
-    if (deleteMessageChatUser != m_currentChatPartner.username) {
-        return;
+                break;
+            }
+        }
     }
+     
 
+     
+    if (chatPartner == m_currentChatPartner.username) {
+        m_chatModel->editMessage(messageId, newPayload);
+    }
+     
+     
+     
+    updateContactItem(chatPartner);
+     
+
+     
+}
+
+void MainWindow::handleDeleteMessage(const QJsonObject& response){
     qint64 messageId = response["id"].toDouble();
-    qDebug() << "[CLIENT] Received command to delete message" << messageId;
-    m_chatModel->removeMessage(messageId);
+    QString chatUser = response["with_user"].toString();
+    QString currentUser = m_currentUsername;
+
+     
+    QString chatPartner = (chatUser == currentUser) ? m_currentChatPartner.username : chatUser;
+
+    qDebug() << "[CLIENT] Received command to delete message" << messageId << "in chat with user" << chatPartner;
+
+     
+     
+    if (m_chatHistoryCache.contains(chatPartner)) {
+        QList<ChatMessage>& messagesInCache = m_chatHistoryCache[chatPartner].messages;
+        for (int i = 0; i < messagesInCache.size(); ++i) {
+            if (messagesInCache[i].id == messageId) {
+                messagesInCache.removeAt(i);
+                qDebug() << "[CACHE] Сообщение" << messageId << "удалено из кэша для" << chatPartner;
+                break;
+            }
+        }
+    }
+     
+
+     
+    if (chatPartner == m_currentChatPartner.username) {
+        m_chatModel->removeMessage(messageId);
+    }
+     
+     
+     
+    updateContactItem(chatPartner);
+     
 
 }
+void MainWindow::updateMessageStatusInCacheAndModel(qint64 messageId, ChatMessage::MessageStatus newStatus)
+{
+    QString foundInChatWith;
+
+     
+     
+    int foundAtIndex = -1;
+
+    for (auto it = m_chatHistoryCache.begin(); it != m_chatHistoryCache.end(); ++it) {
+        QList<ChatMessage>& messages = it.value().messages;
+        for (int i = 0; i < messages.size(); ++i) {
+            if (messages[i].id == messageId) {
+                if (messages[i].status == newStatus) return;
+                messages[i].status = newStatus;
+                foundInChatWith = it.key();  
+                qDebug() << "[CACHE] Обновлен статус для сообщения" << messageId << "в кэше чата с" << foundInChatWith;
+                if (!foundInChatWith.isEmpty() && foundInChatWith == m_currentChatPartner.username) {
+                    m_chatModel->updateMessageStatus(messageId, newStatus);
+                }
+
+                foundAtIndex = i;
+                if (foundAtIndex != -1 && foundInChatWith == m_currentChatPartner.username) {
+                     
+                     
+                    QModelIndex modelIndex = m_chatModel->index(foundAtIndex, 0);
+
+                     
+                     
+                    m_chatModel->setData(modelIndex, QVariant::fromValue(m_chatHistoryCache[foundInChatWith].messages[foundAtIndex]), Qt::UserRole);
+
+                     
+                     
+                }
+                return;
+
+            }
+        }
+
+    }
+}
+
 void MainWindow::handleSearchResults(const QJsonObject& response)
 {
     QJsonArray users = response["users"].toArray();
@@ -752,6 +878,11 @@ void MainWindow::onSendMessageRequested(const QString& text)
         msg.replyToId = m_replyToMessageId;
         m_chatModel->addMessage(msg);
         m_chatViewWidget->chatHistoryView()->scrollToBottom();
+        QString chatPartner = m_currentChatPartner.username;
+        if (m_chatHistoryCache.contains(chatPartner)) {
+            m_chatHistoryCache[chatPartner].messages.append(msg);
+            qDebug() << "[CACHE] Добавлено временное сообщение с temp_id:" << msg.tempId << "в кэш для" << chatPartner;
+        }
 
         QJsonObject request;
         request["type"] = "private_message";
@@ -768,6 +899,7 @@ void MainWindow::onSendMessageRequested(const QString& text)
         }
 
     }
+    updateContactItem(m_currentChatPartner.username);
 
 
 
@@ -803,8 +935,8 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
     qDebug() << "Step 1: Item selected. Text:" << current->text();
 
     QString selectedUsername = current->data(Qt::UserRole).toString();
+     
     qDebug() << "Step 2: Got username from UserRole:" << selectedUsername;
-
 
 
 
@@ -823,6 +955,9 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
     qDebug() << "Step 3: User found in cache.";
     m_currentChatPartner = m_userCache.value(selectedUsername);
     qDebug() << "Step 4: m_currentChatPartner is set to:" << m_currentChatPartner.displayName;
+    updateUserList();
+     
+
 
     m_isLoadingHistory = true;
     m_oldestMessageId = -1;
@@ -832,7 +967,8 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
         qWarning() << "CRITICAL: m_chatViewWidget is a nullptr!";
         return;
     }
-    m_chatViewWidget->updateHeader(m_currentChatPartner, false);
+    m_chatViewWidget->updateHeader(m_currentChatPartner);
+    updateUserList();
     qDebug() << "Step 6: ChatView header updated.";
 
     if (!m_chatModel) {
@@ -875,6 +1011,7 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
         request["with_user"] = m_currentChatPartner.username;
         sendJson(request);
     }
+
     qDebug() << "--- onUserSelectionChanged END (success) ---";
 }
 
@@ -905,51 +1042,59 @@ void MainWindow::showContactRequestPrompt(const QString& fromUsername, const QSt
         contactResponse["response"] = "declined";
     }
     sendJson(contactResponse);
-}void MainWindow::updateUserList()
+}
+ 
+void MainWindow::updateUserList()
 {
-    QString previouslySelectedUser;
-    if (m_userListWidget->currentItem()) {
-        previouslySelectedUser = m_userListWidget->currentItem()->data(Qt::UserRole).toString();
+     
+     
+    QMap<QString, QListWidgetItem*> itemsByUsername;
+    for (int i = 0; i < m_userListWidget->count(); ++i) {
+        QListWidgetItem* item = m_userListWidget->item(i);
+        itemsByUsername.insert(item->data(Qt::UserRole).toString(), item);
     }
 
-    m_userListWidget->blockSignals(true);
-    m_userListWidget->clear();
+     
+    for (const User& user : m_userCache) {
+        if (itemsByUsername.contains(user.username)) {
+             
+            QListWidgetItem* item = itemsByUsername.value(user.username);
+            item->setText(user.displayName);
 
-    QList<User> users = m_userCache.values();
-    std::sort(users.begin(), users.end(), [](const User& a, const User& b) {
-        return a.displayName < b.displayName;
-    });
+             
+            QFont font = item->font();
+            if (user.isOnline) {
+                font.setBold(true);
+                item->setForeground(QColor(Qt::white));
+            } else {
+                font.setBold(false);
+                item->setForeground(QColor(Qt::gray));
+            }
+            item->setFont(font);
 
-    for (const User &user : users) {
-        QListWidgetItem* item = new QListWidgetItem(user.displayName);
-        item->setData(Qt::UserRole, user.username);
+             
+             
 
-        QFont font = item->font();
-        if (user.isOnline) {
-            font.setBold(true);
-            item->setData(Qt::ForegroundRole, QColor(Qt::white));
+            m_userListWidget->update(m_userListWidget->indexFromItem(item));
+
+             
+            itemsByUsername.remove(user.username);
         } else {
-            font.setBold(false);
-            item->setData(Qt::ForegroundRole, QColor(Qt::gray));
-        }
-        item->setData(Qt::FontRole, font);
-
-        m_userListWidget->addItem(item);
-
-        if (user.username == previouslySelectedUser) {
-            m_userListWidget->setCurrentItem(item, QItemSelectionModel::NoUpdate);
+             
+            QListWidgetItem* item = new QListWidgetItem();
+            item->setData(Qt::UserRole, user.username);
+            m_userListWidget->addItem(item);
         }
     }
 
-    m_userListWidget->blockSignals(false);
-    if (m_userListWidget->currentItem()) {
-        onUserSelectionChanged(m_userListWidget->currentItem());
+     
+     
+    for (QListWidgetItem* staleItem : itemsByUsername.values()) {
+        delete staleItem;  
     }
 }
 
-
-
-
+ 
 
 
 void MainWindow::onGlobalSearchTriggered()
@@ -1058,6 +1203,7 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
                 qDebug() << "[CLIENT] message " << (double)msg.id << "delivered, sending this info to server";
                 sendJson(deliveredCmd);
                 msg.status = ChatMessage::Delivered;
+
             }
             if(msg.status != ChatMessage::Read){
                 if (msg.fromUser == m_currentChatPartner.username) {
@@ -1104,37 +1250,63 @@ void MainWindow::handleOldHistoryData(const QJsonObject& response){
     m_isLoadingHistory = false;
      
 }
-void MainWindow::handleTypingResponse(const QJsonObject& response){
+void MainWindow::updateContactItem(const QString& username)
+{
+    for (int i = 0; i < m_userListWidget->count(); ++i) {
+        QListWidgetItem* item = m_userListWidget->item(i);
+        if (item->data(Qt::UserRole).toString() == username) {
+            m_userListWidget->update(m_userListWidget->indexFromItem(item));
+            return;
+        }
+    }
+}
+
+
+void MainWindow::handleTypingResponse(const QJsonObject& response)
+{
     QString fromUser = response["fromUser"].toString();
-    qDebug() << fromUser;
+
+     
+    if (!m_userCache.contains(fromUser)) return;
+
+     
+    m_userCache[fromUser].isTyping = true;
+
+
+     
+     
     if (fromUser == m_currentChatPartner.username) {
+        m_currentChatPartner =  m_userCache[fromUser];
+        m_chatViewWidget->updateHeader(m_currentChatPartner);
+    } else{
+        updateContactItem(fromUser);
+    }
+     
 
-        if (!m_typingReceiveTimers.contains(fromUser)) {
-            m_typingReceiveTimers[fromUser] = new QTimer(this);
-            m_typingReceiveTimers[fromUser]->setInterval(2000);
-            m_typingReceiveTimers[fromUser]->setSingleShot(true);
 
-            connect(m_typingReceiveTimers[fromUser], &QTimer::timeout, this, [this, fromUser](){
-                qDebug() << "[CLIENT] Typing timer for" << fromUser << "has TIMED OUT.";
+     
+    if (!m_typingReceiveTimers.contains(fromUser)) {
+        m_typingReceiveTimers[fromUser] = new QTimer(this);
+        m_typingReceiveTimers[fromUser]->setInterval(2000);
+        m_typingReceiveTimers[fromUser]->setSingleShot(true);
+
+        connect(m_typingReceiveTimers[fromUser], &QTimer::timeout, this, [this, fromUser](){
+            if (m_userCache.contains(fromUser)) {
+                 
+                m_userCache[fromUser].isTyping = false;
 
                  
                 if (fromUser == m_currentChatPartner.username) {
-                    qDebug() << "  -> User is still the current chat partner. Updating header to NOT TYPING.";
-                     
-                    m_chatViewWidget->updateHeader(m_currentChatPartner, false);
-                } else {
-                    qDebug() << "  -> User is no longer the current chat partner. Doing nothing.";
+                    m_currentChatPartner =  m_userCache[fromUser];
+                    m_chatViewWidget->updateHeader(m_currentChatPartner);
                 }
-            });
-        }
-         
-        qDebug() << "  -> Updating header to IS TYPING.";
-        m_chatViewWidget->updateHeader(m_currentChatPartner, true);
-
-         
-        qDebug() << "  -> Restarting 3-second timer for" << fromUser;
-        m_typingReceiveTimers[fromUser]->start();  
+                updateContactItem(fromUser);
+            }
+        });
     }
+
+     
+    m_typingReceiveTimers[fromUser]->start();
 }
 void MainWindow::onSendMessageReadReceipt(qint64 messageId)
 {
@@ -1142,6 +1314,8 @@ void MainWindow::onSendMessageReadReceipt(qint64 messageId)
     QJsonObject readCmd;
     readCmd["type"] = "message_read";
     readCmd["id"] = (double)messageId;
+    updateMessageStatusInCacheAndModel(messageId, ChatMessage::MessageStatus::Read);
+
     sendJson(readCmd);
 }
 MainWindow::~MainWindow()

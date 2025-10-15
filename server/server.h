@@ -64,6 +64,7 @@ private:
     void broadcastUserList();
     void sendOfflineMessages(QObject* socket, const QString& username);
     void sendOnlineStatusList(QObject* clientSocket);
+    void sendUnreadCounts(QObject* socket, const QString& username);
 
     void sendPendingContactRequests(QObject* socket, const QString& username);
 

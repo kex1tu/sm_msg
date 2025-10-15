@@ -7,16 +7,20 @@
 #include "structures.h"
 
 
+
 class QStackedWidget;
 class QLabel;
 class QToolButton;
 class QLineEdit;
 class QListView;
+class QTextEdit;
+class QPropertyAnimation;
 
 
 
 namespace Ui {
 class ChatViewWidget;
+
 }
 
 class ChatViewWidget : public QWidget
@@ -29,17 +33,18 @@ public:
 
 
     QListView* chatHistoryView() const;
-    QLineEdit* messageLineEdit() const;
+    QTextEdit* messageTextEdit() const;
     bool isScrolledToBottom() const;
 
 public slots:
-    void updateHeader(const User& chatPartner, bool isTyping);
+    void updateHeader(const User& chatPartner);
     void setEditMode(bool enabled, const QString& text = QString());
     void clearReplyUI();
     void showReplyUI(const QString& name, const QString& text);
     void hideReplyUI();
     void onNewMessageReceived();
     void scrollToBottom();
+
 
 signals:
     void sendMessageRequested(const QString& text);
@@ -58,6 +63,7 @@ private slots:
     void onChatScrolled(int value);
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 
 
@@ -79,7 +85,7 @@ private:
     QToolButton* m_scrollToBottomButton;
     QLabel* m_unreadCountLabel;
     int m_unreadMessageCount;
-
+    QPropertyAnimation* m_replyAnimation;
     void updateScrollToBottomButton();  
 };
 

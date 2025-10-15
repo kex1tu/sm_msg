@@ -20,7 +20,7 @@ QMainWindow, QDialog {
 }
 #replyWidget {
     background-color: transparent;
-    border-bottom: 1px solid #3A3B3C;
+    /* border-bottom: 1px solid #3A3B3C; */ /* Убрали лишнюю линию */
     padding: 5px;
 }
 #replyColorBar {
@@ -155,14 +155,10 @@ QToolButton:hover {
 
 /* Панель ввода сообщения */
 #messageInputWidget {
-    background-color: #242526;
+/*    //background-color: #242526;*/
     border-top: 1px solid #3A3B3C;
 }
-#messageInputWidget QLineEdit {
-    background-color: #3A3B3C;
-    border: none;
-    border-radius: 18px;
-}
+
 
 /* --- СКРОЛЛБАР --- */
 QScrollBar:vertical {

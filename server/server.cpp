@@ -619,6 +619,7 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
             sendContactList(socket, username);
             broadcastUserList();
             sendPendingContactRequests(socket, username);
+            sendUnreadCounts(socket, username);
         }
         else{
             response["type"] = "login_failure";
@@ -933,6 +934,56 @@ void Server::handleContactRequestResponse(QObject* clientSocket, const QJsonObje
             qDebug() << "[SERVER]" << toUsername << "declined contact request from" << fromUsername;
         }
     }
+}
+void Server::sendUnreadCounts(QObject* socket, const QString& username)
+{
+    qDebug() << "[SERVER][UNREAD] Собираем счетчики непрочитанных для пользователя:" << username;
+
+     
+    QSqlQuery idQuery;
+    idQuery.prepare("SELECT id FROM users WHERE username = :username");
+    idQuery.bindValue(":username", username);
+    if (!idQuery.exec() || !idQuery.next()) {
+        qDebug() << "[SERVER][UNREAD][ERROR] Не удалось найти ID для пользователя:" << username;
+        return;
+    }
+    qint64 userId = idQuery.value(0).toLongLong();
+
+     
+    QSqlQuery query;
+    query.prepare(
+        "SELECT fromUser, COUNT(*) as unread_count "
+        "FROM messages "
+        "WHERE toUser = :username AND is_read = 0 "  
+        "GROUP BY fromUser"
+        );
+    query.bindValue(":username", username);
+
+    if (!query.exec()) {
+        qDebug() << "[SERVER][UNREAD][ERROR] Ошибка при запросе к БД:" << query.lastError().text();
+        return;
+    }
+
+    QJsonArray countsArray;
+    while (query.next()) {
+        QJsonObject countObject;
+        countObject["username"] = query.value("fromUser").toString();
+        countObject["count"] = query.value("unread_count").toInt();
+        countsArray.append(countObject);
+    }
+
+    if (countsArray.isEmpty()) {
+        qDebug() << "[SERVER][UNREAD] Непрочитанных сообщений для" << username << "не найдено.";
+        return;
+    }
+
+     
+    QJsonObject response;
+    response["type"] = "unread_counts";
+    response["counts"] = countsArray;
+
+    qDebug() << "[SERVER][UNREAD] Отправка счетчиков для" << username << ":" << response;
+    sendJson(socket, response);
 }
 void Server::sendOnlineStatusList(QObject* clientSocket)
 {
