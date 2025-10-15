@@ -148,7 +148,13 @@ void MainWindow::setupConnections()
     connect(m_chatViewWidget, &ChatViewWidget::sendMessageRequested, this, &MainWindow::onSendMessageRequested);
     connect(m_chatViewWidget, &ChatViewWidget::headerClicked, this, &MainWindow::showProfileView);
     connect(m_chatViewWidget->messageTextEdit(), &QTextEdit::textChanged, this, &MainWindow::onTypingNotificationFired);
+
+
+    QScrollBar* scrollBar = m_chatViewWidget->chatHistoryView()->verticalScrollBar();
+    connect(scrollBar, &QScrollBar::sliderReleased, this, &MainWindow::processVisibleMessages);
     connect(m_chatViewWidget->chatHistoryView()->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::onChatScroll);
+
+
     connect(m_chatViewWidget, &ChatViewWidget::replyToMessageRequested, this, &MainWindow::onReplyToMessage);
     connect(m_chatViewWidget, &ChatViewWidget::editMessageRequested, this, &MainWindow::onEditMessageRequested);
     connect(m_chatViewWidget, &ChatViewWidget::deleteMessageRequested, this, &MainWindow::onDeleteMessageRequested);
@@ -175,6 +181,39 @@ void MainWindow::setupConnections()
 
     connect(m_chatModel, &ChatMessageModel::messageNeedsReadReceipt, this, &MainWindow::onSendMessageReadReceipt);
 }
+
+
+void MainWindow::processVisibleMessages()
+{
+    QListView* view = m_chatViewWidget->chatHistoryView();
+    if (!view->model() || m_currentChatPartner.username.isEmpty()) {
+        return;
+    }
+
+    QModelIndex firstVisible = view->indexAt(view->rect().topLeft());
+    QModelIndex lastVisible = view->indexAt(view->rect().bottomLeft());
+
+    if (!firstVisible.isValid()) {
+        return;
+    }
+
+    for (int row = firstVisible.row(); row <= lastVisible.row(); ++row) {
+        QModelIndex index = m_chatModel->index(row, 0);
+        if (!index.isValid()) continue;
+
+        ChatMessage msg = index.data(Qt::UserRole).value<ChatMessage>();
+
+        if (!msg.isOutgoing && msg.status == ChatMessage::Delivered) {
+            emit m_chatModel->messageNeedsReadReceipt(msg.id);
+        }
+    }
+}
+
+
+
+
+
+
 void MainWindow::onEditMessageRequested(qint64 messageId, const QString& oldText)
 {
     qDebug() << "MainWindow: Caught editMessageRequested signal for ID:" << messageId;
@@ -580,6 +619,8 @@ void MainWindow::handlePrivateMessage(const QJsonObject& response){
              
             emit newMessageForCurrentChat();
         }
+        m_chatModel->addMessage(incomingMsg);
+        QTimer::singleShot(50, this, &MainWindow::processVisibleMessages);
     } else {
          
         m_unreadCounts[incomingMsg.fromUser]++;
@@ -884,6 +925,7 @@ void MainWindow::onSendMessageRequested(const QString& text)
             qDebug() << "[CACHE] Добавлено временное сообщение с temp_id:" << msg.tempId << "в кэш для" << chatPartner;
         }
 
+        qDebug() << "Формируем JSON-запрос";
         QJsonObject request;
         request["type"] = "private_message";
         request["fromUser"] = msg.fromUser;
@@ -1011,6 +1053,8 @@ void MainWindow::onUserSelectionChanged(QListWidgetItem *current)
         request["with_user"] = m_currentChatPartner.username;
         sendJson(request);
     }
+
+    QTimer::singleShot(50, this, &MainWindow::processVisibleMessages); // С небольшой задержкой
 
     qDebug() << "--- onUserSelectionChanged END (success) ---";
 }

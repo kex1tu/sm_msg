@@ -58,6 +58,8 @@ private slots:
 
     void updateMessageStatusInCacheAndModel(qint64 messageId, ChatMessage::MessageStatus newStatus);
 
+    void processVisibleMessages();
+
 
     void onGlobalSearchTriggered();
     void onChatScroll(int value);

@@ -3,31 +3,53 @@
 #include "structures.h"
 #include "chatmessagemodel.h"
 #include <algorithm>
+#include <QSvgRenderer>
+#include <QPainterPath>
+
+QMap<ChatMessage::MessageStatus, QSvgRenderer*> ChatMessageDelegate::m_statusRenderers;
+bool ChatMessageDelegate::m_renderersInitialized = false;
+
+void ChatMessageDelegate::initRenderers(QObject* parent)
+{
+    if (m_renderersInitialized) return;
+
+    qDebug() << "[Delegate] Инициализация SVG-рендереров...";
+
+    m_statusRenderers[ChatMessage::Sending] = new QSvgRenderer(QString(":/icons/clock_icon.svg"), parent);
+    m_statusRenderers[ChatMessage::Sent] = new QSvgRenderer(QString(":/icons/message_send_icon.svg"), parent);
+    m_statusRenderers[ChatMessage::Delivered] = new QSvgRenderer(QString(":/icons/message_read_icon.svg"), parent);
+
+    m_renderersInitialized = true;
+    qDebug() << "[Delegate] Рендереры созданы.";
+}
+
 
 ChatMessageDelegate::ChatMessageDelegate(const ChatMessageModel* model, QObject *parent)
     : QStyledItemDelegate(parent), m_model(model)
-{}
+{
+    initRenderers(this);
+}
 
 
 
 void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 
-    ChatMessage messageForStatusCheck = index.data(Qt::UserRole).value<ChatMessage>();
+    // ChatMessage messageForStatusCheck = index.data(Qt::UserRole).value<ChatMessage>();
 
      
-    if (!messageForStatusCheck.isOutgoing && messageForStatusCheck.status == ChatMessage::Delivered) {
+    // if (!messageForStatusCheck.isOutgoing && messageForStatusCheck.status == ChatMessage::Delivered) {
          
          
          
          
-        QMetaObject::invokeMethod(
-            const_cast<QAbstractItemModel*>(index.model()),
-            "markMessageAsRead",
-            Qt::QueuedConnection,  
-            Q_ARG(QModelIndex, index)
-            );
-    }
+    //     QMetaObject::invokeMethod(
+    //         const_cast<QAbstractItemModel*>(index.model()),
+    //         "markMessageAsRead",
+    //         Qt::QueuedConnection,
+    //         Q_ARG(QModelIndex, index)
+    //         );
+    // }
 
 
     QStyleOptionViewItem opt = option;
@@ -121,13 +143,6 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     if (message.isEdited) metaText += "(изм.) ";
     metaText += message.timestamp.mid(11, 5);
 
-    if (message.isOutgoing) {
-        if (message.status == ChatMessage::Read) metaText += " ✔✔";
-        else if (message.status == ChatMessage::Delivered) metaText += " ✔✔";
-        else if (message.status == ChatMessage::Sent) metaText += " ✔";
-        else if (message.status == ChatMessage::Sending) metaText += " 🕒";
-    }
-
     int metaTextWidth = fm.horizontalAdvance(metaText);
 
     int bubbleContentWidth = std::max(payloadRect.width(), metaTextWidth);
@@ -165,16 +180,61 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     painter->drawText(textDrawRect, message.payload, textOption);
 
 
+    QRect baseMetaRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
+    baseMetaRect.setTop(textDrawRect.bottom() + 4);
+    baseMetaRect.setHeight(metaDataHeight);
 
+    if (message.isOutgoing) {
+        int iconSize = fm.height() - 2;
+        int iconPadding = 3;
 
-    QRect metaRect = bubbleRect.adjusted(padding, padding, -padding, -padding);
-    metaRect.setTop(textDrawRect.bottom() + 4);
+        QRect iconRect(
+            baseMetaRect.right() - iconSize,
+            baseMetaRect.top() + (baseMetaRect.height() - iconSize) / 2,
+            iconSize,
+            iconSize
+            );
 
-    painter->setPen(Qt::gray);
-    if (message.isOutgoing && message.status == ChatMessage::Read) {
-        painter->setPen(QColor(70, 150, 255));
+        QRect textMetaRect = baseMetaRect;
+        textMetaRect.setRight(iconRect.left() - iconPadding);
+
+        QPen textPen = (message.isOutgoing && message.status == ChatMessage::Read) ? QColor(70, 150, 255) : Qt::gray;
+        painter->setPen(textPen);
+        painter->drawText(textMetaRect, Qt::AlignRight | Qt::AlignVCenter, metaText);
+
+        if (message.isOutgoing) {
+            ChatMessage::MessageStatus statusToRender = message.status;
+            if (statusToRender == ChatMessage::Read) {
+                statusToRender = ChatMessage::Delivered;
+            }
+
+            QSvgRenderer* renderer = m_statusRenderers.value(statusToRender, nullptr);
+
+            if (renderer && renderer->isValid()) {
+                QPixmap pixmap(iconRect.size());
+                pixmap.fill(Qt::transparent);
+
+                QPainter pixmapPainter(&pixmap);
+
+                renderer->render(&pixmapPainter);
+                pixmapPainter.end();
+
+                QPainter effectPainter(&pixmap);
+                effectPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+
+                QColor iconColor = (message.status == ChatMessage::Read) ? QColor(70, 150, 255) : Qt::gray;
+
+                effectPainter.fillRect(pixmap.rect(), iconColor);
+                effectPainter.end();
+
+                painter->drawPixmap(iconRect, pixmap);
+            }
+        }
     }
-    painter->drawText(metaRect, Qt::AlignRight | Qt::AlignVCenter, metaText);
+    else {
+        painter->setPen(Qt::gray);
+        painter->drawText(baseMetaRect, Qt::AlignRight | Qt::AlignVCenter, metaText);
+    }
 
     painter->restore();
 }

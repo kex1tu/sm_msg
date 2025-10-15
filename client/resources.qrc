@@ -9,6 +9,9 @@
         <file>icons/videoCall.png</file>
         <file>icons/cross.png</file>
         <file>icons/down_arrow.png</file>
+        <file>icons/clock_icon.svg</file>
+        <file>icons/message_read_icon.svg</file>
+        <file>icons/message_send_icon.svg</file>
     </qresource>
     <qresource prefix="/icons"/>
     <qresource lang=".png" prefix="/icons"/>

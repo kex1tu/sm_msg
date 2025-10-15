@@ -83,6 +83,7 @@ ChatViewWidget::ChatViewWidget(QWidget *parent)
     connect(ui->closeReplyButton, &QToolButton::clicked, this, &ChatViewWidget::hideReplyUI);
 
     connect(ui->sendButton, &QPushButton::clicked, this, [this](){
+        qDebug() << "[START CHECKING PROBLEM]  Send button clicked";
         QString text = ui->messageTextEdit->toPlainText().trimmed();
         if (!text.isEmpty()) {
             emit sendMessageRequested(text);
