@@ -73,8 +73,8 @@
 \DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
 \DoxyCodeLine{\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{Server::listen}}(\textcolor{keyword}{const}\ QHostAddress\ \&address,\ quint16\ tcpPort,\ quint16\ wsPort)}
 \DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ tcpSuccess\ =\ m\_tcpServer-\/>listen(address,\ tcpPort);}
-\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ wsSuccess\ =\ m\_webSocketServer-\/>listen(address,\ wsPort);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ tcpSuccess\ =\ \mbox{\hyperlink{class_server_a0efcd94352570f9565c5fe9f0d441614}{m\_tcpServer}}-\/>listen(address,\ tcpPort);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ wsSuccess\ =\ \mbox{\hyperlink{class_server_a0f9623482771b8b020d023445ead8a29}{m\_webSocketServer}}-\/>listen(address,\ wsPort);}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ tcpSuccess\ \&\&\ wsSuccess;}
 \DoxyCodeLine{\}}
 
@@ -93,20 +93,20 @@
 {\bfseries{Стало\+:}} В конструкторе мы соединяем сигналы {\ttfamily new\+Connection} с новыми слотами\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
-\DoxyCodeLine{connect(m\_tcpServer,\ \&QTcpServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewTcpConnection);}
-\DoxyCodeLine{connect(m\_webSocketServer,\ \&QWebSocketServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewWebSocketConnection);}
+\DoxyCodeLine{connect(m\_tcpServer,\ \&QTcpServer::newConnection,\ \textcolor{keyword}{this},\ \&\mbox{\hyperlink{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29}{Server::onNewTcpConnection}});}
+\DoxyCodeLine{connect(m\_webSocketServer,\ \&QWebSocketServer::newConnection,\ \textcolor{keyword}{this},\ \&\mbox{\hyperlink{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0}{Server::onNewWebSocketConnection}});}
 
 \end{DoxyCode}
  И реализуем эти слоты\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
-\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::onNewTcpConnection()\ \{}
-\DoxyCodeLine{\ \ \ \ QTcpSocket\ *socket\ =\ m\_tcpServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29}{Server::onNewTcpConnection}}()\ \{}
+\DoxyCodeLine{\ \ \ \ QTcpSocket\ *socket\ =\ \mbox{\hyperlink{class_server_a0efcd94352570f9565c5fe9f0d441614}{m\_tcpServer}}-\/>nextPendingConnection();}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ ...\ логика\ для\ TCP}}
 \DoxyCodeLine{\}}
 \DoxyCodeLine{}
-\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::onNewWebSocketConnection()\ \{}
-\DoxyCodeLine{\ \ \ \ QWebSocket\ *socket\ =\ m\_webSocketServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0}{Server::onNewWebSocketConnection}}()\ \{}
+\DoxyCodeLine{\ \ \ \ QWebSocket\ *socket\ =\ \mbox{\hyperlink{class_server_a0f9623482771b8b020d023445ead8a29}{m\_webSocketServer}}-\/>nextPendingConnection();}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ ...\ логика\ для\ WebSocket}}
 \DoxyCodeLine{\}}
 
@@ -135,7 +135,7 @@
 {\bfseries{Было\+:}} 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 1)}}
-\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::sendJson(QTcpSocket*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ response)\ \{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_a1fae98fa6067984a8ad31c86f9b64859}{Server::sendJson}}(QTcpSocket*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ response)\ \{}
 \DoxyCodeLine{\ \ \ \ socket-\/>write(block);}
 \DoxyCodeLine{\}}
 
@@ -145,7 +145,7 @@
 {\bfseries{Стало\+:}} 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
-\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::sendJson(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ json)}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_a1fae98fa6067984a8ad31c86f9b64859}{Server::sendJson}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ json)}
 \DoxyCodeLine{\{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{\ \ \ \ QByteArray\ jsonData\ =\ QJsonDocument(json).toJson(QJsonDocument::Compact);}

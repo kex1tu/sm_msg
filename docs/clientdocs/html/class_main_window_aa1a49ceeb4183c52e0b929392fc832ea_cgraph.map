@@ -1,0 +1,5 @@
+<map id="MainWindow::handleLogoutSuccess" name="MainWindow::handleLogoutSuccess">
+<area shape="rect" id="Node000001" title="Обрабатывает успешный ответ на запрос выхода из аккаунта." alt="" coords="5,5,187,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#ab2038cc55b19e450d8c606323ed3c012" title="Сбрасывает все кэши и состояние при выходе из аккаунта." alt="" coords="235,5,432,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,24,219,24,219,29,187,29"/>
+</map>

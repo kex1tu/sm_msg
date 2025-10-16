@@ -1,5 +1,10 @@
 <map id="ChatMessageModel::messageNeedsReadReceipt" name="ChatMessageModel::messageNeedsReadReceipt">
-<area shape="rect" id="Node000001" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="281,5,479,48"/>
-<area shape="rect" id="Node000002" href="$class_chat_message_model.html#a1977a1f3fd95a7f6d14592754bc38881" title="Помечает входящее сообщение как прочитанное." alt="" coords="5,5,233,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,29,233,29,233,24,265,24"/>
+<area shape="rect" id="Node000001" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="508,35,706,77"/>
+<area shape="rect" id="Node000002" href="$class_chat_message_model.html#a1977a1f3fd95a7f6d14592754bc38881" title="Помечает входящее сообщение как прочитанное." alt="" coords="233,5,460,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="492,46,460,42,461,37,493,40"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="242,72,451,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="493,72,452,76,451,71,492,66"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,72,185,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="226,88,185,88,185,83,226,83"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="139,60,124,53,95,51,68,53,54,58,51,63,57,70,53,73,45,63,51,53,67,47,95,45,125,48,141,55"/>
 </map>

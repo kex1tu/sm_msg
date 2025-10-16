@@ -118,25 +118,25 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="comment">// 1. Создаем экземпляр TCP-сервера. `this` в качестве родителя</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">//    гарантирует, что объект `m_tcpServer` будет автоматически удален</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">//    при уничтожении объекта `Server`.</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    m_tcpServer = <span class="keyword">new</span> QTcpServer(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a> = <span class="keyword">new</span> QTcpServer(<span class="keyword">this</span>);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// 2. Создаем экземпляр WebSocket-сервера.</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">//    - &quot;MessengerServer&quot;: Имя сервера, которое может быть видно клиентам.</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">//    - QWebSocketServer::NonSecureMode: Указывает, что мы используем</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">//      незащищенное соединение (ws://), а не защищенное (wss://).</span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">//    - `this`: Родительский объект.</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    m_webSocketServer = <span class="keyword">new</span> QWebSocketServer(<span class="stringliteral">&quot;MessengerServer&quot;</span>, QWebSocketServer::NonSecureMode, <span class="keyword">this</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a> = <span class="keyword">new</span> QWebSocketServer(<span class="stringliteral">&quot;MessengerServer&quot;</span>, QWebSocketServer::NonSecureMode, <span class="keyword">this</span>);</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// 3. Соединяем сигналы серверов со слотами-обработчиками.</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">//    - Когда `QTcpServer` получает новое входящее TCP-подключение, он</span></div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">//      испускает сигнал `newConnection`, который вызывает наш слот `onNewTcpConnection`.</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    connect(m_tcpServer, &amp;QTcpServer::newConnection, <span class="keyword">this</span>, &amp;Server::onNewTcpConnection);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    connect(<a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>, &amp;QTcpServer::newConnection, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a>);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">//    - Аналогично для WebSocket-сервера.</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    connect(m_webSocketServer, &amp;QWebSocketServer::newConnection, <span class="keyword">this</span>, &amp;Server::onNewWebSocketConnection);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    connect(<a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>, &amp;QWebSocketServer::newConnection, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a>);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">// 4. Инициализируем базу данных.</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (!initDatabase()) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_server.html#a99bdd8ad9d7c6c9990e851697c8b8af7">initDatabase</a>()) {</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="comment">// Если инициализация БД провалилась (например, нет прав на запись файла),</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="comment">// дальнейшая работа сервера невозможна. `qFatal` выводит критическое</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">// сообщение и немедленно завершает приложение.</span></div>
@@ -153,8 +153,8 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="class_server.html#abb791768fde7d1871855b9cf0aebdcbe">   84</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_server.html#abb791768fde7d1871855b9cf0aebdcbe">Server::listen</a>(<span class="keyword">const</span> QHostAddress &amp;address, quint16 tcpPort, quint16 wsPort)</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>{</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// Пытаемся запустить каждый сервер на указанном адресе и порту.</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> tcpSuccess = m_tcpServer-&gt;listen(address, tcpPort);</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">bool</span> wsSuccess = m_webSocketServer-&gt;listen(address, wsPort);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> tcpSuccess = <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>-&gt;listen(address, tcpPort);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">bool</span> wsSuccess = <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>-&gt;listen(address, wsPort);</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="comment">// Если оба запустились успешно...</span></div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">if</span> (tcpSuccess &amp;&amp; wsSuccess) {</div>
@@ -164,53 +164,57 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="comment">// Если какой-либо из серверов не запустился, выводим подробную ошибку.</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">if</span> (!tcpSuccess) qDebug() &lt;&lt; <span class="stringliteral">&quot;TCP Server failed to start:&quot;</span> &lt;&lt; m_tcpServer-&gt;errorString();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (!wsSuccess) qDebug() &lt;&lt; <span class="stringliteral">&quot;WebSocket Server failed to start:&quot;</span> &lt;&lt; m_webSocketServer-&gt;errorString();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">if</span> (!tcpSuccess) qDebug() &lt;&lt; <span class="stringliteral">&quot;TCP Server failed to start:&quot;</span> &lt;&lt; <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>-&gt;errorString();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (!wsSuccess) qDebug() &lt;&lt; <span class="stringliteral">&quot;WebSocket Server failed to start:&quot;</span> &lt;&lt; <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>-&gt;errorString();</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// Возвращаем неудачу.</span></div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
 </div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> Server::onNewTcpConnection()</div>
+<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">  112</a></span><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a>()</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>{</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="comment">// Извлекаем сокет клиента, ожидающий подключения.</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    QTcpSocket *socket = m_tcpServer-&gt;nextPendingConnection();</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    QTcpSocket *socket = <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>-&gt;nextPendingConnection();</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;New TCP client connected from:&quot;</span> &lt;&lt; socket-&gt;peerAddress().toString();</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="comment">// Соединяем сигналы от этого конкретного сокета с нашими слотами-обработчиками.</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    connect(socket, &amp;QTcpSocket::readyRead, <span class="keyword">this</span>, &amp;Server::onTcpReadyRead);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    connect(socket, &amp;QTcpSocket::disconnected, <span class="keyword">this</span>, &amp;Server::onClientDisconnected);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    connect(socket, &amp;QTcpSocket::readyRead, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#a0dea29b2ecdf398365f882018d610ace">Server::onTcpReadyRead</a>);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    connect(socket, &amp;QTcpSocket::disconnected, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#a8afa35c8257d78be38596587e469bea3">Server::onClientDisconnected</a>);</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="comment">// Инициализируем хранилище размера следующего блока для этого сокета нулем.</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    m_nextBlockSizes.insert(socket, 0);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <a class="code hl_variable" href="class_server.html#a3ab2da9e106ed2d1c7891f1056c4ab9a">m_nextBlockSizes</a>.insert(socket, 0);</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keywordtype">void</span> Server::onNewWebSocketConnection()</div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">  132</a></span><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a>()</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>{</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="comment">// Извлекаем WebSocket-сокет клиента.</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    QWebSocket *socket = m_webSocketServer-&gt;nextPendingConnection();</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    QWebSocket *socket = <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>-&gt;nextPendingConnection();</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;New WebSocket client connected from:&quot;</span> &lt;&lt; socket-&gt;peerAddress().toString();</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="comment">// Соединяем сигналы.</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    connect(socket, &amp;QWebSocket::textMessageReceived, <span class="keyword">this</span>, &amp;Server::onWebSocketTextMessageReceived);</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    connect(socket, &amp;QWebSocket::disconnected, <span class="keyword">this</span>, &amp;Server::onClientDisconnected);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    connect(socket, &amp;QWebSocket::textMessageReceived, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7">Server::onWebSocketTextMessageReceived</a>);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    connect(socket, &amp;QWebSocket::disconnected, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#a8afa35c8257d78be38596587e469bea3">Server::onClientDisconnected</a>);</div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
+</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span></div>
 <div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882">  149</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882">Server::initHandlers</a>() {</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    m_handlers[<span class="stringliteral">&quot;login&quot;</span>] = &amp;Server::handleLogin;</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    m_handlers[<span class="stringliteral">&quot;register&quot;</span>] = &amp;Server::handleRegister;</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    m_handlers[<span class="stringliteral">&quot;search_users&quot;</span>] = &amp;Server::handleSearchUsers;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    m_handlers[<span class="stringliteral">&quot;private_message&quot;</span>] = &amp;Server::handlePrivateMessage;</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    m_handlers[<span class="stringliteral">&quot;get_history&quot;</span>] = &amp;Server::handleGetHistory;</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    m_handlers[<span class="stringliteral">&quot;add_contact_request&quot;</span>] = &amp;Server::handleAddContactRequest;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    m_handlers[<span class="stringliteral">&quot;contact_request_response&quot;</span>] = &amp;Server::handleContactRequestResponse;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    m_handlers[<span class="stringliteral">&quot;delete_message&quot;</span>] = &amp;Server::handleDeleteMessage;</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    m_handlers[<span class="stringliteral">&quot;edit_message&quot;</span>] = &amp;Server::handleEditMessage;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    m_handlers[<span class="stringliteral">&quot;typing&quot;</span>] = &amp;Server::handleTyping;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    m_handlers[<span class="stringliteral">&quot;message_delivered&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728">Server::handleMessageDelivered</a>;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    m_handlers[<span class="stringliteral">&quot;message_read&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#aadc3f04c0a456be1165c480843936617">Server::handleMessageRead</a>;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    m_handlers[<span class="stringliteral">&quot;logout_request&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1">Server::handleLogoutRequest</a>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;login&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f">Server::handleLogin</a>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;register&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646">Server::handleRegister</a>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;search_users&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a33057c924848918167bb0990ca6cb0b5">Server::handleSearchUsers</a>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;private_message&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae">Server::handlePrivateMessage</a>;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;get_history&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a428d243912239a29f227465d973371eb">Server::handleGetHistory</a>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;add_contact_request&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197">Server::handleAddContactRequest</a>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;contact_request_response&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226">Server::handleContactRequestResponse</a>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;delete_message&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091">Server::handleDeleteMessage</a>;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;edit_message&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25">Server::handleEditMessage</a>;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;typing&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#a83f3bb69919258397064dea7329d4f57">Server::handleTyping</a>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;message_delivered&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728">Server::handleMessageDelivered</a>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;message_read&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#aadc3f04c0a456be1165c480843936617">Server::handleMessageRead</a>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>[<span class="stringliteral">&quot;logout_request&quot;</span>] = &amp;<a class="code hl_function" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1">Server::handleLogoutRequest</a>;</div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>}</div>
 </div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span></div>
@@ -245,7 +249,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    deliveredCmd[<span class="stringliteral">&quot;id&quot;</span>] = (double)messageId;</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="comment">// 4. Отправляем уведомление автору сообщения, если он онлайн.</span></div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    sendJson(m_clients.value(originalSender), deliveredCmd);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(<a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(originalSender), deliveredCmd);</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
 </div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span></div>
@@ -280,7 +284,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    readCmd[<span class="stringliteral">&quot;id&quot;</span>] = (double)messageId;</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="comment">// 4. Отправляем уведомление автору, если он онлайн.</span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    sendJson(m_clients.value(originalSender), readCmd);</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(<a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(originalSender), readCmd);</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>}</div>
 </div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span></div>
@@ -290,7 +294,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="comment">// Имя пользователя, указанное в запросе.</span></div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    QString fromUser = request[<span class="stringliteral">&quot;username&quot;</span>].toString();</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="comment">// Имя пользователя, реально ассоциированное с этим сокетом (извлеченное при логине).</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    QString requestingUser = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    QString requestingUser = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    QJsonObject response;</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="comment">// Проверка безопасности: совпадают ли имена.</span></div>
@@ -299,26 +303,27 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] SECURITY: User&quot;</span> &lt;&lt; requestingUser &lt;&lt; <span class="stringliteral">&quot;is trying to log out as&quot;</span> &lt;&lt; fromUser;</div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;logout_request_failure&quot;</span>;</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        response[<span class="stringliteral">&quot;reason&quot;</span>] = <span class="stringliteral">&quot;Authentication mismatch.&quot;</span>;</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        sendJson(socket, response);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <span class="comment">// Если все в порядке, отправляем клиенту подтверждение об успешном выходе.</span></div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;logout_request_success&quot;</span>;</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        sendJson(socket, response);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        <span class="comment">// Удаляем пользователя из обеих карт, отслеживающих онлайн-статус.</span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        QString username = m_clientsReverse.value(socket); <span class="comment">// Получаем имя еще раз для надежности.</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        m_clients.remove(username);</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        m_clientsReverse.remove(socket);</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        QString username = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket); <span class="comment">// Получаем имя еще раз для надежности.</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.remove(username);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.remove(socket);</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>        <span class="comment">// Рассылаем всем оставшимся онлайн-пользователям обновленный список присутствия.</span></div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        broadcastUserList();</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        <a class="code hl_function" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306">broadcastUserList</a>();</div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] User&quot;</span> &lt;&lt; username &lt;&lt; <span class="stringliteral">&quot;logged out successfully.&quot;</span>;</div>
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    }</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>}</div>
 </div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="keywordtype">void</span> Server::onTcpReadyRead()</div>
+<div class="foldopen" id="foldopen00306" data-start="{" data-end="}">
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="class_server.html#a0dea29b2ecdf398365f882018d610ace">  306</a></span><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#a0dea29b2ecdf398365f882018d610ace">Server::onTcpReadyRead</a>()</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>{</div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="comment">// Определяем, какой именно сокет отправил сигнал.</span></div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    <span class="keyword">auto</span> socket = qobject_cast&lt;QTcpSocket*&gt;(sender());</div>
@@ -329,7 +334,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <span class="comment">// Цикл для чтения всех полных пакетов, которые могли прийти за один раз.</span></div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        quint32 &amp;nextBlockSize = m_nextBlockSizes[socket];</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        quint32 &amp;nextBlockSize = <a class="code hl_variable" href="class_server.html#a3ab2da9e106ed2d1c7891f1056c4ab9a">m_nextBlockSizes</a>[socket];</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="comment">// Фаза 1: Чтение размера пакета.</span></div>
 <div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        <span class="keywordflow">if</span> (nextBlockSize == 0) { <span class="comment">// Если мы еще не знаем размер следующего пакета...</span></div>
@@ -353,17 +358,19 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>        QJsonDocument doc = QJsonDocument::fromJson(jsonData);</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>        <span class="keywordflow">if</span> (!doc.isNull() &amp;&amp; doc.isObject()) {</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>            processJsonRequest(doc.object(), socket);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>            <a class="code hl_function" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468">processJsonRequest</a>(doc.object(), socket);</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>        } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            QString type = doc.object()[<span class="stringliteral">&quot;type&quot;</span>].toString();</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Unknown request type received:&quot;</span> &lt;&lt; type;</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>            sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Unknown command: &quot;</span> + type}});</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>            <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Unknown command: &quot;</span> + type}});</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>        }</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    }</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>}</div>
+</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span></div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="keywordtype">void</span> Server::onWebSocketTextMessageReceived(<span class="keyword">const</span> QString &amp;message)</div>
+<div class="foldopen" id="foldopen00361" data-start="{" data-end="}">
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno"><a class="line" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7">  361</a></span><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7">Server::onWebSocketTextMessageReceived</a>(<span class="keyword">const</span> QString &amp;message)</div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>{</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keyword">auto</span> socket = qobject_cast&lt;QWebSocket*&gt;(sender());</div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <span class="keywordflow">if</span> (!socket) <span class="keywordflow">return</span>;</div>
@@ -371,35 +378,39 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keywordflow">if</span> (!doc.isNull() &amp;&amp; doc.isObject()) {</div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        <span class="comment">// Если парсинг прошел успешно, передаем запрос в общий обработчик.</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        processJsonRequest(doc.object(), socket);</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        <a class="code hl_function" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468">processJsonRequest</a>(doc.object(), socket);</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Received invalid JSON from WebSocket client.&quot;</span>;</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    }</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}</div>
+</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span></div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span><span class="keywordtype">void</span> Server::processJsonRequest(<span class="keyword">const</span> QJsonObject&amp; request, QObject* socket)</div>
+<div class="foldopen" id="foldopen00388" data-start="{" data-end="}">
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno"><a class="line" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468">  388</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468">Server::processJsonRequest</a>(<span class="keyword">const</span> QJsonObject&amp; request, QObject* socket)</div>
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>{</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    QString type = request[<span class="stringliteral">&quot;type&quot;</span>].toString();</div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Processing message of type:&quot;</span> &lt;&lt; type &lt;&lt; <span class="stringliteral">&quot;from&quot;</span> &lt;&lt; m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Processing message of type:&quot;</span> &lt;&lt; type &lt;&lt; <span class="stringliteral">&quot;from&quot;</span> &lt;&lt; <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>    <span class="comment">// Проверяем, существует ли обработчик для такой команды.</span></div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordflow">if</span> (m_handlers.contains(type)) {</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        Handler handler = m_handlers.value(type); <span class="comment">// Получаем указатель на метод.</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>.contains(type)) {</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        <a class="code hl_typedef" href="class_server.html#a37e024465684a471d2fe17482f347891">Handler</a> handler = <a class="code hl_variable" href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a>.value(type); <span class="comment">// Получаем указатель на метод.</span></div>
 <div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>        (this-&gt;*handler)(socket, request);         <span class="comment">// Вызываем метод по указателю.</span></div>
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Unknown request type received in processJsonRequest:&quot;</span> &lt;&lt; type;</div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Unknown command: &quot;</span> + type}});</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;error&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Unknown command: &quot;</span> + type}});</div>
 <div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    }</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>}</div>
+</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span></div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span><span class="keywordtype">void</span> Server::onClientDisconnected()</div>
+<div class="foldopen" id="foldopen00415" data-start="{" data-end="}">
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno"><a class="line" href="class_server.html#a8afa35c8257d78be38596587e469bea3">  415</a></span><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#a8afa35c8257d78be38596587e469bea3">Server::onClientDisconnected</a>()</div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>{</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    <span class="comment">// 1. Получаем указатель на объект-отправитель сигнала (отключившийся сокет).</span></div>
 <div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>    <span class="keyword">auto</span> socket = qobject_cast&lt;QObject*&gt;(sender());</div>
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    <span class="keywordflow">if</span> (!socket) <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
 <div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>    <span class="comment">// 2. Определяем, был ли этот клиент аутентифицирован (т.е. есть ли он в `m_clientsReverse`).</span></div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    QString username = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    QString username = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    <span class="keywordflow">if</span> (!username.isEmpty()) {</div>
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>        <span class="comment">// --- Если клиент был аутентифицирован ---</span></div>
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;User&quot;</span> &lt;&lt; username &lt;&lt; <span class="stringliteral">&quot;disconnected.&quot;</span>;</div>
@@ -416,16 +427,16 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>        }</div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span> </div>
 <div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>        <span class="comment">// 4. Удаляем пользователя из обеих карт, отслеживающих онлайн-статус.</span></div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>        m_clients.remove(username);</div>
-<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        m_clientsReverse.remove(socket);</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>        <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.remove(username);</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.remove(socket);</div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span> </div>
 <div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>        <span class="comment">// 5. Рассылаем всем оставшимся онлайн-клиентам обновленный список присутствия.</span></div>
-<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>        broadcastUserList();</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>        <a class="code hl_function" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306">broadcastUserList</a>();</div>
 <div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    }</div>
 <div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span> </div>
 <div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>    <span class="comment">// 6. Если это был TCP-сокет, удаляем его из карты `m_nextBlockSizes`.</span></div>
 <div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> tcpSocket = qobject_cast&lt;QTcpSocket*&gt;(socket)) {</div>
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>        m_nextBlockSizes.remove(tcpSocket);</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>        <a class="code hl_variable" href="class_server.html#a3ab2da9e106ed2d1c7891f1056c4ab9a">m_nextBlockSizes</a>.remove(tcpSocket);</div>
 <div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    }</div>
 <div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span> </div>
 <div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="comment">// 7. Помечаем объект сокета для удаления. `deleteLater()` - это безопасный</span></div>
@@ -434,8 +445,10 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>    <span class="comment">//    для этого объекта еще есть ожидающие события.</span></div>
 <div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>    sender()-&gt;deleteLater();</div>
 <div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>}</div>
+</div>
 <div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span></div>
-<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span><span class="keywordtype">bool</span> Server::initDatabase()</div>
+<div class="foldopen" id="foldopen00470" data-start="{" data-end="}">
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno"><a class="line" href="class_server.html#a99bdd8ad9d7c6c9990e851697c8b8af7">  470</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_server.html#a99bdd8ad9d7c6c9990e851697c8b8af7">Server::initDatabase</a>()</div>
 <div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>{</div>
 <div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="comment">// 1. Получаем объект соединения с БД. QSqlDatabase::addDatabase() создает</span></div>
 <div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>    <span class="comment">//    именованное соединение (по умолчанию &quot;qt_sql_default_connection&quot;).</span></div>
@@ -508,17 +521,19 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Database tables initialized successfully.&quot;</span>;</div>
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>}</div>
+</div>
 <div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span></div>
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span><span class="keywordtype">void</span> Server::handleTyping(QObject *socket, <span class="keyword">const</span> QJsonObject &amp;request)</div>
+<div class="foldopen" id="foldopen00555" data-start="{" data-end="}">
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno"><a class="line" href="class_server.html#a83f3bb69919258397064dea7329d4f57">  555</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a83f3bb69919258397064dea7329d4f57">Server::handleTyping</a>(QObject *socket, <span class="keyword">const</span> QJsonObject &amp;request)</div>
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>{</div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>    <span class="comment">// 1. Определяем отправителя по его сокету.</span></div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    QString fromUsername = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    QString fromUsername = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span> </div>
 <div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    <span class="comment">// 2. Получаем получателя из запроса.</span></div>
 <div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>    QString toUsername = request[<span class="stringliteral">&quot;toUser&quot;</span>].toString();</div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span> </div>
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>    <span class="comment">// 3. Ищем сокет получателя в списке онлайн-клиентов.</span></div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>    QObject* toSocket = m_clients.value(toUsername, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>    QObject* toSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUsername, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span> </div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>    <span class="comment">// 4. Если получатель онлайн (сокет найден)...</span></div>
 <div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>    <span class="keywordflow">if</span> (toSocket) {</div>
@@ -527,14 +542,16 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>        forwardMessage[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;typing&quot;</span>;</div>
 <div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>        forwardMessage[<span class="stringliteral">&quot;fromUser&quot;</span>] = fromUsername;</div>
 <div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span> </div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>        sendJson(toSocket, forwardMessage);</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(toSocket, forwardMessage);</div>
 <div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>    }</div>
 <div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>}</div>
+</div>
 <div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span></div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span><span class="keywordtype">void</span> Server::handleGetHistory(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen00589" data-start="{" data-end="}">
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno"><a class="line" href="class_server.html#a428d243912239a29f227465d973371eb">  589</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a428d243912239a29f227465d973371eb">Server::handleGetHistory</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>{</div>
 <div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    <span class="comment">// 1. Извлекаем параметры запроса.</span></div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>    QString requestingUser = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>    QString requestingUser = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>    QString chatPartner = request[<span class="stringliteral">&quot;with_user&quot;</span>].toString();</div>
 <div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>    qint64 beforeId = request[<span class="stringliteral">&quot;before_id&quot;</span>].toDouble(); <span class="comment">// 0, если поле отсутствует.</span></div>
 <div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span> </div>
@@ -607,10 +624,12 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span> </div>
 <div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>    response[<span class="stringliteral">&quot;with_user&quot;</span>] = chatPartner;</div>
 <div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>    response[<span class="stringliteral">&quot;history&quot;</span>] = reversedArray;</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>    sendJson(socket, response);</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>}</div>
+</div>
 <div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span></div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span><span class="keywordtype">void</span> Server::handleRegister(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen00679" data-start="{" data-end="}">
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno"><a class="line" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646">  679</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646">Server::handleRegister</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>{</div>
 <div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    <span class="comment">// 1. Извлекаем данные из запроса.</span></div>
 <div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    QString username = request[<span class="stringliteral">&quot;username&quot;</span>].toString();</div>
@@ -646,14 +665,16 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>    }</div>
 <div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span> </div>
 <div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>    <span class="comment">// 5. Отправляем ответ клиенту.</span></div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>    sendJson(socket, response);</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>}</div>
+</div>
 <div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span></div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span><span class="keywordtype">void</span> Server::handleSearchUsers(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen00729" data-start="{" data-end="}">
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno"><a class="line" href="class_server.html#a33057c924848918167bb0990ca6cb0b5">  729</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a33057c924848918167bb0990ca6cb0b5">Server::handleSearchUsers</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>{</div>
 <div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>    <span class="comment">// 1. Извлекаем параметры: поисковый запрос и имя текущего пользователя.</span></div>
 <div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>    QString searchTerm = request[<span class="stringliteral">&quot;term&quot;</span>].toString();</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    QString currentUser = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    QString currentUser = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span> </div>
 <div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>    <span class="comment">// 2. Готовим SQL-запрос.</span></div>
 <div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>    QSqlQuery query;</div>
@@ -684,11 +705,13 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>    QJsonObject response;</div>
 <div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>    response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;search_results&quot;</span>;</div>
 <div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>    response[<span class="stringliteral">&quot;users&quot;</span>] = usersFound;</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>    sendJson(socket, response);</div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Found&quot;</span> &lt;&lt; usersFound.count() &lt;&lt; <span class="stringliteral">&quot;users for term &#39;&quot;</span> &lt;&lt; searchTerm &lt;&lt; <span class="stringliteral">&quot;&#39;.&quot;</span>;</div>
 <div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>}</div>
+</div>
 <div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span></div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span><span class="keywordtype">void</span> Server::sendContactList(QObject* socket, <span class="keyword">const</span> QString&amp; username)</div>
+<div class="foldopen" id="foldopen00779" data-start="{" data-end="}">
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno"><a class="line" href="class_server.html#a13183209a11a05ece3a5f935d4a56634">  779</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a13183209a11a05ece3a5f935d4a56634">Server::sendContactList</a>(QObject* socket, <span class="keyword">const</span> QString&amp; username)</div>
 <div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>{</div>
 <div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>    <span class="comment">// --- Шаг 1: Получаем ID пользователя по его имени ---</span></div>
 <div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>    QSqlQuery userQuery;</div>
@@ -734,23 +757,25 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>    QJsonObject message;</div>
 <div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>    message[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;contact_list&quot;</span>;</div>
 <div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    message[<span class="stringliteral">&quot;users&quot;</span>] = contactsArray;</div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    sendJson(socket, message);</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, message);</div>
 <div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Sent contact list with&quot;</span> &lt;&lt; contactsArray.count() &lt;&lt; <span class="stringliteral">&quot;contacts to&quot;</span> &lt;&lt; username;</div>
 <div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>}</div>
+</div>
 <div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span></div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span><span class="keywordtype">void</span> Server::handleAddContactRequest(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen00844" data-start="{" data-end="}">
+<div class="line"><a id="l00844" name="l00844"></a><span class="lineno"><a class="line" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197">  844</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197">Server::handleAddContactRequest</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>{</div>
 <div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>    <span class="comment">// 1. Определяем отправителя и получателя.</span></div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>    QString fromUsername = m_clientsReverse.value(socket);</div>
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>    QString fromUsername = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket);</div>
 <div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>    QString toUsername = request[<span class="stringliteral">&quot;username&quot;</span>].toString();</div>
 <div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span> </div>
 <div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>    <span class="comment">// --- 2. Валидация входных данных ---</span></div>
 <div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>    <span class="keywordflow">if</span> (toUsername.isEmpty()) {</div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Некорректное имя пользователя.&quot;</span>}});</div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Некорректное имя пользователя.&quot;</span>}});</div>
 <div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>    }</div>
 <div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>    <span class="keywordflow">if</span> (fromUsername == toUsername) {</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Вы не можете добавить самого себя в контакты.&quot;</span>}});</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Вы не можете добавить самого себя в контакты.&quot;</span>}});</div>
 <div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>    }</div>
 <div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span> </div>
@@ -761,7 +786,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>    idQuery.bindValue(<span class="stringliteral">&quot;:to&quot;</span>, toUsername);</div>
 <div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>    <span class="keywordflow">if</span> (!idQuery.exec()) {</div>
 <div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] DB Error: Failed to find user IDs:&quot;</span> &lt;&lt; idQuery.lastError().text();</div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных.&quot;</span>}});</div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных.&quot;</span>}});</div>
 <div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>    }</div>
 <div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span> </div>
@@ -778,7 +803,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span> </div>
 <div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>    <span class="comment">// Проверяем, что оба пользователя были найдены.</span></div>
 <div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>    <span class="keywordflow">if</span> (fromId == -1 || toId == -1) {</div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Запрашиваемый пользователь не существует.&quot;</span>}});</div>
+<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Запрашиваемый пользователь не существует.&quot;</span>}});</div>
 <div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>    }</div>
 <div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span> </div>
@@ -793,7 +818,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>    checkQuery.bindValue(<span class="stringliteral">&quot;:id2&quot;</span>, userId2);</div>
 <div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>    <span class="keywordflow">if</span> (!checkQuery.exec()) {</div>
 <div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] DB Error: Failed to check for existing contact:&quot;</span> &lt;&lt; checkQuery.lastError().text();</div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных.&quot;</span>}});</div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных.&quot;</span>}});</div>
 <div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>    }</div>
 <div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span> </div>
@@ -804,7 +829,7 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>        <span class="keywordflow">if</span> (status == 0) reason = <span class="stringliteral">&quot;Запрос этому пользователю уже отправлен и ожидает ответа.&quot;</span>;</div>
 <div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (status == 1) reason = <span class="stringliteral">&quot;Этот пользователь уже в вашем списке контактов.&quot;</span>;</div>
 <div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>        <span class="keywordflow">else</span> reason = <span class="stringliteral">&quot;С этим пользователем уже существует связь.&quot;</span>;</div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, reason}});</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, reason}});</div>
 <div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>    }</div>
 <div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span> </div>
@@ -818,28 +843,30 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span> </div>
 <div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>    <span class="keywordflow">if</span> (!insertQuery.exec()) {</div>
 <div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] DB Error: Failed to insert contact request:&quot;</span> &lt;&lt; insertQuery.lastError().text();</div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>        sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных при отправке запроса.&quot;</span>}});</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_failure&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Ошибка базы данных при отправке запроса.&quot;</span>}});</div>
 <div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>    }</div>
 <div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span> </div>
 <div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>    <span class="comment">// --- 6. Отправка уведомлений ---</span></div>
 <div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>    <span class="comment">// Если целевой пользователь онлайн, отправляем ему push-уведомление.</span></div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>    QObject* toSocket = m_clients.value(toUsername, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>    QObject* toSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUsername, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>    <span class="keywordflow">if</span> (toSocket) {</div>
 <div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>        QJsonObject notification;</div>
 <div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>        notification[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;incoming_contact_request&quot;</span>;</div>
 <div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>        notification[<span class="stringliteral">&quot;fromUsername&quot;</span>] = fromUsername;</div>
 <div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>        notification[<span class="stringliteral">&quot;fromDisplayname&quot;</span>] = fromDisplayName;</div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>        sendJson(toSocket, notification);</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(toSocket, notification);</div>
 <div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Sent incoming contact request notification to&quot;</span> &lt;&lt; toUsername;</div>
 <div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>    }</div>
 <div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span> </div>
 <div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>    <span class="comment">// Отправляем инициатору подтверждение об успехе.</span></div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>    sendJson(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_success&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Запрос на добавление успешно отправлен пользователю &quot;</span> + toUsername + <span class="stringliteral">&quot;.&quot;</span>}});</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, {{<span class="stringliteral">&quot;type&quot;</span>, <span class="stringliteral">&quot;add_contact_success&quot;</span>}, {<span class="stringliteral">&quot;reason&quot;</span>, <span class="stringliteral">&quot;Запрос на добавление успешно отправлен пользователю &quot;</span> + toUsername + <span class="stringliteral">&quot;.&quot;</span>}});</div>
 <div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] User&quot;</span> &lt;&lt; fromUsername &lt;&lt; <span class="stringliteral">&quot;sent a contact request to&quot;</span> &lt;&lt; toUsername;</div>
 <div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>}</div>
+</div>
 <div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span></div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span><span class="keywordtype">void</span> Server::handleLogin(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen00962" data-start="{" data-end="}">
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno"><a class="line" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f">  962</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f">Server::handleLogin</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>{</div>
 <div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>    QString username = request[<span class="stringliteral">&quot;username&quot;</span>].toString();</div>
 <div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span>    QString password = request[<span class="stringliteral">&quot;password&quot;</span>].toString();</div>
@@ -864,38 +891,40 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>            response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;login_success&quot;</span>;</div>
 <div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span> </div>
 <div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>            <span class="comment">// Регистрируем клиента в системе.</span></div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>            m_clients[username] = socket;</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>            m_clientsReverse[socket] = username;</div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>            <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>[username] = socket;</div>
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>            <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>[socket] = username;</div>
 <div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span> </div>
 <div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>            <span class="comment">// Отправляем клиенту подтверждение успеха.</span></div>
-<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>            sendJson(socket, response);</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>            <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span> </div>
 <div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>            <span class="comment">// Отправляем всю необходимую для начала работы информацию этому клиенту.</span></div>
-<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>            sendContactList(socket, username);</div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>            sendPendingContactRequests(socket, username);</div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>            sendUnreadCounts(socket, username);</div>
+<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>            <a class="code hl_function" href="class_server.html#a13183209a11a05ece3a5f935d4a56634">sendContactList</a>(socket, username);</div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>            <a class="code hl_function" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc">sendPendingContactRequests</a>(socket, username);</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>            <a class="code hl_function" href="class_server.html#a24b087314710ced5903f9d137d3e463d">sendUnreadCounts</a>(socket, username);</div>
 <div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span> </div>
 <div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>            <span class="comment">// Оповещаем всех онлайн-пользователей (включая нового),</span></div>
 <div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>            <span class="comment">// что список присутствия изменился.</span></div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>            broadcastUserList();</div>
+<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>            <a class="code hl_function" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306">broadcastUserList</a>();</div>
 <div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span> </div>
 <div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>        } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>            <span class="comment">// --- Неверный пароль ---</span></div>
 <div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Failed login attempt for user&quot;</span> &lt;&lt; username &lt;&lt; <span class="stringliteral">&quot;: Invalid password.&quot;</span>;</div>
 <div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>            response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;login_failure&quot;</span>;</div>
 <div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>            response[<span class="stringliteral">&quot;reason&quot;</span>] = <span class="stringliteral">&quot;Неверное имя пользователя или пароль.&quot;</span>;</div>
-<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            sendJson(socket, response);</div>
+<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>        }</div>
 <div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>        <span class="comment">// --- Пользователь не найден ---</span></div>
 <div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Failed login attempt: User&quot;</span> &lt;&lt; username &lt;&lt; <span class="stringliteral">&quot;not found.&quot;</span>;</div>
 <div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>        response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;login_failure&quot;</span>;</div>
 <div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>        response[<span class="stringliteral">&quot;reason&quot;</span>] = <span class="stringliteral">&quot;Неверное имя пользователя или пароль.&quot;</span>; <span class="comment">// Отправляем общую ошибку из соображений безопасности.</span></div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>        sendJson(socket, response);</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>    }</div>
 <div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>}</div>
+</div>
 <div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span></div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span><span class="keywordtype">void</span> Server::handlePrivateMessage(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen01032" data-start="{" data-end="}">
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"><a class="line" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae"> 1032</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae">Server::handlePrivateMessage</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>{</div>
 <div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>    <span class="comment">// 1. Извлекаем все данные из JSON-запроса.</span></div>
 <div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>    QString fromUser = request[<span class="stringliteral">&quot;fromUser&quot;</span>].toString();</div>
@@ -909,8 +938,8 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>    <span class="comment">// 2. Проверка безопасности: убеждаемся, что пользователь, отправляющий сообщение,</span></div>
 <div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>    <span class="comment">//    действительно тот, за кого себя выдает (сравниваем `fromUser` с именем,</span></div>
 <div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>    <span class="comment">//    ассоциированным с этим сокетом при логине).</span></div>
-<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>    <span class="keywordflow">if</span> (fromUser != m_clientsReverse.value(socket)) {</div>
-<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] SECURITY WARNING: User&quot;</span> &lt;&lt; m_clientsReverse.value(socket)</div>
+<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>    <span class="keywordflow">if</span> (fromUser != <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket)) {</div>
+<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[SERVER] SECURITY WARNING: User&quot;</span> &lt;&lt; <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(socket)</div>
 <div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>        &lt;&lt; <span class="stringliteral">&quot;tried to send a message as&quot;</span> &lt;&lt; fromUser;</div>
 <div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>        <span class="keywordflow">return</span>; <span class="comment">// Молча прерываем обработку.</span></div>
 <div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>    }</div>
@@ -948,25 +977,27 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>    <span class="keywordflow">if</span> (replyToId &gt; 0) echoMessage[<span class="stringliteral">&quot;reply_to_id&quot;</span>] = replyToId;</div>
 <div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>    echoMessage[<span class="stringliteral">&quot;temp_id&quot;</span>] = tempId; <span class="comment">// Включаем temp_id для сопоставления на клиенте.</span></div>
 <div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span> </div>
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    sendJson(socket, echoMessage);</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, echoMessage);</div>
 <div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span> </div>
 <div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>    <span class="comment">// --- 6. Пересылка сообщения получателю (если он онлайн) ---</span></div>
 <div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>    <span class="comment">// Удаляем `temp_id`, так как он не нужен получателю.</span></div>
 <div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>    echoMessage.remove(<span class="stringliteral">&quot;temp_id&quot;</span>);</div>
 <div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span> </div>
 <div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>    <span class="comment">// Ищем сокет получателя в списке онлайн-клиентов.</span></div>
-<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>    QObject *toUserSocket = m_clients.value(toUser, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>    QObject *toUserSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUser, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span> </div>
 <div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>    <span class="keywordflow">if</span> (toUserSocket) {</div>
 <div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        <span class="comment">// Если получатель онлайн, отправляем ему сообщение.</span></div>
-<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>        sendJson(toUserSocket, echoMessage);</div>
+<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(toUserSocket, echoMessage);</div>
 <div class="line"><a id="l01097" name="l01097"></a><span class="lineno"> 1097</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Private message&quot;</span> &lt;&lt; messageId &lt;&lt; <span class="stringliteral">&quot;forwarded from&quot;</span> &lt;&lt; fromUser &lt;&lt; <span class="stringliteral">&quot;to&quot;</span> &lt;&lt; toUser;</div>
 <div class="line"><a id="l01098" name="l01098"></a><span class="lineno"> 1098</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l01099" name="l01099"></a><span class="lineno"> 1099</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] User&quot;</span> &lt;&lt; toUser &lt;&lt; <span class="stringliteral">&quot;is offline. Message&quot;</span> &lt;&lt; messageId &lt;&lt; <span class="stringliteral">&quot;stored.&quot;</span>;</div>
 <div class="line"><a id="l01100" name="l01100"></a><span class="lineno"> 1100</span>    }</div>
 <div class="line"><a id="l01101" name="l01101"></a><span class="lineno"> 1101</span>}</div>
+</div>
 <div class="line"><a id="l01102" name="l01102"></a><span class="lineno"> 1102</span></div>
-<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span><span class="keywordtype">void</span> Server::sendJson(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; json)</div>
+<div class="foldopen" id="foldopen01113" data-start="{" data-end="}">
+<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"><a class="line" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859"> 1113</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">Server::sendJson</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; json)</div>
 <div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>{</div>
 <div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>    <span class="keywordflow">if</span> (!socket) <span class="keywordflow">return</span>; <span class="comment">// Проверка на null.</span></div>
 <div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span> </div>
@@ -993,8 +1024,10 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01137" name="l01137"></a><span class="lineno"> 1137</span>        wsSocket-&gt;sendTextMessage(QString::fromUtf8(jsonData));</div>
 <div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>    }</div>
 <div class="line"><a id="l01139" name="l01139"></a><span class="lineno"> 1139</span>}</div>
+</div>
 <div class="line"><a id="l01140" name="l01140"></a><span class="lineno"> 1140</span></div>
-<div class="line"><a id="l01151" name="l01151"></a><span class="lineno"> 1151</span><span class="keywordtype">void</span> Server::sendFullUserList(QObject* socket)</div>
+<div class="foldopen" id="foldopen01151" data-start="{" data-end="}">
+<div class="line"><a id="l01151" name="l01151"></a><span class="lineno"><a class="line" href="class_server.html#a0a6f3f0f2d22d89f9fcd8572027f0a04"> 1151</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a0a6f3f0f2d22d89f9fcd8572027f0a04">Server::sendFullUserList</a>(QObject* socket)</div>
 <div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span>{</div>
 <div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span>    QSqlQuery query;</div>
 <div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>    query.prepare(<span class="stringliteral">&quot;SELECT username, display_name FROM users&quot;</span>);</div>
@@ -1014,12 +1047,14 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>    QJsonObject message;</div>
 <div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span>    message[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;full_user_list&quot;</span>;</div>
 <div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span>    message[<span class="stringliteral">&quot;users&quot;</span>] = allUsers;</div>
-<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>    sendJson(socket, message);</div>
+<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, message);</div>
 <div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Sent full user list to a client.&quot;</span>;</div>
 <div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>}</div>
+</div>
 <div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span></div>
-<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span><span class="keywordtype">void</span> Server::broadcastUserList(){</div>
-<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>    QStringList onlineUsers = m_clients.keys();</div>
+<div class="foldopen" id="foldopen01185" data-start="{" data-end="}">
+<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"><a class="line" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306"> 1185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306">Server::broadcastUserList</a>(){</div>
+<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>    QStringList onlineUsers = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.keys();</div>
 <div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Broadcasting ONLINE user list:&quot;</span> &lt;&lt; onlineUsers;</div>
 <div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span> </div>
 <div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>    QJsonObject message;</div>
@@ -1027,14 +1062,16 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>    message[<span class="stringliteral">&quot;users&quot;</span>] = QJsonArray::fromStringList(onlineUsers);</div>
 <div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span> </div>
 <div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span> </div>
-<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="keywordflow">for</span> (QObject  *socket :  m_clients.values()) {</div>
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>        sendJson(socket, message);</div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="keywordflow">for</span> (QObject  *socket :  <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.values()) {</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, message);</div>
 <div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>    }</div>
 <div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>}</div>
+</div>
 <div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span></div>
-<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span><span class="keywordtype">void</span> Server::handleEditMessage(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen01216" data-start="{" data-end="}">
+<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"><a class="line" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25"> 1216</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25">Server::handleEditMessage</a>(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>{</div>
-<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>    QString requestingUser = m_clientsReverse.value(clientSocket);</div>
+<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>    QString requestingUser = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(clientSocket);</div>
 <div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span>    quint64 messageId = request[<span class="stringliteral">&quot;id&quot;</span>].toDouble();</div>
 <div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span> </div>
 <div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>    qDebug() &lt;&lt; requestingUser &lt;&lt; <span class="stringliteral">&quot;wants to edit message with id:&quot;</span> &lt;&lt; messageId;</div>
@@ -1074,17 +1111,17 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span>                editCmd[<span class="stringliteral">&quot;payload&quot;</span>] = newPayload;</div>
 <div class="line"><a id="l01256" name="l01256"></a><span class="lineno"> 1256</span> </div>
 <div class="line"><a id="l01257" name="l01257"></a><span class="lineno"> 1257</span>                <span class="comment">// Отправляем автору.</span></div>
-<div class="line"><a id="l01258" name="l01258"></a><span class="lineno"> 1258</span>                QObject* fromSocket = m_clients.value(fromUser, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01258" name="l01258"></a><span class="lineno"> 1258</span>                QObject* fromSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(fromUser, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01259" name="l01259"></a><span class="lineno"> 1259</span>                <span class="keywordflow">if</span> (fromSocket) {</div>
 <div class="line"><a id="l01260" name="l01260"></a><span class="lineno"> 1260</span>                    editCmd[<span class="stringliteral">&quot;with_user&quot;</span>] = toUser;</div>
-<div class="line"><a id="l01261" name="l01261"></a><span class="lineno"> 1261</span>                    sendJson(fromSocket, editCmd);</div>
+<div class="line"><a id="l01261" name="l01261"></a><span class="lineno"> 1261</span>                    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(fromSocket, editCmd);</div>
 <div class="line"><a id="l01262" name="l01262"></a><span class="lineno"> 1262</span>                }</div>
 <div class="line"><a id="l01263" name="l01263"></a><span class="lineno"> 1263</span> </div>
 <div class="line"><a id="l01264" name="l01264"></a><span class="lineno"> 1264</span>                <span class="comment">// Отправляем получателю.</span></div>
-<div class="line"><a id="l01265" name="l01265"></a><span class="lineno"> 1265</span>                QObject* toSocket = m_clients.value(toUser, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01265" name="l01265"></a><span class="lineno"> 1265</span>                QObject* toSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUser, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01266" name="l01266"></a><span class="lineno"> 1266</span>                <span class="keywordflow">if</span> (toSocket) {</div>
 <div class="line"><a id="l01267" name="l01267"></a><span class="lineno"> 1267</span>                    editCmd[<span class="stringliteral">&quot;with_user&quot;</span>] = fromUser;</div>
-<div class="line"><a id="l01268" name="l01268"></a><span class="lineno"> 1268</span>                    sendJson(toSocket, editCmd);</div>
+<div class="line"><a id="l01268" name="l01268"></a><span class="lineno"> 1268</span>                    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(toSocket, editCmd);</div>
 <div class="line"><a id="l01269" name="l01269"></a><span class="lineno"> 1269</span>                }</div>
 <div class="line"><a id="l01270" name="l01270"></a><span class="lineno"> 1270</span>            }</div>
 <div class="line"><a id="l01271" name="l01271"></a><span class="lineno"> 1271</span>        } <span class="keywordflow">else</span> {</div>
@@ -1092,11 +1129,13 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01273" name="l01273"></a><span class="lineno"> 1273</span>        }</div>
 <div class="line"><a id="l01274" name="l01274"></a><span class="lineno"> 1274</span>    }</div>
 <div class="line"><a id="l01275" name="l01275"></a><span class="lineno"> 1275</span>}</div>
+</div>
 <div class="line"><a id="l01276" name="l01276"></a><span class="lineno"> 1276</span></div>
-<div class="line"><a id="l01293" name="l01293"></a><span class="lineno"> 1293</span><span class="keywordtype">void</span> Server::handleDeleteMessage(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen01293" data-start="{" data-end="}">
+<div class="line"><a id="l01293" name="l01293"></a><span class="lineno"><a class="line" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091"> 1293</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091">Server::handleDeleteMessage</a>(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l01294" name="l01294"></a><span class="lineno"> 1294</span>{</div>
 <div class="line"><a id="l01295" name="l01295"></a><span class="lineno"> 1295</span>    <span class="comment">// 1. Определяем пользователя, отправившего запрос, по сокету.</span></div>
-<div class="line"><a id="l01296" name="l01296"></a><span class="lineno"> 1296</span>    QString requestingUser = m_clientsReverse.value(clientSocket);</div>
+<div class="line"><a id="l01296" name="l01296"></a><span class="lineno"> 1296</span>    QString requestingUser = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(clientSocket);</div>
 <div class="line"><a id="l01297" name="l01297"></a><span class="lineno"> 1297</span>    quint64 messageId = request[<span class="stringliteral">&quot;id&quot;</span>].toDouble();</div>
 <div class="line"><a id="l01298" name="l01298"></a><span class="lineno"> 1298</span> </div>
 <div class="line"><a id="l01299" name="l01299"></a><span class="lineno"> 1299</span>    qDebug() &lt;&lt; requestingUser &lt;&lt; <span class="stringliteral">&quot;wants to delete message with id:&quot;</span> &lt;&lt; messageId;</div>
@@ -1133,16 +1172,16 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01330" name="l01330"></a><span class="lineno"> 1330</span>                deleteCmd[<span class="stringliteral">&quot;id&quot;</span>] = (double)messageId;</div>
 <div class="line"><a id="l01331" name="l01331"></a><span class="lineno"> 1331</span> </div>
 <div class="line"><a id="l01332" name="l01332"></a><span class="lineno"> 1332</span>                <span class="comment">// 7. Рассылаем уведомление автору и получателю, если они онлайн.</span></div>
-<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>                QObject* fromSocket = m_clients.value(fromUser, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>                QObject* fromSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(fromUser, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01334" name="l01334"></a><span class="lineno"> 1334</span>                <span class="keywordflow">if</span> (fromSocket) {</div>
 <div class="line"><a id="l01335" name="l01335"></a><span class="lineno"> 1335</span>                    deleteCmd[<span class="stringliteral">&quot;with_user&quot;</span>] = toUser;</div>
-<div class="line"><a id="l01336" name="l01336"></a><span class="lineno"> 1336</span>                    sendJson(fromSocket, deleteCmd);</div>
+<div class="line"><a id="l01336" name="l01336"></a><span class="lineno"> 1336</span>                    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(fromSocket, deleteCmd);</div>
 <div class="line"><a id="l01337" name="l01337"></a><span class="lineno"> 1337</span>                }</div>
 <div class="line"><a id="l01338" name="l01338"></a><span class="lineno"> 1338</span> </div>
-<div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span>                QObject* toSocket = m_clients.value(toUser, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span>                QObject* toSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUser, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01340" name="l01340"></a><span class="lineno"> 1340</span>                <span class="keywordflow">if</span> (toSocket) {</div>
 <div class="line"><a id="l01341" name="l01341"></a><span class="lineno"> 1341</span>                    deleteCmd[<span class="stringliteral">&quot;with_user&quot;</span>] = fromUser;</div>
-<div class="line"><a id="l01342" name="l01342"></a><span class="lineno"> 1342</span>                    sendJson(toSocket, deleteCmd);</div>
+<div class="line"><a id="l01342" name="l01342"></a><span class="lineno"> 1342</span>                    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(toSocket, deleteCmd);</div>
 <div class="line"><a id="l01343" name="l01343"></a><span class="lineno"> 1343</span>                }</div>
 <div class="line"><a id="l01344" name="l01344"></a><span class="lineno"> 1344</span>            }</div>
 <div class="line"><a id="l01345" name="l01345"></a><span class="lineno"> 1345</span>        } <span class="keywordflow">else</span> {</div>
@@ -1151,13 +1190,15 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01348" name="l01348"></a><span class="lineno"> 1348</span>        }</div>
 <div class="line"><a id="l01349" name="l01349"></a><span class="lineno"> 1349</span>    }</div>
 <div class="line"><a id="l01350" name="l01350"></a><span class="lineno"> 1350</span>}</div>
+</div>
 <div class="line"><a id="l01351" name="l01351"></a><span class="lineno"> 1351</span></div>
-<div class="line"><a id="l01368" name="l01368"></a><span class="lineno"> 1368</span><span class="keywordtype">void</span> Server::handleContactRequestResponse(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
+<div class="foldopen" id="foldopen01368" data-start="{" data-end="}">
+<div class="line"><a id="l01368" name="l01368"></a><span class="lineno"><a class="line" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226"> 1368</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226">Server::handleContactRequestResponse</a>(QObject* clientSocket, <span class="keyword">const</span> QJsonObject&amp; request)</div>
 <div class="line"><a id="l01369" name="l01369"></a><span class="lineno"> 1369</span>{</div>
 <div class="line"><a id="l01370" name="l01370"></a><span class="lineno"> 1370</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Received contact_request_response:&quot;</span> &lt;&lt; request;</div>
 <div class="line"><a id="l01371" name="l01371"></a><span class="lineno"> 1371</span> </div>
 <div class="line"><a id="l01372" name="l01372"></a><span class="lineno"> 1372</span>    <span class="comment">// 1. Определяем участников: кто ответил (`toUsername`) и кто отправлял запрос (`fromUsername`).</span></div>
-<div class="line"><a id="l01373" name="l01373"></a><span class="lineno"> 1373</span>    QString toUsername = m_clientsReverse.value(clientSocket);</div>
+<div class="line"><a id="l01373" name="l01373"></a><span class="lineno"> 1373</span>    QString toUsername = <a class="code hl_variable" href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a>.value(clientSocket);</div>
 <div class="line"><a id="l01374" name="l01374"></a><span class="lineno"> 1374</span>    QString fromUsername = request[<span class="stringliteral">&quot;fromUsername&quot;</span>].toString();</div>
 <div class="line"><a id="l01375" name="l01375"></a><span class="lineno"> 1375</span>    QString response = request[<span class="stringliteral">&quot;response&quot;</span>].toString();</div>
 <div class="line"><a id="l01376" name="l01376"></a><span class="lineno"> 1376</span> </div>
@@ -1198,20 +1239,20 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01411" name="l01411"></a><span class="lineno"> 1411</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER]&quot;</span> &lt;&lt; toUsername &lt;&lt; <span class="stringliteral">&quot;accepted contact request from&quot;</span> &lt;&lt; fromUsername;</div>
 <div class="line"><a id="l01412" name="l01412"></a><span class="lineno"> 1412</span> </div>
 <div class="line"><a id="l01413" name="l01413"></a><span class="lineno"> 1413</span>            <span class="comment">// Находим сокеты обоих пользователей.</span></div>
-<div class="line"><a id="l01414" name="l01414"></a><span class="lineno"> 1414</span>            QObject* fromSocket = m_clients.value(fromUsername, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l01415" name="l01415"></a><span class="lineno"> 1415</span>            QObject* toSocket = m_clients.value(toUsername, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01414" name="l01414"></a><span class="lineno"> 1414</span>            QObject* fromSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(fromUsername, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l01415" name="l01415"></a><span class="lineno"> 1415</span>            QObject* toSocket = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.value(toUsername, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a id="l01416" name="l01416"></a><span class="lineno"> 1416</span> </div>
 <div class="line"><a id="l01417" name="l01417"></a><span class="lineno"> 1417</span>            <span class="comment">// Отправляем обоим обновленные списки контактов, так как они изменились.</span></div>
 <div class="line"><a id="l01418" name="l01418"></a><span class="lineno"> 1418</span>            <span class="keywordflow">if</span> (fromSocket) {</div>
-<div class="line"><a id="l01419" name="l01419"></a><span class="lineno"> 1419</span>                sendContactList(fromSocket, fromUsername);</div>
+<div class="line"><a id="l01419" name="l01419"></a><span class="lineno"> 1419</span>                <a class="code hl_function" href="class_server.html#a13183209a11a05ece3a5f935d4a56634">sendContactList</a>(fromSocket, fromUsername);</div>
 <div class="line"><a id="l01420" name="l01420"></a><span class="lineno"> 1420</span>            }</div>
 <div class="line"><a id="l01421" name="l01421"></a><span class="lineno"> 1421</span>            <span class="keywordflow">if</span> (toSocket) {</div>
-<div class="line"><a id="l01422" name="l01422"></a><span class="lineno"> 1422</span>                sendContactList(toSocket, toUsername);</div>
+<div class="line"><a id="l01422" name="l01422"></a><span class="lineno"> 1422</span>                <a class="code hl_function" href="class_server.html#a13183209a11a05ece3a5f935d4a56634">sendContactList</a>(toSocket, toUsername);</div>
 <div class="line"><a id="l01423" name="l01423"></a><span class="lineno"> 1423</span>            }</div>
 <div class="line"><a id="l01424" name="l01424"></a><span class="lineno"> 1424</span> </div>
 <div class="line"><a id="l01425" name="l01425"></a><span class="lineno"> 1425</span>            <span class="comment">// Также отправляем им обновленные списки онлайн-пользователей.</span></div>
-<div class="line"><a id="l01426" name="l01426"></a><span class="lineno"> 1426</span>            <span class="keywordflow">if</span> (fromSocket) sendOnlineStatusList(fromSocket);</div>
-<div class="line"><a id="l01427" name="l01427"></a><span class="lineno"> 1427</span>            <span class="keywordflow">if</span> (toSocket) sendOnlineStatusList(toSocket);</div>
+<div class="line"><a id="l01426" name="l01426"></a><span class="lineno"> 1426</span>            <span class="keywordflow">if</span> (fromSocket) <a class="code hl_function" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5">sendOnlineStatusList</a>(fromSocket);</div>
+<div class="line"><a id="l01427" name="l01427"></a><span class="lineno"> 1427</span>            <span class="keywordflow">if</span> (toSocket) <a class="code hl_function" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5">sendOnlineStatusList</a>(toSocket);</div>
 <div class="line"><a id="l01428" name="l01428"></a><span class="lineno"> 1428</span>        }</div>
 <div class="line"><a id="l01429" name="l01429"></a><span class="lineno"> 1429</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (response == <span class="stringliteral">&quot;declined&quot;</span>) {</div>
 <div class="line"><a id="l01430" name="l01430"></a><span class="lineno"> 1430</span>        <span class="comment">// Если запрос отклонен, просто удаляем его из таблицы.</span></div>
@@ -1225,8 +1266,10 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01438" name="l01438"></a><span class="lineno"> 1438</span>        }</div>
 <div class="line"><a id="l01439" name="l01439"></a><span class="lineno"> 1439</span>    }</div>
 <div class="line"><a id="l01440" name="l01440"></a><span class="lineno"> 1440</span>}</div>
+</div>
 <div class="line"><a id="l01441" name="l01441"></a><span class="lineno"> 1441</span></div>
-<div class="line"><a id="l01456" name="l01456"></a><span class="lineno"> 1456</span><span class="keywordtype">void</span> Server::sendUnreadCounts(QObject* socket, <span class="keyword">const</span> QString&amp; username)</div>
+<div class="foldopen" id="foldopen01456" data-start="{" data-end="}">
+<div class="line"><a id="l01456" name="l01456"></a><span class="lineno"><a class="line" href="class_server.html#a24b087314710ced5903f9d137d3e463d"> 1456</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a24b087314710ced5903f9d137d3e463d">Server::sendUnreadCounts</a>(QObject* socket, <span class="keyword">const</span> QString&amp; username)</div>
 <div class="line"><a id="l01457" name="l01457"></a><span class="lineno"> 1457</span>{</div>
 <div class="line"><a id="l01458" name="l01458"></a><span class="lineno"> 1458</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER][UNREAD] Собираем счетчики непрочитанных для пользователя:&quot;</span> &lt;&lt; username;</div>
 <div class="line"><a id="l01459" name="l01459"></a><span class="lineno"> 1459</span> </div>
@@ -1277,13 +1320,15 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01504" name="l01504"></a><span class="lineno"> 1504</span>    response[<span class="stringliteral">&quot;counts&quot;</span>] = countsArray;</div>
 <div class="line"><a id="l01505" name="l01505"></a><span class="lineno"> 1505</span> </div>
 <div class="line"><a id="l01506" name="l01506"></a><span class="lineno"> 1506</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER][UNREAD] Отправка счетчиков для&quot;</span> &lt;&lt; username &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; response;</div>
-<div class="line"><a id="l01507" name="l01507"></a><span class="lineno"> 1507</span>    sendJson(socket, response);</div>
+<div class="line"><a id="l01507" name="l01507"></a><span class="lineno"> 1507</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l01508" name="l01508"></a><span class="lineno"> 1508</span>}</div>
+</div>
 <div class="line"><a id="l01509" name="l01509"></a><span class="lineno"> 1509</span></div>
-<div class="line"><a id="l01520" name="l01520"></a><span class="lineno"> 1520</span><span class="keywordtype">void</span> Server::sendOnlineStatusList(QObject* clientSocket)</div>
+<div class="foldopen" id="foldopen01520" data-start="{" data-end="}">
+<div class="line"><a id="l01520" name="l01520"></a><span class="lineno"><a class="line" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5"> 1520</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5">Server::sendOnlineStatusList</a>(QObject* clientSocket)</div>
 <div class="line"><a id="l01521" name="l01521"></a><span class="lineno"> 1521</span>{</div>
 <div class="line"><a id="l01522" name="l01522"></a><span class="lineno"> 1522</span>    <span class="comment">// 1. Получаем список всех онлайн-пользователей из ключей карты m_clients.</span></div>
-<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>    QStringList onlineUsers = m_clients.keys();</div>
+<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>    QStringList onlineUsers = <a class="code hl_variable" href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">m_clients</a>.keys();</div>
 <div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span> </div>
 <div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span>    <span class="comment">// 2. Создаем JSON-сообщение.</span></div>
 <div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span>    QJsonObject message;</div>
@@ -1291,11 +1336,13 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>    message[<span class="stringliteral">&quot;users&quot;</span>] = QJsonArray::fromStringList(onlineUsers);</div>
 <div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span> </div>
 <div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span>    <span class="comment">// 3. Отправляем сообщение указанному клиенту.</span></div>
-<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    sendJson(clientSocket, message);</div>
+<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(clientSocket, message);</div>
 <div class="line"><a id="l01532" name="l01532"></a><span class="lineno"> 1532</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER] Sent online status list to a single client.&quot;</span>;</div>
 <div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>}</div>
+</div>
 <div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span></div>
-<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"> 1549</span><span class="keywordtype">void</span> Server::sendPendingContactRequests(QObject* socket, <span class="keyword">const</span> QString&amp; username){</div>
+<div class="foldopen" id="foldopen01549" data-start="{" data-end="}">
+<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"><a class="line" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc"> 1549</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc">Server::sendPendingContactRequests</a>(QObject* socket, <span class="keyword">const</span> QString&amp; username){</div>
 <div class="line"><a id="l01550" name="l01550"></a><span class="lineno"> 1550</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER][PENDING] Checking for pending requests for user:&quot;</span> &lt;&lt; username;</div>
 <div class="line"><a id="l01551" name="l01551"></a><span class="lineno"> 1551</span>    <span class="comment">// 1. Находим ID текущего пользователя.</span></div>
 <div class="line"><a id="l01552" name="l01552"></a><span class="lineno"> 1552</span>    QSqlQuery userQuery;</div>
@@ -1344,18 +1391,50 @@ $(function(){initNavTree('server_8cpp_source.html','',''); });
 <div class="line"><a id="l01595" name="l01595"></a><span class="lineno"> 1595</span>        QJsonObject response;</div>
 <div class="line"><a id="l01596" name="l01596"></a><span class="lineno"> 1596</span>        response[<span class="stringliteral">&quot;type&quot;</span>] = <span class="stringliteral">&quot;pending_requests_list&quot;</span>;</div>
 <div class="line"><a id="l01597" name="l01597"></a><span class="lineno"> 1597</span>        response[<span class="stringliteral">&quot;requests&quot;</span>] = pendingRequests;</div>
-<div class="line"><a id="l01598" name="l01598"></a><span class="lineno"> 1598</span>        sendJson(socket, response);</div>
+<div class="line"><a id="l01598" name="l01598"></a><span class="lineno"> 1598</span>        <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a>(socket, response);</div>
 <div class="line"><a id="l01599" name="l01599"></a><span class="lineno"> 1599</span>    }</div>
 <div class="line"><a id="l01600" name="l01600"></a><span class="lineno"> 1600</span>    <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l01601" name="l01601"></a><span class="lineno"> 1601</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;[SERVER][PENDING] No requests to send. Function finished.&quot;</span>;</div>
 <div class="line"><a id="l01602" name="l01602"></a><span class="lineno"> 1602</span>    }</div>
 <div class="line"><a id="l01603" name="l01603"></a><span class="lineno"> 1603</span>}</div>
+</div>
+<div class="ttc" id="aclass_server_html_a0386fd3f4b1df85683a736ad3f6c7091"><div class="ttname"><a href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091">Server::handleDeleteMessage</a></div><div class="ttdeci">void handleDeleteMessage(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос от клиента на удаление ранее отправленного сообщения.</div><div class="ttdef"><b>Definition</b> <a href="#l01293">server.cpp:1293</a></div></div>
+<div class="ttc" id="aclass_server_html_a0a6f3f0f2d22d89f9fcd8572027f0a04"><div class="ttname"><a href="class_server.html#a0a6f3f0f2d22d89f9fcd8572027f0a04">Server::sendFullUserList</a></div><div class="ttdeci">void sendFullUserList(QObject *socket)</div><div class="ttdoc">(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей.</div><div class="ttdef"><b>Definition</b> <a href="#l01151">server.cpp:1151</a></div></div>
+<div class="ttc" id="aclass_server_html_a0dea29b2ecdf398365f882018d610ace"><div class="ttname"><a href="class_server.html#a0dea29b2ecdf398365f882018d610ace">Server::onTcpReadyRead</a></div><div class="ttdeci">void onTcpReadyRead()</div><div class="ttdoc">Слот для чтения данных из TCP-сокета.</div><div class="ttdef"><b>Definition</b> <a href="#l00306">server.cpp:306</a></div></div>
+<div class="ttc" id="aclass_server_html_a0efcd94352570f9565c5fe9f0d441614"><div class="ttname"><a href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">Server::m_tcpServer</a></div><div class="ttdeci">QTcpServer * m_tcpServer</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00103">server.h:103</a></div></div>
+<div class="ttc" id="aclass_server_html_a0f9623482771b8b020d023445ead8a29"><div class="ttname"><a href="class_server.html#a0f9623482771b8b020d023445ead8a29">Server::m_webSocketServer</a></div><div class="ttdeci">QWebSocketServer * m_webSocketServer</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00104">server.h:104</a></div></div>
+<div class="ttc" id="aclass_server_html_a13183209a11a05ece3a5f935d4a56634"><div class="ttname"><a href="class_server.html#a13183209a11a05ece3a5f935d4a56634">Server::sendContactList</a></div><div class="ttdeci">void sendContactList(QObject *socket, const QString &amp;username)</div><div class="ttdoc">Отправляет клиенту его персональный список контактов.</div><div class="ttdef"><b>Definition</b> <a href="#l00779">server.cpp:779</a></div></div>
+<div class="ttc" id="aclass_server_html_a14b7f7cf3f729bc8e1d7b910514b0646"><div class="ttname"><a href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646">Server::handleRegister</a></div><div class="ttdeci">void handleRegister(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос на регистрацию нового пользователя.</div><div class="ttdef"><b>Definition</b> <a href="#l00679">server.cpp:679</a></div></div>
+<div class="ttc" id="aclass_server_html_a1fae98fa6067984a8ad31c86f9b64859"><div class="ttname"><a href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">Server::sendJson</a></div><div class="ttdeci">void sendJson(QObject *socket, const QJsonObject &amp;response)</div><div class="ttdoc">Универсальный метод для отправки JSON-объекта клиенту.</div><div class="ttdef"><b>Definition</b> <a href="#l01113">server.cpp:1113</a></div></div>
+<div class="ttc" id="aclass_server_html_a22bd355bf7fb7d2ee98cc963cc37bb29"><div class="ttname"><a href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a></div><div class="ttdeci">void onNewTcpConnection()</div><div class="ttdoc">Слот, обрабатывающий новое входящее TCP-подключение.</div><div class="ttdef"><b>Definition</b> <a href="#l00112">server.cpp:112</a></div></div>
+<div class="ttc" id="aclass_server_html_a24b087314710ced5903f9d137d3e463d"><div class="ttname"><a href="class_server.html#a24b087314710ced5903f9d137d3e463d">Server::sendUnreadCounts</a></div><div class="ttdeci">void sendUnreadCounts(QObject *socket, const QString &amp;username)</div><div class="ttdoc">Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям.</div><div class="ttdef"><b>Definition</b> <a href="#l01456">server.cpp:1456</a></div></div>
+<div class="ttc" id="aclass_server_html_a2814eb164b6e628f8be39f465dad15ae"><div class="ttname"><a href="class_server.html#a2814eb164b6e628f8be39f465dad15ae">Server::handlePrivateMessage</a></div><div class="ttdeci">void handlePrivateMessage(QObject *fromUserSocket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос на отправку личного сообщения от одного пользователя другому.</div><div class="ttdef"><b>Definition</b> <a href="#l01032">server.cpp:1032</a></div></div>
+<div class="ttc" id="aclass_server_html_a2c11ed0951b0edc730bd551a920fb08f"><div class="ttname"><a href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f">Server::handleLogin</a></div><div class="ttdeci">void handleLogin(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос на аутентификацию пользователя.</div><div class="ttdef"><b>Definition</b> <a href="#l00962">server.cpp:962</a></div></div>
+<div class="ttc" id="aclass_server_html_a33057c924848918167bb0990ca6cb0b5"><div class="ttname"><a href="class_server.html#a33057c924848918167bb0990ca6cb0b5">Server::handleSearchUsers</a></div><div class="ttdeci">void handleSearchUsers(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос на глобальный поиск пользователей.</div><div class="ttdef"><b>Definition</b> <a href="#l00729">server.cpp:729</a></div></div>
+<div class="ttc" id="aclass_server_html_a37e024465684a471d2fe17482f347891"><div class="ttname"><a href="class_server.html#a37e024465684a471d2fe17482f347891">Server::Handler</a></div><div class="ttdeci">void(Server::*)(QObject *, const QJsonObject &amp;) Handler</div><div class="ttdoc">Псевдоним для указателя на метод-обработчик команды.</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00074">server.h:74</a></div></div>
+<div class="ttc" id="aclass_server_html_a3ab2da9e106ed2d1c7891f1056c4ab9a"><div class="ttname"><a href="class_server.html#a3ab2da9e106ed2d1c7891f1056c4ab9a">Server::m_nextBlockSizes</a></div><div class="ttdeci">QMap&lt; QTcpSocket *, quint32 &gt; m_nextBlockSizes</div><div class="ttdoc">Хранит ожидаемый размер следующего TCP-пакета для каждого сокета.</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00124">server.h:124</a></div></div>
+<div class="ttc" id="aclass_server_html_a3be6f6078d3c22a71163ff1b5c3c3bdc"><div class="ttname"><a href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc">Server::sendPendingContactRequests</a></div><div class="ttdeci">void sendPendingContactRequests(QObject *socket, const QString &amp;username)</div><div class="ttdoc">Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты.</div><div class="ttdef"><b>Definition</b> <a href="#l01549">server.cpp:1549</a></div></div>
+<div class="ttc" id="aclass_server_html_a428d243912239a29f227465d973371eb"><div class="ttname"><a href="class_server.html#a428d243912239a29f227465d973371eb">Server::handleGetHistory</a></div><div class="ttdeci">void handleGetHistory(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос клиента на получение истории сообщений.</div><div class="ttdef"><b>Definition</b> <a href="#l00589">server.cpp:589</a></div></div>
+<div class="ttc" id="aclass_server_html_a44c58d6dfb62fb0842a4415d13b0be25"><div class="ttname"><a href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25">Server::handleEditMessage</a></div><div class="ttdeci">void handleEditMessage(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения.</div><div class="ttdef"><b>Definition</b> <a href="#l01216">server.cpp:1216</a></div></div>
 <div class="ttc" id="aclass_server_html_a56ec5259c858a9599d0ff16c33fe6882"><div class="ttname"><a href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882">Server::initHandlers</a></div><div class="ttdeci">void initHandlers()</div><div class="ttdoc">Инициализирует карту обработчиков команд (Command Pattern).</div><div class="ttdef"><b>Definition</b> <a href="#l00149">server.cpp:149</a></div></div>
+<div class="ttc" id="aclass_server_html_a6194f5e7bf0e59830414199e9cbf5197"><div class="ttname"><a href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197">Server::handleAddContactRequest</a></div><div class="ttdeci">void handleAddContactRequest(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос от одного пользователя на добавление другого в список контактов.</div><div class="ttdef"><b>Definition</b> <a href="#l00844">server.cpp:844</a></div></div>
+<div class="ttc" id="aclass_server_html_a66108947304ed85284fb61f2ae6dc96e"><div class="ttname"><a href="class_server.html#a66108947304ed85284fb61f2ae6dc96e">Server::m_clients</a></div><div class="ttdeci">QMap&lt; QString, QObject * &gt; m_clients</div><div class="ttdoc">Отображение username -&gt; указатель на сокет. Для быстрого поиска сокета по имени.</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00107">server.h:107</a></div></div>
+<div class="ttc" id="aclass_server_html_a6899f0ea9be823ca334540849f93d0e8"><div class="ttname"><a href="class_server.html#a6899f0ea9be823ca334540849f93d0e8">Server::m_clientsReverse</a></div><div class="ttdeci">QMap&lt; QObject *, QString &gt; m_clientsReverse</div><div class="ttdoc">Отображение указатель на сокет -&gt; username. Для быстрой идентификации клиента по сокету.</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00108">server.h:108</a></div></div>
+<div class="ttc" id="aclass_server_html_a83f3bb69919258397064dea7329d4f57"><div class="ttname"><a href="class_server.html#a83f3bb69919258397064dea7329d4f57">Server::handleTyping</a></div><div class="ttdeci">void handleTyping(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает и пересылает уведомление о наборе текста.</div><div class="ttdef"><b>Definition</b> <a href="#l00555">server.cpp:555</a></div></div>
+<div class="ttc" id="aclass_server_html_a894f2c797fdc512da9e624ba41a8daf5"><div class="ttname"><a href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5">Server::sendOnlineStatusList</a></div><div class="ttdeci">void sendOnlineStatusList(QObject *clientSocket)</div><div class="ttdoc">Отправляет список онлайн-пользователей одному конкретному клиенту.</div><div class="ttdef"><b>Definition</b> <a href="#l01520">server.cpp:1520</a></div></div>
+<div class="ttc" id="aclass_server_html_a8afa35c8257d78be38596587e469bea3"><div class="ttname"><a href="class_server.html#a8afa35c8257d78be38596587e469bea3">Server::onClientDisconnected</a></div><div class="ttdeci">void onClientDisconnected()</div><div class="ttdoc">Слот, обрабатывающий отключение клиента от сервера.</div><div class="ttdef"><b>Definition</b> <a href="#l00415">server.cpp:415</a></div></div>
+<div class="ttc" id="aclass_server_html_a99bdd8ad9d7c6c9990e851697c8b8af7"><div class="ttname"><a href="class_server.html#a99bdd8ad9d7c6c9990e851697c8b8af7">Server::initDatabase</a></div><div class="ttdeci">bool initDatabase()</div><div class="ttdoc">Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет.</div><div class="ttdef"><b>Definition</b> <a href="#l00470">server.cpp:470</a></div></div>
+<div class="ttc" id="aclass_server_html_aa384e1d90a914ec126cf22c21ba9f226"><div class="ttname"><a href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226">Server::handleContactRequestResponse</a></div><div class="ttdeci">void handleContactRequestResponse(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает ответ пользователя на входящий запрос на добавление в контакты.</div><div class="ttdef"><b>Definition</b> <a href="#l01368">server.cpp:1368</a></div></div>
+<div class="ttc" id="aclass_server_html_aa8df3dc4a4acdc92a7ee4fda89af22d7"><div class="ttname"><a href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7">Server::onWebSocketTextMessageReceived</a></div><div class="ttdeci">void onWebSocketTextMessageReceived(const QString &amp;message)</div><div class="ttdoc">Слот для обработки текстового сообщения, полученного по WebSocket.</div><div class="ttdef"><b>Definition</b> <a href="#l00361">server.cpp:361</a></div></div>
 <div class="ttc" id="aclass_server_html_aadc3f04c0a456be1165c480843936617"><div class="ttname"><a href="class_server.html#aadc3f04c0a456be1165c480843936617">Server::handleMessageRead</a></div><div class="ttdeci">void handleMessageRead(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает уведомление от клиента о том, что сообщение было прочитано.</div><div class="ttdef"><b>Definition</b> <a href="#l00221">server.cpp:221</a></div></div>
 <div class="ttc" id="aclass_server_html_aaf98d5194faee831c6340cc736b9b879"><div class="ttname"><a href="class_server.html#aaf98d5194faee831c6340cc736b9b879">Server::Server</a></div><div class="ttdeci">Server(QObject *parent=nullptr)</div><div class="ttdoc">Конструктор.</div><div class="ttdef"><b>Definition</b> <a href="#l00040">server.cpp:40</a></div></div>
 <div class="ttc" id="aclass_server_html_ab0cc0ba54dab5ede748107dbe62811a1"><div class="ttname"><a href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1">Server::handleLogoutRequest</a></div><div class="ttdeci">void handleLogoutRequest(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает запрос клиента на выход из системы.</div><div class="ttdef"><b>Definition</b> <a href="#l00265">server.cpp:265</a></div></div>
+<div class="ttc" id="aclass_server_html_ab3d6b39c2cbb691005d654a2009f3468"><div class="ttname"><a href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468">Server::processJsonRequest</a></div><div class="ttdeci">void processJsonRequest(const QJsonObject &amp;request, QObject *clientSocket)</div><div class="ttdoc">Общий метод-диспетчер, который вызывает нужный обработчик из m_handlers.</div><div class="ttdef"><b>Definition</b> <a href="#l00388">server.cpp:388</a></div></div>
 <div class="ttc" id="aclass_server_html_abb791768fde7d1871855b9cf0aebdcbe"><div class="ttname"><a href="class_server.html#abb791768fde7d1871855b9cf0aebdcbe">Server::listen</a></div><div class="ttdeci">bool listen(const QHostAddress &amp;address=QHostAddress::Any, quint16 tcpPort=1234, quint16 wsPort=8080)</div><div class="ttdoc">Запускает сервер для прослушивания входящих подключений.</div><div class="ttdef"><b>Definition</b> <a href="#l00084">server.cpp:84</a></div></div>
+<div class="ttc" id="aclass_server_html_ae1a19c09a1785fa344c54cae03f5e098"><div class="ttname"><a href="class_server.html#ae1a19c09a1785fa344c54cae03f5e098">Server::m_handlers</a></div><div class="ttdeci">QMap&lt; QString, Handler &gt; m_handlers</div><div class="ttdoc">Карта, реализующая паттерн &quot;Команда&quot;.</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00132">server.h:132</a></div></div>
+<div class="ttc" id="aclass_server_html_af0ce9e55fc6fba5b92cad5b6af934306"><div class="ttname"><a href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306">Server::broadcastUserList</a></div><div class="ttdeci">void broadcastUserList()</div><div class="ttdoc">Рассылает всем онлайн-клиентам актуальный список пользователей, находящихся в сети.</div><div class="ttdef"><b>Definition</b> <a href="#l01185">server.cpp:1185</a></div></div>
 <div class="ttc" id="aclass_server_html_af49291bcd5c9d7d8b9054ec18aa43728"><div class="ttname"><a href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728">Server::handleMessageDelivered</a></div><div class="ttdeci">void handleMessageDelivered(QObject *socket, const QJsonObject &amp;request)</div><div class="ttdoc">Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено.</div><div class="ttdef"><b>Definition</b> <a href="#l00176">server.cpp:176</a></div></div>
+<div class="ttc" id="aclass_server_html_af9ee0faf4c581fd425e4b3750ca4d4c0"><div class="ttname"><a href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a></div><div class="ttdeci">void onNewWebSocketConnection()</div><div class="ttdoc">Слот, обрабатывающий новое входящее WebSocket-подключение.</div><div class="ttdef"><b>Definition</b> <a href="#l00132">server.cpp:132</a></div></div>
 <div class="ttc" id="aserver_8h_html"><div class="ttname"><a href="server_8h.html">server.h</a></div></div>
 <div class="ttc" id="astructures_8h_html"><div class="ttname"><a href="structures_8h.html">structures.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

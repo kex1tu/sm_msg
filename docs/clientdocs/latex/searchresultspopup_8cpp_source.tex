@@ -22,10 +22,10 @@
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00030}00030\ \ \ \ \ setAttribute(Qt::WA\_ShowWithoutActivating);}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00031}00031\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Создание\ и\ компоновка\ внутреннего\ UI\ -\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00033}00033\ \ \ \ \ m\_listWidget\ =\ \textcolor{keyword}{new}\ QListWidget(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00033}00033\ \ \ \ \ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}\ =\ \textcolor{keyword}{new}\ QListWidget(\textcolor{keyword}{this});}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{auto}\ *layout\ =\ \textcolor{keyword}{new}\ QVBoxLayout(\textcolor{keyword}{this});}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00035}00035\ \ \ \ \ layout-\/>setContentsMargins(0,\ 0,\ 0,\ 0);\ \textcolor{comment}{//\ Убираем\ отступы,\ чтобы\ список\ занимал\ все\ место.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00036}00036\ \ \ \ \ layout-\/>addWidget(m\_listWidget);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00036}00036\ \ \ \ \ layout-\/>addWidget(\mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}});}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00037}00037\ \ \ \ \ setLayout(layout);}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00038}00038\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 3.\ Установка\ стилей\ (QSS)\ -\/-\/-\/}}
@@ -54,7 +54,7 @@
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00062}00062\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Соединение\ сигналов\ и\ слотов\ -\/-\/-\/}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ сигнал\ itemClicked\ от\ QListWidget\ с\ лямбда-\/функцией.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00065}00065\ \ \ \ \ connect(m\_listWidget,\ \&QListWidget::itemClicked,\ \textcolor{keyword}{this},\ [\textcolor{keyword}{this}](QListWidgetItem\ *item)\{}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00065}00065\ \ \ \ \ connect(\mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}},\ \&QListWidget::itemClicked,\ \textcolor{keyword}{this},\ [\textcolor{keyword}{this}](QListWidgetItem\ *item)\{}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Когда\ пользователь\ кликает\ на\ элемент:}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1.\ Извлекаем\ сохраненный\ 'username'\ из\ данных\ элемента.}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.\ Эмитируем\ сигнал\ userSelected\ наружу\ (для\ MainWindow).}}
@@ -67,7 +67,7 @@
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00079}\mbox{\hyperlink{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}{00079}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}{SearchResultsPopup::showResults}}(\textcolor{keyword}{const}\ QJsonArray\ \&users)}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00080}00080\ \{}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ 1.\ Очищаем\ список\ от\ предыдущих\ результатов.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00082}00082\ \ \ \ \ m\_listWidget-\/>clear();}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00082}00082\ \ \ \ \ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>clear();}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00083}00083\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ 2.\ Заполняем\ список\ новыми\ данными.}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ QJsonValue\ \&value\ :\ users)\ \{}
@@ -80,30 +80,30 @@
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Сохраняем\ \`{}username`\ в\ \`{}Qt::UserRole`.\ Это\ позволяет\ нам\ легко}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ получить\ идентификатор\ пользователя\ при\ клике,\ не\ парся\ строку.}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ item-\/>setData(Qt::UserRole,\ username);}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ m\_listWidget-\/>addItem(item);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>addItem(item);}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00096}00096\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00097}00097\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00098}00098\ \ \ \ \ \textcolor{comment}{//\ 3.\ Если\ результатов\ нет,\ просто\ скрываем\ окно\ и\ выходим.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ m\_listWidget-\/>count();}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>count();}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 0)\ \{}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ hide();}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00103}00103\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00104}00104\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Динамический\ расчет\ высоты\ виджета\ -\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00106}00106\ \ \ \ \ QFontMetrics\ fm(m\_listWidget-\/>font());}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00106}00106\ \ \ \ \ QFontMetrics\ fm(\mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>font());}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{int}\ itemHeight\ =\ fm.height()\ +\ 37;\ \textcolor{comment}{//\ Расчетная\ высота\ одного\ элемента\ (подобрана\ экспериментально).}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00108}00108\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxVisibleItems\ =\ 4;\ \ \ \ \ \textcolor{comment}{//\ Максимальное\ количество\ элементов\ без\ прокрутки.}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00109}00109\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordtype}{int}\ targetHeight\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ >\ maxVisibleItems)\ \{}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ элементов\ больше\ максимума,\ ограничиваем\ высоту\ и\ показываем\ скроллбар.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ targetHeight\ =\ itemHeight\ *\ maxVisibleItems\ +\ m\_listWidget-\/>frameWidth()\ *\ 2;}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ m\_listWidget-\/>setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ targetHeight\ =\ itemHeight\ *\ maxVisibleItems\ +\ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>frameWidth()\ *\ 2;}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00115}00115\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ элементов\ меньше,\ делаем\ высоту\ точно\ по\ их\ количеству\ и\ скрываем\ скроллбар.}}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ targetHeight\ =\ itemHeight\ *\ count\ +\ m\_listWidget-\/>frameWidth()\ *\ 2;}
-\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ m\_listWidget-\/>setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ targetHeight\ =\ itemHeight\ *\ count\ +\ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>frameWidth()\ *\ 2;}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\_listWidget}}-\/>setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00119}00119\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00120}00120\ }
 \DoxyCodeLine{\Hypertarget{searchresultspopup_8cpp_source_l00121}00121\ \ \ \ \ \textcolor{comment}{//\ Устанавливаем\ рассчитанную\ высоту\ для\ всего\ виджета.}}

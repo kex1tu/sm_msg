@@ -155,6 +155,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab687665d0889263fab9c116c8d604814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Основной метод, через который представление (View) запрашивает данные.  <br /></td></tr>
 <tr class="memitem:a7eaed5b52bf66ffb9bd85ef60e108a7b" id="r_a7eaed5b52bf66ffb9bd85ef60e108a7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7eaed5b52bf66ffb9bd85ef60e108a7b">setData</a> (const QModelIndex &amp;index, const QVariant &amp;value, int role=Qt::EditRole) override</td></tr>
 <tr class="memdesc:a7eaed5b52bf66ffb9bd85ef60e108a7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод для изменения данных в модели извне (например, из делегата). Хотя в данной версии он не используется активно для изменения, его реализация важна для полноты API модели и может пригодиться в будущем.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ac36eb7c7a07191d38fdd2cee5cc871b8" id="r_ac36eb7c7a07191d38fdd2cee5cc871b8"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="struct_chat_message.html">ChatMessage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac36eb7c7a07191d38fdd2cee5cc871b8">m_messages</a></td></tr>
+<tr class="memdesc:ac36eb7c7a07191d38fdd2cee5cc871b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Основное хранилище сообщений в виде списка.  <br /></td></tr>
+<tr class="memitem:ad38ed7cf6a1c7786f585d118338d5031" id="r_ad38ed7cf6a1c7786f585d118338d5031"><td class="memItemLeft" align="right" valign="top">QMap&lt; qint64, <a class="el" href="struct_chat_message.html">ChatMessage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad38ed7cf6a1c7786f585d118338d5031">m_messageMap</a></td></tr>
+<tr class="memdesc:ad38ed7cf6a1c7786f585d118338d5031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Дополнительное хранилище для оптимизации.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Макрос Qt, регистрирующий кастомный тип <a class="el" href="struct_chat_message.html" title="Представляет собой модель данных одного сообщения в чате.">ChatMessage</a> в мета-объектной системе Qt. </p>
@@ -556,9 +563,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f_icgraph.png" border="0" usemap="#aclass_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f_icgraph" loading="lazy" alt=""/></div>
 <map name="aclass_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f_icgraph" id="aclass_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f_icgraph">
-<area shape="rect" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="281,5,479,48"/>
-<area shape="rect" href="class_chat_message_model.html#a1977a1f3fd95a7f6d14592754bc38881" title="Помечает входящее сообщение как прочитанное." alt="" coords="5,5,233,48"/>
-<area shape="poly" title=" " alt="" coords="265,29,233,29,233,24,265,24"/>
+<area shape="rect" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="508,35,706,77"/>
+<area shape="rect" href="class_chat_message_model.html#a1977a1f3fd95a7f6d14592754bc38881" title="Помечает входящее сообщение как прочитанное." alt="" coords="233,5,460,48"/>
+<area shape="poly" title=" " alt="" coords="492,46,460,42,461,37,493,40"/>
+<area shape="rect" href="class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="242,72,451,99"/>
+<area shape="poly" title=" " alt="" coords="493,72,452,76,451,71,492,66"/>
+<area shape="rect" href="class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,72,185,99"/>
+<area shape="poly" title=" " alt="" coords="226,88,185,88,185,83,226,83"/>
+<area shape="poly" title=" " alt="" coords="139,60,124,53,95,51,68,53,54,58,51,63,57,70,53,73,45,63,51,53,67,47,95,45,125,48,141,55"/>
 </map>
 </div>
 
@@ -772,6 +784,61 @@ Here is the caller graph for this function:</div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="chatmessagemodel_8cpp_source.html#l00210">210</a> of file <a class="el" href="chatmessagemodel_8cpp_source.html">chatmessagemodel.cpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="ad38ed7cf6a1c7786f585d118338d5031" name="ad38ed7cf6a1c7786f585d118338d5031"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad38ed7cf6a1c7786f585d118338d5031">&#9670;&#160;</a></span>m_messageMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;qint64, <a class="el" href="struct_chat_message.html">ChatMessage</a>&gt; ChatMessageModel::m_messageMap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Дополнительное хранилище для оптимизации. </p>
+<p>QMap (хэш-таблица) хранит те же сообщения, но индексирует их по уникальному ID. Это позволяет осуществлять сверхбыстрый поиск сообщения по ID (O(log n)), что критически важно для функции ответов, где делегату нужно быстро найти исходное цитируемое сообщение. </p>
+
+<p class="definition">Definition at line <a class="el" href="chatmessagemodel_8h_source.html#l00129">129</a> of file <a class="el" href="chatmessagemodel_8h_source.html">chatmessagemodel.h</a>.</p>
+
+</div>
+</div>
+<a id="ac36eb7c7a07191d38fdd2cee5cc871b8" name="ac36eb7c7a07191d38fdd2cee5cc871b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36eb7c7a07191d38fdd2cee5cc871b8">&#9670;&#160;</a></span>m_messages</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;<a class="el" href="struct_chat_message.html">ChatMessage</a>&gt; ChatMessageModel::m_messages</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Основное хранилище сообщений в виде списка. </p>
+<p>QList обеспечивает быстрый доступ по индексу и сохраняет порядок, что необходимо для отображения в QListView. </p>
+
+<p class="definition">Definition at line <a class="el" href="chatmessagemodel_8h_source.html#l00119">119</a> of file <a class="el" href="chatmessagemodel_8h_source.html">chatmessagemodel.h</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,7 @@
+<map id="pluralize" name="pluralize">
+<area shape="rect" id="Node000001" title="Вспомогательная функция для правильного склонения слов в зависимости от числа." alt="" coords="529,5,598,32"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a5394f059fc4f3d5c06110d7d204be274" title="Форматирует строку о последнем времени визита пользователя." alt="" coords="262,5,481,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="513,21,481,21,481,16,513,16"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#adb9f862c41708983a26f8dff91f236d1" title="Обновляет информацию в заголовке чата (имя, онлайн&#45;статус, &quot;печатает...&quot;)." alt="" coords="5,5,214,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="246,21,214,21,214,16,246,16"/>
+</map>

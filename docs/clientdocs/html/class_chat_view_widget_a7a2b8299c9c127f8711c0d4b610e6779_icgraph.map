@@ -1,0 +1,16 @@
+<map id="ChatViewWidget::updateScrollToBottomButton" name="ChatViewWidget::updateScrollToBottomButton">
+<area shape="rect" id="Node000001" title="Обновляет видимость и позицию кнопки &quot;прокрутить вниз&quot; и счетчика." alt="" coords="759,85,959,128"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a6418318ae1f624d2f56764960da969a4" title="Слот, отслеживающий прокрутку чата пользователем." alt="" coords="492,5,709,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="798,81,710,47,670,35,671,30,712,41,800,76"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#a4005c440dc27de6530cb3207043538fe" title="Слот, вызываемый, когда приходит новое сообщение, а пользователь прокрутил чат вверх." alt="" coords="490,56,711,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="744,96,711,93,712,87,744,91"/>
+<area shape="rect" id="Node000006" href="$class_chat_view_widget.html#a50690b18f64cf6dcb5dde55d04d6193d" title="Обработчик события изменения размера виджета." alt="" coords="502,123,699,149"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="744,122,700,127,699,122,744,117"/>
+<area shape="rect" id="Node000007" href="$class_chat_view_widget.html#a9a6c6e8bb568bc72d77a8ba0cd650216" title="Слот для принудительной прокрутки чата в самый низ." alt="" coords="514,173,687,216"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="788,136,712,164,677,175,675,170,710,159,786,131"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,64,442,91"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="474,80,443,80,443,75,474,75"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,64,185,91"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="217,80,185,80,185,75,217,75"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="137,52,123,45,95,43,69,45,56,49,52,55,59,62,54,65,47,55,52,45,68,39,95,37,124,40,139,47"/>
+</map>

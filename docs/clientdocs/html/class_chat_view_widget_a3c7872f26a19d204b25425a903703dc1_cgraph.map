@@ -1,10 +1,12 @@
 <map id="ChatViewWidget::ChatViewWidget" name="ChatViewWidget::ChatViewWidget">
-<area shape="rect" id="Node000001" title="Конструктор." alt="" coords="5,29,190,72"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="52,29,50,19,58,10,74,5,98,3,123,5,138,11,136,16,122,10,97,8,75,10,61,15,55,21,57,28"/>
-<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a4759e26613b43a13e776df7e2b89ca97" title=" " alt="" coords="238,37,437,64"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="190,48,222,48,222,53,190,53"/>
-<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#ab3171e6e82933e146664c24127e616b1" title="Сбрасывает текст&#45;подсказку (placeholder) в поле ввода." alt="" coords="490,12,693,39"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="437,38,474,34,475,40,438,43"/>
-<area shape="rect" id="Node000004" href="$class_chat_view_widget.html#ab3b4618e5a002eb5a3efd9e73e1463c9" title=" " alt="" coords="485,63,698,89"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="438,58,470,61,469,66,437,63"/>
+<area shape="rect" id="Node000001" title="Конструктор." alt="" coords="5,48,190,91"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="51,48,49,38,57,29,73,23,98,21,124,24,140,30,138,35,123,29,97,27,74,29,60,33,54,39,56,47"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a4759e26613b43a13e776df7e2b89ca97" title=" " alt="" coords="246,31,445,57"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="190,57,230,53,230,58,190,63"/>
+<area shape="rect" id="Node000005" href="$class_chat_view_widget.html#adb5f2c7f55bccafc923c950e93bf8cd2" title=" " alt="" coords="238,81,453,108"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="190,76,222,79,222,85,190,81"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#ab3171e6e82933e146664c24127e616b1" title="Сбрасывает текст&#45;подсказку (placeholder) в поле ввода." alt="" coords="506,5,709,32"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="445,32,490,27,491,33,446,37"/>
+<area shape="rect" id="Node000004" href="$class_chat_view_widget.html#ab3b4618e5a002eb5a3efd9e73e1463c9" title=" " alt="" coords="501,56,714,83"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="446,51,486,55,485,60,445,56"/>
 </map>

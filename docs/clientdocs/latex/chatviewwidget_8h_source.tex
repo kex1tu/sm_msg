@@ -62,10 +62,10 @@
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00076}00076\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ Приватные\ слоты\ -\/\ используются\ для\ обработки\ внутренних\ событий\ виджета.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00078}00078\ \textcolor{keyword}{private}\ slots:}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{void}\ onSearchTriggered(\textcolor{keyword}{const}\ QString\&\ text);\ \textcolor{comment}{//\ (Заготовка)\ Обработка\ ввода\ текста\ в\ поле\ поиска.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{void}\ onChatContextMenuRequested(\textcolor{keyword}{const}\ QPoint\ \&pos);\ \textcolor{comment}{//\ Вызывается\ по\ правому\ клику\ на\ списке\ сообщений.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{void}\ onMessageDoubleClicked(\textcolor{keyword}{const}\ QModelIndex\ \&index);\ \textcolor{comment}{//\ Вызывается\ по\ двойному\ клику\ (для\ быстрого\ ответа).}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ onChatScrolled(\textcolor{keywordtype}{int}\ value);\ \textcolor{comment}{//\ Вызывается\ при\ прокрутке\ списка\ сообщений.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_a9bf2911d0b2215ea0088dfbdd1ee633d}{onSearchTriggered}}(\textcolor{keyword}{const}\ QString\&\ text);\ \textcolor{comment}{//\ (Заготовка)\ Обработка\ ввода\ текста\ в\ поле\ поиска.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_a37802f56820b58365a5269f4a27c177d}{onChatContextMenuRequested}}(\textcolor{keyword}{const}\ QPoint\ \&pos);\ \textcolor{comment}{//\ Вызывается\ по\ правому\ клику\ на\ списке\ сообщений.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3}{onMessageDoubleClicked}}(\textcolor{keyword}{const}\ QModelIndex\ \&index);\ \textcolor{comment}{//\ Вызывается\ по\ двойному\ клику\ (для\ быстрого\ ответа).}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_a6418318ae1f624d2f56764960da969a4}{onChatScrolled}}(\textcolor{keywordtype}{int}\ value);\ \textcolor{comment}{//\ Вызывается\ при\ прокрутке\ списка\ сообщений.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00083}00083\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ Защищенные\ методы\ -\/\ переопределение\ виртуальных\ методов\ базового\ класса\ QWidget.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00085}00085\ \textcolor{keyword}{protected}:}
@@ -74,34 +74,34 @@
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00088}00088\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//\ Приватные\ поля\ и\ методы\ -\/\ внутренняя\ реализация\ класса.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00090}00090\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00091}00091\ \ \ \ \ QString\ formatLastSeen(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_user}{User}}\ \&user);\ \textcolor{comment}{//\ Форматирует\ строку\ "{}был\ в\ сети..."{}.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00092}00092\ \ \ \ \ \textcolor{keywordtype}{void}\ setupHeaderUI();\ \textcolor{comment}{//\ Инициализирует\ и\ компонует\ виджеты\ в\ заголовке\ чата.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00091}00091\ \ \ \ \ QString\ \mbox{\hyperlink{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274}{formatLastSeen}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_user}{User}}\ \&user);\ \textcolor{comment}{//\ Форматирует\ строку\ "{}был\ в\ сети..."{}.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00092}00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_adb5f2c7f55bccafc923c950e93bf8cd2}{setupHeaderUI}}();\ \textcolor{comment}{//\ Инициализирует\ и\ компонует\ виджеты\ в\ заголовке\ чата.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00093}00093\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00094}00094\ \ \ \ \ \textcolor{comment}{//\ Приватный\ метод\ для\ обновления\ положения\ кнопки\ "{}вниз"{}\ и\ счетчика.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{void}\ updateScrollToBottomButton();}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_view_widget_a7a2b8299c9c127f8711c0d4b610e6779}{updateScrollToBottomButton}}();}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00096}00096\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Указатели\ на\ элементы\ UI\ -\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00098}00098\ \ \ \ \ Ui::ChatViewWidget\ *ui;\ \textcolor{comment}{//\ Указатель\ на\ UI-\/форму,\ сгенерированную\ из\ .ui\ файла.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00098}\mbox{\hyperlink{class_chat_view_widget_a7db46d8fc4b3135cc90d45bec96387de}{00098}}\ \ \ \ \ Ui::ChatViewWidget\ *\mbox{\hyperlink{class_chat_view_widget_a7db46d8fc4b3135cc90d45bec96387de}{ui}};\ \textcolor{comment}{//\ Указатель\ на\ UI-\/форму,\ сгенерированную\ из\ .ui\ файла.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00099}00099\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ Виджеты\ заголовка\ (создаются\ в\ коде)}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00101}00101\ \ \ \ \ QLabel*\ m\_nameLabel;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00102}00102\ \ \ \ \ QLabel*\ m\_statusLabel;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00103}00103\ \ \ \ \ QToolButton*\ m\_searchButton;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00104}00104\ \ \ \ \ QToolButton*\ m\_callButton;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00105}00105\ \ \ \ \ QToolButton*\ m\_videoCallButton;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00106}00106\ \ \ \ \ QToolButton*\ m\_moreOptionsButton;}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00101}\mbox{\hyperlink{class_chat_view_widget_ae5b51702716b4a9a60fd78a5c5bdec01}{00101}}\ \ \ \ \ QLabel*\ \mbox{\hyperlink{class_chat_view_widget_ae5b51702716b4a9a60fd78a5c5bdec01}{m\_nameLabel}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00102}\mbox{\hyperlink{class_chat_view_widget_a2329da2ec938a2d34daafc7947b937cc}{00102}}\ \ \ \ \ QLabel*\ \mbox{\hyperlink{class_chat_view_widget_a2329da2ec938a2d34daafc7947b937cc}{m\_statusLabel}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00103}\mbox{\hyperlink{class_chat_view_widget_a9f3374433cdd7dabdf90f1700c084786}{00103}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_a9f3374433cdd7dabdf90f1700c084786}{m\_searchButton}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00104}\mbox{\hyperlink{class_chat_view_widget_a124c1f2987861a5a552dba2482541a61}{00104}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_a124c1f2987861a5a552dba2482541a61}{m\_callButton}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00105}\mbox{\hyperlink{class_chat_view_widget_a4e32df0c1fdf1756f293cd7a406c118b}{00105}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_a4e32df0c1fdf1756f293cd7a406c118b}{m\_videoCallButton}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00106}\mbox{\hyperlink{class_chat_view_widget_a1a81aec3ec624a10abad0e86e5fffc1c}{00106}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_a1a81aec3ec624a10abad0e86e5fffc1c}{m\_moreOptionsButton}};}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00107}00107\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\ Виджеты\ поиска\ (заготовки)}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00109}00109\ \ \ \ \ QLineEdit*\ m\_searchLineEdit;}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00110}00110\ \ \ \ \ QToolButton*\ m\_closeSearchButton;}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00109}\mbox{\hyperlink{class_chat_view_widget_a08c2dcd66163e12d2a231d9113ea3418}{00109}}\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{class_chat_view_widget_a08c2dcd66163e12d2a231d9113ea3418}{m\_searchLineEdit}};}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00110}\mbox{\hyperlink{class_chat_view_widget_aaa7fb6e2253756ec2a2e0f431a5a94b8}{00110}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_aaa7fb6e2253756ec2a2e0f431a5a94b8}{m\_closeSearchButton}};}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00111}00111\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ Виджеты\ для\ UX\ "{}непрочитанных\ сообщений"{}}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00113}00113\ \ \ \ \ QToolButton*\ m\_scrollToBottomButton;\ \textcolor{comment}{//\ Кнопка\ "{}прокрутить\ вниз"{}.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00114}00114\ \ \ \ \ QLabel*\ m\_unreadCountLabel;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ярлык\ со\ счетчиком\ непрочитанных.}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00115}00115\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_unreadMessageCount\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Внутренний\ счетчик.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00113}\mbox{\hyperlink{class_chat_view_widget_a3f64dcfd7ee3bff03898e33eea9f0c80}{00113}}\ \ \ \ \ QToolButton*\ \mbox{\hyperlink{class_chat_view_widget_a3f64dcfd7ee3bff03898e33eea9f0c80}{m\_scrollToBottomButton}};\ \textcolor{comment}{//\ Кнопка\ "{}прокрутить\ вниз"{}.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00114}\mbox{\hyperlink{class_chat_view_widget_a0c0f0f1e9f737a673074037732bcd324}{00114}}\ \ \ \ \ QLabel*\ \mbox{\hyperlink{class_chat_view_widget_a0c0f0f1e9f737a673074037732bcd324}{m\_unreadCountLabel}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ярлык\ со\ счетчиком\ непрочитанных.}}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00115}\mbox{\hyperlink{class_chat_view_widget_ae53b35d5de12cfdf4d5d08e34732bf5a}{00115}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_chat_view_widget_ae53b35d5de12cfdf4d5d08e34732bf5a}{m\_unreadMessageCount}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Внутренний\ счетчик.}}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00116}00116\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Анимация\ для\ панели\ ответа}}
-\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00118}00118\ \ \ \ \ QPropertyAnimation*\ m\_replyAnimation;}
+\DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00118}\mbox{\hyperlink{class_chat_view_widget_ac90d1bfb7aebc0c3f89a3b36748dc1a7}{00118}}\ \ \ \ \ QPropertyAnimation*\ \mbox{\hyperlink{class_chat_view_widget_ac90d1bfb7aebc0c3f89a3b36748dc1a7}{m\_replyAnimation}};}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00119}00119\ }
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00120}00120\ \};}
 \DoxyCodeLine{\Hypertarget{chatviewwidget_8h_source_l00121}00121\ }

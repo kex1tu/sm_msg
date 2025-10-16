@@ -1,4 +1,27 @@
 var searchData=
 [
-  ['isscrolledtobottom_0',['isScrolledToBottom',['../class_chat_view_widget.html#a68d67be23a20119e84d2a1188dd0c1b4',1,'ChatViewWidget']]]
+  ['handleaddcontactfailure_0',['handleAddContactFailure',['../class_main_window.html#aebfa94748ff949e5bed57a0f72339ada',1,'MainWindow']]],
+  ['handleaddcontactsuccess_1',['handleAddContactSuccess',['../class_main_window.html#a4dcb63751419ba260b64f9fd10068615',1,'MainWindow']]],
+  ['handlecontactlist_2',['handleContactList',['../class_main_window.html#aee01af1e9adc9f85f463c75f1358ebd7',1,'MainWindow']]],
+  ['handledeletemessage_3',['handleDeleteMessage',['../class_main_window.html#a4b8f3494d69ec0bb36bf7a6e861a27c3',1,'MainWindow']]],
+  ['handleeditmessage_4',['handleEditMessage',['../class_main_window.html#a6ae06054225d0b76a79c34ccb75956f9',1,'MainWindow']]],
+  ['handlehistorydata_5',['handleHistoryData',['../class_main_window.html#a6a0cf8e647234eb241152c028d8ad97a',1,'MainWindow']]],
+  ['handleincomingcontactrequest_6',['handleIncomingContactRequest',['../class_main_window.html#a766d5b76c9358a7584957eed91ed96f5',1,'MainWindow']]],
+  ['handleloginfailure_7',['handleLoginFailure',['../class_main_window.html#a68f6951168b306cd1d41e025851f856d',1,'MainWindow']]],
+  ['handleloginsuccess_8',['handleLoginSuccess',['../class_main_window.html#aecd1e4cfd67e0b351ba865f7bbc2fd9a',1,'MainWindow']]],
+  ['handlelogoutfailure_9',['handleLogoutFailure',['../class_main_window.html#a7e54a6f189934013a302d916aa8820ce',1,'MainWindow']]],
+  ['handlelogoutsuccess_10',['handleLogoutSuccess',['../class_main_window.html#aa1a49ceeb4183c52e0b929392fc832ea',1,'MainWindow']]],
+  ['handlemessagedelivered_11',['handleMessageDelivered',['../class_main_window.html#a7f7bcdcbcb06f7e40dddf31c8325c188',1,'MainWindow']]],
+  ['handlemessageread_12',['handleMessageRead',['../class_main_window.html#a9c64b32f9c75d20e489b85c156a4acd1',1,'MainWindow']]],
+  ['handleoldhistorydata_13',['handleOldHistoryData',['../class_main_window.html#ac6fbcb3266b8fe5d0bdf799f1b94553b',1,'MainWindow']]],
+  ['handlependingrequestslist_14',['handlePendingRequestsList',['../class_main_window.html#aa3b5bca57796083ede701050469c1f45',1,'MainWindow']]],
+  ['handleprivatemessage_15',['handlePrivateMessage',['../class_main_window.html#a76f3f2fc212fc0b0672b27d08c6421b3',1,'MainWindow']]],
+  ['handleregisterfailure_16',['handleRegisterFailure',['../class_main_window.html#ace7e3816c356c198f9c33f3da2cdd781',1,'MainWindow']]],
+  ['handleregistersuccess_17',['handleRegisterSuccess',['../class_main_window.html#a1d4de163a58c46f159fc5d6f12e496e8',1,'MainWindow']]],
+  ['handlesearchresults_18',['handleSearchResults',['../class_main_window.html#ac5642d41449d563b78330be439183c08',1,'MainWindow']]],
+  ['handletypingresponse_19',['handleTypingResponse',['../class_main_window.html#adb145cf0f8bd193a23ca2f6b726f61e2',1,'MainWindow']]],
+  ['handleunreadcounts_20',['handleUnreadCounts',['../class_main_window.html#af6b85db32f5c582cadddfe01acad35a1',1,'MainWindow']]],
+  ['handleuserlist_21',['handleUserList',['../class_main_window.html#ad79a3233f6eb76c7c648cd2ed9146655',1,'MainWindow']]],
+  ['headerclicked_22',['headerClicked',['../class_chat_view_widget.html#ab4af52a90adc55bf6eaa4ac0edd10d64',1,'ChatViewWidget']]],
+  ['hidereplyui_23',['hideReplyUI',['../class_chat_view_widget.html#a4759e26613b43a13e776df7e2b89ca97',1,'ChatViewWidget']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['websocket_0',['WebSocket',['../md_update.html',1,'Архитектурный рефакторинг: Переход на мультипротокольную модель (TCP + WebSocket)'],['../md_description.html#autotoc_md5',1,'2.1. Гибридный сетевой уровень (TCP + WebSocket)']]]
+  ['update_2emd_0',['update.md',['../update_8md.html',1,'']]],
+  ['user_1',['User',['../struct_user.html',1,'']]],
+  ['username_2',['username',['../struct_user.html#ae4202de2b7974e92a55b913d20b03833',1,'User']]]
 ];

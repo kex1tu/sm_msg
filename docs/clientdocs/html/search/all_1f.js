@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['диаграмма_20архитектуры_0',['2. Диаграмма архитектуры',['../md_description.html#autotoc_md4',1,'']]],
-  ['данных_20structures_20h_1',['3.4. Структуры данных (&lt;span class=&quot;tt&quot;&gt;structures.h&lt;/span&gt;)',['../md_description.html#autotoc_md10',1,'']]],
-  ['для_20статусов_20сообщений_2',['2.1. Векторные SVG-иконки для статусов сообщений',['../md_update.html#autotoc_md17',1,'']]]
+  ['главное_20архитектурное_20изменение_3a_20qlistwidget_20→_20qlistview_20qabstractlistmodel_0',['1. 🏛️ Главное архитектурное изменение: &lt;span class=&quot;tt&quot;&gt;QListWidget&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;QListView&lt;/span&gt; + &lt;span class=&quot;tt&quot;&gt;QAbstractListModel&lt;/span&gt;',['../md_update.html#autotoc_md14',1,'']]]
 ];

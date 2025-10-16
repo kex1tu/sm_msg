@@ -1,0 +1,9 @@
+<map id="Server::sendOnlineStatusList" name="Server::sendOnlineStatusList">
+<area shape="rect" id="Node000001" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="591,13,783,40"/>
+<area shape="rect" id="Node000002" href="$class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="343,5,543,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="575,29,544,29,544,24,575,24"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,13,295,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="327,29,296,29,296,24,327,24"/>
+<area shape="rect" id="Node000004" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>

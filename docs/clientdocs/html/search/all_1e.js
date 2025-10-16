@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['главное_20архитектурное_20изменение_3a_20qlistwidget_20→_20qlistview_20qabstractlistmodel_0',['1. 🏛️ Главное архитектурное изменение: &lt;span class=&quot;tt&quot;&gt;QListWidget&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;QListView&lt;/span&gt; + &lt;span class=&quot;tt&quot;&gt;QAbstractListModel&lt;/span&gt;',['../md_update.html#autotoc_md14',1,'']]]
+  ['векторные_20svg_20иконки_20для_20статусов_20сообщений_0',['2.1. Векторные SVG-иконки для статусов сообщений',['../md_update.html#autotoc_md17',1,'']]],
+  ['версии_205_20к_20версии_206_1',['Анализ изменений: Переход от Версии 5 к Версии 6',['../md_update.html',1,'']]],
+  ['версии_206_2',['Анализ изменений: Переход от Версии 5 к Версии 6',['../md_update.html',1,'']]],
+  ['версия_204_3',['Архитектура проекта: Чат-клиент (Версия 4)',['../md_description.html',1,'']]],
+  ['визуальные_20улучшения_20и_20полировка_20ux_4',['2. 🎨 Визуальные улучшения и полировка UX',['../md_update.html#autotoc_md16',1,'']]],
+  ['видение_20и_20принципы_5',['1. Общее видение и принципы',['../md_description.html#autotoc_md1',1,'']]]
 ];

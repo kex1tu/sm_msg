@@ -1,0 +1,5 @@
+<map id="MainWindow::handleOldHistoryData" name="MainWindow::handleOldHistoryData">
+<area shape="rect" id="Node000001" title="Обрабатывает ответ сервера со старой порцией истории сообщений." alt="" coords="5,13,238,40"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a57d325c95f6bd04fdb537545c9d9e23e" title="Проверяет видимые сообщения и помечает их как прочитанные." alt="" coords="286,5,475,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,24,270,24,270,29,238,29"/>
+</map>

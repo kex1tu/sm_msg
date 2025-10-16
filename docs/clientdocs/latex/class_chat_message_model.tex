@@ -68,6 +68,13 @@ QVariant \mbox{\hyperlink{class_chat_message_model_ab687665d0889263fab9c116c8d60
 \begin{DoxyCompactList}\small\item\em Основной метод, через который представление (View) запрашивает данные. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_chat_message_model_a7eaed5b52bf66ffb9bd85ef60e108a7b}{set\+Data}} (const QModel\+Index \&index, const QVariant \&value, int role=Qt\+::\+Edit\+Role) override
 \begin{DoxyCompactList}\small\item\em Метод для изменения данных в модели извне (например, из делегата). Хотя в данной версии он не используется активно для изменения, его реализация важна для полноты API модели и может пригодиться в будущем. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \mbox{\hyperlink{class_chat_message_model_ac36eb7c7a07191d38fdd2cee5cc871b8}{m\+\_\+messages}}
+\begin{DoxyCompactList}\small\item\em Основное хранилище сообщений в виде списка. \end{DoxyCompactList}\item 
+QMap$<$ qint64, \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \mbox{\hyperlink{class_chat_message_model_ad38ed7cf6a1c7786f585d118338d5031}{m\+\_\+message\+Map}}
+\begin{DoxyCompactList}\small\item\em Дополнительное хранилище для оптимизации. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -455,6 +462,39 @@ void Chat\+Message\+Model\+::update\+Message\+Status (\begin{DoxyParamCaption}\i
 
 
 Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00210}{210}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{class_chat_message_model_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_chat_message_model_ad38ed7cf6a1c7786f585d118338d5031}\index{ChatMessageModel@{ChatMessageModel}!m\_messageMap@{m\_messageMap}}
+\index{m\_messageMap@{m\_messageMap}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{m\_messageMap}{m\_messageMap}}
+{\footnotesize\ttfamily \label{class_chat_message_model_ad38ed7cf6a1c7786f585d118338d5031} 
+QMap$<$qint64, \mbox{\hyperlink{struct_chat_message}{Chat\+Message}}$>$ Chat\+Message\+Model\+::m\+\_\+message\+Map\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Дополнительное хранилище для оптимизации. 
+
+QMap (хэш-\/таблица) хранит те же сообщения, но индексирует их по уникальному ID. Это позволяет осуществлять сверхбыстрый поиск сообщения по ID (O(log n)), что критически важно для функции ответов, где делегату нужно быстро найти исходное цитируемое сообщение. 
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8h_source_l00129}{129}} of file \mbox{\hyperlink{chatmessagemodel_8h_source}{chatmessagemodel.\+h}}.
+
+\Hypertarget{class_chat_message_model_ac36eb7c7a07191d38fdd2cee5cc871b8}\index{ChatMessageModel@{ChatMessageModel}!m\_messages@{m\_messages}}
+\index{m\_messages@{m\_messages}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{m\_messages}{m\_messages}}
+{\footnotesize\ttfamily \label{class_chat_message_model_ac36eb7c7a07191d38fdd2cee5cc871b8} 
+QList$<$\mbox{\hyperlink{struct_chat_message}{Chat\+Message}}$>$ Chat\+Message\+Model\+::m\+\_\+messages\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Основное хранилище сообщений в виде списка. 
+
+QList обеспечивает быстрый доступ по индексу и сохраняет порядок, что необходимо для отображения в QList\+View. 
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8h_source_l00119}{119}} of file \mbox{\hyperlink{chatmessagemodel_8h_source}{chatmessagemodel.\+h}}.
 
 
 

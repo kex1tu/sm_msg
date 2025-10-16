@@ -83,6 +83,55 @@ void \mbox{\hyperlink{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d}{
 \begin{DoxyCompactList}\small\item\em Обработчик события изменения размера виджета. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_chat_view_widget_aff70dfe244c6201f87624d742e1fa9e1}{event\+Filter}} (QObject \texorpdfstring{$\ast$}{*}watched, QEvent \texorpdfstring{$\ast$}{*}event) override
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a9bf2911d0b2215ea0088dfbdd1ee633d}{on\+Search\+Triggered}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em (Заготовка) Слот для обработки поиска по чату. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_a37802f56820b58365a5269f4a27c177d}{on\+Chat\+Context\+Menu\+Requested}} (const QPoint \&pos)
+\begin{DoxyCompactList}\small\item\em Слот, вызываемый по правому клику на списке сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3}{on\+Message\+Double\+Clicked}} (const QModel\+Index \&index)
+\begin{DoxyCompactList}\small\item\em Слот, вызываемый по двойному клику на сообщении в списке. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_a6418318ae1f624d2f56764960da969a4}{on\+Chat\+Scrolled}} (int value)
+\begin{DoxyCompactList}\small\item\em Слот, отслеживающий прокрутку чата пользователем. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+QString \mbox{\hyperlink{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274}{format\+Last\+Seen}} (const \mbox{\hyperlink{struct_user}{User}} \&user)
+\begin{DoxyCompactList}\small\item\em Форматирует строку о последнем времени визита пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_adb5f2c7f55bccafc923c950e93bf8cd2}{setup\+Header\+UI}} ()
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a7a2b8299c9c127f8711c0d4b610e6779}{update\+Scroll\+To\+Bottom\+Button}} ()
+\begin{DoxyCompactList}\small\item\em Обновляет видимость и позицию кнопки "{}прокрутить вниз"{} и счетчика. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ui\+::\+Chat\+View\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a7db46d8fc4b3135cc90d45bec96387de}{ui}}
+\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_ae5b51702716b4a9a60fd78a5c5bdec01}{m\+\_\+name\+Label}}
+\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a2329da2ec938a2d34daafc7947b937cc}{m\+\_\+status\+Label}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a9f3374433cdd7dabdf90f1700c084786}{m\+\_\+search\+Button}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a124c1f2987861a5a552dba2482541a61}{m\+\_\+call\+Button}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a4e32df0c1fdf1756f293cd7a406c118b}{m\+\_\+video\+Call\+Button}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a1a81aec3ec624a10abad0e86e5fffc1c}{m\+\_\+more\+Options\+Button}}
+\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a08c2dcd66163e12d2a231d9113ea3418}{m\+\_\+search\+Line\+Edit}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_aaa7fb6e2253756ec2a2e0f431a5a94b8}{m\+\_\+close\+Search\+Button}}
+\item 
+QTool\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a3f64dcfd7ee3bff03898e33eea9f0c80}{m\+\_\+scroll\+To\+Bottom\+Button}}
+\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_a0c0f0f1e9f737a673074037732bcd324}{m\+\_\+unread\+Count\+Label}}
+\item 
+int \mbox{\hyperlink{class_chat_view_widget_ae53b35d5de12cfdf4d5d08e34732bf5a}{m\+\_\+unread\+Message\+Count}} = 0
+\item 
+QProperty\+Animation \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_ac90d1bfb7aebc0c3f89a3b36748dc1a7}{m\+\_\+reply\+Animation}}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -203,12 +252,28 @@ Here is the caller graph for this function\+:
 {\footnotesize\ttfamily \label{class_chat_view_widget_af82d1b93574bbc7115c45e6c059cfeb5} 
 void Chat\+View\+Widget\+::delete\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_af82d1b93574bbc7115c45e6c059cfeb5_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839}\index{ChatViewWidget@{ChatViewWidget}!editMessageRequested@{editMessageRequested}}
 \index{editMessageRequested@{editMessageRequested}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{editMessageRequested}{editMessageRequested}}
 {\footnotesize\ttfamily \label{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839} 
 void Chat\+View\+Widget\+::edit\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{const QString \&}]{old\+Text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_aff70dfe244c6201f87624d742e1fa9e1}\index{ChatViewWidget@{ChatViewWidget}!eventFilter@{eventFilter}}
 \index{eventFilter@{eventFilter}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{eventFilter()}{eventFilter()}}
@@ -219,12 +284,58 @@ bool Chat\+View\+Widget\+::event\+Filter (\begin{DoxyParamCaption}\item[{QObject
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00124}{124}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+\Hypertarget{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274}\index{ChatViewWidget@{ChatViewWidget}!formatLastSeen@{formatLastSeen}}
+\index{formatLastSeen@{formatLastSeen}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{formatLastSeen()}{formatLastSeen()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274} 
+QString Chat\+View\+Widget\+::format\+Last\+Seen (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_user}{User}} \&}]{user}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Форматирует строку о последнем времени визита пользователя. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & Объект пользователя. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QString Отформатированная строка (например, "{}в сети"{}, "{}был(а) 5 минут назад"{}, "{}был(а) сегодня в 14\+:30"{}). 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00319}{319}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a5394f059fc4f3d5c06110d7d204be274_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64}\index{ChatViewWidget@{ChatViewWidget}!headerClicked@{headerClicked}}
 \index{headerClicked@{headerClicked}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{headerClicked}{headerClicked}}
 {\footnotesize\ttfamily \label{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64} 
 void Chat\+View\+Widget\+::header\+Clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97}\index{ChatViewWidget@{ChatViewWidget}!hideReplyUI@{hideReplyUI}}
 \index{hideReplyUI@{hideReplyUI}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{hideReplyUI}{hideReplyUI}}
@@ -286,6 +397,95 @@ QText\+Edit \texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::message\+Text\+Edit
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00282}{282}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+\Hypertarget{class_chat_view_widget_a37802f56820b58365a5269f4a27c177d}\index{ChatViewWidget@{ChatViewWidget}!onChatContextMenuRequested@{onChatContextMenuRequested}}
+\index{onChatContextMenuRequested@{onChatContextMenuRequested}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{onChatContextMenuRequested}{onChatContextMenuRequested}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a37802f56820b58365a5269f4a27c177d} 
+void Chat\+View\+Widget\+::on\+Chat\+Context\+Menu\+Requested (\begin{DoxyParamCaption}\item[{const QPoint \&}]{pos}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, вызываемый по правому клику на списке сообщений. 
+
+Создает и показывает контекстное меню (Ответить, Редактировать, Удалить). 
+\begin{DoxyParams}{Parameters}
+{\em pos} & Позиция курсора в координатах виджета, где был сделан клик. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00244}{244}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a37802f56820b58365a5269f4a27c177d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_a6418318ae1f624d2f56764960da969a4}\index{ChatViewWidget@{ChatViewWidget}!onChatScrolled@{onChatScrolled}}
+\index{onChatScrolled@{onChatScrolled}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{onChatScrolled}{onChatScrolled}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a6418318ae1f624d2f56764960da969a4} 
+void Chat\+View\+Widget\+::on\+Chat\+Scrolled (\begin{DoxyParamCaption}\item[{int}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, отслеживающий прокрутку чата пользователем. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Новое значение позиции скроллбара. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00374}{374}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a6418318ae1f624d2f56764960da969a4_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3}\index{ChatViewWidget@{ChatViewWidget}!onMessageDoubleClicked@{onMessageDoubleClicked}}
+\index{onMessageDoubleClicked@{onMessageDoubleClicked}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{onMessageDoubleClicked}{onMessageDoubleClicked}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3} 
+void Chat\+View\+Widget\+::on\+Message\+Double\+Clicked (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, вызываемый по двойному клику на сообщении в списке. 
+
+Инициирует режим ответа на выбранное сообщение. 
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс сообщения, по которому был произведен двойной клик. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00231}{231}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_ad8b9d698dd740a46bf05533a4beec5f3_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe}\index{ChatViewWidget@{ChatViewWidget}!onNewMessageReceived@{onNewMessageReceived}}
 \index{onNewMessageReceived@{onNewMessageReceived}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{onNewMessageReceived}{onNewMessageReceived}}
@@ -299,6 +499,41 @@ void Chat\+View\+Widget\+::on\+New\+Message\+Received (\begin{DoxyParamCaption}{
 
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00351}{351}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_a9bf2911d0b2215ea0088dfbdd1ee633d}\index{ChatViewWidget@{ChatViewWidget}!onSearchTriggered@{onSearchTriggered}}
+\index{onSearchTriggered@{onSearchTriggered}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{onSearchTriggered}{onSearchTriggered}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a9bf2911d0b2215ea0088dfbdd1ee633d} 
+void Chat\+View\+Widget\+::on\+Search\+Triggered (\begin{DoxyParamCaption}\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+(Заготовка) Слот для обработки поиска по чату. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & Текст для поиска. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00435}{435}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
 \Hypertarget{class_chat_view_widget_ab3b4618e5a002eb5a3efd9e73e1463c9}\index{ChatViewWidget@{ChatViewWidget}!replyCancelled@{replyCancelled}}
 \index{replyCancelled@{replyCancelled}!ChatViewWidget@{ChatViewWidget}}
@@ -320,6 +555,14 @@ Here is the caller graph for this function\+:
 {\footnotesize\ttfamily \label{class_chat_view_widget_aebd96881a5462aa694835bf8174d7547} 
 void Chat\+View\+Widget\+::reply\+To\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_aebd96881a5462aa694835bf8174d7547_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d}\index{ChatViewWidget@{ChatViewWidget}!resizeEvent@{resizeEvent}}
 \index{resizeEvent@{resizeEvent}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{resizeEvent()}{resizeEvent()}}
@@ -339,6 +582,14 @@ void Chat\+View\+Widget\+::resize\+Event (\begin{DoxyParamCaption}\item[{QResize
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00398}{398}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a9a6c6e8bb568bc72d77a8ba0cd650216}\index{ChatViewWidget@{ChatViewWidget}!scrollToBottom@{scrollToBottom}}
 \index{scrollToBottom@{scrollToBottom}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{scrollToBottom}{scrollToBottom}}
@@ -353,6 +604,14 @@ void Chat\+View\+Widget\+::scroll\+To\+Bottom (\begin{DoxyParamCaption}{}{}\end{
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00363}{363}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a9a6c6e8bb568bc72d77a8ba0cd650216_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a9c0965f1ffbd755ffee56b1144aa6e5c}\index{ChatViewWidget@{ChatViewWidget}!searchButtonClicked@{searchButtonClicked}}
 \index{searchButtonClicked@{searchButtonClicked}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{searchButtonClicked}{searchButtonClicked}}
@@ -365,6 +624,14 @@ void Chat\+View\+Widget\+::search\+Button\+Clicked (\begin{DoxyParamCaption}{}{}
 {\footnotesize\ttfamily \label{class_chat_view_widget_a47c131ab7e783a4d8ce225f04aaf2b3c} 
 void Chat\+View\+Widget\+::send\+Message\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a47c131ab7e783a4d8ce225f04aaf2b3c_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_abf039471b650ef2e53c21136c366ae27}\index{ChatViewWidget@{ChatViewWidget}!setEditMode@{setEditMode}}
 \index{setEditMode@{setEditMode}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{setEditMode}{setEditMode}}
@@ -388,6 +655,24 @@ void Chat\+View\+Widget\+::set\+Edit\+Mode (\begin{DoxyParamCaption}\item[{bool}
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00451}{451}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+\Hypertarget{class_chat_view_widget_adb5f2c7f55bccafc923c950e93bf8cd2}\index{ChatViewWidget@{ChatViewWidget}!setupHeaderUI@{setupHeaderUI}}
+\index{setupHeaderUI@{setupHeaderUI}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{setupHeaderUI()}{setupHeaderUI()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_adb5f2c7f55bccafc923c950e93bf8cd2} 
+void Chat\+View\+Widget\+::setup\+Header\+UI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00178}{178}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_adb5f2c7f55bccafc923c950e93bf8cd2_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_a72583a4d51c922ac0ddfb55f20aff440}\index{ChatViewWidget@{ChatViewWidget}!showReplyUI@{showReplyUI}}
 \index{showReplyUI@{showReplyUI}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{showReplyUI}{showReplyUI}}
@@ -409,6 +694,14 @@ void Chat\+View\+Widget\+::show\+Reply\+UI (\begin{DoxyParamCaption}\item[{const
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00152}{152}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a72583a4d51c922ac0ddfb55f20aff440_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_view_widget_adb9f862c41708983a26f8dff91f236d1}\index{ChatViewWidget@{ChatViewWidget}!updateHeader@{updateHeader}}
 \index{updateHeader@{updateHeader}!ChatViewWidget@{ChatViewWidget}}
 \doxysubsubsection{\texorpdfstring{updateHeader}{updateHeader}}
@@ -427,6 +720,171 @@ void Chat\+View\+Widget\+::update\+Header (\begin{DoxyParamCaption}\item[{const 
 
 
 Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00288}{288}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_adb9f862c41708983a26f8dff91f236d1_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_a7a2b8299c9c127f8711c0d4b610e6779}\index{ChatViewWidget@{ChatViewWidget}!updateScrollToBottomButton@{updateScrollToBottomButton}}
+\index{updateScrollToBottomButton@{updateScrollToBottomButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{updateScrollToBottomButton()}{updateScrollToBottomButton()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a7a2b8299c9c127f8711c0d4b610e6779} 
+void Chat\+View\+Widget\+::update\+Scroll\+To\+Bottom\+Button (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обновляет видимость и позицию кнопки "{}прокрутить вниз"{} и счетчика. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00409}{409}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a7a2b8299c9c127f8711c0d4b610e6779_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_chat_view_widget_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_chat_view_widget_a124c1f2987861a5a552dba2482541a61}\index{ChatViewWidget@{ChatViewWidget}!m\_callButton@{m\_callButton}}
+\index{m\_callButton@{m\_callButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_callButton}{m\_callButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a124c1f2987861a5a552dba2482541a61} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+call\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00104}{104}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_aaa7fb6e2253756ec2a2e0f431a5a94b8}\index{ChatViewWidget@{ChatViewWidget}!m\_closeSearchButton@{m\_closeSearchButton}}
+\index{m\_closeSearchButton@{m\_closeSearchButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_closeSearchButton}{m\_closeSearchButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_aaa7fb6e2253756ec2a2e0f431a5a94b8} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+close\+Search\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00110}{110}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a1a81aec3ec624a10abad0e86e5fffc1c}\index{ChatViewWidget@{ChatViewWidget}!m\_moreOptionsButton@{m\_moreOptionsButton}}
+\index{m\_moreOptionsButton@{m\_moreOptionsButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_moreOptionsButton}{m\_moreOptionsButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a1a81aec3ec624a10abad0e86e5fffc1c} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+more\+Options\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00106}{106}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_ae5b51702716b4a9a60fd78a5c5bdec01}\index{ChatViewWidget@{ChatViewWidget}!m\_nameLabel@{m\_nameLabel}}
+\index{m\_nameLabel@{m\_nameLabel}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_nameLabel}{m\_nameLabel}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ae5b51702716b4a9a60fd78a5c5bdec01} 
+QLabel\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+name\+Label\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00101}{101}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_ac90d1bfb7aebc0c3f89a3b36748dc1a7}\index{ChatViewWidget@{ChatViewWidget}!m\_replyAnimation@{m\_replyAnimation}}
+\index{m\_replyAnimation@{m\_replyAnimation}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_replyAnimation}{m\_replyAnimation}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ac90d1bfb7aebc0c3f89a3b36748dc1a7} 
+QProperty\+Animation\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+reply\+Animation\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00118}{118}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a3f64dcfd7ee3bff03898e33eea9f0c80}\index{ChatViewWidget@{ChatViewWidget}!m\_scrollToBottomButton@{m\_scrollToBottomButton}}
+\index{m\_scrollToBottomButton@{m\_scrollToBottomButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_scrollToBottomButton}{m\_scrollToBottomButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a3f64dcfd7ee3bff03898e33eea9f0c80} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+scroll\+To\+Bottom\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00113}{113}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a9f3374433cdd7dabdf90f1700c084786}\index{ChatViewWidget@{ChatViewWidget}!m\_searchButton@{m\_searchButton}}
+\index{m\_searchButton@{m\_searchButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_searchButton}{m\_searchButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a9f3374433cdd7dabdf90f1700c084786} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+search\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00103}{103}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a08c2dcd66163e12d2a231d9113ea3418}\index{ChatViewWidget@{ChatViewWidget}!m\_searchLineEdit@{m\_searchLineEdit}}
+\index{m\_searchLineEdit@{m\_searchLineEdit}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_searchLineEdit}{m\_searchLineEdit}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a08c2dcd66163e12d2a231d9113ea3418} 
+QLine\+Edit\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+search\+Line\+Edit\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00109}{109}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a2329da2ec938a2d34daafc7947b937cc}\index{ChatViewWidget@{ChatViewWidget}!m\_statusLabel@{m\_statusLabel}}
+\index{m\_statusLabel@{m\_statusLabel}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_statusLabel}{m\_statusLabel}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a2329da2ec938a2d34daafc7947b937cc} 
+QLabel\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+status\+Label\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00102}{102}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a0c0f0f1e9f737a673074037732bcd324}\index{ChatViewWidget@{ChatViewWidget}!m\_unreadCountLabel@{m\_unreadCountLabel}}
+\index{m\_unreadCountLabel@{m\_unreadCountLabel}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_unreadCountLabel}{m\_unreadCountLabel}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a0c0f0f1e9f737a673074037732bcd324} 
+QLabel\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+unread\+Count\+Label\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00114}{114}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_ae53b35d5de12cfdf4d5d08e34732bf5a}\index{ChatViewWidget@{ChatViewWidget}!m\_unreadMessageCount@{m\_unreadMessageCount}}
+\index{m\_unreadMessageCount@{m\_unreadMessageCount}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_unreadMessageCount}{m\_unreadMessageCount}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ae53b35d5de12cfdf4d5d08e34732bf5a} 
+int Chat\+View\+Widget\+::m\+\_\+unread\+Message\+Count = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00115}{115}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a4e32df0c1fdf1756f293cd7a406c118b}\index{ChatViewWidget@{ChatViewWidget}!m\_videoCallButton@{m\_videoCallButton}}
+\index{m\_videoCallButton@{m\_videoCallButton}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{m\_videoCallButton}{m\_videoCallButton}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a4e32df0c1fdf1756f293cd7a406c118b} 
+QTool\+Button\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::m\+\_\+video\+Call\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00105}{105}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+\Hypertarget{class_chat_view_widget_a7db46d8fc4b3135cc90d45bec96387de}\index{ChatViewWidget@{ChatViewWidget}!ui@{ui}}
+\index{ui@{ui}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{ui}{ui}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a7db46d8fc4b3135cc90d45bec96387de} 
+Ui\+::\+Chat\+View\+Widget\texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::ui\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00098}{98}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
 
 
 

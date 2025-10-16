@@ -1,0 +1,7 @@
+<map id="MainWindow::onSendMessageReadReceipt" name="MainWindow::onSendMessageReadReceipt">
+<area shape="rect" id="Node000001" title="Отправляет на сервер подтверждение о прочтении сообщения." alt="" coords="5,27,207,69"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="273,5,433,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,33,257,27,258,33,207,39"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#afb46069aa39e10ec53248a3e73c07a5c" title="Централизованно обновляет статус сообщения и в кэше, и в активной модели." alt="" coords="255,56,451,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,57,239,61,239,66,207,63"/>
+</map>

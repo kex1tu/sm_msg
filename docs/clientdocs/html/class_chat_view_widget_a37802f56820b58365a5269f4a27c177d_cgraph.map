@@ -1,0 +1,13 @@
+<map id="ChatViewWidget::onChatContextMenuRequested" name="ChatViewWidget::onChatContextMenuRequested">
+<area shape="rect" id="Node000001" title="Слот, вызываемый по правому клику на списке сообщений." alt="" coords="5,72,221,115"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#af82d1b93574bbc7115c45e6c059cfeb5" title=" " alt="" coords="269,5,484,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,69,274,50,275,55,201,74"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#a2c34a79553acea8433547f5292ad4839" title=" " alt="" coords="276,72,477,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,91,260,91,260,96,221,96"/>
+<area shape="rect" id="Node000004" href="$class_chat_view_widget.html#ad8b9d698dd740a46bf05533a4beec5f3" title="Слот, вызываемый по двойному клику на сообщении в списке." alt="" coords="279,139,474,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,113,275,132,274,137,199,118"/>
+<area shape="rect" id="Node000005" href="$class_chat_view_widget.html#aebd96881a5462aa694835bf8174d7547" title=" " alt="" coords="532,109,754,152"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="474,147,517,142,517,147,474,152"/>
+<area shape="rect" id="Node000006" href="$class_chat_view_widget.html#a72583a4d51c922ac0ddfb55f20aff440" title="Показывает панель ответа с плавной анимацией &quot;разворачивания&quot;." alt="" coords="540,176,746,203"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="474,168,524,174,524,179,474,173"/>
+</map>

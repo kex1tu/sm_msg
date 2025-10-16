@@ -141,6 +141,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a01a9e3569fdca13ae9a0c2cb2caa43f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Геттер для получения имени пользователя из поля ввода.  <br /></td></tr>
 <tr class="memitem:a97bf0d57b1fdebda30f5ea738577d759" id="r_a97bf0d57b1fdebda30f5ea738577d759"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97bf0d57b1fdebda30f5ea738577d759">~LoginWidget</a> ()</td></tr>
 <tr class="memdesc:a97bf0d57b1fdebda30f5ea738577d759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Деструктор.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-slots" class="groupheader"><a id="pri-slots" name="pri-slots"></a>
+Private Slots</h2></td></tr>
+<tr class="memitem:aab6ba607ef094776934d904de24df476" id="r_aab6ba607ef094776934d904de24df476"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab6ba607ef094776934d904de24df476">ongoToRegisterButtonclicked</a> ()</td></tr>
+<tr class="memdesc:aab6ba607ef094776934d904de24df476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Переключает QStackedWidget на страницу регистрации.  <br /></td></tr>
+<tr class="memitem:a26a89b81803a26640e7d1408930fc82b" id="r_a26a89b81803a26640e7d1408930fc82b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a89b81803a26640e7d1408930fc82b">ongoToLoginButtonclicked</a> ()</td></tr>
+<tr class="memdesc:a26a89b81803a26640e7d1408930fc82b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Переключает QStackedWidget на страницу входа.  <br /></td></tr>
+<tr class="memitem:af9f93ecd15b5faccb9d3607d3a8ad970" id="r_af9f93ecd15b5faccb9d3607d3a8ad970"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9f93ecd15b5faccb9d3607d3a8ad970">onTogglePasswordVisibilityTriggered</a> ()</td></tr>
+<tr class="memdesc:af9f93ecd15b5faccb9d3607d3a8ad970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот, который вызывается при клике на иконку "глаза". Переключает режим отображения пароля (QLineEdit::Password / QLineEdit::Normal).  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:abdc627b3c95032b3a06d0e1e3ddbff77" id="r_abdc627b3c95032b3a06d0e1e3ddbff77"><td class="memItemLeft" align="right" valign="top">Ui::LoginWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdc627b3c95032b3a06d0e1e3ddbff77">ui</a></td></tr>
+<tr class="memitem:a80c7f0a6337804e04bea9d2ade867276" id="r_a80c7f0a6337804e04bea9d2ade867276"><td class="memItemLeft" align="right" valign="top">QAction *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80c7f0a6337804e04bea9d2ade867276">m_passwordVisibilityAction</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Виджет, отвечающий за интерфейс аутентификации и регистрации. </p>
@@ -197,8 +211,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph.png" border="0" usemap="#aclass_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph" loading="lazy" alt=""/></div>
 <map name="aclass_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph" id="aclass_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph">
-<area shape="rect" title="Конструктор." alt="" coords="5,29,179,56"/>
-<area shape="poly" title=" " alt="" coords="62,30,57,21,61,11,73,5,92,3,113,5,124,12,121,16,111,10,92,8,74,10,64,15,62,20,67,28"/>
+<area shape="rect" title="Конструктор." alt="" coords="5,80,179,107"/>
+<area shape="poly" title=" " alt="" coords="52,81,44,71,49,61,66,55,92,53,121,56,136,63,134,68,120,61,92,59,67,61,53,65,50,71,56,78"/>
+<area shape="rect" href="class_login_widget.html#a26a89b81803a26640e7d1408930fc82b" title="Переключает QStackedWidget на страницу входа." alt="" coords="245,5,420,48"/>
+<area shape="poly" title=" " alt="" coords="142,77,237,50,239,55,144,82"/>
+<area shape="rect" href="class_login_widget.html#aab6ba607ef094776934d904de24df476" title="Переключает QStackedWidget на страницу регистрации." alt="" coords="236,72,428,115"/>
+<area shape="poly" title=" " alt="" coords="179,91,221,91,221,96,179,96"/>
+<area shape="rect" href="class_login_widget.html#af9f93ecd15b5faccb9d3607d3a8ad970" title="Слот, который вызывается при клике на иконку &quot;глаза&quot;. Переключает режим отображения пароля (QLineEdit..." alt="" coords="227,139,438,181"/>
+<area shape="poly" title=" " alt="" coords="144,105,239,131,237,136,142,110"/>
 </map>
 </div>
 <div class="dynheader">
@@ -310,6 +330,101 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="197,16,229,16,229,21,197,21"/>
 </map>
 </div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_login_widget_adbd0375e506207d9cf8420a0b5fa1017_icgraph.png" border="0" usemap="#aclass_login_widget_adbd0375e506207d9cf8420a0b5fa1017_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_login_widget_adbd0375e506207d9cf8420a0b5fa1017_icgraph" id="aclass_login_widget_adbd0375e506207d9cf8420a0b5fa1017_icgraph">
+<area shape="rect" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="490,29,681,56"/>
+<area shape="rect" href="class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,29,442,56"/>
+<area shape="poly" title=" " alt="" coords="474,45,442,45,442,40,474,40"/>
+<area shape="rect" href="class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,29,185,56"/>
+<area shape="poly" title=" " alt="" coords="217,45,185,45,185,40,217,40"/>
+<area shape="poly" title=" " alt="" coords="137,17,123,10,95,8,69,10,56,15,52,20,59,27,54,31,47,21,52,11,68,5,95,3,124,5,139,12"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a26a89b81803a26640e7d1408930fc82b" name="a26a89b81803a26640e7d1408930fc82b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26a89b81803a26640e7d1408930fc82b">&#9670;&#160;</a></span>ongoToLoginButtonclicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LoginWidget::ongoToLoginButtonclicked </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Переключает QStackedWidget на страницу входа. </p>
+<p>Переключает виджет на страницу входа. </p>
+
+<p class="definition">Definition at line <a class="el" href="loginwidget_8cpp_source.html#l00138">138</a> of file <a class="el" href="loginwidget_8cpp_source.html">loginwidget.cpp</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_login_widget_a26a89b81803a26640e7d1408930fc82b_icgraph.png" border="0" usemap="#aclass_login_widget_a26a89b81803a26640e7d1408930fc82b_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_login_widget_a26a89b81803a26640e7d1408930fc82b_icgraph" id="aclass_login_widget_a26a89b81803a26640e7d1408930fc82b_icgraph">
+<area shape="rect" title="Переключает QStackedWidget на страницу входа." alt="" coords="227,21,401,64"/>
+<area shape="rect" href="class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d" title="Конструктор." alt="" coords="5,29,179,56"/>
+<area shape="poly" title=" " alt="" coords="211,45,179,45,179,40,211,40"/>
+<area shape="poly" title=" " alt="" coords="130,16,117,10,92,8,69,10,56,15,53,20,59,27,55,30,48,21,52,11,68,5,92,3,118,5,132,12"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aab6ba607ef094776934d904de24df476" name="aab6ba607ef094776934d904de24df476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6ba607ef094776934d904de24df476">&#9670;&#160;</a></span>ongoToRegisterButtonclicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LoginWidget::ongoToRegisterButtonclicked </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Переключает QStackedWidget на страницу регистрации. </p>
+<p>Переключает виджет на страницу регистрации. </p>
+
+<p class="definition">Definition at line <a class="el" href="loginwidget_8cpp_source.html#l00130">130</a> of file <a class="el" href="loginwidget_8cpp_source.html">loginwidget.cpp</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_login_widget_aab6ba607ef094776934d904de24df476_icgraph.png" border="0" usemap="#aclass_login_widget_aab6ba607ef094776934d904de24df476_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_login_widget_aab6ba607ef094776934d904de24df476_icgraph" id="aclass_login_widget_aab6ba607ef094776934d904de24df476_icgraph">
+<area shape="rect" title="Переключает QStackedWidget на страницу регистрации." alt="" coords="227,21,419,64"/>
+<area shape="rect" href="class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d" title="Конструктор." alt="" coords="5,29,179,56"/>
+<area shape="poly" title=" " alt="" coords="211,45,179,45,179,40,211,40"/>
+<area shape="poly" title=" " alt="" coords="132,17,119,10,92,8,68,10,55,15,51,20,57,27,53,31,46,21,51,11,67,5,92,3,120,5,134,12"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -341,6 +456,48 @@ Here is the call graph for this function:</div>
 <p>Показывает пользователю сообщение и переключает на форму входа. </p>
 
 <p class="definition">Definition at line <a class="el" href="loginwidget_8cpp_source.html#l00114">114</a> of file <a class="el" href="loginwidget_8cpp_source.html">loginwidget.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af9f93ecd15b5faccb9d3607d3a8ad970" name="af9f93ecd15b5faccb9d3607d3a8ad970"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9f93ecd15b5faccb9d3607d3a8ad970">&#9670;&#160;</a></span>onTogglePasswordVisibilityTriggered</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LoginWidget::onTogglePasswordVisibilityTriggered </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот, который вызывается при клике на иконку "глаза". Переключает режим отображения пароля (QLineEdit::Password / QLineEdit::Normal). </p>
+<p>Слот, переключающий видимость пароля в поле ввода.</p>
+<p>Вызывается при клике на иконку "глаза" (m_passwordVisibilityAction). </p>
+
+<p class="definition">Definition at line <a class="el" href="loginwidget_8cpp_source.html#l00085">85</a> of file <a class="el" href="loginwidget_8cpp_source.html">loginwidget.cpp</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970_icgraph.png" border="0" usemap="#aclass_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970_icgraph" id="aclass_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970_icgraph">
+<area shape="rect" title="Слот, который вызывается при клике на иконку &quot;глаза&quot;. Переключает режим отображения пароля (QLineEdit..." alt="" coords="227,21,438,64"/>
+<area shape="rect" href="class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d" title="Конструктор." alt="" coords="5,29,179,56"/>
+<area shape="poly" title=" " alt="" coords="211,45,179,45,179,40,211,40"/>
+<area shape="poly" title=" " alt="" coords="134,17,120,10,92,8,67,10,53,15,50,20,56,27,52,31,44,21,49,11,66,5,92,3,121,5,136,12"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -393,6 +550,19 @@ Here is the call graph for this function:</div>
 <area shape="rect" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="5,5,213,32"/>
 <area shape="rect" href="class_login_widget.html#a01a9e3569fdca13ae9a0c2cb2caa43f3" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="261,5,419,32"/>
 <area shape="poly" title=" " alt="" coords="213,16,245,16,245,21,213,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_icgraph.png" border="0" usemap="#aclass_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_icgraph" id="aclass_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_icgraph">
+<area shape="rect" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="490,29,697,56"/>
+<area shape="rect" href="class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,29,442,56"/>
+<area shape="poly" title=" " alt="" coords="474,45,442,45,442,40,474,40"/>
+<area shape="rect" href="class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,29,185,56"/>
+<area shape="poly" title=" " alt="" coords="217,45,185,45,185,40,217,40"/>
+<area shape="poly" title=" " alt="" coords="137,17,123,10,95,8,69,10,56,15,52,20,59,27,54,31,47,21,52,11,68,5,95,3,124,5,139,12"/>
 </map>
 </div>
 
@@ -467,13 +637,68 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph.png" border="0" usemap="#aclass_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph" loading="lazy" alt=""/></div>
 <map name="aclass_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph" id="aclass_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph">
-<area shape="rect" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="261,31,419,57"/>
-<area shape="rect" href="class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="13,5,205,32"/>
-<area shape="poly" title=" " alt="" coords="245,36,205,32,206,27,246,31"/>
-<area shape="rect" href="class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="5,56,213,83"/>
-<area shape="poly" title=" " alt="" coords="246,57,214,61,213,55,245,52"/>
+<area shape="rect" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="745,31,904,57"/>
+<area shape="rect" href="class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="498,5,689,32"/>
+<area shape="poly" title=" " alt="" coords="730,36,690,32,690,27,731,31"/>
+<area shape="rect" href="class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="490,56,697,83"/>
+<area shape="poly" title=" " alt="" coords="731,57,698,61,698,55,730,52"/>
+<area shape="rect" href="class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,31,442,57"/>
+<area shape="poly" title=" " alt="" coords="483,32,443,36,442,31,482,27"/>
+<area shape="rect" href="class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,31,185,57"/>
+<area shape="poly" title=" " alt="" coords="217,47,185,47,185,41,217,41"/>
+<area shape="poly" title=" " alt="" coords="137,18,123,12,95,9,69,11,56,16,52,21,59,29,54,32,47,22,52,12,68,6,95,4,124,7,139,13"/>
+<area shape="poly" title=" " alt="" coords="474,60,442,57,443,52,475,55"/>
 </map>
 </div>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a80c7f0a6337804e04bea9d2ade867276" name="a80c7f0a6337804e04bea9d2ade867276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80c7f0a6337804e04bea9d2ade867276">&#9670;&#160;</a></span>m_passwordVisibilityAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAction* LoginWidget::m_passwordVisibilityAction</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="loginwidget_8h_source.html#l00097">97</a> of file <a class="el" href="loginwidget_8h_source.html">loginwidget.h</a>.</p>
+
+</div>
+</div>
+<a id="abdc627b3c95032b3a06d0e1e3ddbff77" name="abdc627b3c95032b3a06d0e1e3ddbff77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc627b3c95032b3a06d0e1e3ddbff77">&#9670;&#160;</a></span>ui</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Ui::LoginWidget* LoginWidget::ui</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="loginwidget_8h_source.html#l00093">93</a> of file <a class="el" href="loginwidget_8h_source.html">loginwidget.h</a>.</p>
 
 </div>
 </div>

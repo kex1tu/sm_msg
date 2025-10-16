@@ -1,0 +1,21 @@
+<map id="MainWindow::updateContactItem" name="MainWindow::updateContactItem">
+<area shape="rect" id="Node000001" title="Обновляет отображение одного конкретного контакта в списке." alt="" coords="756,101,972,128"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a4b8f3494d69ec0bb36bf7a6e861a27c3" title="Обрабатывает команду от сервера об удалении сообщения." alt="" coords="509,5,689,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="810,98,707,63,672,51,673,46,709,57,811,93"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#a6ae06054225d0b76a79c34ccb75956f9" title="Обрабатывает команду от сервера об изменении текста сообщения." alt="" coords="490,72,708,99"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="741,104,708,100,709,95,741,98"/>
+<area shape="rect" id="Node000006" href="$class_main_window.html#a76f3f2fc212fc0b0672b27d08c6421b3" title="Обрабатывает входящие личные сообщения от сервера." alt="" coords="508,123,691,165"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="742,131,691,137,691,131,741,126"/>
+<area shape="rect" id="Node000007" href="$class_main_window.html#a2ac218f3cfa5f2326d1c893f6ceb8223" title="Обрабатывает запрос на отправку сообщения из ChatViewWidget." alt="" coords="498,189,700,232"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="818,137,709,180,675,191,674,186,707,175,816,132"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5" title="Заполняет карту m_responseHandlers для обработки команд сервера." alt="" coords="247,93,428,136"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="512,56,491,63,398,95,396,90,489,57,510,51"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,131,185,157"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="232,130,186,136,185,130,232,125"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,118,123,112,95,109,69,111,56,116,52,121,59,129,54,132,47,122,52,112,68,106,95,104,124,107,139,113"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="475,102,428,107,427,102,474,97"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="492,135,428,127,428,122,493,129"/>
+<area shape="rect" id="Node000008" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,179,442,205"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="483,205,442,202,442,197,483,200"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="251,178,165,161,166,155,252,173"/>
+</map>

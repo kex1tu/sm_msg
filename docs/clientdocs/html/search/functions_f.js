@@ -1,8 +1,20 @@
 var searchData=
 [
-  ['updatecontacts_0',['updateContacts',['../class_contact_list_model.html#a4d65ea854724114c7e14049ea81c6327',1,'ContactListModel']]],
-  ['updateheader_1',['updateHeader',['../class_chat_view_widget.html#adb9f862c41708983a26f8dff91f236d1',1,'ChatViewWidget']]],
-  ['updatemessagestatus_2',['updateMessageStatus',['../class_chat_message_model.html#a2d0729f1abb9a3360d4b49fd627089be',1,'ChatMessageModel']]],
-  ['username_3',['username',['../class_login_widget.html#a01a9e3569fdca13ae9a0c2cb2caa43f3',1,'LoginWidget']]],
-  ['userselected_4',['userSelected',['../class_search_results_popup.html#ad488c35265a75f5462fa27ee8d3f8779',1,'SearchResultsPopup']]]
+  ['scrolltobottom_0',['scrollToBottom',['../class_chat_view_widget.html#a9a6c6e8bb568bc72d77a8ba0cd650216',1,'ChatViewWidget']]],
+  ['searchbuttonclicked_1',['searchButtonClicked',['../class_chat_view_widget.html#a9c0965f1ffbd755ffee56b1144aa6e5c',1,'ChatViewWidget']]],
+  ['searchresultspopup_2',['SearchResultsPopup',['../class_search_results_popup.html#a3455b387ed90eb7fa2ddc8e531e6d8e8',1,'SearchResultsPopup']]],
+  ['sendjson_3',['sendJson',['../class_main_window.html#a79248e5cffb9376a9c1909e992e10919',1,'MainWindow']]],
+  ['sendmessagerequested_4',['sendMessageRequested',['../class_chat_view_widget.html#a47c131ab7e783a4d8ce225f04aaf2b3c',1,'ChatViewWidget']]],
+  ['setdata_5',['setData',['../class_chat_message_model.html#a7eaed5b52bf66ffb9bd85ef60e108a7b',1,'ChatMessageModel']]],
+  ['seteditmode_6',['setEditMode',['../class_chat_view_widget.html#abf039471b650ef2e53c21136c366ae27',1,'ChatViewWidget']]],
+  ['setuienabled_7',['setUiEnabled',['../class_login_widget.html#a9a3fa3187e640990165071b37ac33a57',1,'LoginWidget']]],
+  ['setupconnections_8',['setupConnections',['../class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d',1,'MainWindow']]],
+  ['setupheaderui_9',['setupHeaderUI',['../class_chat_view_widget.html#adb5f2c7f55bccafc923c950e93bf8cd2',1,'ChatViewWidget']]],
+  ['showcontactrequestprompt_10',['showContactRequestPrompt',['../class_main_window.html#a65b8df26fd76fa4f7cd40a17cf23d4e0',1,'MainWindow']]],
+  ['showprofileview_11',['showProfileView',['../class_main_window.html#a7e51b5f573f15d8a8d209ffcec8db70c',1,'MainWindow']]],
+  ['showreplyui_12',['showReplyUI',['../class_chat_view_widget.html#a72583a4d51c922ac0ddfb55f20aff440',1,'ChatViewWidget']]],
+  ['showresults_13',['showResults',['../class_search_results_popup.html#a1ccd139c582eb3efe382de659aaef2f4',1,'SearchResultsPopup']]],
+  ['sizehint_14',['sizeHint',['../class_chat_message_delegate.html#af2ea724e5de7a54e625e58d9e0383759',1,'ChatMessageDelegate::sizeHint()'],['../class_contact_list_delegate.html#a6eb595e59399f9966b5acc653b780415',1,'ContactListDelegate::sizeHint()']]],
+  ['smoothlistview_15',['SmoothListView',['../class_smooth_list_view.html#abc9ceb413c63f2970f44efcff2771c7b',1,'SmoothListView']]],
+  ['smoothtextedit_16',['SmoothTextEdit',['../class_smooth_text_edit.html#ab872f7fdbb47708c212672f0e2529516',1,'SmoothTextEdit']]]
 ];

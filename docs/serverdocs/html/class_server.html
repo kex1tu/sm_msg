@@ -134,13 +134,115 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:aadc3f04c0a456be1165c480843936617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает уведомление от клиента о том, что сообщение было прочитано.  <br /></td></tr>
 <tr class="memitem:ab0cc0ba54dab5ede748107dbe62811a1" id="r_ab0cc0ba54dab5ede748107dbe62811a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0cc0ba54dab5ede748107dbe62811a1">handleLogoutRequest</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
 <tr class="memdesc:ab0cc0ba54dab5ede748107dbe62811a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос клиента на выход из системы.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:a37e024465684a471d2fe17482f347891" id="r_a37e024465684a471d2fe17482f347891"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37e024465684a471d2fe17482f347891">Handler</a> = void (Server::*)(QObject*, const QJsonObject&amp;)</td></tr>
+<tr class="memdesc:a37e024465684a471d2fe17482f347891"><td class="mdescLeft">&#160;</td><td class="mdescRight">Псевдоним для указателя на метод-обработчик команды.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-slots" class="groupheader"><a id="pri-slots" name="pri-slots"></a>
+Private Slots</h2></td></tr>
+<tr class="memitem:a22bd355bf7fb7d2ee98cc963cc37bb29" id="r_a22bd355bf7fb7d2ee98cc963cc37bb29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22bd355bf7fb7d2ee98cc963cc37bb29">onNewTcpConnection</a> ()</td></tr>
+<tr class="memdesc:a22bd355bf7fb7d2ee98cc963cc37bb29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот, обрабатывающий новое входящее TCP-подключение.  <br /></td></tr>
+<tr class="memitem:a0dea29b2ecdf398365f882018d610ace" id="r_a0dea29b2ecdf398365f882018d610ace"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dea29b2ecdf398365f882018d610ace">onTcpReadyRead</a> ()</td></tr>
+<tr class="memdesc:a0dea29b2ecdf398365f882018d610ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот для чтения данных из TCP-сокета.  <br /></td></tr>
+<tr class="memitem:a8afa35c8257d78be38596587e469bea3" id="r_a8afa35c8257d78be38596587e469bea3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8afa35c8257d78be38596587e469bea3">onClientDisconnected</a> ()</td></tr>
+<tr class="memdesc:a8afa35c8257d78be38596587e469bea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот, обрабатывающий отключение клиента от сервера.  <br /></td></tr>
+<tr class="memitem:af9ee0faf4c581fd425e4b3750ca4d4c0" id="r_af9ee0faf4c581fd425e4b3750ca4d4c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9ee0faf4c581fd425e4b3750ca4d4c0">onNewWebSocketConnection</a> ()</td></tr>
+<tr class="memdesc:af9ee0faf4c581fd425e4b3750ca4d4c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот, обрабатывающий новое входящее WebSocket-подключение.  <br /></td></tr>
+<tr class="memitem:aa8df3dc4a4acdc92a7ee4fda89af22d7" id="r_aa8df3dc4a4acdc92a7ee4fda89af22d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8df3dc4a4acdc92a7ee4fda89af22d7">onWebSocketTextMessageReceived</a> (const QString &amp;message)</td></tr>
+<tr class="memdesc:aa8df3dc4a4acdc92a7ee4fda89af22d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Слот для обработки текстового сообщения, полученного по WebSocket.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a99bdd8ad9d7c6c9990e851697c8b8af7" id="r_a99bdd8ad9d7c6c9990e851697c8b8af7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99bdd8ad9d7c6c9990e851697c8b8af7">initDatabase</a> ()</td></tr>
+<tr class="memdesc:a99bdd8ad9d7c6c9990e851697c8b8af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет.  <br /></td></tr>
+<tr class="memitem:a428d243912239a29f227465d973371eb" id="r_a428d243912239a29f227465d973371eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a428d243912239a29f227465d973371eb">handleGetHistory</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a428d243912239a29f227465d973371eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос клиента на получение истории сообщений.  <br /></td></tr>
+<tr class="memitem:a14b7f7cf3f729bc8e1d7b910514b0646" id="r_a14b7f7cf3f729bc8e1d7b910514b0646"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14b7f7cf3f729bc8e1d7b910514b0646">handleRegister</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a14b7f7cf3f729bc8e1d7b910514b0646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос на регистрацию нового пользователя.  <br /></td></tr>
+<tr class="memitem:a33057c924848918167bb0990ca6cb0b5" id="r_a33057c924848918167bb0990ca6cb0b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33057c924848918167bb0990ca6cb0b5">handleSearchUsers</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a33057c924848918167bb0990ca6cb0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос на глобальный поиск пользователей.  <br /></td></tr>
+<tr class="memitem:a6194f5e7bf0e59830414199e9cbf5197" id="r_a6194f5e7bf0e59830414199e9cbf5197"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6194f5e7bf0e59830414199e9cbf5197">handleAddContactRequest</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a6194f5e7bf0e59830414199e9cbf5197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос от одного пользователя на добавление другого в список контактов.  <br /></td></tr>
+<tr class="memitem:a2c11ed0951b0edc730bd551a920fb08f" id="r_a2c11ed0951b0edc730bd551a920fb08f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c11ed0951b0edc730bd551a920fb08f">handleLogin</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a2c11ed0951b0edc730bd551a920fb08f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос на аутентификацию пользователя.  <br /></td></tr>
+<tr class="memitem:a2814eb164b6e628f8be39f465dad15ae" id="r_a2814eb164b6e628f8be39f465dad15ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2814eb164b6e628f8be39f465dad15ae">handlePrivateMessage</a> (QObject *fromUserSocket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a2814eb164b6e628f8be39f465dad15ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос на отправку личного сообщения от одного пользователя другому.  <br /></td></tr>
+<tr class="memitem:a44c58d6dfb62fb0842a4415d13b0be25" id="r_a44c58d6dfb62fb0842a4415d13b0be25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44c58d6dfb62fb0842a4415d13b0be25">handleEditMessage</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a44c58d6dfb62fb0842a4415d13b0be25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения.  <br /></td></tr>
+<tr class="memitem:a0386fd3f4b1df85683a736ad3f6c7091" id="r_a0386fd3f4b1df85683a736ad3f6c7091"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0386fd3f4b1df85683a736ad3f6c7091">handleDeleteMessage</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a0386fd3f4b1df85683a736ad3f6c7091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает запрос от клиента на удаление ранее отправленного сообщения.  <br /></td></tr>
+<tr class="memitem:aa384e1d90a914ec126cf22c21ba9f226" id="r_aa384e1d90a914ec126cf22c21ba9f226"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa384e1d90a914ec126cf22c21ba9f226">handleContactRequestResponse</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:aa384e1d90a914ec126cf22c21ba9f226"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает ответ пользователя на входящий запрос на добавление в контакты.  <br /></td></tr>
+<tr class="memitem:a83f3bb69919258397064dea7329d4f57" id="r_a83f3bb69919258397064dea7329d4f57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83f3bb69919258397064dea7329d4f57">handleTyping</a> (QObject *socket, const QJsonObject &amp;request)</td></tr>
+<tr class="memdesc:a83f3bb69919258397064dea7329d4f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обрабатывает и пересылает уведомление о наборе текста.  <br /></td></tr>
+<tr class="memitem:a1fae98fa6067984a8ad31c86f9b64859" id="r_a1fae98fa6067984a8ad31c86f9b64859"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fae98fa6067984a8ad31c86f9b64859">sendJson</a> (QObject *socket, const QJsonObject &amp;response)</td></tr>
+<tr class="memdesc:a1fae98fa6067984a8ad31c86f9b64859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Универсальный метод для отправки JSON-объекта клиенту.  <br /></td></tr>
+<tr class="memitem:a13183209a11a05ece3a5f935d4a56634" id="r_a13183209a11a05ece3a5f935d4a56634"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13183209a11a05ece3a5f935d4a56634">sendContactList</a> (QObject *socket, const QString &amp;username)</td></tr>
+<tr class="memdesc:a13183209a11a05ece3a5f935d4a56634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправляет клиенту его персональный список контактов.  <br /></td></tr>
+<tr class="memitem:a0a6f3f0f2d22d89f9fcd8572027f0a04" id="r_a0a6f3f0f2d22d89f9fcd8572027f0a04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a6f3f0f2d22d89f9fcd8572027f0a04">sendFullUserList</a> (QObject *socket)</td></tr>
+<tr class="memdesc:a0a6f3f0f2d22d89f9fcd8572027f0a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей.  <br /></td></tr>
+<tr class="memitem:af0ce9e55fc6fba5b92cad5b6af934306" id="r_af0ce9e55fc6fba5b92cad5b6af934306"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0ce9e55fc6fba5b92cad5b6af934306">broadcastUserList</a> ()</td></tr>
+<tr class="memdesc:af0ce9e55fc6fba5b92cad5b6af934306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Рассылает всем онлайн-клиентам актуальный список пользователей, находящихся в сети.  <br /></td></tr>
+<tr class="memitem:a4bf87a8a3828b77c4408d8e9fec72cf8" id="r_a4bf87a8a3828b77c4408d8e9fec72cf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bf87a8a3828b77c4408d8e9fec72cf8">sendOfflineMessages</a> (QObject *socket, const QString &amp;username)</td></tr>
+<tr class="memitem:a894f2c797fdc512da9e624ba41a8daf5" id="r_a894f2c797fdc512da9e624ba41a8daf5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a894f2c797fdc512da9e624ba41a8daf5">sendOnlineStatusList</a> (QObject *clientSocket)</td></tr>
+<tr class="memdesc:a894f2c797fdc512da9e624ba41a8daf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправляет список онлайн-пользователей одному конкретному клиенту.  <br /></td></tr>
+<tr class="memitem:a24b087314710ced5903f9d137d3e463d" id="r_a24b087314710ced5903f9d137d3e463d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24b087314710ced5903f9d137d3e463d">sendUnreadCounts</a> (QObject *socket, const QString &amp;username)</td></tr>
+<tr class="memdesc:a24b087314710ced5903f9d137d3e463d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям.  <br /></td></tr>
+<tr class="memitem:a3be6f6078d3c22a71163ff1b5c3c3bdc" id="r_a3be6f6078d3c22a71163ff1b5c3c3bdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3be6f6078d3c22a71163ff1b5c3c3bdc">sendPendingContactRequests</a> (QObject *socket, const QString &amp;username)</td></tr>
+<tr class="memdesc:a3be6f6078d3c22a71163ff1b5c3c3bdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты.  <br /></td></tr>
+<tr class="memitem:ab3d6b39c2cbb691005d654a2009f3468" id="r_ab3d6b39c2cbb691005d654a2009f3468"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3d6b39c2cbb691005d654a2009f3468">processJsonRequest</a> (const QJsonObject &amp;request, QObject *clientSocket)</td></tr>
+<tr class="memdesc:ab3d6b39c2cbb691005d654a2009f3468"><td class="mdescLeft">&#160;</td><td class="mdescRight">Общий метод-диспетчер, который вызывает нужный обработчик из <span class="tt">m_handlers</span>.  <br /></td></tr>
+<tr class="memitem:adc562afc19bd9813f10586823fdce35d" id="r_adc562afc19bd9813f10586823fdce35d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc562afc19bd9813f10586823fdce35d">removeClient</a> (QObject *clientSocket)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a0efcd94352570f9565c5fe9f0d441614" id="r_a0efcd94352570f9565c5fe9f0d441614"><td class="memItemLeft" align="right" valign="top">QTcpServer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a></td></tr>
+<tr class="memitem:a0f9623482771b8b020d023445ead8a29" id="r_a0f9623482771b8b020d023445ead8a29"><td class="memItemLeft" align="right" valign="top">QWebSocketServer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a></td></tr>
+<tr class="memitem:a66108947304ed85284fb61f2ae6dc96e" id="r_a66108947304ed85284fb61f2ae6dc96e"><td class="memItemLeft" align="right" valign="top">QMap&lt; QString, QObject * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66108947304ed85284fb61f2ae6dc96e">m_clients</a></td></tr>
+<tr class="memdesc:a66108947304ed85284fb61f2ae6dc96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отображение <span class="tt">username</span> -&gt; <span class="tt">указатель на сокет</span>. Для быстрого поиска сокета по имени.  <br /></td></tr>
+<tr class="memitem:a6899f0ea9be823ca334540849f93d0e8" id="r_a6899f0ea9be823ca334540849f93d0e8"><td class="memItemLeft" align="right" valign="top">QMap&lt; QObject *, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6899f0ea9be823ca334540849f93d0e8">m_clientsReverse</a></td></tr>
+<tr class="memdesc:a6899f0ea9be823ca334540849f93d0e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отображение <span class="tt">указатель на сокет</span> -&gt; <span class="tt">username</span>. Для быстрой идентификации клиента по сокету.  <br /></td></tr>
+<tr class="memitem:a3ab2da9e106ed2d1c7891f1056c4ab9a" id="r_a3ab2da9e106ed2d1c7891f1056c4ab9a"><td class="memItemLeft" align="right" valign="top">QMap&lt; QTcpSocket *, quint32 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ab2da9e106ed2d1c7891f1056c4ab9a">m_nextBlockSizes</a></td></tr>
+<tr class="memdesc:a3ab2da9e106ed2d1c7891f1056c4ab9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Хранит ожидаемый размер следующего TCP-пакета для каждого сокета.  <br /></td></tr>
+<tr class="memitem:ae1a19c09a1785fa344c54cae03f5e098" id="r_ae1a19c09a1785fa344c54cae03f5e098"><td class="memItemLeft" align="right" valign="top">QMap&lt; QString, <a class="el" href="#a37e024465684a471d2fe17482f347891">Handler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1a19c09a1785fa344c54cae03f5e098">m_handlers</a></td></tr>
+<tr class="memdesc:ae1a19c09a1785fa344c54cae03f5e098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Карта, реализующая паттерн "Команда".  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Главный класс, реализующий логику чат-сервера. </p>
 <p>Этот класс управляет TCP и WebSocket серверами, обрабатывает подключения клиентов, аутентифицирует их, обрабатывает их запросы (отправка сообщений, поиск, управление контактами и т.д.), взаимодействует с базой данных SQLite для хранения информации и управляет состоянием онлайн-пользователей. </p>
 
 <p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00032">32</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a37e024465684a471d2fe17482f347891" name="a37e024465684a471d2fe17482f347891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37e024465684a471d2fe17482f347891">&#9670;&#160;</a></span>Handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a37e024465684a471d2fe17482f347891">Server::Handler</a> = void (Server::*)(QObject*, const QJsonObject&amp;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Псевдоним для указателя на метод-обработчик команды. </p>
+<p>Позволяет хранить указатели на методы в <span class="tt">QMap</span> для реализации паттерна "Команда". </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00074">74</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aaf98d5194faee831c6340cc736b9b879" name="aaf98d5194faee831c6340cc736b9b879"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaf98d5194faee831c6340cc736b9b879">&#9670;&#160;</a></span>Server()</h2>
 
@@ -191,21 +293,604 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_server_aaf98d5194faee831c6340cc736b9b879_cgraph.png" border="0" usemap="#aclass_server_aaf98d5194faee831c6340cc736b9b879_cgraph" loading="lazy" alt=""/></div>
 <map name="aclass_server_aaf98d5194faee831c6340cc736b9b879_cgraph" id="aclass_server_aaf98d5194faee831c6340cc736b9b879_cgraph">
-<area shape="rect" title="Конструктор." alt="" coords="5,56,111,83"/>
-<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,56,295,83"/>
-<area shape="poly" title=" " alt="" coords="111,67,144,67,144,72,111,72"/>
-<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="353,5,546,32"/>
-<area shape="poly" title=" " alt="" coords="288,53,372,33,374,39,290,58"/>
-<area shape="rect" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="343,56,556,83"/>
-<area shape="poly" title=" " alt="" coords="295,67,328,67,328,72,295,72"/>
-<area shape="rect" href="class_server.html#aadc3f04c0a456be1165c480843936617" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="355,107,544,133"/>
-<area shape="poly" title=" " alt="" coords="290,81,374,100,372,105,288,86"/>
+<area shape="rect" title="Конструктор." alt="" coords="5,612,111,639"/>
+<area shape="rect" href="class_server.html#a99bdd8ad9d7c6c9990e851697c8b8af7" title="Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет." alt="" coords="209,339,350,366"/>
+<area shape="poly" title=" " alt="" coords="58,612,64,566,80,502,93,467,110,434,131,403,157,376,174,364,193,357,195,362,177,369,160,380,135,406,114,436,98,470,85,504,70,567,63,612"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="211,390,348,416"/>
+<area shape="poly" title=" " alt="" coords="71,610,252,426,256,430,75,614"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,808,377,835"/>
+<area shape="poly" title=" " alt="" coords="76,638,254,796,250,800,73,642"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,859,400,886"/>
+<area shape="poly" title=" " alt="" coords="64,639,72,680,89,736,118,795,137,822,160,845,166,849,163,853,157,849,133,826,113,798,84,738,67,681,59,640"/>
+<area shape="rect" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197" title="Обрабатывает запрос от одного пользователя на добавление другого в список контактов." alt="" coords="735,324,909,367"/>
+<area shape="poly" title=" " alt="" coords="348,389,448,375,719,350,719,355,448,380,348,395"/>
+<area shape="rect" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="461,542,661,584"/>
+<area shape="poly" title=" " alt="" coords="297,415,360,469,403,500,449,527,462,533,459,538,447,532,400,505,357,473,293,419"/>
+<area shape="rect" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="463,390,659,416"/>
+<area shape="poly" title=" " alt="" coords="348,400,447,400,447,406,348,406"/>
+<area shape="rect" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="470,440,652,467"/>
+<area shape="poly" title=" " alt="" coords="348,413,469,435,468,440,347,418"/>
+<area shape="rect" href="class_server.html#a428d243912239a29f227465d973371eb" title="Обрабатывает запрос клиента на получение истории сообщений." alt="" coords="477,491,645,518"/>
+<area shape="poly" title=" " alt="" coords="308,415,371,445,449,477,474,484,473,489,447,482,369,450,305,419"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="493,682,629,708"/>
+<area shape="poly" title=" " alt="" coords="293,415,358,493,450,595,533,670,529,674,446,598,354,497,289,418"/>
+<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="464,783,658,810"/>
+<area shape="poly" title=" " alt="" coords="288,416,307,469,341,548,389,636,418,679,450,719,484,749,521,773,518,778,481,753,446,722,414,682,385,639,337,550,302,471,283,418"/>
+<area shape="rect" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="454,22,668,48"/>
+<area shape="poly" title=" " alt="" coords="347,400,375,392,398,376,413,357,423,339,432,301,430,263,423,224,415,185,412,145,421,105,431,85,446,65,458,55,462,59,450,69,436,88,426,107,418,146,420,184,428,223,436,262,438,301,428,341,418,360,402,380,377,397,348,405"/>
+<area shape="rect" href="class_server.html#aadc3f04c0a456be1165c480843936617" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="727,71,917,98"/>
+<area shape="poly" title=" " alt="" coords="347,400,375,392,398,376,419,345,427,314,426,282,420,249,414,217,413,184,423,152,446,121,478,97,515,80,553,68,593,61,672,58,743,65,742,71,672,64,594,66,554,73,516,85,481,102,450,125,427,154,419,185,419,216,425,248,431,281,432,314,424,347,402,380,377,396,349,405"/>
+<area shape="rect" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae" title="Обрабатывает запрос на отправку личного сообщения от одного пользователя другому." alt="" coords="722,122,922,148"/>
+<area shape="poly" title=" " alt="" coords="347,399,375,391,398,376,416,351,423,326,423,300,420,274,417,247,418,221,426,195,446,171,479,147,515,130,553,119,593,112,672,109,742,116,741,121,671,115,594,117,555,124,517,135,481,152,450,174,431,198,423,222,422,247,425,273,429,300,428,327,421,354,402,380,377,396,348,405"/>
+<area shape="rect" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646" title="Обрабатывает запрос на регистрацию нового пользователя." alt="" coords="745,172,899,199"/>
+<area shape="poly" title=" " alt="" coords="347,399,375,391,398,376,413,357,420,338,420,298,422,257,430,237,446,218,479,196,516,180,554,169,593,163,671,160,740,167,740,172,671,166,594,168,555,175,517,185,482,201,450,222,434,240,427,258,426,298,425,339,418,360,402,380,377,396,349,404"/>
+<area shape="rect" href="class_server.html#a33057c924848918167bb0990ca6cb0b5" title="Обрабатывает запрос на глобальный поиск пользователей." alt="" coords="731,223,913,250"/>
+<area shape="poly" title=" " alt="" coords="347,398,374,390,398,376,410,363,416,349,421,320,425,290,433,275,446,262,481,242,518,227,556,218,596,212,673,211,742,218,741,223,673,216,596,218,557,223,519,233,483,247,450,267,437,279,430,292,426,320,422,351,415,366,402,380,376,395,348,403"/>
+<area shape="rect" href="class_server.html#a83f3bb69919258397064dea7329d4f57" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="490,276,633,303"/>
+<area shape="poly" title=" " alt="" coords="347,393,374,386,399,375,413,365,422,353,432,340,447,328,491,306,493,311,449,332,435,344,427,356,417,368,401,380,376,391,349,398"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="970,492,1093,519"/>
+<area shape="poly" title=" " alt="" coords="890,365,923,384,950,406,975,431,1014,478,1010,481,971,434,947,410,920,388,888,370"/>
+<area shape="rect" href="class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="741,594,903,620"/>
+<area shape="poly" title=" " alt="" coords="662,577,726,588,725,594,661,583"/>
+<area shape="rect" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="726,543,918,570"/>
+<area shape="poly" title=" " alt="" coords="662,558,711,557,711,562,662,563"/>
+<area shape="poly" title=" " alt="" coords="890,591,921,579,964,554,1001,527,1004,531,967,559,923,584,892,596"/>
+<area shape="poly" title=" " alt="" coords="880,540,958,521,959,526,881,545"/>
+<area shape="poly" title=" " alt="" coords="660,408,786,425,855,438,922,455,991,483,989,488,921,460,854,443,785,430,659,413"/>
+<area shape="poly" title=" " alt="" coords="653,458,780,469,922,484,955,489,954,495,921,490,780,474,652,463"/>
+<area shape="poly" title=" " alt="" coords="646,502,954,503,954,508,646,507"/>
+<area shape="poly" title=" " alt="" coords="587,707,650,737,691,753,737,766,784,774,832,775,878,767,920,748,945,727,966,702,984,673,997,643,1016,583,1024,534,1030,535,1021,585,1002,645,988,676,971,705,949,731,923,752,879,772,832,781,784,779,736,771,690,758,648,742,585,711"/>
+<area shape="poly" title=" " alt="" coords="594,679,721,630,747,622,748,628,723,635,595,684"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="735,812,909,839"/>
+<area shape="poly" title=" " alt="" coords="583,707,644,747,723,791,757,805,755,810,721,796,641,752,580,711"/>
+<area shape="rect" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="728,644,916,687"/>
+<area shape="poly" title=" " alt="" coords="630,685,712,675,713,681,630,690"/>
+<area shape="rect" href="class_server.html#a24b087314710ced5903f9d137d3e463d" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="732,711,912,738"/>
+<area shape="poly" title=" " alt="" coords="630,700,717,710,716,715,630,705"/>
+<area shape="poly" title=" " alt="" coords="891,810,920,792,945,763,967,730,998,658,1016,589,1025,534,1030,535,1021,590,1003,660,971,732,950,766,923,796,894,814"/>
+<area shape="poly" title=" " alt="" coords="900,642,920,630,948,608,973,581,1012,531,1016,534,977,585,952,611,923,635,902,646"/>
+<area shape="poly" title=" " alt="" coords="900,708,920,697,957,659,985,615,1006,570,1020,533,1025,535,1011,572,990,618,961,663,923,701,903,713"/>
+<area shape="poly" title=" " alt="" coords="640,808,675,819,700,835,709,843,723,849,780,866,828,877,850,878,872,874,895,865,920,849,954,817,980,778,999,735,1013,690,1026,602,1029,534,1034,535,1032,603,1018,691,1004,737,985,781,958,820,923,853,897,870,873,879,850,883,827,882,779,871,721,854,707,847,696,840,673,824,638,813"/>
+<area shape="poly" title=" " alt="" coords="659,805,720,812,719,817,658,810"/>
+<area shape="poly" title=" " alt="" coords="615,19,683,7,765,4,808,8,849,18,888,34,923,57,947,88,967,134,984,191,998,255,1019,381,1030,477,1025,477,1014,382,993,256,979,192,962,136,942,90,920,61,886,38,847,23,807,13,765,9,684,12,616,24"/>
+<area shape="poly" title=" " alt="" coords="907,96,924,108,943,136,961,177,992,282,1015,392,1029,477,1023,478,1009,393,987,283,956,179,939,139,920,112,904,100"/>
+<area shape="poly" title=" " alt="" coords="907,147,923,158,955,195,979,236,998,280,1012,326,1028,411,1032,477,1027,477,1022,412,1007,327,993,282,975,238,950,198,920,162,904,151"/>
+<area shape="poly" title=" " alt="" coords="901,195,923,209,951,239,973,273,991,310,1005,348,1023,420,1031,476,1025,477,1018,421,1000,349,986,312,969,276,947,242,920,213,898,200"/>
+<area shape="poly" title=" " alt="" coords="893,248,923,266,946,290,966,317,996,375,1016,431,1027,477,1022,478,1011,433,991,377,961,320,942,294,920,271,890,253"/>
+<area shape="poly" title=" " alt="" coords="631,273,697,266,773,266,812,271,851,279,888,292,923,310,944,327,963,346,993,391,1013,437,1026,476,1021,478,1008,439,988,394,959,350,941,331,920,315,886,297,849,284,811,276,772,272,697,271,632,278"/>
+<area shape="rect" href="class_server.html#a8afa35c8257d78be38596587e469bea3" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="464,834,659,860"/>
+<area shape="poly" title=" " alt="" coords="378,828,448,834,448,840,377,833"/>
+<area shape="rect" href="class_server.html#a0dea29b2ecdf398365f882018d610ace" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="476,906,647,932"/>
+<area shape="poly" title=" " alt="" coords="362,833,401,845,426,857,449,870,512,897,509,902,447,875,423,861,399,850,360,838"/>
+<area shape="poly" title=" " alt="" coords="659,836,720,831,720,837,660,842"/>
+<area shape="poly" title=" " alt="" coords="628,930,695,938,773,937,813,932,851,921,887,906,920,884,939,859,957,822,988,722,1010,616,1023,534,1029,535,1015,617,993,724,962,824,944,862,923,888,890,910,853,926,814,937,773,943,695,943,627,936"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="727,964,917,991"/>
+<area shape="poly" title=" " alt="" coords="625,930,675,942,745,958,744,963,674,947,623,936"/>
+<area shape="poly" title=" " alt="" coords="894,962,920,944,940,913,958,867,989,750,1011,627,1024,534,1029,535,1016,628,994,751,963,869,944,915,924,948,897,966"/>
+<area shape="poly" title=" " alt="" coords="400,859,448,855,448,860,401,864"/>
+<area shape="rect" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,956,674,999"/>
+<area shape="poly" title=" " alt="" coords="311,884,449,942,468,949,467,954,447,947,309,889"/>
+<area shape="poly" title=" " alt="" coords="675,975,711,975,711,980,675,980"/>
 </map>
 </div>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="af0ce9e55fc6fba5b92cad5b6af934306" name="af0ce9e55fc6fba5b92cad5b6af934306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0ce9e55fc6fba5b92cad5b6af934306">&#9670;&#160;</a></span>broadcastUserList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::broadcastUserList </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Рассылает всем онлайн-клиентам актуальный список пользователей, находящихся в сети. </p>
+<p>Этот метод получает список имен пользователей из ключей карты <span class="tt">m_clients</span>, что представляет собой полный список всех аутентифицированных и подключенных в данный момент клиентов. Затем он формирует JSON-сообщение с типом "user_list" и отправляет его каждому клиенту из списка <span class="tt">m_clients</span>. Обычно вызывается после успешного входа пользователя или после его отключения, чтобы все клиенты могли обновить свои списки контактов, отображая актуальный онлайн-статус. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01185">1185</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_af0ce9e55fc6fba5b92cad5b6af934306_cgraph.png" border="0" usemap="#aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_cgraph" id="aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_cgraph">
+<area shape="rect" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="5,5,179,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="227,5,350,32"/>
+<area shape="poly" title=" " alt="" coords="179,16,211,16,211,21,179,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_af0ce9e55fc6fba5b92cad5b6af934306_icgraph.png" border="0" usemap="#aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_icgraph" id="aclass_server_af0ce9e55fc6fba5b92cad5b6af934306_icgraph">
+<area shape="rect" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="691,56,865,83"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="478,5,614,32"/>
+<area shape="poly" title=" " alt="" coords="698,55,610,35,611,30,699,50"/>
+<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="449,56,642,83"/>
+<area shape="poly" title=" " alt="" coords="676,72,643,72,643,67,676,67"/>
+<area shape="rect" href="class_server.html#a8afa35c8257d78be38596587e469bea3" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="448,107,643,133"/>
+<area shape="poly" title=" " alt="" coords="699,89,611,109,610,103,698,84"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="211,31,348,57"/>
+<area shape="poly" title=" " alt="" coords="463,29,348,40,348,35,462,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,81,111,108"/>
+<area shape="poly" title=" " alt="" coords="197,63,159,72,112,84,111,78,158,67,196,58"/>
+<area shape="poly" title=" " alt="" coords="433,61,348,53,348,48,434,56"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,81,377,108"/>
+<area shape="poly" title=" " alt="" coords="432,112,377,107,378,101,433,107"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,132,400,159"/>
+<area shape="poly" title=" " alt="" coords="433,133,401,136,400,131,432,128"/>
+<area shape="poly" title=" " alt="" coords="167,97,111,97,111,92,167,92"/>
+<area shape="poly" title=" " alt="" coords="194,131,158,123,111,111,112,106,159,117,196,126"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6194f5e7bf0e59830414199e9cbf5197" name="a6194f5e7bf0e59830414199e9cbf5197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6194f5e7bf0e59830414199e9cbf5197">&#9670;&#160;</a></span>handleAddContactRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleAddContactRequest </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос от одного пользователя на добавление другого в список контактов. </p>
+<p>Этот метод выполняет сложную логику, включающую множество проверок и взаимодействий с базой данных:</p><ol type="1">
+<li>Валидация входящих данных.</li>
+<li>Получение ID обоих пользователей из БД.</li>
+<li>Проверка, не существует ли уже какая-либо связь (запрос, дружба) между ними.</li>
+<li>Создание новой записи в таблице <span class="tt">contacts</span> со статусом "pending" (ожидает).</li>
+<li>Отправка push-уведомления целевому пользователю, если он онлайн.</li>
+<li>Отправка подтверждения об успехе или сообщения об ошибке инициатору запроса.</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента-инициатора запроса. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">username</span> целевого пользователя. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00844">844</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a6194f5e7bf0e59830414199e9cbf5197_cgraph.png" border="0" usemap="#aclass_server_a6194f5e7bf0e59830414199e9cbf5197_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a6194f5e7bf0e59830414199e9cbf5197_cgraph" id="aclass_server_a6194f5e7bf0e59830414199e9cbf5197_cgraph">
+<area shape="rect" title="Обрабатывает запрос от одного пользователя на добавление другого в список контактов." alt="" coords="5,5,180,48"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="228,13,351,40"/>
+<area shape="poly" title=" " alt="" coords="180,24,212,24,212,29,180,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a6194f5e7bf0e59830414199e9cbf5197_icgraph.png" border="0" usemap="#aclass_server_a6194f5e7bf0e59830414199e9cbf5197_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a6194f5e7bf0e59830414199e9cbf5197_icgraph" id="aclass_server_a6194f5e7bf0e59830414199e9cbf5197_icgraph">
+<area shape="rect" title="Обрабатывает запрос от одного пользователя на добавление другого в список контактов." alt="" coords="343,5,517,48"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,13,295,40"/>
+<area shape="poly" title=" " alt="" coords="327,29,296,29,296,24,327,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa384e1d90a914ec126cf22c21ba9f226" name="aa384e1d90a914ec126cf22c21ba9f226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa384e1d90a914ec126cf22c21ba9f226">&#9670;&#160;</a></span>handleContactRequestResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleContactRequestResponse </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>clientSocket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает ответ пользователя на входящий запрос на добавление в контакты. </p>
+<p>Эта функция вызывается, когда пользователь принимает ("accepted") или отклоняет ("declined") запрос на добавление в контакты от другого пользователя.</p><ol type="1">
+<li>Определяет пользователя, который дал ответ (<span class="tt">toUsername</span>), и инициатора запроса (<span class="tt">fromUsername</span>).</li>
+<li>Получает из базы данных их уникальные идентификаторы (ID).</li>
+<li>В зависимости от ответа:<ul>
+<li>Если ответ "accepted": обновляет запись в таблице <span class="tt">contacts</span>, изменяя ее статус с <span class="tt">0</span> (pending) на <span class="tt">1</span> (accepted). После этого обоим пользователям (если они онлайн) отправляются обновленные списки контактов.</li>
+<li>Если ответ "declined": полностью удаляет запись о запросе из таблицы <span class="tt">contacts</span>. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientSocket</td><td>Сокет клиента, который ответил на запрос. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий:<ul>
+<li><span class="tt">fromUsername</span>: Имя пользователя, который изначально отправил запрос.</li>
+<li><span class="tt">response</span>: Строка с ответом, "accepted" или "declined". </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+</li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01368">1368</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_aa384e1d90a914ec126cf22c21ba9f226_cgraph.png" border="0" usemap="#aclass_server_aa384e1d90a914ec126cf22c21ba9f226_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_aa384e1d90a914ec126cf22c21ba9f226_cgraph" id="aclass_server_aa384e1d90a914ec126cf22c21ba9f226_cgraph">
+<area shape="rect" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="5,23,206,65"/>
+<area shape="rect" href="class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="268,5,430,32"/>
+<area shape="poly" title=" " alt="" coords="206,31,253,26,253,31,207,36"/>
+<area shape="rect" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="254,56,445,83"/>
+<area shape="poly" title=" " alt="" coords="207,52,238,55,237,60,206,57"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="493,31,616,57"/>
+<area shape="poly" title=" " alt="" coords="431,26,478,32,477,37,430,31"/>
+<area shape="poly" title=" " alt="" coords="445,55,477,51,478,56,446,60"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_aa384e1d90a914ec126cf22c21ba9f226_icgraph.png" border="0" usemap="#aclass_server_aa384e1d90a914ec126cf22c21ba9f226_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_aa384e1d90a914ec126cf22c21ba9f226_icgraph" id="aclass_server_aa384e1d90a914ec126cf22c21ba9f226_icgraph">
+<area shape="rect" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="343,5,543,48"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,13,295,40"/>
+<area shape="poly" title=" " alt="" coords="327,29,296,29,296,24,327,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0386fd3f4b1df85683a736ad3f6c7091" name="a0386fd3f4b1df85683a736ad3f6c7091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0386fd3f4b1df85683a736ad3f6c7091">&#9670;&#160;</a></span>handleDeleteMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleDeleteMessage </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>clientSocket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос от клиента на удаление ранее отправленного сообщения. </p>
+<p>Эта функция обеспечивает безопасное удаление сообщения. Она выполняет следующие действия:</p><ol type="1">
+<li>Определяет пользователя (<span class="tt">requestingUser</span>), отправившего запрос, по его сокету.</li>
+<li>Проверяет, что пользователь аутентифицирован.</li>
+<li>Находит в базе данных автора (<span class="tt">fromUser</span>) и получателя (<span class="tt">toUser</span>) сообщения по его ID.</li>
+<li>Выполняет ключевую проверку безопасности: <span class="tt">requestingUser</span> должен совпадать с <span class="tt">fromUser</span>. Это гарантирует, что только автор сообщения может его удалить.</li>
+<li>Если проверка пройдена, выполняет SQL-запрос <span class="tt">DELETE</span> для удаления записи из таблицы <span class="tt">messages</span>.</li>
+<li>После успешного удаления формирует JSON-уведомление типа "delete_message".</li>
+<li>Рассылает это уведомление обоим участникам чата (автору и получателю), если они находятся онлайн, чтобы их клиенты могли в реальном времени убрать сообщение из интерфейса. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientSocket</td><td>Сокет клиента, который инициировал удаление. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект от клиента, который должен содержать поле <span class="tt">id</span> с уникальным идентификатором удаляемого сообщения. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01293">1293</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a0386fd3f4b1df85683a736ad3f6c7091_cgraph.png" border="0" usemap="#aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_cgraph" id="aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_cgraph">
+<area shape="rect" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="5,5,202,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="250,5,373,32"/>
+<area shape="poly" title=" " alt="" coords="202,16,234,16,234,21,202,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a0386fd3f4b1df85683a736ad3f6c7091_icgraph.png" border="0" usemap="#aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_icgraph" id="aclass_server_a0386fd3f4b1df85683a736ad3f6c7091_icgraph">
+<area shape="rect" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="343,5,539,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="328,21,295,21,295,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a44c58d6dfb62fb0842a4415d13b0be25" name="a44c58d6dfb62fb0842a4415d13b0be25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44c58d6dfb62fb0842a4415d13b0be25">&#9670;&#160;</a></span>handleEditMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleEditMessage </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>clientSocket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения. </p>
+<p>Эта функция выполняет полный цикл обработки запроса на редактирование:</p><ol type="1">
+<li>Определяет пользователя, отправившего запрос, по его сокету.</li>
+<li>Извлекает ID сообщения и новый текст (<span class="tt">payload</span>) из JSON-запроса.</li>
+<li>Выполняет проверку безопасности: запрашивающий пользователь должен быть авторизован и являться автором (<span class="tt">fromUser</span>) редактируемого сообщения.</li>
+<li>В случае успеха, обновляет текст сообщения в базе данных и устанавливает флаг <span class="tt">is_edited = 1</span>.</li>
+<li>Создает JSON-уведомление типа "edit_message" с обновленными данными.</li>
+<li>Отправляет это уведомление как автору, так и получателю сообщения (если они онлайн), чтобы их интерфейсы могли отобразить изменения. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientSocket</td><td>Сокет клиента, инициировавшего редактирование. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий:<ul>
+<li><span class="tt">id</span>: Уникальный идентификатор редактируемого сообщения.</li>
+<li><span class="tt">payload</span>: Новый текст сообщения. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01216">1216</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a44c58d6dfb62fb0842a4415d13b0be25_cgraph.png" border="0" usemap="#aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_cgraph" id="aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_cgraph">
+<area shape="rect" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="5,5,187,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="235,5,358,32"/>
+<area shape="poly" title=" " alt="" coords="187,16,219,16,219,21,187,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a44c58d6dfb62fb0842a4415d13b0be25_icgraph.png" border="0" usemap="#aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_icgraph" id="aclass_server_a44c58d6dfb62fb0842a4415d13b0be25_icgraph">
+<area shape="rect" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="343,5,524,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="327,21,296,21,296,16,327,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a428d243912239a29f227465d973371eb" name="a428d243912239a29f227465d973371eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a428d243912239a29f227465d973371eb">&#9670;&#160;</a></span>handleGetHistory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleGetHistory </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос клиента на получение истории сообщений. </p>
+<p>Этот метод извлекает из базы данных порцию (до 20) сообщений для указанного чата. Он поддерживает пагинацию: если в запросе указан <span class="tt">before_id</span>, он загружает сообщения, которые старше этого ID.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, запросившего историю. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий:<ul>
+<li><span class="tt">with_user</span>: Имя собеседника, для которого нужна история.</li>
+<li><span class="tt">before_id</span> (опционально): ID сообщения, старше которого нужно загрузить историю. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00589">589</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a428d243912239a29f227465d973371eb_cgraph.png" border="0" usemap="#aclass_server_a428d243912239a29f227465d973371eb_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a428d243912239a29f227465d973371eb_cgraph" id="aclass_server_a428d243912239a29f227465d973371eb_cgraph">
+<area shape="rect" title="Обрабатывает запрос клиента на получение истории сообщений." alt="" coords="5,5,174,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="222,5,345,32"/>
+<area shape="poly" title=" " alt="" coords="174,16,206,16,206,21,174,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a428d243912239a29f227465d973371eb_icgraph.png" border="0" usemap="#aclass_server_a428d243912239a29f227465d973371eb_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a428d243912239a29f227465d973371eb_icgraph" id="aclass_server_a428d243912239a29f227465d973371eb_icgraph">
+<area shape="rect" title="Обрабатывает запрос клиента на получение истории сообщений." alt="" coords="343,5,511,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="327,21,295,21,295,16,327,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2c11ed0951b0edc730bd551a920fb08f" name="a2c11ed0951b0edc730bd551a920fb08f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c11ed0951b0edc730bd551a920fb08f">&#9670;&#160;</a></span>handleLogin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleLogin </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос на аутентификацию пользователя. </p>
+<p>Этот метод является точкой входа для любого клиента. Он выполняет следующие шаги:</p><ol type="1">
+<li>Извлекает <span class="tt">username</span> и <span class="tt">password</span> из запроса.</li>
+<li>Хэширует пароль.</li>
+<li>Ищет пользователя в БД по <span class="tt">username</span> и сравнивает хэши паролей.</li>
+<li>В случае успеха:<ul>
+<li>Отправляет клиенту <span class="tt">login_success</span>.</li>
+<li>Регистрирует клиента в системе (добавляет в <span class="tt">m_clients</span> и <span class="tt">m_clientsReverse</span>).</li>
+<li>Отправляет ему его список контактов, список ожидающих запросов и счетчики непрочитанных.</li>
+<li>Рассылает всем остальным обновленный список онлайн-пользователей.</li>
+</ul>
+</li>
+<li>В случае неудачи отправляет <span class="tt">login_failure</span> с причиной.</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, пытающегося войти. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">username</span> и <span class="tt">password</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00962">962</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a2c11ed0951b0edc730bd551a920fb08f_cgraph.png" border="0" usemap="#aclass_server_a2c11ed0951b0edc730bd551a920fb08f_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a2c11ed0951b0edc730bd551a920fb08f_cgraph" id="aclass_server_a2c11ed0951b0edc730bd551a920fb08f_cgraph">
+<area shape="rect" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="5,107,142,133"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="197,5,370,32"/>
+<area shape="poly" title=" " alt="" coords="93,104,136,77,189,48,220,35,223,40,191,53,139,81,96,108"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="426,107,549,133"/>
+<area shape="poly" title=" " alt="" coords="126,103,189,92,284,85,378,92,423,100,422,105,378,97,284,90,190,97,127,109"/>
+<area shape="rect" href="class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="203,107,365,133"/>
+<area shape="poly" title=" " alt="" coords="142,117,187,117,187,123,142,123"/>
+<area shape="rect" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="190,157,378,200"/>
+<area shape="poly" title=" " alt="" coords="125,131,191,150,190,155,123,136"/>
+<area shape="rect" href="class_server.html#a24b087314710ced5903f9d137d3e463d" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="194,224,374,251"/>
+<area shape="poly" title=" " alt="" coords="90,132,133,171,161,192,191,210,204,216,202,221,188,214,158,196,130,175,87,136"/>
+<area shape="poly" title=" " alt="" coords="333,30,379,48,421,71,457,95,454,100,418,76,377,53,331,35"/>
+<area shape="poly" title=" " alt="" coords="365,117,411,117,411,123,365,123"/>
+<area shape="poly" title=" " alt="" coords="359,154,424,135,425,141,361,159"/>
+<area shape="poly" title=" " alt="" coords="349,221,377,210,424,177,462,142,466,146,428,181,379,214,352,226"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a2c11ed0951b0edc730bd551a920fb08f_icgraph.png" border="0" usemap="#aclass_server_a2c11ed0951b0edc730bd551a920fb08f_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a2c11ed0951b0edc730bd551a920fb08f_icgraph" id="aclass_server_a2c11ed0951b0edc730bd551a920fb08f_icgraph">
+<area shape="rect" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="343,5,479,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="328,21,296,21,296,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ab0cc0ba54dab5ede748107dbe62811a1" name="ab0cc0ba54dab5ede748107dbe62811a1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0cc0ba54dab5ede748107dbe62811a1">&#9670;&#160;</a></span>handleLogoutRequest()</h2>
 
@@ -244,6 +929,19 @@ Here is the call graph for this function:</div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00265">265</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_ab0cc0ba54dab5ede748107dbe62811a1_cgraph.png" border="0" usemap="#aclass_server_ab0cc0ba54dab5ede748107dbe62811a1_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_ab0cc0ba54dab5ede748107dbe62811a1_cgraph" id="aclass_server_ab0cc0ba54dab5ede748107dbe62811a1_cgraph">
+<area shape="rect" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="5,31,199,57"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="247,5,420,32"/>
+<area shape="poly" title=" " alt="" coords="199,31,231,27,232,32,199,36"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="468,31,591,57"/>
+<area shape="poly" title=" " alt="" coords="199,41,453,41,453,47,199,47"/>
+<area shape="poly" title=" " alt="" coords="421,27,453,31,452,37,420,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -298,6 +996,16 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00176">176</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_af49291bcd5c9d7d8b9054ec18aa43728_cgraph.png" border="0" usemap="#aclass_server_af49291bcd5c9d7d8b9054ec18aa43728_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_af49291bcd5c9d7d8b9054ec18aa43728_cgraph" id="aclass_server_af49291bcd5c9d7d8b9054ec18aa43728_cgraph">
+<area shape="rect" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="5,5,219,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="267,5,390,32"/>
+<area shape="poly" title=" " alt="" coords="219,16,251,16,251,21,219,21"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_server_af49291bcd5c9d7d8b9054ec18aa43728_icgraph.png" border="0" usemap="#aclass_server_af49291bcd5c9d7d8b9054ec18aa43728_icgraph" loading="lazy" alt=""/></div>
@@ -351,6 +1059,16 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00221">221</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_aadc3f04c0a456be1165c480843936617_cgraph.png" border="0" usemap="#aclass_server_aadc3f04c0a456be1165c480843936617_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_aadc3f04c0a456be1165c480843936617_cgraph" id="aclass_server_aadc3f04c0a456be1165c480843936617_cgraph">
+<area shape="rect" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="5,5,195,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="243,5,366,32"/>
+<area shape="poly" title=" " alt="" coords="195,16,227,16,227,21,195,21"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_server_aadc3f04c0a456be1165c480843936617_icgraph.png" border="0" usemap="#aclass_server_aadc3f04c0a456be1165c480843936617_icgraph" loading="lazy" alt=""/></div>
@@ -358,6 +1076,305 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="343,5,532,32"/>
 <area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
 <area shape="poly" title=" " alt="" coords="328,21,295,21,295,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2814eb164b6e628f8be39f465dad15ae" name="a2814eb164b6e628f8be39f465dad15ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2814eb164b6e628f8be39f465dad15ae">&#9670;&#160;</a></span>handlePrivateMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handlePrivateMessage </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос на отправку личного сообщения от одного пользователя другому. </p>
+<p>Это одна из самых важных функций сервера. Она выполняет полный цикл обработки сообщения:</p><ol type="1">
+<li>Проверяет аутентичность отправителя.</li>
+<li>Сохраняет сообщение в базу данных, присваивая ему уникальный ID и серверную временную метку.</li>
+<li>Отправляет "echo"-ответ отправителю, подтверждая получение сообщения и сообщая его ID. Этот ответ содержит <span class="tt">temp_id</span> из исходного запроса клиента.</li>
+<li>Если получатель онлайн, немедленно пересылает ему это же сообщение.</li>
+<li>Если получатель офлайн, сообщение просто остается в БД для последующей доставки.</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента-отправителя. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">fromUser</span>, <span class="tt">toUser</span>, <span class="tt">payload</span>, <span class="tt">reply_to_id</span> и <span class="tt">temp_id</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01032">1032</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a2814eb164b6e628f8be39f465dad15ae_cgraph.png" border="0" usemap="#aclass_server_a2814eb164b6e628f8be39f465dad15ae_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a2814eb164b6e628f8be39f465dad15ae_cgraph" id="aclass_server_a2814eb164b6e628f8be39f465dad15ae_cgraph">
+<area shape="rect" title="Обрабатывает запрос на отправку личного сообщения от одного пользователя другому." alt="" coords="5,5,205,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="253,5,376,32"/>
+<area shape="poly" title=" " alt="" coords="205,16,237,16,237,21,205,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a2814eb164b6e628f8be39f465dad15ae_icgraph.png" border="0" usemap="#aclass_server_a2814eb164b6e628f8be39f465dad15ae_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a2814eb164b6e628f8be39f465dad15ae_icgraph" id="aclass_server_a2814eb164b6e628f8be39f465dad15ae_icgraph">
+<area shape="rect" title="Обрабатывает запрос на отправку личного сообщения от одного пользователя другому." alt="" coords="343,5,542,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="328,21,295,21,295,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a14b7f7cf3f729bc8e1d7b910514b0646" name="a14b7f7cf3f729bc8e1d7b910514b0646"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14b7f7cf3f729bc8e1d7b910514b0646">&#9670;&#160;</a></span>handleRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleRegister </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос на регистрацию нового пользователя. </p>
+<p>Метод пытается добавить нового пользователя в таблицу <span class="tt">users</span>. Хэширует пароль с использованием SHA-256 перед сохранением. Отправляет клиенту ответ <span class="tt">register_success</span> или <span class="tt">register_failure</span> в зависимости от результата операции.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, запросившего регистрацию. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">username</span>, <span class="tt">display_name</span> и <span class="tt">password</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00679">679</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a14b7f7cf3f729bc8e1d7b910514b0646_cgraph.png" border="0" usemap="#aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_cgraph" id="aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_cgraph">
+<area shape="rect" title="Обрабатывает запрос на регистрацию нового пользователя." alt="" coords="5,5,160,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="208,5,331,32"/>
+<area shape="poly" title=" " alt="" coords="160,16,192,16,192,21,160,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a14b7f7cf3f729bc8e1d7b910514b0646_icgraph.png" border="0" usemap="#aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_icgraph" id="aclass_server_a14b7f7cf3f729bc8e1d7b910514b0646_icgraph">
+<area shape="rect" title="Обрабатывает запрос на регистрацию нового пользователя." alt="" coords="343,5,497,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="327,21,295,21,295,16,327,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a33057c924848918167bb0990ca6cb0b5" name="a33057c924848918167bb0990ca6cb0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33057c924848918167bb0990ca6cb0b5">&#9670;&#160;</a></span>handleSearchUsers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleSearchUsers </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает запрос на глобальный поиск пользователей. </p>
+<p>Этот метод выполняет поиск в таблице <span class="tt">users</span> по частичному совпадению в полях <span class="tt">username</span> или <span class="tt">display_name</span>. Он исключает из результатов самого пользователя, который выполняет поиск, и ограничивает выводку 20 результатами для производительности.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, выполнившего поиск. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">term</span> - строку для поиска. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00729">729</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a33057c924848918167bb0990ca6cb0b5_cgraph.png" border="0" usemap="#aclass_server_a33057c924848918167bb0990ca6cb0b5_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a33057c924848918167bb0990ca6cb0b5_cgraph" id="aclass_server_a33057c924848918167bb0990ca6cb0b5_cgraph">
+<area shape="rect" title="Обрабатывает запрос на глобальный поиск пользователей." alt="" coords="5,5,187,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="235,5,358,32"/>
+<area shape="poly" title=" " alt="" coords="187,16,219,16,219,21,187,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a33057c924848918167bb0990ca6cb0b5_icgraph.png" border="0" usemap="#aclass_server_a33057c924848918167bb0990ca6cb0b5_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a33057c924848918167bb0990ca6cb0b5_icgraph" id="aclass_server_a33057c924848918167bb0990ca6cb0b5_icgraph">
+<area shape="rect" title="Обрабатывает запрос на глобальный поиск пользователей." alt="" coords="343,5,524,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="327,21,296,21,296,16,327,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a83f3bb69919258397064dea7329d4f57" name="a83f3bb69919258397064dea7329d4f57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f3bb69919258397064dea7329d4f57">&#9670;&#160;</a></span>handleTyping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::handleTyping </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Обрабатывает и пересылает уведомление о наборе текста. </p>
+<p>Этот метод вызывается, когда клиент отправляет команду "typing". Сервер выступает в роли простого посредника: он определяет, кто отправил уведомление, находит сокет получателя (если тот онлайн) и пересылает ему это уведомление.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, который начал печатать. </td></tr>
+    <tr><td class="paramname">request</td><td>JSON-объект, содержащий <span class="tt">toUser</span> - имя получателя. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00555">555</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a83f3bb69919258397064dea7329d4f57_cgraph.png" border="0" usemap="#aclass_server_a83f3bb69919258397064dea7329d4f57_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a83f3bb69919258397064dea7329d4f57_cgraph" id="aclass_server_a83f3bb69919258397064dea7329d4f57_cgraph">
+<area shape="rect" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="5,5,149,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="197,5,320,32"/>
+<area shape="poly" title=" " alt="" coords="149,16,181,16,181,21,149,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a83f3bb69919258397064dea7329d4f57_icgraph.png" border="0" usemap="#aclass_server_a83f3bb69919258397064dea7329d4f57_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a83f3bb69919258397064dea7329d4f57_icgraph" id="aclass_server_a83f3bb69919258397064dea7329d4f57_icgraph">
+<area shape="rect" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="343,5,486,32"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="328,21,295,21,295,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a99bdd8ad9d7c6c9990e851697c8b8af7" name="a99bdd8ad9d7c6c9990e851697c8b8af7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99bdd8ad9d7c6c9990e851697c8b8af7">&#9670;&#160;</a></span>initDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Server::initDatabase </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет. </p>
+<p>Этот метод вызывается один раз в конструкторе сервера. Он выполняет критически важную задачу по настройке слоя персистентности. Он создает файл <span class="tt">messenger.db</span> (если он отсутствует) и выполняет SQL-запросы <span class="tt">CREATE TABLE IF NOT EXISTS</span> для создания необходимой структуры таблиц: <span class="tt">users</span>, <span class="tt">messages</span>, <span class="tt">contacts</span>.</p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> если соединение установлено и все таблицы успешно созданы/проверены, иначе <span class="tt">false</span>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00470">470</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a99bdd8ad9d7c6c9990e851697c8b8af7_icgraph.png" border="0" usemap="#aclass_server_a99bdd8ad9d7c6c9990e851697c8b8af7_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a99bdd8ad9d7c6c9990e851697c8b8af7_icgraph" id="aclass_server_a99bdd8ad9d7c6c9990e851697c8b8af7_icgraph">
+<area shape="rect" title="Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет." alt="" coords="159,5,299,32"/>
 <area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
 <area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
 </map>
@@ -397,13 +1414,63 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_server_a56ec5259c858a9599d0ff16c33fe6882_cgraph.png" border="0" usemap="#aclass_server_a56ec5259c858a9599d0ff16c33fe6882_cgraph" loading="lazy" alt=""/></div>
 <map name="aclass_server_a56ec5259c858a9599d0ff16c33fe6882_cgraph" id="aclass_server_a56ec5259c858a9599d0ff16c33fe6882_cgraph">
-<area shape="rect" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="5,56,142,83"/>
-<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="200,5,393,32"/>
-<area shape="poly" title=" " alt="" coords="135,53,219,33,220,39,136,58"/>
-<area shape="rect" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="190,56,403,83"/>
-<area shape="poly" title=" " alt="" coords="142,67,174,67,174,72,142,72"/>
-<area shape="rect" href="class_server.html#aadc3f04c0a456be1165c480843936617" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="202,107,391,133"/>
-<area shape="poly" title=" " alt="" coords="136,81,220,100,219,105,135,86"/>
+<area shape="rect" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="5,519,142,545"/>
+<area shape="rect" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197" title="Обрабатывает запрос от одного пользователя на добавление другого в список контактов." alt="" coords="464,5,638,48"/>
+<area shape="poly" title=" " alt="" coords="73,518,84,426,106,288,122,217,140,152,162,99,188,63,216,43,247,27,280,16,315,9,384,3,448,6,448,11,384,8,315,14,282,21,249,32,219,47,192,67,167,101,145,153,127,218,111,289,89,427,79,519"/>
+<area shape="rect" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="196,267,396,309"/>
+<area shape="poly" title=" " alt="" coords="85,516,263,319,267,323,89,520"/>
+<area shape="rect" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="198,77,394,104"/>
+<area shape="poly" title=" " alt="" coords="72,518,73,449,77,398,85,342,99,282,120,224,149,168,188,119,199,110,203,114,192,123,154,171,125,226,104,284,91,343,82,399,78,449,77,518"/>
+<area shape="rect" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="206,133,387,160"/>
+<area shape="poly" title=" " alt="" coords="73,518,78,457,94,368,108,318,128,268,154,222,188,181,209,165,213,169,192,185,159,225,133,271,113,320,99,369,83,458,78,518"/>
+<area shape="rect" href="class_server.html#a428d243912239a29f227465d973371eb" title="Обрабатывает запрос клиента на получение истории сообщений." alt="" coords="212,195,380,221"/>
+<area shape="poly" title=" " alt="" coords="74,518,84,469,104,399,138,322,161,286,188,253,207,237,228,225,231,230,210,242,192,257,165,289,143,325,109,401,89,471,79,519"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="228,417,364,444"/>
+<area shape="poly" title=" " alt="" coords="104,516,250,448,252,453,106,521"/>
+<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="200,519,393,545"/>
+<area shape="poly" title=" " alt="" coords="142,529,184,529,184,535,142,535"/>
+<area shape="rect" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="190,571,403,597"/>
+<area shape="poly" title=" " alt="" coords="134,543,222,564,220,569,133,549"/>
+<area shape="rect" href="class_server.html#aadc3f04c0a456be1165c480843936617" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="202,621,391,648"/>
+<area shape="poly" title=" " alt="" coords="93,544,136,576,191,607,208,614,207,619,189,612,133,580,90,548"/>
+<area shape="rect" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae" title="Обрабатывает запрос на отправку личного сообщения от одного пользователя другому." alt="" coords="451,696,650,723"/>
+<area shape="poly" title=" " alt="" coords="85,544,125,601,155,632,191,658,250,682,314,698,377,707,436,711,436,716,376,713,313,704,249,688,188,662,152,636,121,604,80,547"/>
+<area shape="rect" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646" title="Обрабатывает запрос на регистрацию нового пользователя." alt="" coords="474,747,628,773"/>
+<area shape="poly" title=" " alt="" coords="81,545,94,580,116,628,148,676,168,697,191,715,222,732,255,745,325,762,395,768,458,767,458,773,395,773,325,767,254,750,220,737,188,720,165,701,144,679,111,630,89,582,76,547"/>
+<area shape="rect" href="class_server.html#a33057c924848918167bb0990ca6cb0b5" title="Обрабатывает запрос на глобальный поиск пользователей." alt="" coords="460,797,641,824"/>
+<area shape="poly" title=" " alt="" coords="79,545,88,591,107,654,122,688,141,720,164,750,191,774,220,791,252,805,319,821,387,826,450,823,450,829,387,831,318,826,250,810,218,796,188,778,160,753,136,723,117,690,102,656,83,592,74,546"/>
+<area shape="rect" href="class_server.html#a83f3bb69919258397064dea7329d4f57" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="225,847,368,873"/>
+<area shape="poly" title=" " alt="" coords="79,545,88,595,108,667,142,745,164,781,192,814,208,828,227,838,225,843,205,832,188,818,160,785,137,747,103,668,83,596,74,546"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="698,443,822,469"/>
+<area shape="poly" title=" " alt="" coords="629,46,652,65,685,108,710,157,729,208,742,260,757,356,762,427,756,427,752,356,737,261,724,210,705,159,680,111,648,69,626,51"/>
+<area shape="rect" href="class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="470,275,632,301"/>
+<area shape="poly" title=" " alt="" coords="397,285,454,285,454,291,397,291"/>
+<area shape="rect" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="455,224,646,251"/>
+<area shape="poly" title=" " alt="" coords="397,265,465,252,466,257,398,271"/>
+<area shape="poly" title=" " alt="" coords="629,300,652,311,683,337,710,368,748,427,743,430,706,372,680,341,649,316,627,304"/>
+<area shape="poly" title=" " alt="" coords="632,249,652,261,690,299,719,344,740,389,753,427,748,429,735,391,714,347,686,302,649,265,629,253"/>
+<area shape="poly" title=" " alt="" coords="377,74,442,70,515,74,552,81,587,91,621,107,652,127,684,159,709,197,728,239,741,282,757,364,761,427,756,427,752,364,736,283,723,241,704,200,680,163,649,131,619,111,586,96,550,86,514,79,443,75,378,79"/>
+<area shape="poly" title=" " alt="" coords="361,130,427,122,503,122,543,127,581,136,618,151,652,171,680,198,704,229,722,264,736,300,753,371,760,427,755,427,748,372,730,302,717,266,699,232,676,201,649,175,616,155,580,141,542,132,503,127,427,127,362,135"/>
+<area shape="poly" title=" " alt="" coords="343,191,408,178,488,170,531,171,573,178,614,190,652,210,678,231,699,257,717,286,731,317,749,377,758,427,753,428,744,379,726,319,712,289,695,260,674,235,649,214,612,195,572,183,531,177,489,175,409,183,344,197"/>
+<area shape="poly" title=" " alt="" coords="365,432,683,449,682,454,365,437"/>
+<area shape="poly" title=" " alt="" coords="310,415,368,364,407,336,450,311,465,304,467,309,452,316,410,340,371,368,313,419"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="464,493,637,520"/>
+<area shape="poly" title=" " alt="" coords="345,442,489,486,488,491,343,447"/>
+<area shape="rect" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="456,325,645,368"/>
+<area shape="poly" title=" " alt="" coords="338,414,468,371,470,376,340,419"/>
+<area shape="rect" href="class_server.html#a24b087314710ced5903f9d137d3e463d" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="461,392,640,419"/>
+<area shape="poly" title=" " alt="" coords="365,421,445,413,446,418,365,427"/>
+<area shape="poly" title=" " alt="" coords="608,490,687,471,688,476,610,495"/>
+<area shape="poly" title=" " alt="" coords="625,366,652,378,695,403,732,430,729,435,692,408,649,382,623,371"/>
+<area shape="poly" title=" " alt="" coords="610,417,688,436,687,441,608,422"/>
+<area shape="poly" title=" " alt="" coords="382,543,442,549,510,550,581,545,649,529,696,506,733,477,736,482,698,511,651,535,582,550,510,555,442,554,382,549"/>
+<area shape="poly" title=" " alt="" coords="393,520,448,514,449,519,394,525"/>
+<area shape="poly" title=" " alt="" coords="404,592,462,592,525,588,589,577,649,556,676,541,700,521,738,480,742,484,704,525,679,545,651,561,590,582,525,593,462,598,404,597"/>
+<area shape="poly" title=" " alt="" coords="391,643,452,643,519,638,586,624,649,598,681,573,708,543,729,511,744,482,749,485,734,514,712,546,685,577,652,602,588,629,520,643,452,649,391,648"/>
+<area shape="poly" title=" " alt="" coords="618,693,649,675,670,654,688,630,717,578,738,526,750,483,755,485,743,528,722,580,692,633,674,658,652,679,621,698"/>
+<area shape="poly" title=" " alt="" coords="627,746,649,733,674,705,695,674,713,640,726,605,745,538,753,484,759,485,750,539,732,606,718,642,700,677,678,709,652,737,630,751"/>
+<area shape="poly" title=" " alt="" coords="632,795,649,783,678,750,701,711,720,670,733,628,750,547,755,485,761,485,755,548,738,629,725,672,706,714,682,753,652,787,635,799"/>
+<area shape="poly" title=" " alt="" coords="353,871,420,882,498,884,539,880,578,870,615,856,649,834,668,810,686,772,717,673,739,566,752,484,757,485,744,567,722,674,691,774,673,813,652,838,618,860,580,876,539,885,498,889,419,887,353,877"/>
 </map>
 </div>
 <div class="dynheader">
@@ -475,6 +1542,1018 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a8afa35c8257d78be38596587e469bea3" name="a8afa35c8257d78be38596587e469bea3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8afa35c8257d78be38596587e469bea3">&#9670;&#160;</a></span>onClientDisconnected</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::onClientDisconnected </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот, обрабатывающий отключение клиента от сервера. </p>
+<p>Этот общий слот вызывается сигналом <span class="tt">disconnected</span> как от <span class="tt">QTcpSocket</span>, так и от <span class="tt">QWebSocket</span>. Он выполняет все необходимые действия по "очистке":</p><ol type="1">
+<li>Определяет, был ли отключившийся клиент аутентифицирован.</li>
+<li>Если да, обновляет в базе данных время его последнего визита (<span class="tt">last_seen</span>).</li>
+<li>Удаляет клиента из списков онлайн-пользователей.</li>
+<li>Рассылает всем оставшимся клиентам обновленный список присутствия.</li>
+<li>Очищает специфичные для TCP структуры данных, если это был TCP-клиент.</li>
+<li>Помечает объект сокета для безопасного удаления в цикле событий Qt. </li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00415">415</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a8afa35c8257d78be38596587e469bea3_cgraph.png" border="0" usemap="#aclass_server_a8afa35c8257d78be38596587e469bea3_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a8afa35c8257d78be38596587e469bea3_cgraph" id="aclass_server_a8afa35c8257d78be38596587e469bea3_cgraph">
+<area shape="rect" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="5,5,201,32"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="249,5,422,32"/>
+<area shape="poly" title=" " alt="" coords="201,16,233,16,233,21,201,21"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="470,5,593,32"/>
+<area shape="poly" title=" " alt="" coords="422,16,454,16,454,21,422,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a8afa35c8257d78be38596587e469bea3_icgraph.png" border="0" usemap="#aclass_server_a8afa35c8257d78be38596587e469bea3_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a8afa35c8257d78be38596587e469bea3_icgraph" id="aclass_server_a8afa35c8257d78be38596587e469bea3_icgraph">
+<area shape="rect" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="448,31,643,57"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,5,377,32"/>
+<area shape="poly" title=" " alt="" coords="432,36,377,31,378,25,433,31"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,56,400,83"/>
+<area shape="poly" title=" " alt="" coords="433,57,401,60,400,55,432,52"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,31,111,57"/>
+<area shape="poly" title=" " alt="" coords="167,34,111,41,111,35,166,29"/>
+<area shape="poly" title=" " alt="" coords="143,56,111,53,112,47,144,51"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a22bd355bf7fb7d2ee98cc963cc37bb29" name="a22bd355bf7fb7d2ee98cc963cc37bb29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22bd355bf7fb7d2ee98cc963cc37bb29">&#9670;&#160;</a></span>onNewTcpConnection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::onNewTcpConnection </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот, обрабатывающий новое входящее TCP-подключение. </p>
+<p>Этот слот вызывается сигналом <span class="tt">newConnection</span> от <span class="tt">m_tcpServer</span>. Он извлекает ожидающий сокет, устанавливает необходимые соединения сигнал-слот для этого конкретного клиента и инициализирует для него структуры данных (в данном случае, <span class="tt">m_nextBlockSizes</span>). </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00112">112</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a22bd355bf7fb7d2ee98cc963cc37bb29_cgraph.png" border="0" usemap="#aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_cgraph" id="aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_cgraph">
+<area shape="rect" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="5,31,201,57"/>
+<area shape="rect" href="class_server.html#a8afa35c8257d78be38596587e469bea3" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="249,5,444,32"/>
+<area shape="poly" title=" " alt="" coords="201,31,233,28,234,33,201,36"/>
+<area shape="rect" href="class_server.html#a0dea29b2ecdf398365f882018d610ace" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="261,56,432,83"/>
+<area shape="poly" title=" " alt="" coords="201,52,246,56,245,61,201,57"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="500,5,674,32"/>
+<area shape="poly" title=" " alt="" coords="445,16,485,16,485,21,445,21"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="730,56,854,83"/>
+<area shape="poly" title=" " alt="" coords="645,30,721,49,720,54,644,35"/>
+<area shape="poly" title=" " alt="" coords="433,67,715,67,715,72,433,72"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="492,107,682,133"/>
+<area shape="poly" title=" " alt="" coords="414,81,506,100,505,106,413,86"/>
+<area shape="poly" title=" " alt="" coords="644,103,720,84,721,90,645,109"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a22bd355bf7fb7d2ee98cc963cc37bb29_icgraph.png" border="0" usemap="#aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_icgraph" id="aclass_server_a22bd355bf7fb7d2ee98cc963cc37bb29_icgraph">
+<area shape="rect" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="159,5,354,32"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af9ee0faf4c581fd425e4b3750ca4d4c0" name="af9ee0faf4c581fd425e4b3750ca4d4c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9ee0faf4c581fd425e4b3750ca4d4c0">&#9670;&#160;</a></span>onNewWebSocketConnection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::onNewWebSocketConnection </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот, обрабатывающий новое входящее WebSocket-подключение. </p>
+<p>Аналогичен <span class="tt">onNewTcpConnection</span>, но для WebSocket. Извлекает сокет, устанавливает соединения для получения текстовых сообщений и отслеживания разрыва соединения. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00132">132</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_af9ee0faf4c581fd425e4b3750ca4d4c0_cgraph.png" border="0" usemap="#aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_cgraph" id="aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_cgraph">
+<area shape="rect" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="5,35,247,61"/>
+<area shape="rect" href="class_server.html#a8afa35c8257d78be38596587e469bea3" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="310,5,506,32"/>
+<area shape="poly" title=" " alt="" coords="247,33,295,28,295,33,247,38"/>
+<area shape="rect" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="295,56,521,99"/>
+<area shape="poly" title=" " alt="" coords="247,58,279,61,279,67,247,63"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="578,8,751,35"/>
+<area shape="poly" title=" " alt="" coords="506,17,562,18,562,23,506,22"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="807,35,931,61"/>
+<area shape="poly" title=" " alt="" coords="752,30,792,35,791,41,751,35"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="569,60,759,87"/>
+<area shape="poly" title=" " alt="" coords="521,73,553,72,553,78,522,78"/>
+<area shape="poly" title=" " alt="" coords="759,59,791,55,792,60,760,64"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_af9ee0faf4c581fd425e4b3750ca4d4c0_icgraph.png" border="0" usemap="#aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_icgraph" id="aclass_server_af9ee0faf4c581fd425e4b3750ca4d4c0_icgraph">
+<area shape="rect" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,5,400,32"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0dea29b2ecdf398365f882018d610ace" name="a0dea29b2ecdf398365f882018d610ace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dea29b2ecdf398365f882018d610ace">&#9670;&#160;</a></span>onTcpReadyRead</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::onTcpReadyRead </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот для чтения данных из TCP-сокета. </p>
+<p>Этот метод вызывается каждый раз, когда от TCP-клиента приходят новые данные. Он реализует логику сборки полных JSON-пакетов из непрерывного TCP-потока, используя протокол "размер + данные". После успешного извлечения JSON-объекта, он находит и вызывает соответствующий метод-обработчик. В этом методе есть небольшая логическая ошибка, он вызывает <span class="tt">processJsonRequest</span> дважды. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00306">306</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a0dea29b2ecdf398365f882018d610ace_cgraph.png" border="0" usemap="#aclass_server_a0dea29b2ecdf398365f882018d610ace_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a0dea29b2ecdf398365f882018d610ace_cgraph" id="aclass_server_a0dea29b2ecdf398365f882018d610ace_cgraph">
+<area shape="rect" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="5,31,177,57"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="225,5,415,32"/>
+<area shape="poly" title=" " alt="" coords="177,32,209,28,209,34,177,37"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="463,31,586,57"/>
+<area shape="poly" title=" " alt="" coords="177,41,447,41,447,47,177,47"/>
+<area shape="poly" title=" " alt="" coords="415,28,448,32,447,37,415,33"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a0dea29b2ecdf398365f882018d610ace_icgraph.png" border="0" usemap="#aclass_server_a0dea29b2ecdf398365f882018d610ace_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a0dea29b2ecdf398365f882018d610ace_icgraph" id="aclass_server_a0dea29b2ecdf398365f882018d610ace_icgraph">
+<area shape="rect" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="402,5,573,32"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="159,5,354,32"/>
+<area shape="poly" title=" " alt="" coords="387,21,355,21,355,16,387,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa8df3dc4a4acdc92a7ee4fda89af22d7" name="aa8df3dc4a4acdc92a7ee4fda89af22d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8df3dc4a4acdc92a7ee4fda89af22d7">&#9670;&#160;</a></span>onWebSocketTextMessageReceived</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::onWebSocketTextMessageReceived </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Слот для обработки текстового сообщения, полученного по WebSocket. </p>
+<p>WebSocket, в отличие от TCP, работает с сообщениями, а не с потоком. Поэтому нам не нужна сложная логика сборки пакетов. Мы просто получаем готовое сообщение, парсим его как JSON и передаем в общий диспетчер <span class="tt">processJsonRequest</span>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>Полученное текстовое сообщение (ожидается, что это строка в формате JSON). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00361">361</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_cgraph.png" border="0" usemap="#aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_cgraph" id="aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_cgraph">
+<area shape="rect" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="5,5,232,48"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="280,13,470,40"/>
+<area shape="poly" title=" " alt="" coords="232,24,264,24,264,29,232,29"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="518,13,641,40"/>
+<area shape="poly" title=" " alt="" coords="470,24,502,24,502,29,470,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_icgraph.png" border="0" usemap="#aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_icgraph" id="aclass_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_icgraph">
+<area shape="rect" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,5,674,48"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,13,400,40"/>
+<area shape="poly" title=" " alt="" coords="432,29,401,29,401,24,432,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab3d6b39c2cbb691005d654a2009f3468" name="ab3d6b39c2cbb691005d654a2009f3468"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3d6b39c2cbb691005d654a2009f3468">&#9670;&#160;</a></span>processJsonRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::processJsonRequest </td>
+          <td>(</td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>request</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Общий метод-диспетчер, который вызывает нужный обработчик из <span class="tt">m_handlers</span>. </p>
+<p>Общий диспетчер запросов от любого типа сокета.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>JSON-запрос от клиента. </td></tr>
+    <tr><td class="paramname">clientSocket</td><td>Указатель на сокет, с которого пришел запрос.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Этот метод является единой точкой входа для всех запросов после их парсинга. Он извлекает тип команды и, используя карту <span class="tt">m_handlers</span>, вызывает соответствующий метод-обработчик. (Примечание: В вашем коде этот метод дублирует логику из <span class="tt">onTcpReadyRead</span>. В идеале, <span class="tt">onTcpReadyRead</span> должен был бы вызывать <span class="tt">processJsonRequest</span>, а не реализовывать ту же логику заново.)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td>Распарсенный JSON-запрос. </td></tr>
+    <tr><td class="paramname">socket</td><td>Указатель на сокет клиента (QObject*), может быть QTcpSocket или QWebSocket. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00388">388</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_ab3d6b39c2cbb691005d654a2009f3468_cgraph.png" border="0" usemap="#aclass_server_ab3d6b39c2cbb691005d654a2009f3468_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_ab3d6b39c2cbb691005d654a2009f3468_cgraph" id="aclass_server_ab3d6b39c2cbb691005d654a2009f3468_cgraph">
+<area shape="rect" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="5,5,196,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="244,5,367,32"/>
+<area shape="poly" title=" " alt="" coords="196,16,228,16,228,21,196,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_ab3d6b39c2cbb691005d654a2009f3468_icgraph.png" border="0" usemap="#aclass_server_ab3d6b39c2cbb691005d654a2009f3468_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_ab3d6b39c2cbb691005d654a2009f3468_icgraph" id="aclass_server_ab3d6b39c2cbb691005d654a2009f3468_icgraph">
+<area shape="rect" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="722,35,913,61"/>
+<area shape="rect" href="class_server.html#a0dea29b2ecdf398365f882018d610ace" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="476,5,647,32"/>
+<area shape="poly" title=" " alt="" coords="706,38,647,31,648,26,707,33"/>
+<area shape="rect" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,56,674,99"/>
+<area shape="poly" title=" " alt="" coords="707,63,675,67,674,62,706,58"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,8,377,35"/>
+<area shape="poly" title=" " alt="" coords="460,22,377,23,377,18,460,17"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,35,111,61"/>
+<area shape="poly" title=" " alt="" coords="167,38,111,44,111,39,166,32"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,60,400,87"/>
+<area shape="poly" title=" " alt="" coords="432,78,400,78,401,72,432,73"/>
+<area shape="poly" title=" " alt="" coords="143,60,111,57,112,51,144,55"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="adc562afc19bd9813f10586823fdce35d" name="adc562afc19bd9813f10586823fdce35d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc562afc19bd9813f10586823fdce35d">&#9670;&#160;</a></span>removeClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::removeClient </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>clientSocket</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a13183209a11a05ece3a5f935d4a56634" name="a13183209a11a05ece3a5f935d4a56634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13183209a11a05ece3a5f935d4a56634">&#9670;&#160;</a></span>sendContactList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendContactList </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>username</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отправляет клиенту его персональный список контактов. </p>
+<p>Этот метод вызывается после успешного входа пользователя. Он выполняет сложный SQL-запрос с <span class="tt">JOIN</span> для получения всех пользователей, с которыми у текущего пользователя установлены подтвержденные отношения (<span class="tt">status = 1</span>) в таблице <span class="tt">contacts</span>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, которому нужно отправить список контактов. </td></tr>
+    <tr><td class="paramname">username</td><td>Имя пользователя, для которого нужно сформировать список. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l00779">779</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a13183209a11a05ece3a5f935d4a56634_cgraph.png" border="0" usemap="#aclass_server_a13183209a11a05ece3a5f935d4a56634_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a13183209a11a05ece3a5f935d4a56634_cgraph" id="aclass_server_a13183209a11a05ece3a5f935d4a56634_cgraph">
+<area shape="rect" title="Отправляет клиенту его персональный список контактов." alt="" coords="5,5,168,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="216,5,339,32"/>
+<area shape="poly" title=" " alt="" coords="168,16,200,16,200,21,168,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a13183209a11a05ece3a5f935d4a56634_icgraph.png" border="0" usemap="#aclass_server_a13183209a11a05ece3a5f935d4a56634_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a13183209a11a05ece3a5f935d4a56634_icgraph" id="aclass_server_a13183209a11a05ece3a5f935d4a56634_icgraph">
+<area shape="rect" title="Отправляет клиенту его персональный список контактов." alt="" coords="591,43,754,69"/>
+<area shape="rect" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="343,5,543,48"/>
+<area shape="poly" title=" " alt="" coords="576,46,544,42,544,37,577,41"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="375,72,511,99"/>
+<area shape="poly" title=" " alt="" coords="577,71,512,79,511,74,576,66"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,43,295,69"/>
+<area shape="poly" title=" " alt="" coords="328,45,296,49,295,44,327,40"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,43,111,69"/>
+<area shape="poly" title=" " alt="" coords="143,59,111,59,111,53,143,53"/>
+<area shape="poly" title=" " alt="" coords="359,77,295,68,296,63,360,71"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0a6f3f0f2d22d89f9fcd8572027f0a04" name="a0a6f3f0f2d22d89f9fcd8572027f0a04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6f3f0f2d22d89f9fcd8572027f0a04">&#9670;&#160;</a></span>sendFullUserList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendFullUserList </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей. </p>
+<p>Этот метод извлекает из БД всех пользователей без исключения. В текущей логике он не используется, так как клиенту обычно нужен только его список контактов (<span class="tt">sendContactList</span>). Может быть полезен для будущей административной панели или функции "найти всех".</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, которому нужно отправить список. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01151">1151</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a0a6f3f0f2d22d89f9fcd8572027f0a04_cgraph.png" border="0" usemap="#aclass_server_a0a6f3f0f2d22d89f9fcd8572027f0a04_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a0a6f3f0f2d22d89f9fcd8572027f0a04_cgraph" id="aclass_server_a0a6f3f0f2d22d89f9fcd8572027f0a04_cgraph">
+<area shape="rect" title="(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей." alt="" coords="5,5,171,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="219,5,342,32"/>
+<area shape="poly" title=" " alt="" coords="171,16,203,16,203,21,171,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1fae98fa6067984a8ad31c86f9b64859" name="a1fae98fa6067984a8ad31c86f9b64859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fae98fa6067984a8ad31c86f9b64859">&#9670;&#160;</a></span>sendJson()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendJson </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;</td>          <td class="paramname"><span class="paramname"><em>json</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Универсальный метод для отправки JSON-объекта клиенту. </p>
+<p>Этот метод инкапсулирует логику сериализации JSON и отправки данных по сети. Он автоматически определяет тип сокета (QTcpSocket или QWebSocket) и использует соответствующий протокол для отправки.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Указатель на сокет получателя (в виде QObject*). </td></tr>
+    <tr><td class="paramname">json</td><td>JSON-объект для отправки. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01113">1113</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a1fae98fa6067984a8ad31c86f9b64859_icgraph.png" border="0" usemap="#aclass_server_a1fae98fa6067984a8ad31c86f9b64859_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a1fae98fa6067984a8ad31c86f9b64859_icgraph" id="aclass_server_a1fae98fa6067984a8ad31c86f9b64859_icgraph">
+<area shape="rect" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="984,491,1107,517"/>
+<area shape="rect" href="class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="742,781,916,808"/>
+<area shape="poly" title=" " alt="" coords="1043,533,1032,583,1013,645,982,709,962,739,937,765,907,783,904,779,934,761,958,735,978,706,1008,643,1027,581,1037,532"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="493,545,629,572"/>
+<area shape="poly" title=" " alt="" coords="968,498,852,493,787,495,723,503,651,523,592,547,590,542,650,518,722,497,786,490,852,487,969,492"/>
+<area shape="rect" href="class_server.html#ab0cc0ba54dab5ede748107dbe62811a1" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="464,711,658,737"/>
+<area shape="poly" title=" " alt="" coords="1042,533,1031,577,1011,629,981,680,961,703,937,721,916,730,887,736,816,742,736,741,658,736,659,731,736,736,816,737,887,731,914,725,934,716,957,699,976,677,1006,627,1026,575,1037,532"/>
+<area shape="rect" href="class_server.html#a6194f5e7bf0e59830414199e9cbf5197" title="Обрабатывает запрос от одного пользователя на добавление другого в список контактов." alt="" coords="474,761,648,804"/>
+<area shape="poly" title=" " alt="" coords="1047,533,1043,596,1028,676,1014,718,995,757,969,793,937,822,909,839,884,847,859,850,835,847,784,835,722,823,640,807,641,802,723,817,785,830,836,842,859,844,882,842,907,834,934,818,965,789,990,754,1009,716,1022,675,1037,595,1042,533"/>
+<area shape="rect" href="class_server.html#a0386fd3f4b1df85683a736ad3f6c7091" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="731,5,927,32"/>
+<area shape="poly" title=" " alt="" coords="1038,475,1027,378,1005,249,991,184,974,126,955,78,934,46,919,35,922,30,938,42,960,75,979,124,996,183,1011,248,1032,378,1044,475"/>
+<area shape="rect" href="class_server.html#a44c58d6dfb62fb0842a4415d13b0be25" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="738,56,920,83"/>
+<area shape="poly" title=" " alt="" coords="1038,476,1024,389,1002,275,971,166,953,124,934,97,918,85,921,81,938,93,958,122,976,164,1007,273,1029,388,1043,475"/>
+<area shape="rect" href="class_server.html#a428d243912239a29f227465d973371eb" title="Обрабатывает запрос клиента на получение истории сообщений." alt="" coords="745,107,913,133"/>
+<area shape="poly" title=" " alt="" coords="1042,475,1038,408,1023,319,1009,272,991,227,966,184,934,147,912,133,915,129,937,143,970,181,995,224,1014,271,1028,318,1043,407,1047,475"/>
+<area shape="rect" href="class_server.html#af49291bcd5c9d7d8b9054ec18aa43728" title="Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено." alt="" coords="722,157,936,184"/>
+<area shape="poly" title=" " alt="" coords="1039,475,1032,418,1014,345,1000,307,983,270,961,235,934,205,906,187,908,182,937,201,965,232,987,267,1005,305,1019,344,1037,417,1045,475"/>
+<area shape="rect" href="class_server.html#aadc3f04c0a456be1165c480843936617" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="466,208,656,235"/>
+<area shape="poly" title=" " alt="" coords="1035,477,1023,435,1003,386,974,336,955,314,934,295,903,275,868,259,796,236,723,224,656,220,656,215,723,219,797,231,870,254,905,270,937,291,959,311,978,333,1008,383,1028,433,1040,475"/>
+<area shape="rect" href="class_server.html#a2814eb164b6e628f8be39f465dad15ae" title="Обрабатывает запрос на отправку личного сообщения от одного пользователя другому." alt="" coords="462,259,661,285"/>
+<area shape="poly" title=" " alt="" coords="1031,478,1015,447,994,412,967,377,934,349,902,331,869,315,797,293,726,280,661,275,662,269,727,275,798,288,870,310,905,326,937,344,971,374,999,409,1020,444,1035,475"/>
+<area shape="rect" href="class_server.html#a14b7f7cf3f729bc8e1d7b910514b0646" title="Обрабатывает запрос на регистрацию нового пользователя." alt="" coords="484,309,638,336"/>
+<area shape="poly" title=" " alt="" coords="1023,480,985,437,961,416,934,398,860,367,781,346,705,334,638,327,639,322,705,328,782,341,861,362,937,394,964,412,989,433,1027,476"/>
+<area shape="rect" href="class_server.html#a33057c924848918167bb0990ca6cb0b5" title="Обрабатывает запрос на глобальный поиск пользователей." alt="" coords="470,360,652,387"/>
+<area shape="poly" title=" " alt="" coords="1012,484,976,462,935,442,862,420,787,403,652,383,653,378,788,398,864,415,937,438,978,457,1014,479"/>
+<area shape="rect" href="class_server.html#a83f3bb69919258397064dea7329d4f57" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="490,411,633,437"/>
+<area shape="poly" title=" " alt="" coords="980,489,935,479,773,452,633,434,634,429,774,446,936,473,981,484"/>
+<area shape="rect" href="class_server.html#a0dea29b2ecdf398365f882018d610ace" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="476,879,647,905"/>
+<area shape="poly" title=" " alt="" coords="1047,533,1044,601,1030,688,1016,734,997,779,971,819,937,854,903,877,866,894,826,905,786,912,706,915,636,909,637,903,706,909,785,906,825,900,864,889,901,872,934,850,967,816,992,776,1011,732,1025,687,1039,600,1042,533"/>
+<area shape="rect" href="class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="734,933,924,960"/>
+<area shape="poly" title=" " alt="" coords="1043,533,1029,621,1006,735,976,844,957,887,938,917,911,935,908,930,934,913,953,884,970,842,1001,734,1024,620,1037,533"/>
+<area shape="rect" href="class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="748,629,910,656"/>
+<area shape="poly" title=" " alt="" coords="1028,532,990,577,965,600,937,620,911,631,909,626,934,615,961,596,986,574,1024,529"/>
+<area shape="rect" href="class_server.html#a0a6f3f0f2d22d89f9fcd8572027f0a04" title="(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей." alt="" coords="746,984,912,1011"/>
+<area shape="poly" title=" " alt="" coords="1044,533,1032,631,1011,763,997,830,980,890,960,940,938,974,914,990,911,985,934,970,956,937,975,889,992,828,1006,762,1027,630,1039,532"/>
+<area shape="rect" href="class_server.html#a894f2c797fdc512da9e624ba41a8daf5" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="733,680,925,707"/>
+<area shape="poly" title=" " alt="" coords="1036,533,1021,565,999,602,972,639,937,670,915,682,913,677,934,666,968,635,995,599,1016,562,1031,530"/>
+<area shape="rect" href="class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="735,512,923,555"/>
+<area shape="poly" title=" " alt="" coords="969,517,924,523,923,518,968,512"/>
+<area shape="rect" href="class_server.html#a24b087314710ced5903f9d137d3e463d" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="739,579,919,605"/>
+<area shape="poly" title=" " alt="" coords="1013,528,977,550,937,569,902,581,900,575,935,564,975,545,1010,524"/>
+<area shape="poly" title=" " alt="" coords="786,775,752,751,720,720,704,690,697,663,690,638,672,611,644,590,612,575,614,570,647,585,676,607,695,635,702,662,708,689,724,717,755,747,789,771"/>
+<area shape="poly" title=" " alt="" coords="766,779,674,752,627,740,628,735,675,747,768,774"/>
+<area shape="rect" href="class_server.html#a8afa35c8257d78be38596587e469bea3" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="464,828,659,855"/>
+<area shape="poly" title=" " alt="" coords="734,814,642,830,641,825,733,809"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="211,335,348,361"/>
+<area shape="poly" title=" " alt="" coords="528,538,297,364,301,360,531,534"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,828,111,855"/>
+<area shape="poly" title=" " alt="" coords="268,377,68,829,63,826,263,374"/>
+<area shape="poly" title=" " alt="" coords="492,707,468,694,446,678,410,639,379,595,353,549,330,503,298,419,282,363,287,361,303,418,335,501,357,547,384,592,414,636,450,674,471,690,495,702"/>
+<area shape="rect" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,828,377,855"/>
+<area shape="poly" title=" " alt="" coords="448,844,377,844,377,839,448,839"/>
+<area shape="rect" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,879,400,905"/>
+<area shape="poly" title=" " alt="" coords="468,861,358,881,357,875,467,855"/>
+<area shape="poly" title=" " alt="" coords="167,844,111,844,111,839,167,839"/>
+<area shape="poly" title=" " alt="" coords="194,877,158,869,111,858,112,852,159,864,196,872"/>
+<area shape="poly" title=" " alt="" coords="459,761,446,751,403,705,368,651,340,594,319,536,291,431,280,362,285,361,296,430,324,534,345,592,373,648,408,701,450,747,462,757"/>
+<area shape="poly" title=" " alt="" coords="715,12,651,13,581,22,512,40,480,54,449,72,414,100,383,134,357,172,335,211,303,284,287,335,282,334,298,282,330,209,353,169,379,131,410,96,447,67,478,49,511,35,580,17,650,8,715,6"/>
+<area shape="poly" title=" " alt="" coords="723,63,658,64,587,72,515,89,481,102,449,118,417,141,389,169,341,231,308,292,288,336,283,333,303,289,337,229,385,165,414,137,447,114,479,97,514,84,586,66,657,59,723,58"/>
+<area shape="poly" title=" " alt="" coords="729,114,664,113,592,119,518,134,449,161,420,179,394,200,347,250,312,299,290,336,286,333,308,296,343,247,390,197,417,174,447,156,517,129,591,114,664,108,729,108"/>
+<area shape="poly" title=" " alt="" coords="707,162,645,161,579,166,513,178,449,198,398,228,353,267,317,306,293,336,288,333,313,302,349,263,394,224,447,194,511,173,579,161,645,156,707,156"/>
+<area shape="poly" title=" " alt="" coords="469,242,449,249,406,269,364,293,301,336,298,332,362,289,403,265,447,244,468,237"/>
+<area shape="poly" title=" " alt="" coords="480,292,449,300,325,337,323,331,447,295,479,287"/>
+<area shape="poly" title=" " alt="" coords="469,334,348,345,348,339,469,328"/>
+<area shape="poly" title=" " alt="" coords="455,366,348,357,348,351,455,361"/>
+<area shape="poly" title=" " alt="" coords="479,409,447,401,323,365,325,359,449,396,480,404"/>
+<area shape="poly" title=" " alt="" coords="467,878,357,858,358,853,468,873"/>
+<area shape="poly" title=" " alt="" coords="745,932,629,909,631,903,746,927"/>
+<area shape="rect" href="class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,929,674,972"/>
+<area shape="poly" title=" " alt="" coords="719,951,675,952,675,946,718,946"/>
+<area shape="poly" title=" " alt="" coords="440,928,347,909,348,903,441,923"/>
+<area shape="poly" title=" " alt="" coords="749,628,722,620,596,575,598,570,723,615,751,622"/>
+<area shape="rect" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="461,621,661,664"/>
+<area shape="poly" title=" " alt="" coords="733,645,662,645,662,640,733,640"/>
+<area shape="poly" title=" " alt="" coords="491,616,446,586,390,527,343,463,308,405,285,363,290,361,312,402,348,460,394,524,450,582,494,612"/>
+<area shape="poly" title=" " alt="" coords="739,679,661,664,662,659,740,674"/>
+<area shape="poly" title=" " alt="" coords="719,546,630,555,629,550,719,541"/>
+<area shape="poly" title=" " alt="" coords="724,582,629,570,630,564,724,576"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4bf87a8a3828b77c4408d8e9fec72cf8" name="a4bf87a8a3828b77c4408d8e9fec72cf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bf87a8a3828b77c4408d8e9fec72cf8">&#9670;&#160;</a></span>sendOfflineMessages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendOfflineMessages </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>username</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a894f2c797fdc512da9e624ba41a8daf5" name="a894f2c797fdc512da9e624ba41a8daf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a894f2c797fdc512da9e624ba41a8daf5">&#9670;&#160;</a></span>sendOnlineStatusList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendOnlineStatusList </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>clientSocket</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отправляет список онлайн-пользователей одному конкретному клиенту. </p>
+<p>В отличие от <span class="tt">broadcastUserList</span>, которая рассылает список всем, эта функция отправляет тот же самый список онлайн-пользователей только одному клиенту, указанному через <span class="tt">clientSocket</span>. Это может быть полезно в ситуациях, когда необходимо обновить онлайн-статусы для одного клиента, не затрагивая остальных, например, после того как он принял чей-то запрос в друзья. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientSocket</td><td>Сокет клиента, которому нужно отправить список. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01520">1520</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a894f2c797fdc512da9e624ba41a8daf5_cgraph.png" border="0" usemap="#aclass_server_a894f2c797fdc512da9e624ba41a8daf5_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a894f2c797fdc512da9e624ba41a8daf5_cgraph" id="aclass_server_a894f2c797fdc512da9e624ba41a8daf5_cgraph">
+<area shape="rect" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="5,5,197,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="245,5,368,32"/>
+<area shape="poly" title=" " alt="" coords="197,16,229,16,229,21,197,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a894f2c797fdc512da9e624ba41a8daf5_icgraph.png" border="0" usemap="#aclass_server_a894f2c797fdc512da9e624ba41a8daf5_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a894f2c797fdc512da9e624ba41a8daf5_icgraph" id="aclass_server_a894f2c797fdc512da9e624ba41a8daf5_icgraph">
+<area shape="rect" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="591,13,783,40"/>
+<area shape="rect" href="class_server.html#aa384e1d90a914ec126cf22c21ba9f226" title="Обрабатывает ответ пользователя на входящий запрос на добавление в контакты." alt="" coords="343,5,543,48"/>
+<area shape="poly" title=" " alt="" coords="575,29,544,29,544,24,575,24"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,13,295,40"/>
+<area shape="poly" title=" " alt="" coords="327,29,296,29,296,24,327,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3be6f6078d3c22a71163ff1b5c3c3bdc" name="a3be6f6078d3c22a71163ff1b5c3c3bdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be6f6078d3c22a71163ff1b5c3c3bdc">&#9670;&#160;</a></span>sendPendingContactRequests()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendPendingContactRequests </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>username</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты. </p>
+<p>Эта функция является частью процесса инициализации сессии пользователя после успешного входа. Она выполняет сложный SQL-запрос, который находит все записи в таблице <span class="tt">contacts</span>, где текущий пользователь является одним из участников, а статус записи равен <span class="tt">0</span> (pending/ожидает). С помощью <span class="tt">JOIN</span> и <span class="tt">CASE</span> запрос извлекает <span class="tt">username</span> и <span class="tt">display_name</span> другого пользователя (того, кто отправил запрос). Если такие запросы найдены, они упаковываются в JSON-массив и отправляются клиенту сообщением с типом "pending_requests_list", чтобы он мог их принять или отклонить. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, для которого выполняется проверка. </td></tr>
+    <tr><td class="paramname">username</td><td>Имя пользователя, для которого нужно найти запросы. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01549">1549</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_cgraph.png" border="0" usemap="#aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_cgraph" id="aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_cgraph">
+<area shape="rect" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="5,5,194,48"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="242,13,365,40"/>
+<area shape="poly" title=" " alt="" coords="194,24,226,24,226,29,194,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_icgraph.png" border="0" usemap="#aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_icgraph" id="aclass_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_icgraph">
+<area shape="rect" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="527,5,716,48"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="343,13,479,40"/>
+<area shape="poly" title=" " alt="" coords="512,29,480,29,480,24,512,24"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,13,295,40"/>
+<area shape="poly" title=" " alt="" coords="328,29,296,29,296,24,328,24"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a24b087314710ced5903f9d137d3e463d" name="a24b087314710ced5903f9d137d3e463d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24b087314710ced5903f9d137d3e463d">&#9670;&#160;</a></span>sendUnreadCounts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Server::sendUnreadCounts </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>socket</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>username</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям. </p>
+<p>Эта функция вызывается после успешного входа пользователя в систему. Она выполняет SQL-запрос к таблице <span class="tt">messages</span>, чтобы найти все сообщения, адресованные данному пользователю (<span class="tt">username</span>), которые еще не были помечены как прочитанные (<span class="tt">is_read = 0</span>). Результаты группируются по отправителю (<span class="tt">fromUser</span>), и для каждого отправителя подсчитывается количество таких сообщений. Сформированный список (пользователь + количество) отправляется клиенту в виде JSON-сообщения типа "unread_counts". Это позволяет клиентскому приложению отображать "бейджи" с количеством новых сообщений рядом с именами контактов. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>Сокет клиента, которому необходимо отправить счетчики. </td></tr>
+    <tr><td class="paramname">username</td><td>Имя пользователя, для которого производится подсчет. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="server_8cpp_source.html#l01456">1456</a> of file <a class="el" href="server_8cpp_source.html">server.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a24b087314710ced5903f9d137d3e463d_cgraph.png" border="0" usemap="#aclass_server_a24b087314710ced5903f9d137d3e463d_cgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a24b087314710ced5903f9d137d3e463d_cgraph" id="aclass_server_a24b087314710ced5903f9d137d3e463d_cgraph">
+<area shape="rect" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="5,5,185,32"/>
+<area shape="rect" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="233,5,356,32"/>
+<area shape="poly" title=" " alt="" coords="185,16,217,16,217,21,185,21"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_server_a24b087314710ced5903f9d137d3e463d_icgraph.png" border="0" usemap="#aclass_server_a24b087314710ced5903f9d137d3e463d_icgraph" loading="lazy" alt=""/></div>
+<map name="aclass_server_a24b087314710ced5903f9d137d3e463d_icgraph" id="aclass_server_a24b087314710ced5903f9d137d3e463d_icgraph">
+<area shape="rect" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="527,5,707,32"/>
+<area shape="rect" href="class_server.html#a2c11ed0951b0edc730bd551a920fb08f" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="343,5,479,32"/>
+<area shape="poly" title=" " alt="" coords="512,21,480,21,480,16,512,16"/>
+<area shape="rect" href="class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" title=" " alt="" coords="328,21,296,21,296,16,328,16"/>
+<area shape="rect" href="class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a66108947304ed85284fb61f2ae6dc96e" name="a66108947304ed85284fb61f2ae6dc96e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66108947304ed85284fb61f2ae6dc96e">&#9670;&#160;</a></span>m_clients</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;QString, QObject*&gt; Server::m_clients</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отображение <span class="tt">username</span> -&gt; <span class="tt">указатель на сокет</span>. Для быстрого поиска сокета по имени. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00107">107</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a id="a6899f0ea9be823ca334540849f93d0e8" name="a6899f0ea9be823ca334540849f93d0e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6899f0ea9be823ca334540849f93d0e8">&#9670;&#160;</a></span>m_clientsReverse</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;QObject*, QString&gt; Server::m_clientsReverse</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отображение <span class="tt">указатель на сокет</span> -&gt; <span class="tt">username</span>. Для быстрой идентификации клиента по сокету. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00108">108</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a id="ae1a19c09a1785fa344c54cae03f5e098" name="ae1a19c09a1785fa344c54cae03f5e098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1a19c09a1785fa344c54cae03f5e098">&#9670;&#160;</a></span>m_handlers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;QString, <a class="el" href="#a37e024465684a471d2fe17482f347891">Handler</a>&gt; Server::m_handlers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Карта, реализующая паттерн "Команда". </p>
+<p>Ключ - строковое имя команды (из поля "type" в JSON). Значение - указатель на метод, который эту команду обрабатывает. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00132">132</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a id="a3ab2da9e106ed2d1c7891f1056c4ab9a" name="a3ab2da9e106ed2d1c7891f1056c4ab9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ab2da9e106ed2d1c7891f1056c4ab9a">&#9670;&#160;</a></span>m_nextBlockSizes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;QTcpSocket*, quint32&gt; Server::m_nextBlockSizes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Хранит ожидаемый размер следующего TCP-пакета для каждого сокета. </p>
+<p>Необходимо для корректной сборки пакетов переменной длины из TCP-потока. </p>
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00124">124</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a id="a0efcd94352570f9565c5fe9f0d441614" name="a0efcd94352570f9565c5fe9f0d441614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0efcd94352570f9565c5fe9f0d441614">&#9670;&#160;</a></span>m_tcpServer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTcpServer* Server::m_tcpServer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00103">103</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
+
+</div>
+</div>
+<a id="a0f9623482771b8b020d023445ead8a29" name="a0f9623482771b8b020d023445ead8a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f9623482771b8b020d023445ead8a29">&#9670;&#160;</a></span>m_webSocketServer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWebSocketServer* Server::m_webSocketServer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="server_8h_source.html#l00104">104</a> of file <a class="el" href="server_8h_source.html">server.h</a>.</p>
 
 </div>
 </div>

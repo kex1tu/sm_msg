@@ -1,0 +1,5 @@
+<map id="Server::sendContactList" name="Server::sendContactList">
+<area shape="rect" id="Node000001" title="Отправляет клиенту его персональный список контактов." alt="" coords="5,5,168,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="216,5,339,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,16,200,16,200,21,168,21"/>
+</map>

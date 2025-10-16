@@ -1,0 +1,17 @@
+<map id="Server::handleLogin" name="Server::handleLogin">
+<area shape="rect" id="Node000001" title="Обрабатывает запрос на аутентификацию пользователя." alt="" coords="5,107,142,133"/>
+<area shape="rect" id="Node000002" href="$class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="197,5,370,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,104,136,77,189,48,220,35,223,40,191,53,139,81,96,108"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="426,107,549,133"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="126,103,189,92,284,85,378,92,423,100,422,105,378,97,284,90,190,97,127,109"/>
+<area shape="rect" id="Node000004" href="$class_server.html#a13183209a11a05ece3a5f935d4a56634" title="Отправляет клиенту его персональный список контактов." alt="" coords="203,107,365,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="142,117,187,117,187,123,142,123"/>
+<area shape="rect" id="Node000005" href="$class_server.html#a3be6f6078d3c22a71163ff1b5c3c3bdc" title="Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты." alt="" coords="190,157,378,200"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="125,131,191,150,190,155,123,136"/>
+<area shape="rect" id="Node000006" href="$class_server.html#a24b087314710ced5903f9d137d3e463d" title="Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям." alt="" coords="194,224,374,251"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="90,132,133,171,161,192,191,210,204,216,202,221,188,214,158,196,130,175,87,136"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="333,30,379,48,421,71,457,95,454,100,418,76,377,53,331,35"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="365,117,411,117,411,123,365,123"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="359,154,424,135,425,141,361,159"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="349,221,377,210,424,177,462,142,466,146,428,181,379,214,352,226"/>
+</map>

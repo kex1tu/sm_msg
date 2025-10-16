@@ -1,0 +1,6 @@
+<map id="LoginWidget::ongoToRegisterButtonclicked" name="LoginWidget::ongoToRegisterButtonclicked">
+<area shape="rect" id="Node000001" title="Переключает QStackedWidget на страницу регистрации." alt="" coords="227,21,419,64"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d" title="Конструктор." alt="" coords="5,29,179,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,45,179,45,179,40,211,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="132,17,119,10,92,8,68,10,55,15,51,20,57,27,53,31,46,21,51,11,67,5,92,3,120,5,134,12"/>
+</map>

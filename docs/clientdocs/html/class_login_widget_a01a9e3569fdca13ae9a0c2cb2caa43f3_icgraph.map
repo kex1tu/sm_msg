@@ -1,7 +1,13 @@
 <map id="LoginWidget::username" name="LoginWidget::username">
-<area shape="rect" id="Node000001" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="261,31,419,57"/>
-<area shape="rect" id="Node000002" href="$class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="13,5,205,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,36,205,32,206,27,246,31"/>
-<area shape="rect" id="Node000003" href="$class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="5,56,213,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,57,214,61,213,55,245,52"/>
+<area shape="rect" id="Node000001" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="745,31,904,57"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="498,5,689,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="730,36,690,32,690,27,731,31"/>
+<area shape="rect" id="Node000005" href="$class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="490,56,697,83"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="731,57,698,61,698,55,730,52"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,31,442,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="483,32,443,36,442,31,482,27"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,31,185,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="217,47,185,47,185,41,217,41"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,18,123,12,95,9,69,11,56,16,52,21,59,29,54,32,47,22,52,12,68,6,95,4,124,7,139,13"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="474,60,442,57,443,52,475,55"/>
 </map>

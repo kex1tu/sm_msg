@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['loginrequested_0',['loginRequested',['../class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017',1,'LoginWidget']]],
-  ['loginwidget_1',['LoginWidget',['../class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d',1,'LoginWidget']]]
+  ['initrenderers_0',['initRenderers',['../class_chat_message_delegate.html#a0331e614068d2bf26502fdc03c8c45f3',1,'ChatMessageDelegate']]],
+  ['initresponsehandlers_1',['initResponseHandlers',['../class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5',1,'MainWindow']]],
+  ['isscrolledtobottom_2',['isScrolledToBottom',['../class_chat_view_widget.html#a68d67be23a20119e84d2a1188dd0c1b4',1,'ChatViewWidget']]]
 ];

@@ -1,5 +1,10 @@
 <map id="SearchResultsPopup::userSelected" name="SearchResultsPopup::userSelected">
-<area shape="rect" id="Node000001" title="Сигнал испускается, когда пользователь кликает на один из элементов в списке." alt="" coords="206,5,350,48"/>
-<area shape="rect" id="Node000002" href="$class_search_results_popup.html#a3455b387ed90eb7fa2ddc8e531e6d8e8" title="Конструктор класса." alt="" coords="5,5,158,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,29,158,29,158,24,190,24"/>
+<area shape="rect" id="Node000001" title="Сигнал испускается, когда пользователь кликает на один из элементов в списке." alt="" coords="490,35,634,77"/>
+<area shape="rect" id="Node000002" href="$class_search_results_popup.html#a3455b387ed90eb7fa2ddc8e531e6d8e8" title="Конструктор класса." alt="" coords="261,5,414,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="474,47,414,39,414,34,475,42"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,72,442,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="475,70,443,74,442,69,474,65"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,72,185,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="217,88,185,88,185,83,217,83"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,60,123,53,95,51,69,53,56,57,52,63,59,70,54,73,47,63,52,53,68,47,95,45,124,48,139,55"/>
 </map>

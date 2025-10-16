@@ -1,5 +1,9 @@
 <map id="ChatMessageDelegate" name="ChatMessageDelegate">
-<area shape="rect" id="Node000001" title="Кастомный делегат для отрисовки сообщений в виде &quot;пузырей&quot; в QListView." alt="" coords="5,80,160,107"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="9,5,156,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,48,85,80,80,80,80,48"/>
+<area shape="rect" id="Node000001" title="Кастомный делегат для отрисовки сообщений в виде &quot;пузырей&quot; в QListView." alt="" coords="53,180,208,207"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,81,152,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,120,126,178,122,181,90,123"/>
+<area shape="rect" id="Node000003" href="$class_chat_message_model.html" title="Макрос Qt, регистрирующий кастомный тип ChatMessage в мета&#45;объектной системе Qt." alt="" coords="175,81,312,108"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,120,147,181,144,177,216,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="176,5,312,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="246,47,246,81,241,81,241,47"/>
 </map>

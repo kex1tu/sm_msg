@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::formatLastSeen" name="ChatViewWidget::formatLastSeen">
+<area shape="rect" id="Node000001" title="Форматирует строку о последнем времени визита пользователя." alt="" coords="262,5,481,32"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#adb9f862c41708983a26f8dff91f236d1" title="Обновляет информацию в заголовке чата (имя, онлайн&#45;статус, &quot;печатает...&quot;)." alt="" coords="5,5,214,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,21,214,21,214,16,246,16"/>
+</map>

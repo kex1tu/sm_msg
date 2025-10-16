@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::onNewMessageReceived" name="ChatViewWidget::onNewMessageReceived">
+<area shape="rect" id="Node000001" title="Слот, вызываемый, когда приходит новое сообщение, а пользователь прокрутил чат вверх." alt="" coords="5,5,227,48"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a7a2b8299c9c127f8711c0d4b610e6779" title="Обновляет видимость и позицию кнопки &quot;прокрутить вниз&quot; и счетчика." alt="" coords="275,5,474,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,24,259,24,259,29,227,29"/>
+</map>

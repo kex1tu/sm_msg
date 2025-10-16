@@ -113,10 +113,10 @@ $(function(){initNavTree('searchresultspopup_8cpp_source.html','',''); });
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    setAttribute(Qt::WA_ShowWithoutActivating);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// --- 2. Создание и компоновка внутреннего UI ---</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    m_listWidget = <span class="keyword">new</span> QListWidget(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a> = <span class="keyword">new</span> QListWidget(<span class="keyword">this</span>);</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">auto</span> *layout = <span class="keyword">new</span> QVBoxLayout(<span class="keyword">this</span>);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    layout-&gt;setContentsMargins(0, 0, 0, 0); <span class="comment">// Убираем отступы, чтобы список занимал все место.</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    layout-&gt;addWidget(m_listWidget);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    layout-&gt;addWidget(<a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>);</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    setLayout(layout);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// --- 3. Установка стилей (QSS) ---</span></div>
@@ -145,7 +145,7 @@ $(function(){initNavTree('searchresultspopup_8cpp_source.html','',''); });
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="comment">// --- 4. Соединение сигналов и слотов ---</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Соединяем сигнал itemClicked от QListWidget с лямбда-функцией.</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    connect(m_listWidget, &amp;QListWidget::itemClicked, <span class="keyword">this</span>, [<span class="keyword">this</span>](QListWidgetItem *item){</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    connect(<a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>, &amp;QListWidget::itemClicked, <span class="keyword">this</span>, [<span class="keyword">this</span>](QListWidgetItem *item){</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">// Когда пользователь кликает на элемент:</span></div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="comment">// 1. Извлекаем сохраненный &#39;username&#39; из данных элемента.</span></div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// 2. Эмитируем сигнал userSelected наружу (для MainWindow).</span></div>
@@ -160,7 +160,7 @@ $(function(){initNavTree('searchresultspopup_8cpp_source.html','',''); });
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="class_search_results_popup.html#a1ccd139c582eb3efe382de659aaef2f4">   79</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_search_results_popup.html#a1ccd139c582eb3efe382de659aaef2f4">SearchResultsPopup::showResults</a>(<span class="keyword">const</span> QJsonArray &amp;users)</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>{</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// 1. Очищаем список от предыдущих результатов.</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    m_listWidget-&gt;clear();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;clear();</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// 2. Заполняем список новыми данными.</span></div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QJsonValue &amp;value : users) {</div>
@@ -173,30 +173,30 @@ $(function(){initNavTree('searchresultspopup_8cpp_source.html','',''); });
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="comment">// Сохраняем `username` в `Qt::UserRole`. Это позволяет нам легко</span></div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="comment">// получить идентификатор пользователя при клике, не парся строку.</span></div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        item-&gt;setData(Qt::UserRole, username);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        m_listWidget-&gt;addItem(item);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;addItem(item);</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// 3. Если результатов нет, просто скрываем окно и выходим.</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordtype">int</span> count = m_listWidget-&gt;count();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordtype">int</span> count = <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;count();</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (count == 0) {</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        hide();</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="comment">// --- 4. Динамический расчет высоты виджета ---</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    QFontMetrics fm(m_listWidget-&gt;font());</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    QFontMetrics fm(<a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;font());</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">int</span> itemHeight = fm.height() + 37; <span class="comment">// Расчетная высота одного элемента (подобрана экспериментально).</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> maxVisibleItems = 4;     <span class="comment">// Максимальное количество элементов без прокрутки.</span></div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordtype">int</span> targetHeight = 0;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (count &gt; maxVisibleItems) {</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="comment">// Если элементов больше максимума, ограничиваем высоту и показываем скроллбар.</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        targetHeight = itemHeight * maxVisibleItems + m_listWidget-&gt;frameWidth() * 2;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        m_listWidget-&gt;setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        targetHeight = itemHeight * maxVisibleItems + <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;frameWidth() * 2;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="comment">// Если элементов меньше, делаем высоту точно по их количеству и скрываем скроллбар.</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        targetHeight = itemHeight * count + m_listWidget-&gt;frameWidth() * 2;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        m_listWidget-&gt;setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        targetHeight = itemHeight * count + <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;frameWidth() * 2;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <a class="code hl_variable" href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">m_listWidget</a>-&gt;setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// Устанавливаем рассчитанную высоту для всего виджета.</span></div>
@@ -211,6 +211,7 @@ $(function(){initNavTree('searchresultspopup_8cpp_source.html','',''); });
 <div class="ttc" id="aclass_search_results_popup_html_a1ccd139c582eb3efe382de659aaef2f4"><div class="ttname"><a href="class_search_results_popup.html#a1ccd139c582eb3efe382de659aaef2f4">SearchResultsPopup::showResults</a></div><div class="ttdeci">void showResults(const QJsonArray &amp;users)</div><div class="ttdoc">Заполняет виджет результатами поиска и отображает его.</div><div class="ttdef"><b>Definition</b> <a href="#l00079">searchresultspopup.cpp:79</a></div></div>
 <div class="ttc" id="aclass_search_results_popup_html_a3455b387ed90eb7fa2ddc8e531e6d8e8"><div class="ttname"><a href="class_search_results_popup.html#a3455b387ed90eb7fa2ddc8e531e6d8e8">SearchResultsPopup::SearchResultsPopup</a></div><div class="ttdeci">SearchResultsPopup(QWidget *parent=nullptr)</div><div class="ttdoc">Конструктор класса.</div><div class="ttdef"><b>Definition</b> <a href="#l00020">searchresultspopup.cpp:20</a></div></div>
 <div class="ttc" id="aclass_search_results_popup_html_ad488c35265a75f5462fa27ee8d3f8779"><div class="ttname"><a href="class_search_results_popup.html#ad488c35265a75f5462fa27ee8d3f8779">SearchResultsPopup::userSelected</a></div><div class="ttdeci">void userSelected(const QString &amp;username)</div><div class="ttdoc">Сигнал испускается, когда пользователь кликает на один из элементов в списке.</div></div>
+<div class="ttc" id="aclass_search_results_popup_html_ae9f08cea754153f9c7b296e71a7e7096"><div class="ttname"><a href="class_search_results_popup.html#ae9f08cea754153f9c7b296e71a7e7096">SearchResultsPopup::m_listWidget</a></div><div class="ttdeci">QListWidget * m_listWidget</div><div class="ttdoc">Указатель на внутренний QListWidget.</div><div class="ttdef"><b>Definition</b> <a href="searchresultspopup_8h_source.html#l00048">searchresultspopup.h:48</a></div></div>
 <div class="ttc" id="asearchresultspopup_8h_html"><div class="ttname"><a href="searchresultspopup_8h.html">searchresultspopup.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

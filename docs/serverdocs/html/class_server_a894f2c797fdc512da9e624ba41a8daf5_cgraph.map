@@ -1,0 +1,5 @@
+<map id="Server::sendOnlineStatusList" name="Server::sendOnlineStatusList">
+<area shape="rect" id="Node000001" title="Отправляет список онлайн&#45;пользователей одному конкретному клиенту." alt="" coords="5,5,197,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="245,5,368,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,16,229,16,229,21,197,21"/>
+</map>

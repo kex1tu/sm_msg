@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::resizeEvent" name="ChatViewWidget::resizeEvent">
+<area shape="rect" id="Node000001" title="Обработчик события изменения размера виджета." alt="" coords="5,13,202,40"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a7a2b8299c9c127f8711c0d4b610e6779" title="Обновляет видимость и позицию кнопки &quot;прокрутить вниз&quot; и счетчика." alt="" coords="250,5,449,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,24,234,24,234,29,202,29"/>
+</map>

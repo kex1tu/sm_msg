@@ -1,0 +1,13 @@
+<map id="MainWindow::newMessageForCurrentChat" name="MainWindow::newMessageForCurrentChat">
+<area shape="rect" id="Node000001" title="Сигнал, который отправляется в ChatViewWidget." alt="" coords="721,35,922,77"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a76f3f2fc212fc0b0672b27d08c6421b3" title="Обрабатывает входящие личные сообщения от сервера." alt="" coords="490,5,673,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="706,45,674,41,674,35,706,39"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,72,442,99"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="706,66,442,82,442,76,706,60"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5" title="Заполняет карту m_responseHandlers для обработки команд сервера." alt="" coords="247,5,428,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="475,29,428,29,428,24,475,24"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,43,185,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="232,42,186,48,185,42,232,37"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,30,123,24,95,21,69,23,56,28,52,33,59,41,54,44,47,34,52,24,68,18,95,16,124,19,139,25"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="217,73,185,70,186,64,217,68"/>
+</map>

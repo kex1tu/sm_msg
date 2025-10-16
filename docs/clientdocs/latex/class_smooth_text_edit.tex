@@ -39,6 +39,11 @@ Collaboration diagram for Smooth\+Text\+Edit\+:
 \item 
 void \mbox{\hyperlink{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}{wheel\+Event}} (QWheel\+Event \texorpdfstring{$\ast$}{*}e) override
 \begin{DoxyCompactList}\small\item\em Переопределенный обработчик событий колеса мыши. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QProperty\+Animation \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_smooth_text_edit_aa8962114bf92b0632f0b497a2555c2cb}{m\+\_\+scroll\+Animation}}
+\begin{DoxyCompactList}\small\item\em Указатель на объект анимации. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -112,6 +117,25 @@ void Smooth\+Text\+Edit\+::wheel\+Event (\begin{DoxyParamCaption}\item[{QWheel\+
 
 
 Definition at line \mbox{\hyperlink{smoothtextedit_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{smoothtextedit_8cpp_source}{smoothtextedit.\+cpp}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{class_smooth_text_edit_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_smooth_text_edit_aa8962114bf92b0632f0b497a2555c2cb}\index{SmoothTextEdit@{SmoothTextEdit}!m\_scrollAnimation@{m\_scrollAnimation}}
+\index{m\_scrollAnimation@{m\_scrollAnimation}!SmoothTextEdit@{SmoothTextEdit}}
+\doxysubsubsection{\texorpdfstring{m\_scrollAnimation}{m\_scrollAnimation}}
+{\footnotesize\ttfamily \label{class_smooth_text_edit_aa8962114bf92b0632f0b497a2555c2cb} 
+QProperty\+Animation\texorpdfstring{$\ast$}{*} Smooth\+Text\+Edit\+::m\+\_\+scroll\+Animation\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Указатель на объект анимации. 
+
+Этот объект управляет анимацией свойства "{}value"{} (текущая позиция) вертикального скроллбара виджета. Он создается один раз в конструкторе и используется повторно при каждом событии прокрутки. 
+
+Definition at line \mbox{\hyperlink{smoothtextedit_8h_source_l00048}{48}} of file \mbox{\hyperlink{smoothtextedit_8h_source}{smoothtextedit.\+h}}.
 
 
 

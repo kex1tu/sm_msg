@@ -1,0 +1,5 @@
+<map id="MainWindow::handleMessageDelivered" name="MainWindow::handleMessageDelivered">
+<area shape="rect" id="Node000001" title="Обрабатывает уведомление от сервера о том, что сообщение было доставлено." alt="" coords="5,5,201,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#afb46069aa39e10ec53248a3e73c07a5c" title="Централизованно обновляет статус сообщения и в кэше, и в активной модели." alt="" coords="249,5,445,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,24,233,24,233,29,201,29"/>
+</map>

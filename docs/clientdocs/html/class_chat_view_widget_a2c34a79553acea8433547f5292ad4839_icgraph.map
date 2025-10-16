@@ -1,0 +1,10 @@
+<map id="ChatViewWidget::editMessageRequested" name="ChatViewWidget::editMessageRequested">
+<area shape="rect" id="Node000001" title=" " alt="" coords="496,35,697,77"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a37802f56820b58365a5269f4a27c177d" title="Слот, вызываемый по правому клику на списке сообщений." alt="" coords="233,5,448,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="480,45,448,42,449,36,481,40"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="236,72,445,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="481,72,446,76,445,71,480,67"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,72,185,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="220,88,185,88,185,83,220,83"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="138,60,123,53,95,51,69,53,55,57,52,63,58,70,54,73,46,63,52,53,68,47,95,45,125,48,140,55"/>
+</map>

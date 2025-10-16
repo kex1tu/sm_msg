@@ -47,6 +47,84 @@ void \mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{handle\+Me
 \begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от клиента о том, что сообщение было прочитано. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{handle\+Logout\+Request}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
 \begin{DoxyCompactList}\small\item\em Обрабатывает запрос клиента на выход из системы. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_server_a37e024465684a471d2fe17482f347891}{Handler}} = void (Server\+::\texorpdfstring{$\ast$}{*})(QObject\texorpdfstring{$\ast$}{*}, const QJson\+Object\&)
+\begin{DoxyCompactList}\small\item\em Псевдоним для указателя на метод-\/обработчик команды. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29}{on\+New\+Tcp\+Connection}} ()
+\begin{DoxyCompactList}\small\item\em Слот, обрабатывающий новое входящее TCP-\/подключение. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a0dea29b2ecdf398365f882018d610ace}{on\+Tcp\+Ready\+Read}} ()
+\begin{DoxyCompactList}\small\item\em Слот для чтения данных из TCP-\/сокета. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a8afa35c8257d78be38596587e469bea3}{on\+Client\+Disconnected}} ()
+\begin{DoxyCompactList}\small\item\em Слот, обрабатывающий отключение клиента от сервера. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0}{on\+New\+Web\+Socket\+Connection}} ()
+\begin{DoxyCompactList}\small\item\em Слот, обрабатывающий новое входящее Web\+Socket-\/подключение. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7}{on\+Web\+Socket\+Text\+Message\+Received}} (const QString \&message)
+\begin{DoxyCompactList}\small\item\em Слот для обработки текстового сообщения, полученного по Web\+Socket. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_server_a99bdd8ad9d7c6c9990e851697c8b8af7}{init\+Database}} ()
+\begin{DoxyCompactList}\small\item\em Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a428d243912239a29f227465d973371eb}{handle\+Get\+History}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос клиента на получение истории сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a14b7f7cf3f729bc8e1d7b910514b0646}{handle\+Register}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на регистрацию нового пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a33057c924848918167bb0990ca6cb0b5}{handle\+Search\+Users}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на глобальный поиск пользователей. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a6194f5e7bf0e59830414199e9cbf5197}{handle\+Add\+Contact\+Request}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос от одного пользователя на добавление другого в список контактов. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a2c11ed0951b0edc730bd551a920fb08f}{handle\+Login}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на аутентификацию пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a2814eb164b6e628f8be39f465dad15ae}{handle\+Private\+Message}} (QObject \texorpdfstring{$\ast$}{*}from\+User\+Socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на отправку личного сообщения от одного пользователя другому. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a44c58d6dfb62fb0842a4415d13b0be25}{handle\+Edit\+Message}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a0386fd3f4b1df85683a736ad3f6c7091}{handle\+Delete\+Message}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос от клиента на удаление ранее отправленного сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_aa384e1d90a914ec126cf22c21ba9f226}{handle\+Contact\+Request\+Response}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ пользователя на входящий запрос на добавление в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a83f3bb69919258397064dea7329d4f57}{handle\+Typing}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает и пересылает уведомление о наборе текста. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a1fae98fa6067984a8ad31c86f9b64859}{send\+Json}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Универсальный метод для отправки JSON-\/объекта клиенту. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a13183209a11a05ece3a5f935d4a56634}{send\+Contact\+List}} (QObject \texorpdfstring{$\ast$}{*}socket, const QString \&username)
+\begin{DoxyCompactList}\small\item\em Отправляет клиенту его персональный список контактов. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a0a6f3f0f2d22d89f9fcd8572027f0a04}{send\+Full\+User\+List}} (QObject \texorpdfstring{$\ast$}{*}socket)
+\begin{DoxyCompactList}\small\item\em (Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_af0ce9e55fc6fba5b92cad5b6af934306}{broadcast\+User\+List}} ()
+\begin{DoxyCompactList}\small\item\em Рассылает всем онлайн-\/клиентам актуальный список пользователей, находящихся в сети. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a4bf87a8a3828b77c4408d8e9fec72cf8}{send\+Offline\+Messages}} (QObject \texorpdfstring{$\ast$}{*}socket, const QString \&username)
+\item 
+void \mbox{\hyperlink{class_server_a894f2c797fdc512da9e624ba41a8daf5}{send\+Online\+Status\+List}} (QObject \texorpdfstring{$\ast$}{*}client\+Socket)
+\begin{DoxyCompactList}\small\item\em Отправляет список онлайн-\/пользователей одному конкретному клиенту. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a24b087314710ced5903f9d137d3e463d}{send\+Unread\+Counts}} (QObject \texorpdfstring{$\ast$}{*}socket, const QString \&username)
+\begin{DoxyCompactList}\small\item\em Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc}{send\+Pending\+Contact\+Requests}} (QObject \texorpdfstring{$\ast$}{*}socket, const QString \&username)
+\begin{DoxyCompactList}\small\item\em Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_ab3d6b39c2cbb691005d654a2009f3468}{process\+Json\+Request}} (const QJson\+Object \&request, QObject \texorpdfstring{$\ast$}{*}client\+Socket)
+\begin{DoxyCompactList}\small\item\em Общий метод-\/диспетчер, который вызывает нужный обработчик из {\ttfamily m\+\_\+handlers}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_adc562afc19bd9813f10586823fdce35d}{remove\+Client}} (QObject \texorpdfstring{$\ast$}{*}client\+Socket)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QTcp\+Server \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_server_a0efcd94352570f9565c5fe9f0d441614}{m\+\_\+tcp\+Server}}
+\item 
+QWeb\+Socket\+Server \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_server_a0f9623482771b8b020d023445ead8a29}{m\+\_\+web\+Socket\+Server}}
+\item 
+QMap$<$ QString, QObject \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_server_a66108947304ed85284fb61f2ae6dc96e}{m\+\_\+clients}}
+\begin{DoxyCompactList}\small\item\em Отображение {\ttfamily username} -\/\texorpdfstring{$>$}{>} {\ttfamily указатель на сокет}. Для быстрого поиска сокета по имени. \end{DoxyCompactList}\item 
+QMap$<$ QObject \texorpdfstring{$\ast$}{*}, QString $>$ \mbox{\hyperlink{class_server_a6899f0ea9be823ca334540849f93d0e8}{m\+\_\+clients\+Reverse}}
+\begin{DoxyCompactList}\small\item\em Отображение {\ttfamily указатель на сокет} -\/\texorpdfstring{$>$}{>} {\ttfamily username}. Для быстрой идентификации клиента по сокету. \end{DoxyCompactList}\item 
+QMap$<$ QTcp\+Socket \texorpdfstring{$\ast$}{*}, quint32 $>$ \mbox{\hyperlink{class_server_a3ab2da9e106ed2d1c7891f1056c4ab9a}{m\+\_\+next\+Block\+Sizes}}
+\begin{DoxyCompactList}\small\item\em Хранит ожидаемый размер следующего TCP-\/пакета для каждого сокета. \end{DoxyCompactList}\item 
+QMap$<$ QString, \mbox{\hyperlink{class_server_a37e024465684a471d2fe17482f347891}{Handler}} $>$ \mbox{\hyperlink{class_server_ae1a19c09a1785fa344c54cae03f5e098}{m\+\_\+handlers}}
+\begin{DoxyCompactList}\small\item\em Карта, реализующая паттерн "{}Команда"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -55,6 +133,25 @@ void \mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{handle\+Lo
 Этот класс управляет TCP и Web\+Socket серверами, обрабатывает подключения клиентов, аутентифицирует их, обрабатывает их запросы (отправка сообщений, поиск, управление контактами и т.\+д.), взаимодействует с базой данных SQLite для хранения информации и управляет состоянием онлайн-\/пользователей. 
 
 Definition at line \mbox{\hyperlink{server_8h_source_l00032}{32}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+
+
+\label{doc-typedef-members}
+\Hypertarget{class_server_doc-typedef-members}
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_server_a37e024465684a471d2fe17482f347891}\index{Server@{Server}!Handler@{Handler}}
+\index{Handler@{Handler}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{Handler}{Handler}}
+{\footnotesize\ttfamily \label{class_server_a37e024465684a471d2fe17482f347891} 
+using \mbox{\hyperlink{class_server_a37e024465684a471d2fe17482f347891}{Server\+::\+Handler}} = void (Server\+::\texorpdfstring{$\ast$}{*})(QObject\texorpdfstring{$\ast$}{*}, const QJson\+Object\&)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Псевдоним для указателя на метод-\/обработчик команды. 
+
+Позволяет хранить указатели на методы в {\ttfamily QMap} для реализации паттерна "{}Команда"{}. 
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00074}{74}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
 
 
 
@@ -108,6 +205,323 @@ Here is the call graph for this function\+:
 \label{doc-func-members}
 \Hypertarget{class_server_doc-func-members}
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_server_af0ce9e55fc6fba5b92cad5b6af934306}\index{Server@{Server}!broadcastUserList@{broadcastUserList}}
+\index{broadcastUserList@{broadcastUserList}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{broadcastUserList()}{broadcastUserList()}}
+{\footnotesize\ttfamily \label{class_server_af0ce9e55fc6fba5b92cad5b6af934306} 
+void Server\+::broadcast\+User\+List (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рассылает всем онлайн-\/клиентам актуальный список пользователей, находящихся в сети. 
+
+Этот метод получает список имен пользователей из ключей карты {\ttfamily m\+\_\+clients}, что представляет собой полный список всех аутентифицированных и подключенных в данный момент клиентов. Затем он формирует JSON-\/сообщение с типом "{}user\+\_\+list"{} и отправляет его каждому клиенту из списка {\ttfamily m\+\_\+clients}. Обычно вызывается после успешного входа пользователя или после его отключения, чтобы все клиенты могли обновить свои списки контактов, отображая актуальный онлайн-\/статус. 
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01185}{1185}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_server_af0ce9e55fc6fba5b92cad5b6af934306_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_af0ce9e55fc6fba5b92cad5b6af934306_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a6194f5e7bf0e59830414199e9cbf5197}\index{Server@{Server}!handleAddContactRequest@{handleAddContactRequest}}
+\index{handleAddContactRequest@{handleAddContactRequest}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleAddContactRequest()}{handleAddContactRequest()}}
+{\footnotesize\ttfamily \label{class_server_a6194f5e7bf0e59830414199e9cbf5197} 
+void Server\+::handle\+Add\+Contact\+Request (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос от одного пользователя на добавление другого в список контактов. 
+
+Этот метод выполняет сложную логику, включающую множество проверок и взаимодействий с базой данных\+:
+\begin{DoxyEnumerate}
+\item Валидация входящих данных.
+\item Получение ID обоих пользователей из БД.
+\item Проверка, не существует ли уже какая-\/либо связь (запрос, дружба) между ними.
+\item Создание новой записи в таблице {\ttfamily contacts} со статусом "{}pending"{} (ожидает).
+\item Отправка push-\/уведомления целевому пользователю, если он онлайн.
+\item Отправка подтверждения об успехе или сообщения об ошибке инициатору запроса.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента-\/инициатора запроса. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily username} целевого пользователя. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00844}{844}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_server_a6194f5e7bf0e59830414199e9cbf5197_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a6194f5e7bf0e59830414199e9cbf5197_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_aa384e1d90a914ec126cf22c21ba9f226}\index{Server@{Server}!handleContactRequestResponse@{handleContactRequestResponse}}
+\index{handleContactRequestResponse@{handleContactRequestResponse}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleContactRequestResponse()}{handleContactRequestResponse()}}
+{\footnotesize\ttfamily \label{class_server_aa384e1d90a914ec126cf22c21ba9f226} 
+void Server\+::handle\+Contact\+Request\+Response (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{client\+Socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ пользователя на входящий запрос на добавление в контакты. 
+
+Эта функция вызывается, когда пользователь принимает ("{}accepted"{}) или отклоняет ("{}declined"{}) запрос на добавление в контакты от другого пользователя.
+\begin{DoxyEnumerate}
+\item Определяет пользователя, который дал ответ ({\ttfamily to\+Username}), и инициатора запроса ({\ttfamily from\+Username}).
+\item Получает из базы данных их уникальные идентификаторы (ID).
+\item В зависимости от ответа\+:
+\begin{DoxyItemize}
+\item Если ответ "{}accepted"{}\+: обновляет запись в таблице {\ttfamily contacts}, изменяя ее статус с {\ttfamily 0} (pending) на {\ttfamily 1} (accepted). После этого обоим пользователям (если они онлайн) отправляются обновленные списки контактов.
+\item Если ответ "{}declined"{}\+: полностью удаляет запись о запросе из таблицы {\ttfamily contacts}. 
+\begin{DoxyParams}{Parameters}
+{\em client\+Socket} & Сокет клиента, который ответил на запрос. \\
+\hline
+{\em request} & JSON-\/объект, содержащий\+:
+\begin{DoxyItemize}
+\item {\ttfamily from\+Username}\+: Имя пользователя, который изначально отправил запрос.
+\item {\ttfamily response}\+: Строка с ответом, "{}accepted"{} или "{}declined"{}. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01368}{1368}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aa384e1d90a914ec126cf22c21ba9f226_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aa384e1d90a914ec126cf22c21ba9f226_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a0386fd3f4b1df85683a736ad3f6c7091}\index{Server@{Server}!handleDeleteMessage@{handleDeleteMessage}}
+\index{handleDeleteMessage@{handleDeleteMessage}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleDeleteMessage()}{handleDeleteMessage()}}
+{\footnotesize\ttfamily \label{class_server_a0386fd3f4b1df85683a736ad3f6c7091} 
+void Server\+::handle\+Delete\+Message (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{client\+Socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос от клиента на удаление ранее отправленного сообщения. 
+
+Эта функция обеспечивает безопасное удаление сообщения. Она выполняет следующие действия\+:
+\begin{DoxyEnumerate}
+\item Определяет пользователя ({\ttfamily requesting\+User}), отправившего запрос, по его сокету.
+\item Проверяет, что пользователь аутентифицирован.
+\item Находит в базе данных автора ({\ttfamily from\+User}) и получателя ({\ttfamily to\+User}) сообщения по его ID.
+\item Выполняет ключевую проверку безопасности\+: {\ttfamily requesting\+User} должен совпадать с {\ttfamily from\+User}. Это гарантирует, что только автор сообщения может его удалить.
+\item Если проверка пройдена, выполняет SQL-\/запрос {\ttfamily DELETE} для удаления записи из таблицы {\ttfamily messages}.
+\item После успешного удаления формирует JSON-\/уведомление типа "{}delete\+\_\+message"{}.
+\item Рассылает это уведомление обоим участникам чата (автору и получателю), если они находятся онлайн, чтобы их клиенты могли в реальном времени убрать сообщение из интерфейса. 
+\begin{DoxyParams}{Parameters}
+{\em client\+Socket} & Сокет клиента, который инициировал удаление. \\
+\hline
+{\em request} & JSON-\/объект от клиента, который должен содержать поле {\ttfamily id} с уникальным идентификатором удаляемого сообщения. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01293}{1293}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a0386fd3f4b1df85683a736ad3f6c7091_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a0386fd3f4b1df85683a736ad3f6c7091_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a44c58d6dfb62fb0842a4415d13b0be25}\index{Server@{Server}!handleEditMessage@{handleEditMessage}}
+\index{handleEditMessage@{handleEditMessage}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleEditMessage()}{handleEditMessage()}}
+{\footnotesize\ttfamily \label{class_server_a44c58d6dfb62fb0842a4415d13b0be25} 
+void Server\+::handle\+Edit\+Message (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{client\+Socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения. 
+
+Эта функция выполняет полный цикл обработки запроса на редактирование\+:
+\begin{DoxyEnumerate}
+\item Определяет пользователя, отправившего запрос, по его сокету.
+\item Извлекает ID сообщения и новый текст ({\ttfamily payload}) из JSON-\/запроса.
+\item Выполняет проверку безопасности\+: запрашивающий пользователь должен быть авторизован и являться автором ({\ttfamily from\+User}) редактируемого сообщения.
+\item В случае успеха, обновляет текст сообщения в базе данных и устанавливает флаг {\ttfamily is\+\_\+edited = 1}.
+\item Создает JSON-\/уведомление типа "{}edit\+\_\+message"{} с обновленными данными.
+\item Отправляет это уведомление как автору, так и получателю сообщения (если они онлайн), чтобы их интерфейсы могли отобразить изменения. 
+\begin{DoxyParams}{Parameters}
+{\em client\+Socket} & Сокет клиента, инициировавшего редактирование. \\
+\hline
+{\em request} & JSON-\/объект, содержащий\+:
+\begin{DoxyItemize}
+\item {\ttfamily id}\+: Уникальный идентификатор редактируемого сообщения.
+\item {\ttfamily payload}\+: Новый текст сообщения. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01216}{1216}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{class_server_a44c58d6dfb62fb0842a4415d13b0be25_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a44c58d6dfb62fb0842a4415d13b0be25_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a428d243912239a29f227465d973371eb}\index{Server@{Server}!handleGetHistory@{handleGetHistory}}
+\index{handleGetHistory@{handleGetHistory}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleGetHistory()}{handleGetHistory()}}
+{\footnotesize\ttfamily \label{class_server_a428d243912239a29f227465d973371eb} 
+void Server\+::handle\+Get\+History (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос клиента на получение истории сообщений. 
+
+Этот метод извлекает из базы данных порцию (до 20) сообщений для указанного чата. Он поддерживает пагинацию\+: если в запросе указан {\ttfamily before\+\_\+id}, он загружает сообщения, которые старше этого ID.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, запросившего историю. \\
+\hline
+{\em request} & JSON-\/объект, содержащий\+:
+\begin{DoxyItemize}
+\item {\ttfamily with\+\_\+user}\+: Имя собеседника, для которого нужна история.
+\item {\ttfamily before\+\_\+id} (опционально)\+: ID сообщения, старше которого нужно загрузить историю. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00589}{589}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{class_server_a428d243912239a29f227465d973371eb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a428d243912239a29f227465d973371eb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a2c11ed0951b0edc730bd551a920fb08f}\index{Server@{Server}!handleLogin@{handleLogin}}
+\index{handleLogin@{handleLogin}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleLogin()}{handleLogin()}}
+{\footnotesize\ttfamily \label{class_server_a2c11ed0951b0edc730bd551a920fb08f} 
+void Server\+::handle\+Login (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос на аутентификацию пользователя. 
+
+Этот метод является точкой входа для любого клиента. Он выполняет следующие шаги\+:
+\begin{DoxyEnumerate}
+\item Извлекает {\ttfamily username} и {\ttfamily password} из запроса.
+\item Хэширует пароль.
+\item Ищет пользователя в БД по {\ttfamily username} и сравнивает хэши паролей.
+\item В случае успеха\+:
+\begin{DoxyItemize}
+\item Отправляет клиенту {\ttfamily login\+\_\+success}.
+\item Регистрирует клиента в системе (добавляет в {\ttfamily m\+\_\+clients} и {\ttfamily m\+\_\+clients\+Reverse}).
+\item Отправляет ему его список контактов, список ожидающих запросов и счетчики непрочитанных.
+\item Рассылает всем остальным обновленный список онлайн-\/пользователей.
+\end{DoxyItemize}
+\item В случае неудачи отправляет {\ttfamily login\+\_\+failure} с причиной.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, пытающегося войти. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily username} и {\ttfamily password}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00962}{962}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a2c11ed0951b0edc730bd551a920fb08f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a2c11ed0951b0edc730bd551a920fb08f_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_server_ab0cc0ba54dab5ede748107dbe62811a1}\index{Server@{Server}!handleLogoutRequest@{handleLogoutRequest}}
 \index{handleLogoutRequest@{handleLogoutRequest}!Server@{Server}}
 \doxysubsubsection{\texorpdfstring{handleLogoutRequest()}{handleLogoutRequest()}}
@@ -131,6 +545,14 @@ void Server\+::handle\+Logout\+Request (\begin{DoxyParamCaption}\item[{QObject \
 
 Definition at line \mbox{\hyperlink{server_8cpp_source_l00265}{265}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_ab0cc0ba54dab5ede748107dbe62811a1_cgraph}
+\end{center}
+\end{figure}
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
@@ -162,6 +584,14 @@ void Server\+::handle\+Message\+Delivered (\begin{DoxyParamCaption}\item[{QObjec
 
 Definition at line \mbox{\hyperlink{server_8cpp_source_l00176}{176}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_af49291bcd5c9d7d8b9054ec18aa43728_cgraph}
+\end{center}
+\end{figure}
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
@@ -193,12 +623,210 @@ void Server\+::handle\+Message\+Read (\begin{DoxyParamCaption}\item[{QObject \te
 
 Definition at line \mbox{\hyperlink{server_8cpp_source_l00221}{221}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aadc3f04c0a456be1165c480843936617_cgraph}
+\end{center}
+\end{figure}
 Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_server_aadc3f04c0a456be1165c480843936617_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a2814eb164b6e628f8be39f465dad15ae}\index{Server@{Server}!handlePrivateMessage@{handlePrivateMessage}}
+\index{handlePrivateMessage@{handlePrivateMessage}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handlePrivateMessage()}{handlePrivateMessage()}}
+{\footnotesize\ttfamily \label{class_server_a2814eb164b6e628f8be39f465dad15ae} 
+void Server\+::handle\+Private\+Message (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос на отправку личного сообщения от одного пользователя другому. 
+
+Это одна из самых важных функций сервера. Она выполняет полный цикл обработки сообщения\+:
+\begin{DoxyEnumerate}
+\item Проверяет аутентичность отправителя.
+\item Сохраняет сообщение в базу данных, присваивая ему уникальный ID и серверную временную метку.
+\item Отправляет "{}echo"{}-\/ответ отправителю, подтверждая получение сообщения и сообщая его ID. Этот ответ содержит {\ttfamily temp\+\_\+id} из исходного запроса клиента.
+\item Если получатель онлайн, немедленно пересылает ему это же сообщение.
+\item Если получатель офлайн, сообщение просто остается в БД для последующей доставки.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента-\/отправителя. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily from\+User}, {\ttfamily to\+User}, {\ttfamily payload}, {\ttfamily reply\+\_\+to\+\_\+id} и {\ttfamily temp\+\_\+id}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01032}{1032}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a2814eb164b6e628f8be39f465dad15ae_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a2814eb164b6e628f8be39f465dad15ae_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a14b7f7cf3f729bc8e1d7b910514b0646}\index{Server@{Server}!handleRegister@{handleRegister}}
+\index{handleRegister@{handleRegister}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleRegister()}{handleRegister()}}
+{\footnotesize\ttfamily \label{class_server_a14b7f7cf3f729bc8e1d7b910514b0646} 
+void Server\+::handle\+Register (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос на регистрацию нового пользователя. 
+
+Метод пытается добавить нового пользователя в таблицу {\ttfamily users}. Хэширует пароль с использованием SHA-\/256 перед сохранением. Отправляет клиенту ответ {\ttfamily register\+\_\+success} или {\ttfamily register\+\_\+failure} в зависимости от результата операции.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, запросившего регистрацию. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily username}, {\ttfamily display\+\_\+name} и {\ttfamily password}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00679}{679}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{class_server_a14b7f7cf3f729bc8e1d7b910514b0646_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a14b7f7cf3f729bc8e1d7b910514b0646_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a33057c924848918167bb0990ca6cb0b5}\index{Server@{Server}!handleSearchUsers@{handleSearchUsers}}
+\index{handleSearchUsers@{handleSearchUsers}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleSearchUsers()}{handleSearchUsers()}}
+{\footnotesize\ttfamily \label{class_server_a33057c924848918167bb0990ca6cb0b5} 
+void Server\+::handle\+Search\+Users (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает запрос на глобальный поиск пользователей. 
+
+Этот метод выполняет поиск в таблице {\ttfamily users} по частичному совпадению в полях {\ttfamily username} или {\ttfamily display\+\_\+name}. Он исключает из результатов самого пользователя, который выполняет поиск, и ограничивает выводку 20 результатами для производительности.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, выполнившего поиск. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily term} -\/ строку для поиска. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00729}{729}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{class_server_a33057c924848918167bb0990ca6cb0b5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a33057c924848918167bb0990ca6cb0b5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a83f3bb69919258397064dea7329d4f57}\index{Server@{Server}!handleTyping@{handleTyping}}
+\index{handleTyping@{handleTyping}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleTyping()}{handleTyping()}}
+{\footnotesize\ttfamily \label{class_server_a83f3bb69919258397064dea7329d4f57} 
+void Server\+::handle\+Typing (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает и пересылает уведомление о наборе текста. 
+
+Этот метод вызывается, когда клиент отправляет команду "{}typing"{}. Сервер выступает в роли простого посредника\+: он определяет, кто отправил уведомление, находит сокет получателя (если тот онлайн) и пересылает ему это уведомление.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, который начал печатать. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily to\+User} -\/ имя получателя. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00555}{555}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{class_server_a83f3bb69919258397064dea7329d4f57_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a83f3bb69919258397064dea7329d4f57_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a99bdd8ad9d7c6c9990e851697c8b8af7}\index{Server@{Server}!initDatabase@{initDatabase}}
+\index{initDatabase@{initDatabase}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{initDatabase()}{initDatabase()}}
+{\footnotesize\ttfamily \label{class_server_a99bdd8ad9d7c6c9990e851697c8b8af7} 
+bool Server\+::init\+Database (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Инициализирует соединение с базой данных SQLite и создает таблицы, если их нет. 
+
+Этот метод вызывается один раз в конструкторе сервера. Он выполняет критически важную задачу по настройке слоя персистентности. Он создает файл {\ttfamily messenger.\+db} (если он отсутствует) и выполняет SQL-\/запросы {\ttfamily CREATE TABLE IF NOT EXISTS} для создания необходимой структуры таблиц\+: {\ttfamily users}, {\ttfamily messages}, {\ttfamily contacts}.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} если соединение установлено и все таблицы успешно созданы/проверены, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00470}{470}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{class_server_a99bdd8ad9d7c6c9990e851697c8b8af7_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_server_a56ec5259c858a9599d0ff16c33fe6882}\index{Server@{Server}!initHandlers@{initHandlers}}
@@ -279,6 +907,520 @@ Here is the caller graph for this function\+:
 \includegraphics[width=227pt]{class_server_abb791768fde7d1871855b9cf0aebdcbe_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_server_a8afa35c8257d78be38596587e469bea3}\index{Server@{Server}!onClientDisconnected@{onClientDisconnected}}
+\index{onClientDisconnected@{onClientDisconnected}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{onClientDisconnected}{onClientDisconnected}}
+{\footnotesize\ttfamily \label{class_server_a8afa35c8257d78be38596587e469bea3} 
+void Server\+::on\+Client\+Disconnected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, обрабатывающий отключение клиента от сервера. 
+
+Этот общий слот вызывается сигналом {\ttfamily disconnected} как от {\ttfamily QTcp\+Socket}, так и от {\ttfamily QWeb\+Socket}. Он выполняет все необходимые действия по "{}очистке"{}\+:
+\begin{DoxyEnumerate}
+\item Определяет, был ли отключившийся клиент аутентифицирован.
+\item Если да, обновляет в базе данных время его последнего визита ({\ttfamily last\+\_\+seen}).
+\item Удаляет клиента из списков онлайн-\/пользователей.
+\item Рассылает всем оставшимся клиентам обновленный список присутствия.
+\item Очищает специфичные для TCP структуры данных, если это был TCP-\/клиент.
+\item Помечает объект сокета для безопасного удаления в цикле событий Qt. 
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00415}{415}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a8afa35c8257d78be38596587e469bea3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a8afa35c8257d78be38596587e469bea3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29}\index{Server@{Server}!onNewTcpConnection@{onNewTcpConnection}}
+\index{onNewTcpConnection@{onNewTcpConnection}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{onNewTcpConnection}{onNewTcpConnection}}
+{\footnotesize\ttfamily \label{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29} 
+void Server\+::on\+New\+Tcp\+Connection (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, обрабатывающий новое входящее TCP-\/подключение. 
+
+Этот слот вызывается сигналом {\ttfamily new\+Connection} от {\ttfamily m\+\_\+tcp\+Server}. Он извлекает ожидающий сокет, устанавливает необходимые соединения сигнал-\/слот для этого конкретного клиента и инициализирует для него структуры данных (в данном случае, {\ttfamily m\+\_\+next\+Block\+Sizes}). 
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00112}{112}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{class_server_a22bd355bf7fb7d2ee98cc963cc37bb29_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0}\index{Server@{Server}!onNewWebSocketConnection@{onNewWebSocketConnection}}
+\index{onNewWebSocketConnection@{onNewWebSocketConnection}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{onNewWebSocketConnection}{onNewWebSocketConnection}}
+{\footnotesize\ttfamily \label{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0} 
+void Server\+::on\+New\+Web\+Socket\+Connection (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, обрабатывающий новое входящее Web\+Socket-\/подключение. 
+
+Аналогичен {\ttfamily on\+New\+Tcp\+Connection}, но для Web\+Socket. Извлекает сокет, устанавливает соединения для получения текстовых сообщений и отслеживания разрыва соединения. 
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00132}{132}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_af9ee0faf4c581fd425e4b3750ca4d4c0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a0dea29b2ecdf398365f882018d610ace}\index{Server@{Server}!onTcpReadyRead@{onTcpReadyRead}}
+\index{onTcpReadyRead@{onTcpReadyRead}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{onTcpReadyRead}{onTcpReadyRead}}
+{\footnotesize\ttfamily \label{class_server_a0dea29b2ecdf398365f882018d610ace} 
+void Server\+::on\+Tcp\+Ready\+Read (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот для чтения данных из TCP-\/сокета. 
+
+Этот метод вызывается каждый раз, когда от TCP-\/клиента приходят новые данные. Он реализует логику сборки полных JSON-\/пакетов из непрерывного TCP-\/потока, используя протокол "{}размер + данные"{}. После успешного извлечения JSON-\/объекта, он находит и вызывает соответствующий метод-\/обработчик. В этом методе есть небольшая логическая ошибка, он вызывает {\ttfamily process\+Json\+Request} дважды. 
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00306}{306}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a0dea29b2ecdf398365f882018d610ace_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a0dea29b2ecdf398365f882018d610ace_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7}\index{Server@{Server}!onWebSocketTextMessageReceived@{onWebSocketTextMessageReceived}}
+\index{onWebSocketTextMessageReceived@{onWebSocketTextMessageReceived}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{onWebSocketTextMessageReceived}{onWebSocketTextMessageReceived}}
+{\footnotesize\ttfamily \label{class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7} 
+void Server\+::on\+Web\+Socket\+Text\+Message\+Received (\begin{DoxyParamCaption}\item[{const QString \&}]{message}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот для обработки текстового сообщения, полученного по Web\+Socket. 
+
+Web\+Socket, в отличие от TCP, работает с сообщениями, а не с потоком. Поэтому нам не нужна сложная логика сборки пакетов. Мы просто получаем готовое сообщение, парсим его как JSON и передаем в общий диспетчер {\ttfamily process\+Json\+Request}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & Полученное текстовое сообщение (ожидается, что это строка в формате JSON). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00361}{361}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aa8df3dc4a4acdc92a7ee4fda89af22d7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_ab3d6b39c2cbb691005d654a2009f3468}\index{Server@{Server}!processJsonRequest@{processJsonRequest}}
+\index{processJsonRequest@{processJsonRequest}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{processJsonRequest()}{processJsonRequest()}}
+{\footnotesize\ttfamily \label{class_server_ab3d6b39c2cbb691005d654a2009f3468} 
+void Server\+::process\+Json\+Request (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{request}{, }\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Общий метод-\/диспетчер, который вызывает нужный обработчик из {\ttfamily m\+\_\+handlers}. 
+
+Общий диспетчер запросов от любого типа сокета.
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & JSON-\/запрос от клиента. \\
+\hline
+{\em client\+Socket} & Указатель на сокет, с которого пришел запрос.\\
+\hline
+\end{DoxyParams}
+Этот метод является единой точкой входа для всех запросов после их парсинга. Он извлекает тип команды и, используя карту {\ttfamily m\+\_\+handlers}, вызывает соответствующий метод-\/обработчик. (Примечание\+: В вашем коде этот метод дублирует логику из {\ttfamily on\+Tcp\+Ready\+Read}. В идеале, {\ttfamily on\+Tcp\+Ready\+Read} должен был бы вызывать {\ttfamily process\+Json\+Request}, а не реализовывать ту же логику заново.)
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & Распарсенный JSON-\/запрос. \\
+\hline
+{\em socket} & Указатель на сокет клиента (QObject\texorpdfstring{$\ast$}{*}), может быть QTcp\+Socket или QWeb\+Socket. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00388}{388}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_ab3d6b39c2cbb691005d654a2009f3468_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_ab3d6b39c2cbb691005d654a2009f3468_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_adc562afc19bd9813f10586823fdce35d}\index{Server@{Server}!removeClient@{removeClient}}
+\index{removeClient@{removeClient}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{removeClient()}{removeClient()}}
+{\footnotesize\ttfamily \label{class_server_adc562afc19bd9813f10586823fdce35d} 
+void Server\+::remove\+Client (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{client\+Socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_server_a13183209a11a05ece3a5f935d4a56634}\index{Server@{Server}!sendContactList@{sendContactList}}
+\index{sendContactList@{sendContactList}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendContactList()}{sendContactList()}}
+{\footnotesize\ttfamily \label{class_server_a13183209a11a05ece3a5f935d4a56634} 
+void Server\+::send\+Contact\+List (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Отправляет клиенту его персональный список контактов. 
+
+Этот метод вызывается после успешного входа пользователя. Он выполняет сложный SQL-\/запрос с {\ttfamily JOIN} для получения всех пользователей, с которыми у текущего пользователя установлены подтвержденные отношения ({\ttfamily status = 1}) в таблице {\ttfamily contacts}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, которому нужно отправить список контактов. \\
+\hline
+{\em username} & Имя пользователя, для которого нужно сформировать список. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00779}{779}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{class_server_a13183209a11a05ece3a5f935d4a56634_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a13183209a11a05ece3a5f935d4a56634_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a0a6f3f0f2d22d89f9fcd8572027f0a04}\index{Server@{Server}!sendFullUserList@{sendFullUserList}}
+\index{sendFullUserList@{sendFullUserList}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendFullUserList()}{sendFullUserList()}}
+{\footnotesize\ttfamily \label{class_server_a0a6f3f0f2d22d89f9fcd8572027f0a04} 
+void Server\+::send\+Full\+User\+List (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей. 
+
+Этот метод извлекает из БД всех пользователей без исключения. В текущей логике он не используется, так как клиенту обычно нужен только его список контактов ({\ttfamily send\+Contact\+List}). Может быть полезен для будущей административной панели или функции "{}найти всех"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, которому нужно отправить список. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01151}{1151}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_server_a0a6f3f0f2d22d89f9fcd8572027f0a04_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a1fae98fa6067984a8ad31c86f9b64859}\index{Server@{Server}!sendJson@{sendJson}}
+\index{sendJson@{sendJson}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendJson()}{sendJson()}}
+{\footnotesize\ttfamily \label{class_server_a1fae98fa6067984a8ad31c86f9b64859} 
+void Server\+::send\+Json (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{json}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Универсальный метод для отправки JSON-\/объекта клиенту. 
+
+Этот метод инкапсулирует логику сериализации JSON и отправки данных по сети. Он автоматически определяет тип сокета (QTcp\+Socket или QWeb\+Socket) и использует соответствующий протокол для отправки.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Указатель на сокет получателя (в виде QObject\texorpdfstring{$\ast$}{*}). \\
+\hline
+{\em json} & JSON-\/объект для отправки. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01113}{1113}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a1fae98fa6067984a8ad31c86f9b64859_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a4bf87a8a3828b77c4408d8e9fec72cf8}\index{Server@{Server}!sendOfflineMessages@{sendOfflineMessages}}
+\index{sendOfflineMessages@{sendOfflineMessages}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendOfflineMessages()}{sendOfflineMessages()}}
+{\footnotesize\ttfamily \label{class_server_a4bf87a8a3828b77c4408d8e9fec72cf8} 
+void Server\+::send\+Offline\+Messages (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_server_a894f2c797fdc512da9e624ba41a8daf5}\index{Server@{Server}!sendOnlineStatusList@{sendOnlineStatusList}}
+\index{sendOnlineStatusList@{sendOnlineStatusList}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendOnlineStatusList()}{sendOnlineStatusList()}}
+{\footnotesize\ttfamily \label{class_server_a894f2c797fdc512da9e624ba41a8daf5} 
+void Server\+::send\+Online\+Status\+List (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{client\+Socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Отправляет список онлайн-\/пользователей одному конкретному клиенту. 
+
+В отличие от {\ttfamily broadcast\+User\+List}, которая рассылает список всем, эта функция отправляет тот же самый список онлайн-\/пользователей только одному клиенту, указанному через {\ttfamily client\+Socket}. Это может быть полезно в ситуациях, когда необходимо обновить онлайн-\/статусы для одного клиента, не затрагивая остальных, например, после того как он принял чей-\/то запрос в друзья. 
+\begin{DoxyParams}{Parameters}
+{\em client\+Socket} & Сокет клиента, которому нужно отправить список. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01520}{1520}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a894f2c797fdc512da9e624ba41a8daf5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a894f2c797fdc512da9e624ba41a8daf5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc}\index{Server@{Server}!sendPendingContactRequests@{sendPendingContactRequests}}
+\index{sendPendingContactRequests@{sendPendingContactRequests}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendPendingContactRequests()}{sendPendingContactRequests()}}
+{\footnotesize\ttfamily \label{class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc} 
+void Server\+::send\+Pending\+Contact\+Requests (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Находит и отправляет пользователю список ожидающих подтверждения запросов в контакты. 
+
+Эта функция является частью процесса инициализации сессии пользователя после успешного входа. Она выполняет сложный SQL-\/запрос, который находит все записи в таблице {\ttfamily contacts}, где текущий пользователь является одним из участников, а статус записи равен {\ttfamily 0} (pending/ожидает). С помощью {\ttfamily JOIN} и {\ttfamily CASE} запрос извлекает {\ttfamily username} и {\ttfamily display\+\_\+name} другого пользователя (того, кто отправил запрос). Если такие запросы найдены, они упаковываются в JSON-\/массив и отправляются клиенту сообщением с типом "{}pending\+\_\+requests\+\_\+list"{}, чтобы он мог их принять или отклонить. 
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, для которого выполняется проверка. \\
+\hline
+{\em username} & Имя пользователя, для которого нужно найти запросы. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01549}{1549}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a3be6f6078d3c22a71163ff1b5c3c3bdc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a24b087314710ced5903f9d137d3e463d}\index{Server@{Server}!sendUnreadCounts@{sendUnreadCounts}}
+\index{sendUnreadCounts@{sendUnreadCounts}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{sendUnreadCounts()}{sendUnreadCounts()}}
+{\footnotesize\ttfamily \label{class_server_a24b087314710ced5903f9d137d3e463d} 
+void Server\+::send\+Unread\+Counts (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Отправляет клиенту счетчики непрочитанных сообщений, сгруппированные по отправителям. 
+
+Эта функция вызывается после успешного входа пользователя в систему. Она выполняет SQL-\/запрос к таблице {\ttfamily messages}, чтобы найти все сообщения, адресованные данному пользователю ({\ttfamily username}), которые еще не были помечены как прочитанные ({\ttfamily is\+\_\+read = 0}). Результаты группируются по отправителю ({\ttfamily from\+User}), и для каждого отправителя подсчитывается количество таких сообщений. Сформированный список (пользователь + количество) отправляется клиенту в виде JSON-\/сообщения типа "{}unread\+\_\+counts"{}. Это позволяет клиентскому приложению отображать "{}бейджи"{} с количеством новых сообщений рядом с именами контактов. 
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, которому необходимо отправить счетчики. \\
+\hline
+{\em username} & Имя пользователя, для которого производится подсчет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l01456}{1456}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_server_a24b087314710ced5903f9d137d3e463d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a24b087314710ced5903f9d137d3e463d_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_server_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_server_a66108947304ed85284fb61f2ae6dc96e}\index{Server@{Server}!m\_clients@{m\_clients}}
+\index{m\_clients@{m\_clients}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_clients}{m\_clients}}
+{\footnotesize\ttfamily \label{class_server_a66108947304ed85284fb61f2ae6dc96e} 
+QMap$<$QString, QObject\texorpdfstring{$\ast$}{*}$>$ Server\+::m\+\_\+clients\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Отображение {\ttfamily username} -\/\texorpdfstring{$>$}{>} {\ttfamily указатель на сокет}. Для быстрого поиска сокета по имени. 
+
+
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00107}{107}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+\Hypertarget{class_server_a6899f0ea9be823ca334540849f93d0e8}\index{Server@{Server}!m\_clientsReverse@{m\_clientsReverse}}
+\index{m\_clientsReverse@{m\_clientsReverse}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_clientsReverse}{m\_clientsReverse}}
+{\footnotesize\ttfamily \label{class_server_a6899f0ea9be823ca334540849f93d0e8} 
+QMap$<$QObject\texorpdfstring{$\ast$}{*}, QString$>$ Server\+::m\+\_\+clients\+Reverse\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Отображение {\ttfamily указатель на сокет} -\/\texorpdfstring{$>$}{>} {\ttfamily username}. Для быстрой идентификации клиента по сокету. 
+
+
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00108}{108}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+\Hypertarget{class_server_ae1a19c09a1785fa344c54cae03f5e098}\index{Server@{Server}!m\_handlers@{m\_handlers}}
+\index{m\_handlers@{m\_handlers}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_handlers}{m\_handlers}}
+{\footnotesize\ttfamily \label{class_server_ae1a19c09a1785fa344c54cae03f5e098} 
+QMap$<$QString, \mbox{\hyperlink{class_server_a37e024465684a471d2fe17482f347891}{Handler}}$>$ Server\+::m\+\_\+handlers\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Карта, реализующая паттерн "{}Команда"{}. 
+
+Ключ -\/ строковое имя команды (из поля "{}type"{} в JSON). Значение -\/ указатель на метод, который эту команду обрабатывает. 
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00132}{132}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+\Hypertarget{class_server_a3ab2da9e106ed2d1c7891f1056c4ab9a}\index{Server@{Server}!m\_nextBlockSizes@{m\_nextBlockSizes}}
+\index{m\_nextBlockSizes@{m\_nextBlockSizes}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_nextBlockSizes}{m\_nextBlockSizes}}
+{\footnotesize\ttfamily \label{class_server_a3ab2da9e106ed2d1c7891f1056c4ab9a} 
+QMap$<$QTcp\+Socket\texorpdfstring{$\ast$}{*}, quint32$>$ Server\+::m\+\_\+next\+Block\+Sizes\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Хранит ожидаемый размер следующего TCP-\/пакета для каждого сокета. 
+
+Необходимо для корректной сборки пакетов переменной длины из TCP-\/потока. 
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00124}{124}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+\Hypertarget{class_server_a0efcd94352570f9565c5fe9f0d441614}\index{Server@{Server}!m\_tcpServer@{m\_tcpServer}}
+\index{m\_tcpServer@{m\_tcpServer}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_tcpServer}{m\_tcpServer}}
+{\footnotesize\ttfamily \label{class_server_a0efcd94352570f9565c5fe9f0d441614} 
+QTcp\+Server\texorpdfstring{$\ast$}{*} Server\+::m\+\_\+tcp\+Server\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00103}{103}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+\Hypertarget{class_server_a0f9623482771b8b020d023445ead8a29}\index{Server@{Server}!m\_webSocketServer@{m\_webSocketServer}}
+\index{m\_webSocketServer@{m\_webSocketServer}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{m\_webSocketServer}{m\_webSocketServer}}
+{\footnotesize\ttfamily \label{class_server_a0f9623482771b8b020d023445ead8a29} 
+QWeb\+Socket\+Server\texorpdfstring{$\ast$}{*} Server\+::m\+\_\+web\+Socket\+Server\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00104}{104}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

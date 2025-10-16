@@ -1,0 +1,8 @@
+<map id="Server::onTcpReadyRead" name="Server::onTcpReadyRead">
+<area shape="rect" id="Node000001" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="5,31,177,57"/>
+<area shape="rect" id="Node000002" href="$class_server.html#ab3d6b39c2cbb691005d654a2009f3468" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="225,5,415,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,32,209,28,209,34,177,37"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="463,31,586,57"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="177,41,447,41,447,47,177,47"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="415,28,448,32,447,37,415,33"/>
+</map>

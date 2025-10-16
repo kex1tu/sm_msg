@@ -1,0 +1,87 @@
+<map id="MainWindow::setupConnections" name="MainWindow::setupConnections">
+<area shape="rect" id="Node000001" title="Устанавливает все connect между объектами." alt="" coords="5,884,215,911"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#af82d1b93574bbc7115c45e6c059cfeb5" title=" " alt="" coords="270,5,486,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,884,118,732,143,484,162,351,188,229,221,127,240,88,261,58,263,56,267,60,265,62,244,91,226,129,193,230,168,352,148,484,124,733,115,884"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#a2c34a79553acea8433547f5292ad4839" title=" " alt="" coords="277,72,478,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,884,120,743,147,514,167,393,192,281,223,188,241,152,261,125,263,122,267,126,265,128,246,155,228,190,197,282,172,394,152,515,126,743,115,884"/>
+<area shape="rect" id="Node000004" href="$class_chat_view_widget.html#ab4af52a90adc55bf6eaa4ac0edd10d64" title=" " alt="" coords="273,139,483,165"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="110,883,121,749,148,536,168,423,193,319,224,233,242,200,261,176,263,173,267,177,265,179,246,203,229,235,198,320,173,424,153,536,126,750,115,884"/>
+<area shape="rect" id="Node000005" href="$class_login_widget.html#adbd0375e506207d9cf8420a0b5fa1017" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Войти&quot;." alt="" coords="282,189,474,216"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="110,883,123,758,151,559,172,455,196,358,226,279,243,249,261,226,268,220,271,224,265,230,247,252,231,282,202,360,177,456,156,560,128,758,115,884"/>
+<area shape="rect" id="Node000007" href="$class_chat_message_model.html#aa9c99d4583b71d33c53873c065b6ef9f" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="279,291,477,333"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="111,883,127,778,160,615,181,530,205,452,231,387,261,344,264,340,268,344,265,347,236,390,210,454,186,532,165,616,133,779,116,884"/>
+<area shape="rect" id="Node000008" href="$class_main_window.html#aca6f76d8507ea2e1a3ffce8e263eb901" title="Сигнал, который отправляется в ChatViewWidget." alt="" coords="278,357,478,400"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="109,883,112,802,119,742,131,675,150,605,177,534,213,468,236,438,261,410,263,408,267,412,265,414,240,441,218,471,182,536,155,606,137,676,125,743,118,803,114,884"/>
+<area shape="rect" id="Node000009" href="$class_main_window.html#a32f67c6fedcbbe91ed87891d24033422" title="Обрабатывает запрос на добавление нового контакта." alt="" coords="284,541,472,584"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="112,883,126,829,153,751,173,709,198,667,227,628,261,594,269,588,272,592,264,598,231,631,202,670,178,711,158,753,131,831,117,884"/>
+<area shape="rect" id="Node000011" href="$class_main_window.html#ae2d91d0b981fb0055075c80dd1526208" title="Обрабатывает прокрутку списка сообщений." alt="" coords="288,608,468,635"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="113,883,129,837,159,772,202,703,230,671,261,645,272,637,275,642,264,649,234,675,207,706,163,774,134,839,118,885"/>
+<area shape="rect" id="Node000012" href="$class_main_window.html#a95c5779447a66e87120526d332aaef1f" title="Вызывается при успешном подключении к серверу." alt="" coords="287,1160,468,1187"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="118,910,135,954,165,1016,208,1083,235,1113,264,1139,285,1152,282,1156,261,1143,231,1117,204,1086,160,1019,130,956,113,912"/>
+<area shape="rect" id="Node000013" href="$class_main_window.html#aef8cffa51d68c6257769f3b1452f2dbd" title="Слот, который отправляет на сервер запрос на удаление сообщения." alt="" coords="273,659,482,701"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="117,882,137,847,169,801,211,753,261,711,269,706,272,711,264,716,215,757,174,805,142,850,121,885"/>
+<area shape="rect" id="Node000014" href="$class_main_window.html#aa34b96b03c221e201ff14b278c59517a" title="Вызывается при разрыве соединения с сервером." alt="" coords="279,1211,477,1237"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="116,910,130,964,157,1042,176,1085,201,1126,230,1164,264,1197,271,1201,267,1205,261,1201,226,1168,196,1129,172,1087,152,1044,124,966,111,911"/>
+<area shape="rect" id="Node000015" href="$class_main_window.html#ad00b5167fbd38434880f34e7fab6c281" title="Слот, который активирует режим редактирования сообщения." alt="" coords="281,1261,475,1304"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="116,911,127,972,152,1063,172,1113,197,1162,227,1208,264,1247,270,1252,266,1256,261,1251,223,1211,192,1164,167,1115,147,1065,122,973,110,912"/>
+<area shape="rect" id="Node000016" href="$class_main_window.html#aa0475ab4fcfcd40af2d014e35636af1e" title="Инициирует отправку запроса на глобальный поиск пользователей." alt="" coords="280,725,476,768"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="123,882,181,831,220,803,261,778,274,772,276,776,264,782,222,807,184,836,127,886"/>
+<area shape="rect" id="Node000017" href="$class_main_window.html#aba71555e9040f34bc4340b222945870e" title="Обрабатывает запрос на вход от LoginWidget." alt="" coords="272,792,484,819"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="137,881,194,855,262,828,289,820,290,825,264,833,196,859,140,886"/>
+<area shape="rect" id="Node000018" href="$class_main_window.html#aa0d0068618dad0ed01291740b7674282" title="Обрабатывает клик по кнопке &quot;Выйти&quot;." alt="" coords="280,843,476,885"/>
+<area shape="poly" id="edge21_Node000001_Node000018" title=" " alt="" coords="215,882,264,875,265,881,215,887"/>
+<area shape="rect" id="Node000019" href="$class_chat_view_widget.html#a4005c440dc27de6530cb3207043538fe" title="Слот, вызываемый, когда приходит новое сообщение, а пользователь прокрутил чат вверх." alt="" coords="267,1328,488,1371"/>
+<area shape="poly" id="edge23_Node000001_Node000019" title=" " alt="" coords="115,911,122,982,144,1091,164,1151,189,1210,223,1266,265,1314,268,1317,264,1321,261,1318,218,1269,185,1213,159,1153,139,1092,117,983,109,912"/>
+<area shape="rect" id="Node000021" href="$class_main_window.html#a209079830a37745e47076a762bab17d6" title="Главный слот для чтения и парсинга всех входящих данных от сервера." alt="" coords="284,1395,472,1421"/>
+<area shape="poly" id="edge25_Node000001_Node000021" title=" " alt="" coords="114,911,117,993,123,1053,134,1120,153,1190,180,1260,216,1325,239,1354,264,1381,272,1387,269,1391,261,1385,235,1358,212,1328,175,1262,148,1192,129,1121,118,1053,111,993,108,911"/>
+<area shape="rect" id="Node000022" href="$class_main_window.html#ad6a7aa3a6c2bd377b0d35ff7edc8fa3f" title="Обрабатывает запрос на регистрацию от LoginWidget." alt="" coords="263,424,493,451"/>
+<area shape="poly" id="edge26_Node000001_Node000022" title=" " alt="" coords="109,883,115,809,123,755,135,694,154,631,181,569,216,511,261,461,265,457,269,461,265,465,220,514,186,571,159,633,141,695,128,755,120,809,114,884"/>
+<area shape="rect" id="Node000023" href="$class_main_window.html#a4750c97d91d2e5d5c7ddb6ea1231515c" title="Активирует режим ответа на сообщение." alt="" coords="268,1445,488,1472"/>
+<area shape="poly" id="edge28_Node000001_Node000023" title=" " alt="" coords="116,910,133,1013,164,1171,185,1254,209,1329,236,1391,250,1414,265,1431,268,1435,265,1439,261,1435,246,1417,231,1393,204,1331,180,1255,159,1173,127,1014,111,911"/>
+<area shape="rect" id="Node000024" href="$class_main_window.html#a2cace9fd0bd82d43856f04fa48789057" title="Отправляет на сервер подтверждение о прочтении сообщения." alt="" coords="277,909,478,952"/>
+<area shape="poly" id="edge29_Node000001_Node000024" title=" " alt="" coords="215,908,262,914,262,919,215,913"/>
+<area shape="rect" id="Node000026" href="$class_main_window.html#a2ac218f3cfa5f2326d1c893f6ceb8223" title="Обрабатывает запрос на отправку сообщения из ChatViewWidget." alt="" coords="277,976,478,1019"/>
+<area shape="poly" id="edge32_Node000001_Node000026" title=" " alt="" coords="141,909,264,962,284,968,282,974,262,966,139,914"/>
+<area shape="rect" id="Node000028" href="$class_main_window.html#a42177f0cc53e1305be01d88d356c9055" title="Отправляет на сервер уведомление о наборе текста (&quot;печатает...&quot;)." alt="" coords="267,475,489,517"/>
+<area shape="poly" id="edge35_Node000001_Node000028" title=" " alt="" coords="110,883,120,819,145,724,165,671,190,619,222,570,261,527,265,524,268,528,265,531,226,573,195,621,170,673,150,725,126,820,115,884"/>
+<area shape="rect" id="Node000029" href="$class_main_window.html#a6464eacb64929cb4663868f04675a91b" title="Слот, обрабатывающий выбор нового контакта (чата) в списке." alt="" coords="278,1043,478,1085"/>
+<area shape="poly" id="edge37_Node000001_Node000029" title=" " alt="" coords="125,909,181,967,221,1000,264,1028,275,1034,272,1039,261,1033,218,1004,178,971,121,913"/>
+<area shape="rect" id="Node000030" href="$class_main_window.html#a57d325c95f6bd04fdb537545c9d9e23e" title="Проверяет видимые сообщения и помечает их как прочитанные." alt="" coords="554,1101,743,1144"/>
+<area shape="poly" id="edge41_Node000001_Node000030" title=" " alt="" coords="119,910,138,949,168,1001,210,1054,236,1076,264,1095,296,1110,331,1121,402,1135,473,1139,538,1136,538,1141,473,1144,402,1140,329,1127,294,1115,261,1100,233,1081,207,1057,164,1004,133,952,114,912"/>
+<area shape="rect" id="Node000032" href="$class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="274,240,482,267"/>
+<area shape="poly" id="edge42_Node000001_Node000032" title=" " alt="" coords="110,883,124,766,154,583,175,487,199,398,228,326,244,298,261,277,264,274,268,278,265,280,248,301,233,328,205,400,180,488,159,584,130,767,115,884"/>
+<area shape="rect" id="Node000033" href="$class_chat_view_widget.html#ab3b4618e5a002eb5a3efd9e73e1463c9" title=" " alt="" coords="271,1496,484,1523"/>
+<area shape="poly" id="edge44_Node000001_Node000033" title=" " alt="" coords="116,911,131,1022,161,1196,182,1286,206,1369,234,1437,249,1463,265,1482,268,1485,264,1489,261,1486,245,1466,229,1440,201,1371,177,1288,156,1197,126,1023,110,911"/>
+<area shape="rect" id="Node000034" href="$class_chat_view_widget.html#aebd96881a5462aa694835bf8174d7547" title=" " alt="" coords="267,1547,489,1589"/>
+<area shape="poly" id="edge45_Node000001_Node000034" title=" " alt="" coords="115,911,130,1030,160,1218,180,1317,205,1408,233,1483,248,1511,265,1533,267,1535,263,1539,261,1536,244,1514,228,1485,200,1410,175,1318,154,1219,124,1031,110,911"/>
+<area shape="rect" id="Node000035" href="$class_chat_view_widget.html#a47c131ab7e783a4d8ce225f04aaf2b3c" title=" " alt="" coords="274,1613,482,1656"/>
+<area shape="poly" id="edge46_Node000001_Node000035" title=" " alt="" coords="115,911,128,1041,156,1249,176,1359,201,1460,230,1544,247,1576,265,1600,267,1601,263,1605,261,1603,242,1578,226,1546,196,1462,171,1360,150,1250,122,1041,110,911"/>
+<area shape="rect" id="Node000036" href="$class_main_window.html#a7e51b5f573f15d8a8d209ffcec8db70c" title="(ЗАГОТОВКА) Показывает профиль текущего собеседника." alt="" coords="277,1680,478,1707"/>
+<area shape="poly" id="edge47_Node000001_Node000036" title=" " alt="" coords="115,911,125,1052,150,1281,170,1402,195,1514,227,1605,245,1640,265,1666,267,1669,263,1672,261,1670,240,1643,222,1608,190,1515,165,1403,145,1282,119,1053,109,911"/>
+<area shape="rect" id="Node000037" href="$class_search_results_popup.html#ad488c35265a75f5462fa27ee8d3f8779" title="Сигнал испускается, когда пользователь кликает на один из элементов в списке." alt="" coords="306,1731,450,1773"/>
+<area shape="poly" id="edge48_Node000001_Node000037" title=" " alt="" coords="115,911,124,1060,149,1304,169,1433,194,1552,226,1651,245,1689,265,1717,292,1736,289,1741,261,1721,240,1691,221,1653,189,1554,164,1434,144,1304,119,1061,109,911"/>
+<area shape="rect" id="Node000006" href="$class_login_widget.html#a01a9e3569fdca13ae9a0c2cb2caa43f3" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="570,215,728,241"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="474,209,554,217,554,222,474,214"/>
+<area shape="rect" id="Node000010" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="568,733,729,760"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="470,582,494,594,536,623,573,656,630,719,626,723,570,660,532,627,492,598,468,587"/>
+<area shape="poly" id="edge11_Node000011_Node000010" title=" " alt="" coords="460,633,494,644,564,682,620,721,617,726,561,686,492,649,458,638"/>
+<area shape="poly" id="edge14_Node000013_Node000010" title=" " alt="" coords="468,699,577,726,576,732,467,705"/>
+<area shape="poly" id="edge18_Node000016_Node000010" title=" " alt="" coords="476,744,553,744,553,749,476,749"/>
+<area shape="poly" id="edge20_Node000017_Node000010" title=" " alt="" coords="442,789,568,761,569,767,444,794"/>
+<area shape="poly" id="edge22_Node000018_Node000010" title=" " alt="" coords="461,840,492,828,556,797,611,766,614,771,559,802,494,833,463,845"/>
+<area shape="rect" id="Node000020" href="$class_chat_view_widget.html#a7a2b8299c9c127f8711c0d4b610e6779" title="Обновляет видимость и позицию кнопки &quot;прокрутить вниз&quot; и счетчика." alt="" coords="549,1328,748,1371"/>
+<area shape="poly" id="edge24_Node000019_Node000020" title=" " alt="" coords="489,1347,533,1347,533,1352,489,1352"/>
+<area shape="poly" id="edge27_Node000022_Node000010" title=" " alt="" coords="475,449,495,461,526,488,553,521,576,556,596,592,626,662,643,717,638,719,621,664,591,595,572,559,549,524,522,492,491,465,472,454"/>
+<area shape="poly" id="edge30_Node000024_Node000010" title=" " alt="" coords="468,906,492,895,532,867,570,833,626,771,630,774,573,837,536,871,494,900,470,911"/>
+<area shape="rect" id="Node000025" href="$class_main_window.html#afb46069aa39e10ec53248a3e73c07a5c" title="Централизованно обновляет статус сообщения и в кэше, и в активной модели." alt="" coords="550,909,747,952"/>
+<area shape="poly" id="edge31_Node000024_Node000025" title=" " alt="" coords="479,928,535,928,535,933,479,933"/>
+<area shape="poly" id="edge33_Node000026_Node000010" title=" " alt="" coords="472,973,491,962,627,771,631,774,495,966,474,978"/>
+<area shape="rect" id="Node000027" href="$class_main_window.html#a1350e459b9f889d66f70ac73e83c982e" title="Обновляет отображение одного конкретного контакта в списке." alt="" coords="541,984,756,1011"/>
+<area shape="poly" id="edge34_Node000026_Node000027" title=" " alt="" coords="479,995,526,995,526,1000,479,1000"/>
+<area shape="poly" id="edge36_Node000028_Node000010" title=" " alt="" coords="474,515,495,527,544,572,585,624,616,676,638,718,633,721,612,679,580,627,540,576,491,531,472,520"/>
+<area shape="poly" id="edge39_Node000029_Node000010" title=" " alt="" coords="476,1040,491,1029,505,1013,513,998,521,968,525,935,539,896,582,826,624,771,628,774,586,829,543,898,530,936,526,969,518,1000,509,1016,495,1033,479,1044"/>
+<area shape="poly" id="edge38_Node000029_Node000030" title=" " alt="" coords="479,1083,539,1096,538,1101,478,1088"/>
+<area shape="rect" id="Node000031" href="$class_main_window.html#a23b91a72f3ec6566c686e0b46a45fa62" title="Обновляет модель списка контактов на основе данных из m_userCache." alt="" coords="552,1051,745,1077"/>
+<area shape="poly" id="edge40_Node000029_Node000031" title=" " alt="" coords="479,1061,537,1061,537,1067,479,1067"/>
+<area shape="poly" id="edge43_Node000032_Node000006" title=" " alt="" coords="482,241,554,234,554,239,482,246"/>
+</map>

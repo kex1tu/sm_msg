@@ -1,0 +1,5 @@
+<map id="Server::handleTyping" name="Server::handleTyping">
+<area shape="rect" id="Node000001" title="Обрабатывает и пересылает уведомление о наборе текста." alt="" coords="5,5,149,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="197,5,320,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,16,181,16,181,21,149,21"/>
+</map>

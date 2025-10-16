@@ -14,5 +14,7 @@ var class_chat_message_model =
     [ "removeMessage", "class_chat_message_model.html#aa3a3c5360b3d47d027fed90362095b19", null ],
     [ "rowCount", "class_chat_message_model.html#a1086e40f1952c24224c6221f6d20b47f", null ],
     [ "setData", "class_chat_message_model.html#a7eaed5b52bf66ffb9bd85ef60e108a7b", null ],
-    [ "updateMessageStatus", "class_chat_message_model.html#a2d0729f1abb9a3360d4b49fd627089be", null ]
+    [ "updateMessageStatus", "class_chat_message_model.html#a2d0729f1abb9a3360d4b49fd627089be", null ],
+    [ "m_messageMap", "class_chat_message_model.html#ad38ed7cf6a1c7786f585d118338d5031", null ],
+    [ "m_messages", "class_chat_message_model.html#ac36eb7c7a07191d38fdd2cee5cc871b8", null ]
 ];

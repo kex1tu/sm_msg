@@ -41,6 +41,11 @@ void \mbox{\hyperlink{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f87
 \begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}{show\+Results}} (const QJson\+Array \&users)
 \begin{DoxyCompactList}\small\item\em Заполняет виджет результатами поиска и отображает его. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QList\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}{m\+\_\+list\+Widget}}
+\begin{DoxyCompactList}\small\item\em Указатель на внутренний QList\+Widget. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -142,9 +147,28 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=339pt]{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779_icgraph}
+\includegraphics[width=350pt]{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779_icgraph}
 \end{center}
 \end{figure}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_search_results_popup_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096}\index{SearchResultsPopup@{SearchResultsPopup}!m\_listWidget@{m\_listWidget}}
+\index{m\_listWidget@{m\_listWidget}!SearchResultsPopup@{SearchResultsPopup}}
+\doxysubsubsection{\texorpdfstring{m\_listWidget}{m\_listWidget}}
+{\footnotesize\ttfamily \label{class_search_results_popup_ae9f08cea754153f9c7b296e71a7e7096} 
+QList\+Widget\texorpdfstring{$\ast$}{*} Search\+Results\+Popup\+::m\+\_\+list\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Указатель на внутренний QList\+Widget. 
+
+Этот виджет используется для фактического отображения списка пользователей. \doxylink{class_search_results_popup}{Search\+Results\+Popup} является для него оберткой и контроллером. 
+
+Definition at line \mbox{\hyperlink{searchresultspopup_8h_source_l00048}{48}} of file \mbox{\hyperlink{searchresultspopup_8h_source}{searchresultspopup.\+h}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

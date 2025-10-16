@@ -1,0 +1,6 @@
+<map id="LoginWidget::onTogglePasswordVisibilityTriggered" name="LoginWidget::onTogglePasswordVisibilityTriggered">
+<area shape="rect" id="Node000001" title="Слот, который вызывается при клике на иконку &quot;глаза&quot;. Переключает режим отображения пароля (QLineEdit..." alt="" coords="227,21,438,64"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html#a031e07c8e32b288e982a0c23d0fe1d0d" title="Конструктор." alt="" coords="5,29,179,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,45,179,45,179,40,211,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="134,17,120,10,92,8,67,10,53,15,50,20,56,27,52,31,44,21,49,11,66,5,92,3,121,5,136,12"/>
+</map>

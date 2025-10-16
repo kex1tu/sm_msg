@@ -1,0 +1,5 @@
+<map id="MainWindow::onLoginRequested" name="MainWindow::onLoginRequested">
+<area shape="rect" id="Node000001" title="Обрабатывает запрос на вход от LoginWidget." alt="" coords="5,5,218,32"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="266,5,426,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,16,250,16,250,21,218,21"/>
+</map>

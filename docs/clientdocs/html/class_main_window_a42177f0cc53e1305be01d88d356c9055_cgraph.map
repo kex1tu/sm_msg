@@ -1,0 +1,5 @@
+<map id="MainWindow::onTypingNotificationFired" name="MainWindow::onTypingNotificationFired">
+<area shape="rect" id="Node000001" title="Отправляет на сервер уведомление о наборе текста (&quot;печатает...&quot;)." alt="" coords="5,5,228,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="276,13,436,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,24,260,24,260,29,228,29"/>
+</map>

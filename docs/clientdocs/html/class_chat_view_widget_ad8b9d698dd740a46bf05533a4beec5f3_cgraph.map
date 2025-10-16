@@ -1,0 +1,7 @@
+<map id="ChatViewWidget::onMessageDoubleClicked" name="ChatViewWidget::onMessageDoubleClicked">
+<area shape="rect" id="Node000001" title="Слот, вызываемый по двойному клику на сообщении в списке." alt="" coords="5,35,200,77"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#aebd96881a5462aa694835bf8174d7547" title=" " alt="" coords="248,5,470,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,42,232,39,232,44,200,48"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#a72583a4d51c922ac0ddfb55f20aff440" title="Показывает панель ответа с плавной анимацией &quot;разворачивания&quot;." alt="" coords="256,72,462,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,64,241,69,240,74,200,70"/>
+</map>

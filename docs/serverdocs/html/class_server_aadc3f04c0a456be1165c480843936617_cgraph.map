@@ -1,0 +1,5 @@
+<map id="Server::handleMessageRead" name="Server::handleMessageRead">
+<area shape="rect" id="Node000001" title="Обрабатывает уведомление от клиента о том, что сообщение было прочитано." alt="" coords="5,5,195,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="243,5,366,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,16,227,16,227,21,195,21"/>
+</map>

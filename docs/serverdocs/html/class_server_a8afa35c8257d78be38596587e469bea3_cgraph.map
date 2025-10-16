@@ -1,0 +1,7 @@
+<map id="Server::onClientDisconnected" name="Server::onClientDisconnected">
+<area shape="rect" id="Node000001" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="5,5,201,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="249,5,422,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,16,233,16,233,21,201,21"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="470,5,593,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="422,16,454,16,454,21,422,21"/>
+</map>

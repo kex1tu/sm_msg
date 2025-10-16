@@ -1,0 +1,5 @@
+<map id="Server::sendFullUserList" name="Server::sendFullUserList">
+<area shape="rect" id="Node000001" title="(Устарело/Для админки) Отправляет клиенту полный список всех зарегистрированных пользователей." alt="" coords="5,5,171,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="219,5,342,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,16,203,16,203,21,171,21"/>
+</map>

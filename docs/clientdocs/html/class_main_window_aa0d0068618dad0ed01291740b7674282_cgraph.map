@@ -1,0 +1,5 @@
+<map id="MainWindow::onLogoutButtonClicked" name="MainWindow::onLogoutButtonClicked">
+<area shape="rect" id="Node000001" title="Обрабатывает клик по кнопке &quot;Выйти&quot;." alt="" coords="5,5,201,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="249,13,409,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,24,233,24,233,29,201,29"/>
+</map>

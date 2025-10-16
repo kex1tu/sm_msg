@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['refreshcontact_0',['refreshContact',['../class_contact_list_model.html#a5d6cde2a5f067a1edef40dde0e789a26',1,'ContactListModel']]],
-  ['registerrequested_1',['registerRequested',['../class_login_widget.html#a1945c6e523ef5d5d697e1b4db5881aa5',1,'LoginWidget']]],
-  ['removemessage_2',['removeMessage',['../class_chat_message_model.html#aa3a3c5360b3d47d027fed90362095b19',1,'ChatMessageModel']]],
-  ['replycancelled_3',['replyCancelled',['../class_chat_view_widget.html#ab3b4618e5a002eb5a3efd9e73e1463c9',1,'ChatViewWidget']]],
-  ['replytomessagerequested_4',['replyToMessageRequested',['../class_chat_view_widget.html#aebd96881a5462aa694835bf8174d7547',1,'ChatViewWidget']]],
-  ['resizeevent_5',['resizeEvent',['../class_chat_view_widget.html#a50690b18f64cf6dcb5dde55d04d6193d',1,'ChatViewWidget::resizeEvent()'],['../class_smooth_list_view.html#a003ef806d614ddbd63d8c9a69c513015',1,'SmoothListView::resizeEvent()']]],
-  ['rowcount_6',['rowCount',['../class_chat_message_model.html#a1086e40f1952c24224c6221f6d20b47f',1,'ChatMessageModel::rowCount()'],['../class_contact_list_model.html#a6fcdf80cde0d5e46d3b2c694ea5977c6',1,'ContactListModel::rowCount()']]]
+  ['paint_0',['paint',['../class_chat_message_delegate.html#a63a8d8680f60653282990409146e300b',1,'ChatMessageDelegate::paint()'],['../class_contact_list_delegate.html#a2fc35b66547481decc84e5e7bbff7804',1,'ContactListDelegate::paint()']]],
+  ['pluralize_1',['pluralize',['../chatviewwidget_8cpp.html#a117ba5628709b3d2986bb292bc53b233',1,'chatviewwidget.cpp']]],
+  ['prependmessages_2',['prependMessages',['../class_chat_message_model.html#a6eeb231d09b98aa03dbf95e6df63214a',1,'ChatMessageModel']]],
+  ['processvisiblemessages_3',['processVisibleMessages',['../class_main_window.html#a57d325c95f6bd04fdb537545c9d9e23e',1,'MainWindow']]]
 ];

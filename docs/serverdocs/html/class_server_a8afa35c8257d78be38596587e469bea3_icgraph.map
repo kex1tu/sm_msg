@@ -1,0 +1,10 @@
+<map id="Server::onClientDisconnected" name="Server::onClientDisconnected">
+<area shape="rect" id="Node000001" title="Слот, обрабатывающий отключение клиента от сервера." alt="" coords="448,31,643,57"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,5,377,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="432,36,377,31,378,25,433,31"/>
+<area shape="rect" id="Node000004" href="$class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,56,400,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="433,57,401,60,400,55,432,52"/>
+<area shape="rect" id="Node000003" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,31,111,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="167,34,111,41,111,35,166,29"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="143,56,111,53,112,47,144,51"/>
+</map>

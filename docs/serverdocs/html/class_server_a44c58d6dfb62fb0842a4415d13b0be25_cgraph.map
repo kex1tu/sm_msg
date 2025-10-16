@@ -1,0 +1,5 @@
+<map id="Server::handleEditMessage" name="Server::handleEditMessage">
+<area shape="rect" id="Node000001" title="Обрабатывает запрос от клиента на редактирование ранее отправленного сообщения." alt="" coords="5,5,187,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="235,5,358,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,16,219,16,219,21,187,21"/>
+</map>

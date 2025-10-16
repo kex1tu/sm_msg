@@ -26,7 +26,7 @@ Collaboration diagram for Chat\+Message\+Delegate\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=196pt]{class_chat_message_delegate__coll__graph}
+\includegraphics[width=310pt]{class_chat_message_delegate__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Member Functions}
@@ -38,6 +38,23 @@ void \mbox{\hyperlink{class_chat_message_delegate_a63a8d8680f60653282990409146e3
 \begin{DoxyCompactList}\small\item\em Основной метод отрисовки. Вызывается для каждого видимого элемента. \end{DoxyCompactList}\item 
 QSize \mbox{\hyperlink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{size\+Hint}} (const QStyle\+Option\+View\+Item \&option, const QModel\+Index \&index) const override
 \begin{DoxyCompactList}\small\item\em Метод для расчета размера элемента. Вызывается представлением (QList\+View) чтобы определить, сколько места выделить для каждого сообщения. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_chat_message_delegate_a0331e614068d2bf26502fdc03c8c45f3}{init\+Renderers}} (QObject \texorpdfstring{$\ast$}{*}parent)
+\begin{DoxyCompactList}\small\item\em Статический метод-\/инициализатор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_message_delegate_a3ba16f2d9c4a54dde69975721e620168}{m\+\_\+model}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static QMap$<$ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}, QSvg\+Renderer \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_chat_message_delegate_ad0b18ae7003ccd016f2d444abe055a13}{m\+\_\+status\+Renderers}}
+\begin{DoxyCompactList}\small\item\em Статическая карта для хранения предзагруженных SVG-\/рендереров. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_chat_message_delegate_ace5a9a62781c6cb9e91577201b7076da}{m\+\_\+renderers\+Initialized}} = false
+\begin{DoxyCompactList}\small\item\em Статический флаг, который предотвращает повторную инициализацию рендереров. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -82,11 +99,53 @@ Chat\+Message\+Delegate\+::\+Chat\+Message\+Delegate (\begin{DoxyParamCaption}\i
 
 Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00025}{25}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe_cgraph}
+\end{center}
+\end{figure}
 
 
 \label{doc-func-members}
 \Hypertarget{class_chat_message_delegate_doc-func-members}
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_chat_message_delegate_a0331e614068d2bf26502fdc03c8c45f3}\index{ChatMessageDelegate@{ChatMessageDelegate}!initRenderers@{initRenderers}}
+\index{initRenderers@{initRenderers}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{initRenderers()}{initRenderers()}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_a0331e614068d2bf26502fdc03c8c45f3} 
+void Chat\+Message\+Delegate\+::init\+Renderers (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Статический метод-\/инициализатор. 
+
+Статический метод для однократной инициализации SVG-\/рендереров.
+
+Безопасно создает и кэширует рендереры в {\ttfamily m\+\_\+status\+Renderers}. Вызывается в конструкторе делегата только один раз благодаря флагу {\ttfamily m\+\_\+renderers\+Initialized}. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект, которому будут принадлежать созданные рендереры. Это обеспечивает автоматическое управление памятью (Qt Parent-\/\+Child system).\\
+\hline
+\end{DoxyParams}
+Эта функция загружает SVG-\/иконки статусов в память и кэширует их в статической QMap. Это предотвращает дорогостоящую загрузку файлов с диска при отрисовке каждого сообщения. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект для создаваемых QSvg\+Renderer, чтобы Qt автоматически управлял их памятью. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00040}{40}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_message_delegate_a0331e614068d2bf26502fdc03c8c45f3_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}\index{ChatMessageDelegate@{ChatMessageDelegate}!paint@{paint}}
 \index{paint@{paint}!ChatMessageDelegate@{ChatMessageDelegate}}
 \doxysubsubsection{\texorpdfstring{paint()}{paint()}}
@@ -153,6 +212,49 @@ QSize Требуемая высота и ширина.
 
 
 Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00245}{245}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{class_chat_message_delegate_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_chat_message_delegate_a3ba16f2d9c4a54dde69975721e620168}\index{ChatMessageDelegate@{ChatMessageDelegate}!m\_model@{m\_model}}
+\index{m\_model@{m\_model}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{m\_model}{m\_model}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_a3ba16f2d9c4a54dde69975721e620168} 
+const \mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}}\texorpdfstring{$\ast$}{*} Chat\+Message\+Delegate\+::m\+\_\+model\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8h_source_l00060}{60}} of file \mbox{\hyperlink{chatmessagedelegate_8h_source}{chatmessagedelegate.\+h}}.
+
+\Hypertarget{class_chat_message_delegate_ace5a9a62781c6cb9e91577201b7076da}\index{ChatMessageDelegate@{ChatMessageDelegate}!m\_renderersInitialized@{m\_renderersInitialized}}
+\index{m\_renderersInitialized@{m\_renderersInitialized}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{m\_renderersInitialized}{m\_renderersInitialized}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_ace5a9a62781c6cb9e91577201b7076da} 
+bool Chat\+Message\+Delegate\+::m\+\_\+renderers\+Initialized = false\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Статический флаг, который предотвращает повторную инициализацию рендереров. 
+
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8h_source_l00077}{77}} of file \mbox{\hyperlink{chatmessagedelegate_8h_source}{chatmessagedelegate.\+h}}.
+
+\Hypertarget{class_chat_message_delegate_ad0b18ae7003ccd016f2d444abe055a13}\index{ChatMessageDelegate@{ChatMessageDelegate}!m\_statusRenderers@{m\_statusRenderers}}
+\index{m\_statusRenderers@{m\_statusRenderers}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{m\_statusRenderers}{m\_statusRenderers}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_ad0b18ae7003ccd016f2d444abe055a13} 
+QMap$<$ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}, QSvg\+Renderer \texorpdfstring{$\ast$}{*} $>$ Chat\+Message\+Delegate\+::m\+\_\+status\+Renderers\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Статическая карта для хранения предзагруженных SVG-\/рендереров. 
+
+Ключ -\/ статус сообщения (Sending, Sent, Delivered), значение -\/ указатель на рендерер. {\ttfamily static} означает, что эта карта будет ОДНА на все экземпляры класса \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}. Это критически важная оптимизация\+: мы загружаем и парсим SVG-\/файлы только один раз при первом создании делегата, а не при отрисовке каждого сообщения. 
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8h_source_l00072}{72}} of file \mbox{\hyperlink{chatmessagedelegate_8h_source}{chatmessagedelegate.\+h}}.
 
 
 

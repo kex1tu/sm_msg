@@ -1,0 +1,5 @@
+<map id="MainWindow::handleUserList" name="MainWindow::handleUserList">
+<area shape="rect" id="Node000001" title="Обрабатывает широковещательное сообщение от сервера со списком онлайн&#45;пользователей." alt="" coords="5,5,197,32"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a23b91a72f3ec6566c686e0b46a45fa62" title="Обновляет модель списка контактов на основе данных из m_userCache." alt="" coords="245,5,437,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,16,229,16,229,21,197,21"/>
+</map>

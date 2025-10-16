@@ -1,0 +1,6 @@
+<map id="MainWindow::buildMainUI" name="MainWindow::buildMainUI">
+<area shape="rect" id="Node000001" title="Собирает и компонует основной интерфейс из виджетов." alt="" coords="233,29,406,56"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,29,185,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,45,185,45,185,40,217,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="134,17,120,10,95,8,71,10,59,15,56,20,61,27,57,30,50,21,55,11,70,5,95,3,122,5,136,12"/>
+</map>

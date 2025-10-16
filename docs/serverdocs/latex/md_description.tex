@@ -33,7 +33,7 @@
 Это ядро бизнес-\/логики сервера. Вместо громоздкой конструкции {\ttfamily if-\/else} или {\ttfamily switch} для разбора типов запросов, используется элегантный и масштабируемый подход.
 \begin{DoxyItemize}
 \item {\bfseries{Структура\+:}} В классе {\ttfamily \doxylink{class_server}{Server}} есть поле {\ttfamily QMap\texorpdfstring{$<$}{<}QString, Handler\texorpdfstring{$>$}{>} m\+\_\+handlers}, где {\ttfamily Handler} — это {\ttfamily using Handler = void (\doxylink{class_server}{Server}\+:\+:\texorpdfstring{$\ast$}{*})(QObject\texorpdfstring{$\ast$}{*}, const QJson\+Object\&)}.
-\item {\bfseries{Инициализация\+:}} В методе {\ttfamily init\+Handlers()} эта карта заполняется. Ключом является строковое имя команды (например, {\ttfamily "{}login"{}}, {\ttfamily "{}private\+\_\+message"{}}), а значением — указатель на метод, который должен обработать эту команду ({\ttfamily \&Server\+::handle\+Login}, {\ttfamily \&Server\+::handle\+Private\+Message}).
+\item {\bfseries{Инициализация\+:}} В методе {\ttfamily init\+Handlers()} эта карта заполняется. Ключом является строковое имя команды (например, {\ttfamily "{}login"{}}, {\ttfamily "{}private\+\_\+message"{}}), а значением — указатель на метод, который должен обработать эту команду ({\ttfamily \&\doxylink{class_server_a2c11ed0951b0edc730bd551a920fb08f}{Server\+::handle\+Login}}, {\ttfamily \&\doxylink{class_server_a2814eb164b6e628f8be39f465dad15ae}{Server\+::handle\+Private\+Message}}).
 \item {\bfseries{Исполнение\+:}} Метод {\ttfamily process\+Json\+Request} извлекает поле {\ttfamily "{}type"{}} из входящего JSON, находит соответствующий указатель на метод в {\ttfamily m\+\_\+handlers} и вызывает его, передавая сокет клиента и сам JSON-\/объект.
 \end{DoxyItemize}\hypertarget{md_description_autotoc_md7}{}\doxysubsection{\texorpdfstring{2.\+3. Управление состоянием клиентов}{2.\+3. Управление состоянием клиентов}}\label{md_description_autotoc_md7}
 Сервер должен в реальном времени знать, какие пользователи онлайн и через какой сокет с ними можно связаться. Для этого используется двойное отображение\+:
@@ -80,7 +80,7 @@
 \item {\bfseries{Маршрутизация (Обработчик запросов)\+:}}
 \begin{DoxyItemize}
 \item {\ttfamily process\+Json\+Request()} читает {\ttfamily "{}type"{}\+: "{}private\+\_\+message"{}}.
-\item В {\ttfamily m\+\_\+handlers} находится соответствующий указатель на {\ttfamily \&Server\+::handle\+Private\+Message}.
+\item В {\ttfamily m\+\_\+handlers} находится соответствующий указатель на {\ttfamily \&\doxylink{class_server_a2814eb164b6e628f8be39f465dad15ae}{Server\+::handle\+Private\+Message}}.
 \item Вызывается {\ttfamily handle\+Private\+Message(socket, request)}.
 \end{DoxyItemize}
 \item {\bfseries{Обработка (Бизнес-\/логика)\+:}}

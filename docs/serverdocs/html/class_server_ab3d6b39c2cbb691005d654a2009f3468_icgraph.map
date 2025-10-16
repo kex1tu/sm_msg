@@ -1,0 +1,14 @@
+<map id="Server::processJsonRequest" name="Server::processJsonRequest">
+<area shape="rect" id="Node000001" title="Общий метод&#45;диспетчер, который вызывает нужный обработчик из m_handlers." alt="" coords="722,35,913,61"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a0dea29b2ecdf398365f882018d610ace" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="476,5,647,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="706,38,647,31,648,26,707,33"/>
+<area shape="rect" id="Node000005" href="$class_server.html#aa8df3dc4a4acdc92a7ee4fda89af22d7" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,56,674,99"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="707,63,675,67,674,62,706,58"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="182,8,377,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="460,22,377,23,377,18,460,17"/>
+<area shape="rect" id="Node000004" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,35,111,61"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="167,38,111,44,111,39,166,32"/>
+<area shape="rect" id="Node000006" href="$class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,60,400,87"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="432,78,400,78,401,72,432,73"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="143,60,111,57,112,51,144,55"/>
+</map>

@@ -1,0 +1,18 @@
+<map id="MainWindow::updateMessageStatusInCacheAndModel" name="MainWindow::updateMessageStatusInCacheAndModel">
+<area shape="rect" id="Node000001" title="Централизованно обновляет статус сообщения и в кэше, и в активной модели." alt="" coords="764,64,961,107"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a7f7bcdcbcb06f7e40dddf31c8325c188" title="Обрабатывает уведомление от сервера о том, что сообщение было доставлено." alt="" coords="506,5,701,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="750,63,700,51,701,46,751,57"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#a9c64b32f9c75d20e489b85c156a4acd1" title="Обрабатывает уведомление от сервера о том, что сообщение было прочитано." alt="" coords="490,72,716,99"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="749,88,717,88,717,83,749,83"/>
+<area shape="rect" id="Node000006" href="$class_main_window.html#a2cace9fd0bd82d43856f04fa48789057" title="Отправляет на сервер подтверждение о прочтении сообщения." alt="" coords="502,123,704,165"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="751,113,701,125,700,119,750,108"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5" title="Заполняет карту m_responseHandlers для обработки команд сервера." alt="" coords="247,64,428,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="491,54,429,68,427,63,489,49"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,101,185,128"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="232,101,186,106,185,101,232,95"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,89,123,82,95,80,69,82,56,87,52,92,59,99,54,103,47,93,52,83,68,77,95,75,124,77,139,84"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="474,88,428,88,428,83,474,83"/>
+<area shape="rect" id="Node000007" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,131,442,157"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="487,147,442,147,442,141,487,141"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="217,132,185,128,186,123,217,127"/>
+</map>

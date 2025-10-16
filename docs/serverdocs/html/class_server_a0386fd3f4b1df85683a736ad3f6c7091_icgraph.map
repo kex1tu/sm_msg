@@ -1,0 +1,7 @@
+<map id="Server::handleDeleteMessage" name="Server::handleDeleteMessage">
+<area shape="rect" id="Node000001" title="Обрабатывает запрос от клиента на удаление ранее отправленного сообщения." alt="" coords="343,5,539,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a56ec5259c858a9599d0ff16c33fe6882" title="Инициализирует карту обработчиков команд (Command Pattern)." alt="" coords="159,5,295,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="328,21,295,21,295,16,328,16"/>
+<area shape="rect" id="Node000003" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="MainWindow::handleUnreadCounts" name="MainWindow::handleUnreadCounts">
+<area shape="rect" id="Node000001" title="Обрабатывает ответ сервера с первоначальным списком непрочитанных сообщений." alt="" coords="5,5,190,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a23b91a72f3ec6566c686e0b46a45fa62" title="Обновляет модель списка контактов на основе данных из m_userCache." alt="" coords="238,13,430,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,24,222,24,222,29,190,29"/>
+</map>

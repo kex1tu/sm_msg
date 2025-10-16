@@ -1,0 +1,9 @@
+<map id="MainWindow::onUserSelectionChanged" name="MainWindow::onUserSelectionChanged">
+<area shape="rect" id="Node000001" title="Слот, обрабатывающий выбор нового контакта (чата) в списке." alt="" coords="5,64,206,107"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a57d325c95f6bd04fdb537545c9d9e23e" title="Проверяет видимые сообщения и помечает их как прочитанные." alt="" coords="255,5,444,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,61,243,50,244,55,198,66"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="270,72,430,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,83,254,83,254,88,206,88"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a23b91a72f3ec6566c686e0b46a45fa62" title="Обновляет модель списка контактов на основе данных из m_userCache." alt="" coords="254,123,446,149"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="207,104,268,116,267,122,206,109"/>
+</map>

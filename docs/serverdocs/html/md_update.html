@@ -149,10 +149,12 @@ $(function(){initNavTree('md_update.html','',''); });
 <p><b>Стало:</b> </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 2)</span></div>
 <div class="line"><span class="keywordtype">bool</span> <a class="code hl_function" href="class_server.html#abb791768fde7d1871855b9cf0aebdcbe">Server::listen</a>(<span class="keyword">const</span> QHostAddress &amp;address, quint16 tcpPort, quint16 wsPort)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keywordtype">bool</span> tcpSuccess = m_tcpServer-&gt;listen(address, tcpPort);</div>
-<div class="line">    <span class="keywordtype">bool</span> wsSuccess = m_webSocketServer-&gt;listen(address, wsPort);</div>
+<div class="line">    <span class="keywordtype">bool</span> tcpSuccess = <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>-&gt;listen(address, tcpPort);</div>
+<div class="line">    <span class="keywordtype">bool</span> wsSuccess = <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>-&gt;listen(address, wsPort);</div>
 <div class="line">    <span class="keywordflow">return</span> tcpSuccess &amp;&amp; wsSuccess;</div>
 <div class="line">}</div>
+<div class="ttc" id="aclass_server_html_a0efcd94352570f9565c5fe9f0d441614"><div class="ttname"><a href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">Server::m_tcpServer</a></div><div class="ttdeci">QTcpServer * m_tcpServer</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00103">server.h:103</a></div></div>
+<div class="ttc" id="aclass_server_html_a0f9623482771b8b020d023445ead8a29"><div class="ttname"><a href="class_server.html#a0f9623482771b8b020d023445ead8a29">Server::m_webSocketServer</a></div><div class="ttdeci">QWebSocketServer * m_webSocketServer</div><div class="ttdef"><b>Definition</b> <a href="server_8h_source.html#l00104">server.h:104</a></div></div>
 <div class="ttc" id="aclass_server_html_abb791768fde7d1871855b9cf0aebdcbe"><div class="ttname"><a href="class_server.html#abb791768fde7d1871855b9cf0aebdcbe">Server::listen</a></div><div class="ttdeci">bool listen(const QHostAddress &amp;address=QHostAddress::Any, quint16 tcpPort=1234, quint16 wsPort=8080)</div><div class="ttdoc">Запускает сервер для прослушивания входящих подключений.</div><div class="ttdef"><b>Definition</b> <a href="server_8cpp_source.html#l00084">server.cpp:84</a></div></div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 Шаг 4: Новый механизм обработки подключений</h2>
@@ -160,16 +162,18 @@ $(function(){initNavTree('md_update.html','',''); });
 <p><b>Было:</b> </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 1)</span></div>
 <div class="line"><span class="keywordtype">void</span> Server::incomingConnection(qintptr socketDescriptor) { ... }</div>
 </div><!-- fragment --><p><b>Стало:</b> В конструкторе мы соединяем сигналы <span class="tt">newConnection</span> с новыми слотами: </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 2)</span></div>
-<div class="line">connect(m_tcpServer, &amp;QTcpServer::newConnection, <span class="keyword">this</span>, &amp;Server::onNewTcpConnection);</div>
-<div class="line">connect(m_webSocketServer, &amp;QWebSocketServer::newConnection, <span class="keyword">this</span>, &amp;Server::onNewWebSocketConnection);</div>
+<div class="line">connect(m_tcpServer, &amp;QTcpServer::newConnection, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a>);</div>
+<div class="line">connect(m_webSocketServer, &amp;QWebSocketServer::newConnection, <span class="keyword">this</span>, &amp;<a class="code hl_slot" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a>);</div>
+<div class="ttc" id="aclass_server_html_a22bd355bf7fb7d2ee98cc963cc37bb29"><div class="ttname"><a href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a></div><div class="ttdeci">void onNewTcpConnection()</div><div class="ttdoc">Слот, обрабатывающий новое входящее TCP-подключение.</div><div class="ttdef"><b>Definition</b> <a href="server_8cpp_source.html#l00112">server.cpp:112</a></div></div>
+<div class="ttc" id="aclass_server_html_af9ee0faf4c581fd425e4b3750ca4d4c0"><div class="ttname"><a href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a></div><div class="ttdeci">void onNewWebSocketConnection()</div><div class="ttdoc">Слот, обрабатывающий новое входящее WebSocket-подключение.</div><div class="ttdef"><b>Definition</b> <a href="server_8cpp_source.html#l00132">server.cpp:132</a></div></div>
 </div><!-- fragment --><p> И реализуем эти слоты: </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 2)</span></div>
-<div class="line"><span class="keywordtype">void</span> Server::onNewTcpConnection() {</div>
-<div class="line">    QTcpSocket *socket = m_tcpServer-&gt;nextPendingConnection();</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29">Server::onNewTcpConnection</a>() {</div>
+<div class="line">    QTcpSocket *socket = <a class="code hl_variable" href="class_server.html#a0efcd94352570f9565c5fe9f0d441614">m_tcpServer</a>-&gt;nextPendingConnection();</div>
 <div class="line">    <span class="comment">// ... логика для TCP</span></div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> Server::onNewWebSocketConnection() {</div>
-<div class="line">    QWebSocket *socket = m_webSocketServer-&gt;nextPendingConnection();</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code hl_slot" href="class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0">Server::onNewWebSocketConnection</a>() {</div>
+<div class="line">    QWebSocket *socket = <a class="code hl_variable" href="class_server.html#a0f9623482771b8b020d023445ead8a29">m_webSocketServer</a>-&gt;nextPendingConnection();</div>
 <div class="line">    <span class="comment">// ... логика для WebSocket</span></div>
 <div class="line">}</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
@@ -185,11 +189,12 @@ $(function(){initNavTree('md_update.html','',''); });
 Шаг 6: Абстрагирование отправки данных</h2>
 <p>Функция <span class="tt">sendJson</span> была модифицирована для работы с обоими типами сокетов с использованием <span class="tt">qobject_cast</span>.</p>
 <p><b>Было:</b> </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 1)</span></div>
-<div class="line"><span class="keywordtype">void</span> Server::sendJson(QTcpSocket* socket, <span class="keyword">const</span> QJsonObject&amp; response) {</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">Server::sendJson</a>(QTcpSocket* socket, <span class="keyword">const</span> QJsonObject&amp; response) {</div>
 <div class="line">    socket-&gt;write(block);</div>
 <div class="line">}</div>
+<div class="ttc" id="aclass_server_html_a1fae98fa6067984a8ad31c86f9b64859"><div class="ttname"><a href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">Server::sendJson</a></div><div class="ttdeci">void sendJson(QObject *socket, const QJsonObject &amp;response)</div><div class="ttdoc">Универсальный метод для отправки JSON-объекта клиенту.</div><div class="ttdef"><b>Definition</b> <a href="server_8cpp_source.html#l01113">server.cpp:1113</a></div></div>
 </div><!-- fragment --><p><b>Стало:</b> </p><div class="fragment"><div class="line"><span class="comment">// server.cpp (Версия 2)</span></div>
-<div class="line"><span class="keywordtype">void</span> Server::sendJson(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; json)</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="class_server.html#a1fae98fa6067984a8ad31c86f9b64859">Server::sendJson</a>(QObject* socket, <span class="keyword">const</span> QJsonObject&amp; json)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keywordflow">if</span> (!socket) <span class="keywordflow">return</span>;</div>
 <div class="line">    QByteArray jsonData = QJsonDocument(json).toJson(QJsonDocument::Compact);</div>

@@ -1,0 +1,7 @@
+<map id="MainWindow::handleIncomingContactRequest" name="MainWindow::handleIncomingContactRequest">
+<area shape="rect" id="Node000001" title="Обрабатывает push&#45;уведомление от сервера о новом запросе на добавление в контакты." alt="" coords="5,5,201,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a65b8df26fd76fa4f7cd40a17cf23d4e0" title="Показывает пользователю модальный диалог с запросом на добавление в контакты." alt="" coords="249,5,479,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,24,233,24,233,29,201,29"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="527,13,687,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="480,24,511,24,511,29,480,29"/>
+</map>

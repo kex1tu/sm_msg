@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['file_0',['File',['../struct_chat_message.html#ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818',1,'ChatMessage']]],
-  ['filteracceptsrow_1',['filterAcceptsRow',['../class_chat_filter_proxy_model.html#a14175ccb7545b61b415508a05bd3461e',1,'ChatFilterProxyModel']]],
-  ['forwardedfrom_2',['forwardedFrom',['../struct_chat_message.html#aa7b73c47eb32c3e20b690174ac7896a0',1,'ChatMessage']]],
-  ['fromuser_3',['fromUser',['../struct_chat_message.html#ac320069d05d75cb668a2f0f209cb4cb1',1,'ChatMessage']]]
+  ['editmessage_0',['editMessage',['../class_chat_message_model.html#aaad85d871559a3db0bafcd3a323a22f3',1,'ChatMessageModel']]],
+  ['editmessagerequested_1',['editMessageRequested',['../class_chat_view_widget.html#a2c34a79553acea8433547f5292ad4839',1,'ChatViewWidget']]],
+  ['error_2',['Error',['../struct_chat_message.html#a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d',1,'ChatMessage']]],
+  ['eventfilter_3',['eventFilter',['../class_chat_view_widget.html#aff70dfe244c6201f87624d742e1fa9e1',1,'ChatViewWidget::eventFilter()'],['../class_main_window.html#ade305265b2120df2489a5ebeb07ebbe1',1,'MainWindow::eventFilter()']]]
 ];

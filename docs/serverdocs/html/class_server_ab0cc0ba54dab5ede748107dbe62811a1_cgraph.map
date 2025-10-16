@@ -1,0 +1,8 @@
+<map id="Server::handleLogoutRequest" name="Server::handleLogoutRequest">
+<area shape="rect" id="Node000001" title="Обрабатывает запрос клиента на выход из системы." alt="" coords="5,31,199,57"/>
+<area shape="rect" id="Node000002" href="$class_server.html#af0ce9e55fc6fba5b92cad5b6af934306" title="Рассылает всем онлайн&#45;клиентам актуальный список пользователей, находящихся в сети." alt="" coords="247,5,420,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,31,231,27,232,32,199,36"/>
+<area shape="rect" id="Node000003" href="$class_server.html#a1fae98fa6067984a8ad31c86f9b64859" title="Универсальный метод для отправки JSON&#45;объекта клиенту." alt="" coords="468,31,591,57"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="199,41,453,41,453,47,199,47"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="421,27,453,31,452,37,420,32"/>
+</map>

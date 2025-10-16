@@ -9,7 +9,7 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <QDebug>}\ \textcolor{comment}{//\ Для\ отладочных\ сообщений.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00014}00014\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00021}\mbox{\hyperlink{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}{00021}}\ \mbox{\hyperlink{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}{ContactListModel::ContactListModel}}(\mbox{\hyperlink{class_main_window}{MainWindow}}\ *mainWindow,\ QObject\ *parent)}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00022}00022\ \ \ \ \ :\ QAbstractListModel(parent),\ m\_mainWindow(mainWindow)}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00022}00022\ \ \ \ \ :\ QAbstractListModel(parent),\ \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}(mainWindow)}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00023}00023\ \{\}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00024}00024\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00030}\mbox{\hyperlink{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6}{00030}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6}{ContactListModel::rowCount}}(\textcolor{keyword}{const}\ QModelIndex\ \&parent)\textcolor{keyword}{\ const}}
@@ -19,19 +19,19 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (parent.isValid())}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00036}00036\ }
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{return}\ m\_contactUsernames.count();}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.count();}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00038}00038\ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00039}00039\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00046}\mbox{\hyperlink{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620}{00046}}\ QVariant\ \mbox{\hyperlink{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620}{ContactListModel::data}}(\textcolor{keyword}{const}\ QModelIndex\ \&index,\ \textcolor{keywordtype}{int}\ role)\textcolor{keyword}{\ const}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00047}00047\ \textcolor{keyword}{}\{}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ Проверка\ на\ валидность\ индекса\ и\ наличие\ указателя\ на\ MainWindow.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{if}\ (!index.isValid()\ ||\ !m\_mainWindow)\ \textcolor{keywordflow}{return}\ QVariant();}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{if}\ (!index.isValid()\ ||\ !\mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}})\ \textcolor{keywordflow}{return}\ QVariant();}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00050}00050\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ Получаем\ username,\ который\ является\ нашим\ ключом/идентификатором.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00052}00052\ \ \ \ \ QString\ username\ =\ m\_contactUsernames.at(index.row());}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00052}00052\ \ \ \ \ QString\ username\ =\ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.at(index.row());}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00053}00053\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ Получаем\ полный\ объект\ User\ из\ кэша\ MainWindow.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_user}{User}}\ user\ =\ m\_mainWindow-\/>getUserFromCache(username);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_user}{User}}\ user\ =\ \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}-\/>getUserFromCache(username);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00056}00056\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ В\ зависимости\ от\ роли,\ возвращаем\ соответствующее\ поле\ из\ кэшей\ MainWindow.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ Это\ и\ есть\ суть\ паттерна\ "{}модель-\/адаптер"{}.}}
@@ -44,18 +44,18 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ user.\mbox{\hyperlink{struct_user_aa2298ce1333031a1e7d608dbfdba6802}{isOnline}};}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}{IsTypingRole}}:}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Дополнительная\ логика:\ не\ показывать\ статус\ "{}печатает"{}\ для\ чата,\ который\ и\ так\ открыт.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (user.\mbox{\hyperlink{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}{isTyping}}\ \&\&\ username\ !=\ m\_mainWindow-\/>getCurrentChatPartner().username);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (user.\mbox{\hyperlink{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}{isTyping}}\ \&\&\ username\ !=\ \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}-\/>getCurrentChatPartner().username);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}{LastMessageRole}}:}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Обращаемся\ к\ кэшу\ истории\ чатов.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_mainWindow-\/>getChatCache().contains(username))\ \{}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ messages\ =\ m\_mainWindow-\/>getChatCache().value(username).messages;}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}-\/>getChatCache().contains(username))\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ messages\ =\ \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}-\/>getChatCache().value(username).messages;}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!messages.isEmpty())\ \{}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ messages.last().payload;\ \textcolor{comment}{//\ Возвращаем\ текст\ последнего\ сообщения.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ QVariant();\ \textcolor{comment}{//\ Возвращаем\ пустой\ QVariant,\ если\ истории\ нет.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}{UnreadCountRole}}:}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_mainWindow-\/>getUnreadCounts().value(username,\ 0);\ \textcolor{comment}{//\ 0,\ если\ для\ юзера\ нет\ записей.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\_mainWindow}}-\/>getUnreadCounts().value(username,\ 0);\ \textcolor{comment}{//\ 0,\ если\ для\ юзера\ нет\ записей.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00080}00080\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00081}00081\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{return}\ QVariant();}
@@ -66,14 +66,14 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ beginResetModel/endResetModel\ -\/\ это\ сигнал\ для\ представлений,\ что\ модель}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ будет\ полностью\ сброшена\ и\ им\ нужно\ очистить\ свое\ состояние.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00093}00093\ \ \ \ \ beginResetModel();}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00094}00094\ \ \ \ \ m\_contactUsernames.clear();}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00094}00094\ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.clear();}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00095}00095\ \ \ \ \ endResetModel();}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00096}00096\ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00097}00097\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00104}\mbox{\hyperlink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}{00104}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}{ContactListModel::refreshContact}}(\textcolor{keyword}{const}\ QString\ \&username)}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00105}00105\ \{}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ Находим\ индекс\ (номер\ строки)\ элемента\ по\ имени\ пользователя.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{int}\ row\ =\ m\_contactUsernames.indexOf(username);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{int}\ row\ =\ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.indexOf(username);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (row\ !=\ -\/1)\ \{}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ QModelIndex\ idx\ =\ index(row,\ 0);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Эмитируем\ сигнал\ dataChanged()\ для\ этого\ индекса.}}
@@ -85,7 +85,7 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00116}00116\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00125}\mbox{\hyperlink{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327}{00125}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327}{ContactListModel::updateContacts}}(\textcolor{keyword}{const}\ QStringList\ \&newUsernames)}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00126}00126\ \{}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{keyword}{const}\ QStringList\ oldUsernames\ =\ m\_contactUsernames;}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{keyword}{const}\ QStringList\ oldUsernames\ =\ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}};}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00128}00128\ }
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{comment}{//\ Используем\ QSet\ для\ сверхбыстрой\ проверки\ наличия\ элемента\ (O(1)\ в\ среднем).}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{const}\ QSet<QString>\ newUsernamesSet\ =\ QSet<QString>(newUsernames.begin(),\ newUsernames.end());}
@@ -98,7 +98,7 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!newUsernamesSet.contains(oldUsernames[i]))\ \{}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ старого\ юзера\ нет\ в\ новом\ списке,\ удаляем\ его.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ beginRemoveRows(QModelIndex(),\ i,\ i);\ \textcolor{comment}{//\ Уведомляем\ view,\ что\ строка\ 'i'\ будет\ удалена.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ m\_contactUsernames.removeAt(i);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.removeAt(i);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ endRemoveRows();\ \textcolor{comment}{//\ Завершаем\ операцию\ удаления.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00143}00143\ \ \ \ \ \}}
@@ -110,7 +110,7 @@
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Так\ как\ newUsernames\ уже\ отсортирован,\ мы\ просто\ вставляем\ его}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ на\ ту\ же\ позицию\ 'i'.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ beginInsertRows(QModelIndex(),\ i,\ i);\ \textcolor{comment}{//\ Уведомляем\ view,\ что\ в\ позицию\ 'i'\ будет\ вставлена\ строка.}}
-\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ m\_contactUsernames.insert(i,\ newUsernames[i]);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\_contactUsernames}}.insert(i,\ newUsernames[i]);}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ endInsertRows();\ \textcolor{comment}{//\ Завершаем\ операцию\ вставки.}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{contactlistmodel_8cpp_source_l00155}00155\ \ \ \ \ \}}

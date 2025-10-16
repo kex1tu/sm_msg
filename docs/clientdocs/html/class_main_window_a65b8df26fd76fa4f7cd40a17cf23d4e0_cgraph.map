@@ -1,0 +1,5 @@
+<map id="MainWindow::showContactRequestPrompt" name="MainWindow::showContactRequestPrompt">
+<area shape="rect" id="Node000001" title="Показывает пользователю модальный диалог с запросом на добавление в контакты." alt="" coords="5,5,236,48"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="284,13,444,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,24,268,24,268,29,236,29"/>
+</map>

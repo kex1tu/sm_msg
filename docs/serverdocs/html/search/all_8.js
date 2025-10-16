@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['chatcache_0',['ChatCache',['../struct_chat_cache.html',1,'']]],
-  ['chatmessage_1',['ChatMessage',['../struct_chat_message.html',1,'']]]
+  ['broadcastuserlist_0',['broadcastUserList',['../class_server.html#af0ce9e55fc6fba5b92cad5b6af934306',1,'Server']]]
 ];

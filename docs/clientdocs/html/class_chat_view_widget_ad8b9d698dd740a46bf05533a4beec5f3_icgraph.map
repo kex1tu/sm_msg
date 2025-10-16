@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::onMessageDoubleClicked" name="ChatViewWidget::onMessageDoubleClicked">
+<area shape="rect" id="Node000001" title="Слот, вызываемый по двойному клику на сообщении в списке." alt="" coords="269,5,463,48"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a37802f56820b58365a5269f4a27c177d" title="Слот, вызываемый по правому клику на списке сообщений." alt="" coords="5,5,221,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,29,221,29,221,24,253,24"/>
+</map>

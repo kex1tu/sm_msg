@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🎨_20визуальные_20улучшения_20и_20полировка_20ux_0',['2. 🎨 Визуальные улучшения и полировка UX',['../md_update.html#autotoc_md16',1,'']]]
+  ['→_20qlistview_20qabstractlistmodel_0',['1. 🏛️ Главное архитектурное изменение: &lt;span class=&quot;tt&quot;&gt;QListWidget&lt;/span&gt; → &lt;span class=&quot;tt&quot;&gt;QListView&lt;/span&gt; + &lt;span class=&quot;tt&quot;&gt;QAbstractListModel&lt;/span&gt;',['../md_update.html#autotoc_md14',1,'']]]
 ];

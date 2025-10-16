@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::onChatScrolled" name="ChatViewWidget::onChatScrolled">
+<area shape="rect" id="Node000001" title="Слот, отслеживающий прокрутку чата пользователем." alt="" coords="5,13,222,40"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#a7a2b8299c9c127f8711c0d4b610e6779" title="Обновляет видимость и позицию кнопки &quot;прокрутить вниз&quot; и счетчика." alt="" coords="270,5,469,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,24,254,24,254,29,222,29"/>
+</map>

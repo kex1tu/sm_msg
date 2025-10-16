@@ -1,0 +1,5 @@
+<map id="ChatViewWidget::formatLastSeen" name="ChatViewWidget::formatLastSeen">
+<area shape="rect" id="Node000001" title="Форматирует строку о последнем времени визита пользователя." alt="" coords="5,5,225,32"/>
+<area shape="rect" id="Node000002" href="$chatviewwidget_8cpp.html#a117ba5628709b3d2986bb292bc53b233" title="Вспомогательная функция для правильного склонения слов в зависимости от числа." alt="" coords="273,5,342,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,16,257,16,257,21,225,21"/>
+</map>

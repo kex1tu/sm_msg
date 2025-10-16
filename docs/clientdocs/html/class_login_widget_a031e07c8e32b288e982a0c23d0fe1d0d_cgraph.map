@@ -1,4 +1,10 @@
 <map id="LoginWidget::LoginWidget" name="LoginWidget::LoginWidget">
-<area shape="rect" id="Node000001" title="Конструктор." alt="" coords="5,29,179,56"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="62,30,57,21,61,11,73,5,92,3,113,5,124,12,121,16,111,10,92,8,74,10,64,15,62,20,67,28"/>
+<area shape="rect" id="Node000001" title="Конструктор." alt="" coords="5,80,179,107"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="52,81,44,71,49,61,66,55,92,53,121,56,136,63,134,68,120,61,92,59,67,61,53,65,50,71,56,78"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html#a26a89b81803a26640e7d1408930fc82b" title="Переключает QStackedWidget на страницу входа." alt="" coords="245,5,420,48"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="142,77,237,50,239,55,144,82"/>
+<area shape="rect" id="Node000003" href="$class_login_widget.html#aab6ba607ef094776934d904de24df476" title="Переключает QStackedWidget на страницу регистрации." alt="" coords="236,72,428,115"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="179,91,221,91,221,96,179,96"/>
+<area shape="rect" id="Node000004" href="$class_login_widget.html#af9f93ecd15b5faccb9d3607d3a8ad970" title="Слот, который вызывается при клике на иконку &quot;глаза&quot;. Переключает режим отображения пароля (QLineEdit..." alt="" coords="227,139,438,181"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="144,105,239,131,237,136,142,110"/>
 </map>

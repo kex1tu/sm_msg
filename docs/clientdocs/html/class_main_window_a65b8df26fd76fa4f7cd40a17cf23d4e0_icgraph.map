@@ -1,0 +1,13 @@
+<map id="MainWindow::showContactRequestPrompt" name="MainWindow::showContactRequestPrompt">
+<area shape="rect" id="Node000001" title="Показывает пользователю модальный диалог с запросом на добавление в контакты." alt="" coords="704,39,935,81"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a766d5b76c9358a7584957eed91ed96f5" title="Обрабатывает push&#45;уведомление от сервера о новом запросе на добавление в контакты." alt="" coords="461,5,656,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="688,46,657,42,657,37,689,41"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#aa3b5bca57796083ede701050469c1f45" title="Обрабатывает список ожидающих запросов в контакты, полученный при входе." alt="" coords="464,72,653,115"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="689,79,654,84,653,79,689,74"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5" title="Заполняет карту m_responseHandlers для обработки команд сервера." alt="" coords="233,39,413,81"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="446,45,414,50,413,45,445,40"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,47,185,73"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="217,63,185,63,185,57,217,57"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="135,34,121,28,95,25,71,27,58,32,55,37,61,45,57,48,50,38,54,28,70,22,95,20,123,23,137,29"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="448,80,413,75,414,70,449,75"/>
+</map>

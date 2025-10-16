@@ -1,0 +1,7 @@
+<map id="Server::onTcpReadyRead" name="Server::onTcpReadyRead">
+<area shape="rect" id="Node000001" title="Слот для чтения данных из TCP&#45;сокета." alt="" coords="402,5,573,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#a22bd355bf7fb7d2ee98cc963cc37bb29" title="Слот, обрабатывающий новое входящее TCP&#45;подключение." alt="" coords="159,5,354,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="387,21,355,21,355,16,387,16"/>
+<area shape="rect" id="Node000003" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,5,111,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,21,111,21,111,16,143,16"/>
+</map>

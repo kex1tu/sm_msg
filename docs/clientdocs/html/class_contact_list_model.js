@@ -12,5 +12,7 @@ var class_contact_list_model =
     [ "data", "class_contact_list_model.html#abbbf31d97220318d9e1d3cbf12e08620", null ],
     [ "refreshContact", "class_contact_list_model.html#a5d6cde2a5f067a1edef40dde0e789a26", null ],
     [ "rowCount", "class_contact_list_model.html#a6fcdf80cde0d5e46d3b2c694ea5977c6", null ],
-    [ "updateContacts", "class_contact_list_model.html#a4d65ea854724114c7e14049ea81c6327", null ]
+    [ "updateContacts", "class_contact_list_model.html#a4d65ea854724114c7e14049ea81c6327", null ],
+    [ "m_contactUsernames", "class_contact_list_model.html#aaa9087bd2e7c18695ef71f139910161e", null ],
+    [ "m_mainWindow", "class_contact_list_model.html#af53608f563689176867b66f2ca34acd4", null ]
 ];

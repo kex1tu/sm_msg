@@ -26,7 +26,7 @@ Collaboration diagram for Contact\+List\+Model\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=182pt]{class_contact_list_model__coll__graph}
+\includegraphics[width=350pt]{class_contact_list_model__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Public Types}
@@ -56,6 +56,13 @@ void \mbox{\hyperlink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26
 \begin{DoxyCompactList}\small\item\em Принудительно обновляет данные одного контакта. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_contact_list_model_a90195e311bda835eacf5abd5f4c5b0b2}{clear}} ()
 \begin{DoxyCompactList}\small\item\em Полностью очищает модель. Вызывается, например, при выходе из аккаунта. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_main_window}{Main\+Window}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_contact_list_model_af53608f563689176867b66f2ca34acd4}{m\+\_\+main\+Window}}
+\item 
+QString\+List \mbox{\hyperlink{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}{m\+\_\+contact\+Usernames}}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -285,6 +292,31 @@ void Contact\+List\+Model\+::update\+Contacts (\begin{DoxyParamCaption}\item[{co
 
 
 Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00125}{125}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{class_contact_list_model_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e}\index{ContactListModel@{ContactListModel}!m\_contactUsernames@{m\_contactUsernames}}
+\index{m\_contactUsernames@{m\_contactUsernames}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{m\_contactUsernames}{m\_contactUsernames}}
+{\footnotesize\ttfamily \label{class_contact_list_model_aaa9087bd2e7c18695ef71f139910161e} 
+QString\+List Contact\+List\+Model\+::m\+\_\+contact\+Usernames\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8h_source_l00111}{111}} of file \mbox{\hyperlink{contactlistmodel_8h_source}{contactlistmodel.\+h}}.
+
+\Hypertarget{class_contact_list_model_af53608f563689176867b66f2ca34acd4}\index{ContactListModel@{ContactListModel}!m\_mainWindow@{m\_mainWindow}}
+\index{m\_mainWindow@{m\_mainWindow}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{m\_mainWindow}{m\_mainWindow}}
+{\footnotesize\ttfamily \label{class_contact_list_model_af53608f563689176867b66f2ca34acd4} 
+\mbox{\hyperlink{class_main_window}{Main\+Window}}\texorpdfstring{$\ast$}{*} Contact\+List\+Model\+::m\+\_\+main\+Window\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8h_source_l00107}{107}} of file \mbox{\hyperlink{contactlistmodel_8h_source}{contactlistmodel.\+h}}.
 
 
 

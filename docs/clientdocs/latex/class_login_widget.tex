@@ -54,6 +54,22 @@ QString \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{u
 \begin{DoxyCompactList}\small\item\em Геттер для получения имени пользователя из поля ввода. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}{\texorpdfstring{$\sim$}{\string~}\+Login\+Widget}} ()
 \begin{DoxyCompactList}\small\item\em Деструктор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_login_widget_aab6ba607ef094776934d904de24df476}{ongo\+To\+Register\+Buttonclicked}} ()
+\begin{DoxyCompactList}\small\item\em Переключает QStacked\+Widget на страницу регистрации. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_widget_a26a89b81803a26640e7d1408930fc82b}{ongo\+To\+Login\+Buttonclicked}} ()
+\begin{DoxyCompactList}\small\item\em Переключает QStacked\+Widget на страницу входа. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970}{on\+Toggle\+Password\+Visibility\+Triggered}} ()
+\begin{DoxyCompactList}\small\item\em Слот, который вызывается при клике на иконку "{}глаза"{}. Переключает режим отображения пароля (QLine\+Edit\+::\+Password / QLine\+Edit\+::\+Normal). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ui\+::\+Login\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_login_widget_abdc627b3c95032b3a06d0e1e3ddbff77}{ui}}
+\item 
+QAction \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_login_widget_a80c7f0a6337804e04bea9d2ade867276}{m\+\_\+password\+Visibility\+Action}}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -109,7 +125,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=210pt]{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph}
+\includegraphics[width=350pt]{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -178,6 +194,58 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_login_widget_a26a89b81803a26640e7d1408930fc82b}\index{LoginWidget@{LoginWidget}!ongoToLoginButtonclicked@{ongoToLoginButtonclicked}}
+\index{ongoToLoginButtonclicked@{ongoToLoginButtonclicked}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{ongoToLoginButtonclicked}{ongoToLoginButtonclicked}}
+{\footnotesize\ttfamily \label{class_login_widget_a26a89b81803a26640e7d1408930fc82b} 
+void Login\+Widget\+::ongo\+To\+Login\+Buttonclicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Переключает QStacked\+Widget на страницу входа. 
+
+Переключает виджет на страницу входа. 
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00138}{138}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_a26a89b81803a26640e7d1408930fc82b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_login_widget_aab6ba607ef094776934d904de24df476}\index{LoginWidget@{LoginWidget}!ongoToRegisterButtonclicked@{ongoToRegisterButtonclicked}}
+\index{ongoToRegisterButtonclicked@{ongoToRegisterButtonclicked}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{ongoToRegisterButtonclicked}{ongoToRegisterButtonclicked}}
+{\footnotesize\ttfamily \label{class_login_widget_aab6ba607ef094776934d904de24df476} 
+void Login\+Widget\+::ongo\+To\+Register\+Buttonclicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Переключает QStacked\+Widget на страницу регистрации. 
+
+Переключает виджет на страницу регистрации. 
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00130}{130}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_aab6ba607ef094776934d904de24df476_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_login_widget_a0d64d935de92dff39242bc6887a7c989}\index{LoginWidget@{LoginWidget}!onRegistrationSuccess@{onRegistrationSuccess}}
 \index{onRegistrationSuccess@{onRegistrationSuccess}!LoginWidget@{LoginWidget}}
 \doxysubsubsection{\texorpdfstring{onRegistrationSuccess}{onRegistrationSuccess}}
@@ -194,6 +262,30 @@ void Login\+Widget\+::on\+Registration\+Success (\begin{DoxyParamCaption}{}{}\en
 
 Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00114}{114}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
 
+\Hypertarget{class_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970}\index{LoginWidget@{LoginWidget}!onTogglePasswordVisibilityTriggered@{onTogglePasswordVisibilityTriggered}}
+\index{onTogglePasswordVisibilityTriggered@{onTogglePasswordVisibilityTriggered}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{onTogglePasswordVisibilityTriggered}{onTogglePasswordVisibilityTriggered}}
+{\footnotesize\ttfamily \label{class_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970} 
+void Login\+Widget\+::on\+Toggle\+Password\+Visibility\+Triggered (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, который вызывается при клике на иконку "{}глаза"{}. Переключает режим отображения пароля (QLine\+Edit\+::\+Password / QLine\+Edit\+::\+Normal). 
+
+Слот, переключающий видимость пароля в поле ввода.
+
+Вызывается при клике на иконку "{}глаза"{} (m\+\_\+password\+Visibility\+Action). 
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00085}{85}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_af9f93ecd15b5faccb9d3607d3a8ad970_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5}\index{LoginWidget@{LoginWidget}!registerRequested@{registerRequested}}
 \index{registerRequested@{registerRequested}!LoginWidget@{LoginWidget}}
 \doxysubsubsection{\texorpdfstring{registerRequested}{registerRequested}}
@@ -219,6 +311,14 @@ Here is the call graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_login_widget_a9a3fa3187e640990165071b37ac33a57}\index{LoginWidget@{LoginWidget}!setUiEnabled@{setUiEnabled}}
@@ -276,6 +376,31 @@ Here is the caller graph for this function\+:
 \includegraphics[width=350pt]{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph}
 \end{center}
 \end{figure}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_login_widget_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_login_widget_a80c7f0a6337804e04bea9d2ade867276}\index{LoginWidget@{LoginWidget}!m\_passwordVisibilityAction@{m\_passwordVisibilityAction}}
+\index{m\_passwordVisibilityAction@{m\_passwordVisibilityAction}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{m\_passwordVisibilityAction}{m\_passwordVisibilityAction}}
+{\footnotesize\ttfamily \label{class_login_widget_a80c7f0a6337804e04bea9d2ade867276} 
+QAction\texorpdfstring{$\ast$}{*} Login\+Widget\+::m\+\_\+password\+Visibility\+Action\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8h_source_l00097}{97}} of file \mbox{\hyperlink{loginwidget_8h_source}{loginwidget.\+h}}.
+
+\Hypertarget{class_login_widget_abdc627b3c95032b3a06d0e1e3ddbff77}\index{LoginWidget@{LoginWidget}!ui@{ui}}
+\index{ui@{ui}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{ui}{ui}}
+{\footnotesize\ttfamily \label{class_login_widget_abdc627b3c95032b3a06d0e1e3ddbff77} 
+Ui\+::\+Login\+Widget\texorpdfstring{$\ast$}{*} Login\+Widget\+::ui\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8h_source_l00093}{93}} of file \mbox{\hyperlink{loginwidget_8h_source}{loginwidget.\+h}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

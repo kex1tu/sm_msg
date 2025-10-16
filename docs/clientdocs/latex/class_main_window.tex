@@ -26,7 +26,7 @@ Collaboration diagram for Main\+Window\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=160pt]{class_main_window__coll__graph}
+\includegraphics[width=350pt]{class_main_window__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Signals}
@@ -58,6 +58,206 @@ const QMap$<$ QString, int $>$ \& \mbox{\hyperlink{class_main_window_a3aaecdbb40
 \item 
 bool \mbox{\hyperlink{class_main_window_ade305265b2120df2489a5ebeb07ebbe1}{event\+Filter}} (QObject \texorpdfstring{$\ast$}{*}watched, QEvent \texorpdfstring{$\ast$}{*}event) override
 \begin{DoxyCompactList}\small\item\em Перехватывает события для других объектов. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{Indent}\textbf{ Слоты для обработки сетевых событий}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_a95c5779447a66e87120526d332aaef1f}{on\+Connected}} ()
+\begin{DoxyCompactList}\small\item\em Вызывается при успешном подключении к серверу. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa34b96b03c221e201ff14b278c59517a}{on\+Disconnected}} ()
+\begin{DoxyCompactList}\small\item\em Вызывается при разрыве соединения с сервером. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a209079830a37745e47076a762bab17d6}{on\+Ready\+Read}} ()
+\begin{DoxyCompactList}\small\item\em Главный слот для чтения и парсинга всех входящих данных от сервера. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Слоты для обработки действий пользователя в UI}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_aba71555e9040f34bc4340b222945870e}{on\+Login\+Requested}} (const QString \&username, const QString \&password)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на вход от {\ttfamily \doxylink{class_login_widget}{Login\+Widget}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ad6a7aa3a6c2bd377b0d35ff7edc8fa3f}{on\+Register\+Requested}} (const QString \&username, const QString \&display\+Name, const QString \&password)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на регистрацию от {\ttfamily \doxylink{class_login_widget}{Login\+Widget}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a2ac218f3cfa5f2326d1c893f6ceb8223}{on\+Send\+Message\+Requested}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на отправку сообщения из {\ttfamily \doxylink{class_chat_view_widget}{Chat\+View\+Widget}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a6464eacb64929cb4663868f04675a91b}{on\+User\+Selection\+Changed}} (const QModel\+Index \&current)
+\begin{DoxyCompactList}\small\item\em Слот, обрабатывающий выбор нового контакта (чата) в списке. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa0d0068618dad0ed01291740b7674282}{on\+Logout\+Button\+Clicked}} ()
+\begin{DoxyCompactList}\small\item\em Обрабатывает клик по кнопке "{}Выйти"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a32f67c6fedcbbe91ed87891d24033422}{on\+Add\+Contact\+Requested}} (const QString \&username)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос на добавление нового контакта. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ad00b5167fbd38434880f34e7fab6c281}{on\+Edit\+Message\+Requested}} (qint64 message\+Id, const QString \&old\+Text)
+\begin{DoxyCompactList}\small\item\em Слот, который активирует режим редактирования сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aef8cffa51d68c6257769f3b1452f2dbd}{on\+Delete\+Message\+Requested}} (qint64 message\+Id)
+\begin{DoxyCompactList}\small\item\em Слот, который отправляет на сервер запрос на удаление сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a147df600e1c050fafd17669f643c5372}{on\+Chat\+Search\+Triggered}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em (ЗАГОТОВКА) Обрабатывает запрос на поиск текста в истории текущего чата. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a7e51b5f573f15d8a8d209ffcec8db70c}{show\+Profile\+View}} ()
+\begin{DoxyCompactList}\small\item\em (ЗАГОТОВКА) Показывает профиль текущего собеседника. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a4750c97d91d2e5d5c7ddb6ea1231515c}{on\+Reply\+To\+Message}} (qint64 message\+Id)
+\begin{DoxyCompactList}\small\item\em Активирует режим ответа на сообщение. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a2cace9fd0bd82d43856f04fa48789057}{on\+Send\+Message\+Read\+Receipt}} (qint64 message\+Id)
+\begin{DoxyCompactList}\small\item\em Отправляет на сервер подтверждение о прочтении сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa0475ab4fcfcd40af2d014e35636af1e}{on\+Global\+Search\+Triggered}} ()
+\begin{DoxyCompactList}\small\item\em Инициирует отправку запроса на глобальный поиск пользователей. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ae2d91d0b981fb0055075c80dd1526208}{on\+Chat\+Scroll}} (int value)
+\begin{DoxyCompactList}\small\item\em Обрабатывает прокрутку списка сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a42177f0cc53e1305be01d88d356c9055}{on\+Typing\+Notification\+Fired}} ()
+\begin{DoxyCompactList}\small\item\em Отправляет на сервер уведомление о наборе текста ("{}печатает..."{}). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Внутренние слоты и обработчики}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_af6b85db32f5c582cadddfe01acad35a1}{handle\+Unread\+Counts}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера с первоначальным списком непрочитанных сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_afb46069aa39e10ec53248a3e73c07a5c}{update\+Message\+Status\+In\+Cache\+And\+Model}} (qint64 message\+Id, \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}} new\+Status)
+\begin{DoxyCompactList}\small\item\em Централизованно обновляет статус сообщения и в кэше, и в активной модели. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a57d325c95f6bd04fdb537545c9d9e23e}{process\+Visible\+Messages}} ()
+\begin{DoxyCompactList}\small\item\em Проверяет видимые сообщения и помечает их как прочитанные. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsubsection*{Private Member Functions}
+\begin{Indent}\textbf{ Методы инициализации и управления приложением}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_a04a5a1cd15e0d93a1cb1b626c1a3b4d0}{build\+Main\+UI}} ()
+\begin{DoxyCompactList}\small\item\em Собирает и компонует основной интерфейс из виджетов. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a95dc085bf70bd0c1ad05bd80f897fd1d}{setup\+Connections}} ()
+\begin{DoxyCompactList}\small\item\em Устанавливает все {\ttfamily connect} между объектами. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a572190dcc763eb2de4d6f065a943e6f5}{init\+Response\+Handlers}} ()
+\begin{DoxyCompactList}\small\item\em Заполняет карту {\ttfamily m\+\_\+response\+Handlers} для обработки команд сервера. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_abfedef9edae209df536e8c1c7cf0e7ae}{connect\+To\+Server}} ()
+\begin{DoxyCompactList}\small\item\em Инициирует подключение к серверу. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ab2038cc55b19e450d8c606323ed3c012}{reset\+Application\+State}} ()
+\begin{DoxyCompactList}\small\item\em Сбрасывает все кэши и состояние при выходе из аккаунта. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Вспомогательные приватные методы}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_a79248e5cffb9376a9c1909e992e10919}{send\+Json}} (const QJson\+Object \&json)
+\begin{DoxyCompactList}\small\item\em Сериализует JSON-\/объект и отправляет его на сервер по TCP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a23b91a72f3ec6566c686e0b46a45fa62}{update\+User\+List}} ()
+\begin{DoxyCompactList}\small\item\em Обновляет модель списка контактов на основе данных из {\ttfamily m\+\_\+user\+Cache}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a65b8df26fd76fa4f7cd40a17cf23d4e0}{show\+Contact\+Request\+Prompt}} (const QString \&from\+Username, const QString \&from\+Display\+Name)
+\begin{DoxyCompactList}\small\item\em Показывает пользователю модальный диалог с запросом на добавление в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a1350e459b9f889d66f70ac73e83c982e}{update\+Contact\+Item}} (const QString \&username)
+\begin{DoxyCompactList}\small\item\em Обновляет отображение одного конкретного контакта в списке. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{class_main_window_a94cfed712db5e35ec39e8c385760cb81}{format\+Last\+Seen}} (const \mbox{\hyperlink{struct_user}{User}} \&user)
+\item 
+void \mbox{\hyperlink{class_main_window_ab85ffaf32b6e163d9d9201d9ac9df434}{update\+Chat\+Header}} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsubsection*{Private Attributes}
+\begin{Indent}\textbf{ Члены класса\+: состояние, кэши и указатели на UI}\par
+\begin{DoxyCompactItemize}
+\item 
+Ui\+::\+Main\+Window \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a35466a70ed47252a0191168126a352a5}{ui}}
+\begin{DoxyCompactList}\small\item\em Указатель на UI-\/форму из Qt Designer. \end{DoxyCompactList}\item 
+QTcp\+Socket \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_af85cfe62c116f8d2f2021e5411b0356e}{socket}}
+\begin{DoxyCompactList}\small\item\em Главный сокет для связи с сервером. \end{DoxyCompactList}\item 
+quint32 \mbox{\hyperlink{class_main_window_ab83fb4a620db0f489f53e7afe9996e2b}{m\+\_\+next\+Block\+Size}}
+\begin{DoxyCompactList}\small\item\em Для корректного чтения TCP-\/пакетов переменной длины. \end{DoxyCompactList}\item 
+QMap$<$ QString, \mbox{\hyperlink{struct_chat_cache}{Chat\+Cache}} $>$ \mbox{\hyperlink{class_main_window_a0cc1b7200a43f34bee4dc411782745de}{m\+\_\+chat\+History\+Cache}}
+\begin{DoxyCompactList}\small\item\em Кэш истории сообщений для каждого чата. \end{DoxyCompactList}\item 
+QMap$<$ QString, \mbox{\hyperlink{struct_user}{User}} $>$ \mbox{\hyperlink{class_main_window_acee90b1781579b33c1e62fe6e520cd7f}{m\+\_\+user\+Cache}}
+\begin{DoxyCompactList}\small\item\em Кэш данных о пользователях (display\+Name, last\+Seen и т.\+д.). \end{DoxyCompactList}\item 
+QMap$<$ QString, int $>$ \mbox{\hyperlink{class_main_window_a397d79ddc62b2c544f639c0baec7358f}{m\+\_\+unread\+Counts}}
+\begin{DoxyCompactList}\small\item\em Кэш счетчиков непрочитанных сообщений. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{class_main_window_afe424f63899d6791131dd2eccdba84a6}{m\+\_\+current\+Username}}
+\begin{DoxyCompactList}\small\item\em Имя пользователя текущей сессии. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_user}{User}} \mbox{\hyperlink{class_main_window_ac28d34e21cfffd8dcaa2c4db5873f990}{m\+\_\+current\+Chat\+Partner}}
+\begin{DoxyCompactList}\small\item\em Данные собеседника в активном чате. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_main_window_a62b852c0b1338d47fdf018f28cad38b2}{m\+\_\+is\+Loading\+History}} = false
+\begin{DoxyCompactList}\small\item\em Флаг, предотвращающий повторные запросы истории при прокрутке. \end{DoxyCompactList}\item 
+qint64 \mbox{\hyperlink{class_main_window_a1b8f22fc0164f0159d201dd44664ff17}{m\+\_\+oldest\+Message\+Id}} = 0
+\begin{DoxyCompactList}\small\item\em ID самого старого сообщения в чате (для пагинации). \end{DoxyCompactList}\item 
+qint64 \mbox{\hyperlink{class_main_window_ae1c3360658b2ae3c14a2c85f016e2c90}{m\+\_\+editing\+Message\+Id}} = 0
+\begin{DoxyCompactList}\small\item\em ID сообщения, которое редактируется в данный момент. \end{DoxyCompactList}\item 
+qint64 \mbox{\hyperlink{class_main_window_ae83bb8e3a33906281d114cd00694aaba}{m\+\_\+reply\+To\+Message\+Id}} = 0
+\begin{DoxyCompactList}\small\item\em ID сообщения, на которое создается ответ. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_login_widget}{Login\+Widget}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_aab36e21e93d78f4fe20cad757126cc37}{m\+\_\+login\+Widget}}
+\item 
+QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a0720796a669c7a44e0833163124f04a4}{m\+\_\+main\+Chat\+Widget}}
+\item 
+QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a3bbd1e2bb2e4865cc588664e12badd7f}{m\+\_\+chat\+List\+Panel}}
+\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a3ae1e210b0c2d8ca5cc4c46d587f0c1a}{m\+\_\+search\+Line\+Edit}}
+\item 
+QList\+View \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a4ce76f51c225a7cfbfd759067aeb5805}{m\+\_\+user\+List\+View}}
+\item 
+\mbox{\hyperlink{class_contact_list_model}{Contact\+List\+Model}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a266085a6fa7c783b22ba87fd5ce7a12b}{m\+\_\+contact\+Model}}
+\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a21a481d753e83401f61230d7506f4fc1}{m\+\_\+logout\+Button}}
+\item 
+QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_ac2dcaab3e7b4f01b22b91aa0876f0cc7}{m\+\_\+right\+Side\+Container}}
+\item 
+QStacked\+Layout \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a32147ab972802ce83b62aad303e872e1}{m\+\_\+right\+Side\+Layout}}
+\item 
+QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a9bc1e0867a0eae6a4a355905eb8187aa}{m\+\_\+placeholder\+Widget}}
+\item 
+\mbox{\hyperlink{class_chat_view_widget}{Chat\+View\+Widget}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a228522e0dc042b9c3d6842c9f0961eaa}{m\+\_\+chat\+View\+Widget}}
+\item 
+Profile\+View\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a8b692db7115a2628cddd1dbf832285ca}{m\+\_\+profile\+View\+Widget}}
+\item 
+\mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a9a249abd819e35a3e0f487068240150d}{m\+\_\+chat\+Model}}
+\item 
+\mbox{\hyperlink{class_search_results_popup}{Search\+Results\+Popup}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_aca2ff7d8f0453d6c5a3cf8cf21762692}{m\+\_\+search\+Results\+Popup}}
+\item 
+QTimer \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a23e214c74908d8fa21da50e38b15647a}{m\+\_\+global\+Search\+Timer}}
+\item 
+QTimer \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_main_window_a201782106d364daffe3eae9b0e9a6b9e}{m\+\_\+typing\+Send\+Timer}}
+\item 
+QMap$<$ QString, QTimer \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_main_window_a328dc79249b83796b4d8b6315d5eb8a7}{m\+\_\+typing\+Receive\+Timers}}
+\item 
+bool \mbox{\hyperlink{class_main_window_af1b1ba8e1e314b366ab4254d13909b1b}{m\+\_\+is\+Chat\+Search\+Active}} = false
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsubsection*{Механизм обработки команд сервера (Command Pattern)}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_main_window_a3076164dc4f8c35048e3f10056095cbd}{Response\+Handler}} = void (Main\+Window\+::\texorpdfstring{$\ast$}{*})(const QJson\+Object\&)
+\begin{DoxyCompactList}\small\item\em Псевдоним для указателя на метод-\/обработчик команды. \end{DoxyCompactList}\item 
+QMap$<$ QString, \mbox{\hyperlink{class_main_window_a3076164dc4f8c35048e3f10056095cbd}{Response\+Handler}} $>$ \mbox{\hyperlink{class_main_window_a56e12bd8f1b93e1707a2786ae88bc8da}{m\+\_\+response\+Handlers}}
+\begin{DoxyCompactList}\small\item\em Карта, сопоставляющая строковую команду от сервера с методом-\/обработчиком. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aecd1e4cfd67e0b351ba865f7bbc2fd9a}{handle\+Login\+Success}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает успешный ответ на запрос входа. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a68f6951168b306cd1d41e025851f856d}{handle\+Login\+Failure}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает неудачный ответ на запрос входа. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a1d4de163a58c46f159fc5d6f12e496e8}{handle\+Register\+Success}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает успешный ответ на запрос регистрации. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ace7e3816c356c198f9c33f3da2cdd781}{handle\+Register\+Failure}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает неудачный ответ на запрос регистрации. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aee01af1e9adc9f85f463c75f1358ebd7}{handle\+Contact\+List}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера со списком контактов пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a6a0cf8e647234eb241152c028d8ad97a}{handle\+History\+Data}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера с первоначальным "{}пакетом"{} истории сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ac6fbcb3266b8fe5d0bdf799f1b94553b}{handle\+Old\+History\+Data}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера со старой порцией истории сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a76f3f2fc212fc0b0672b27d08c6421b3}{handle\+Private\+Message}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает входящие личные сообщения от сервера. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ad79a3233f6eb76c7c648cd2ed9146655}{handle\+User\+List}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает широковещательное сообщение от сервера со списком онлайн-\/пользователей. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a7f7bcdcbcb06f7e40dddf31c8325c188}{handle\+Message\+Delivered}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от сервера о том, что сообщение было доставлено. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a9c64b32f9c75d20e489b85c156a4acd1}{handle\+Message\+Read}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от сервера о том, что сообщение было прочитано. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a6ae06054225d0b76a79c34ccb75956f9}{handle\+Edit\+Message}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает команду от сервера об изменении текста сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a4b8f3494d69ec0bb36bf7a6e861a27c3}{handle\+Delete\+Message}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает команду от сервера об удалении сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ac5642d41449d563b78330be439183c08}{handle\+Search\+Results}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера с результатами глобального поиска пользователей. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a4dcb63751419ba260b64f9fd10068615}{handle\+Add\+Contact\+Success}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера об успешной отправке запроса на добавление в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aebfa94748ff949e5bed57a0f72339ada}{handle\+Add\+Contact\+Failure}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает ответ сервера об ошибке при отправке запроса на добавление в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a766d5b76c9358a7584957eed91ed96f5}{handle\+Incoming\+Contact\+Request}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает push-\/уведомление от сервера о новом запросе на добавление в контакты. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa3b5bca57796083ede701050469c1f45}{handle\+Pending\+Requests\+List}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает список ожидающих запросов в контакты, полученный при входе. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa1a49ceeb4183c52e0b929392fc832ea}{handle\+Logout\+Success}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает успешный ответ на запрос выхода из аккаунта. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a7e54a6f189934013a302d916aa8820ce}{handle\+Logout\+Failure}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает неудачный ответ на запрос выхода из аккаунта. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_adb145cf0f8bd193a23ca2f6b726f61e2}{handle\+Typing\+Response}} (const QJson\+Object \&response)
+\begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от сервера о том, что пользователь начал печатать. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -75,6 +275,25 @@ kex1tu
 \end{DoxyItemize}
 
 Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00044}{44}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+
+
+\label{doc-typedef-members}
+\Hypertarget{class_main_window_doc-typedef-members}
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_main_window_a3076164dc4f8c35048e3f10056095cbd}\index{MainWindow@{MainWindow}!ResponseHandler@{ResponseHandler}}
+\index{ResponseHandler@{ResponseHandler}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{ResponseHandler}{ResponseHandler}}
+{\footnotesize\ttfamily \label{class_main_window_a3076164dc4f8c35048e3f10056095cbd} 
+using \mbox{\hyperlink{class_main_window_a3076164dc4f8c35048e3f10056095cbd}{Main\+Window\+::\+Response\+Handler}} = void (Main\+Window\+::\texorpdfstring{$\ast$}{*})(const QJson\+Object\&)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Псевдоним для указателя на метод-\/обработчик команды. 
+
+Позволяет хранить указатели на методы в {\ttfamily QMap} для динамического вызова. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00149}{149}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
 
 
 
@@ -124,7 +343,7 @@ Here is the call graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=215pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_cgraph}
+\includegraphics[height=550pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:
@@ -132,7 +351,7 @@ Here is the caller graph for this function\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_icgraph}
+\includegraphics[width=215pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}\index{MainWindow@{MainWindow}!````~MainWindow@{\texorpdfstring{$\sim$}{\string~}MainWindow}}
@@ -154,6 +373,54 @@ Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l02077}{2077}} of fil
 \label{doc-func-members}
 \Hypertarget{class_main_window_doc-func-members}
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_main_window_a04a5a1cd15e0d93a1cb1b626c1a3b4d0}\index{MainWindow@{MainWindow}!buildMainUI@{buildMainUI}}
+\index{buildMainUI@{buildMainUI}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{buildMainUI()}{buildMainUI()}}
+{\footnotesize\ttfamily \label{class_main_window_a04a5a1cd15e0d93a1cb1b626c1a3b4d0} 
+void Main\+Window\+::build\+Main\+UI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Собирает и компонует основной интерфейс из виджетов. 
+
+Программно собирает и компонует основной пользовательский интерфейс чата.
+
+Этот метод отвечает за создание и настройку всех виджетов, составляющих главный экран приложения (список контактов, панель чата), и их размещение с помощью менеджеров компоновки. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00117}{117}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a04a5a1cd15e0d93a1cb1b626c1a3b4d0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_abfedef9edae209df536e8c1c7cf0e7ae}\index{MainWindow@{MainWindow}!connectToServer@{connectToServer}}
+\index{connectToServer@{connectToServer}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{connectToServer()}{connectToServer()}}
+{\footnotesize\ttfamily \label{class_main_window_abfedef9edae209df536e8c1c7cf0e7ae} 
+void Main\+Window\+::connect\+To\+Server (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Инициирует подключение к серверу. 
+
+Инициирует подключение к TCP-\/серверу.
+
+Этот метод использует жестко заданные адрес и порт сервера и вызывает асинхронный метод {\ttfamily connect\+To\+Host}. Результат подключения будет обработан в слотах {\ttfamily \doxylink{class_main_window_a95c5779447a66e87120526d332aaef1f}{on\+Connected()}} или {\ttfamily on\+Error\+Occurred()}. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00458}{458}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_abfedef9edae209df536e8c1c7cf0e7ae_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_main_window_ade305265b2120df2489a5ebeb07ebbe1}\index{MainWindow@{MainWindow}!eventFilter@{eventFilter}}
 \index{eventFilter@{eventFilter}!MainWindow@{MainWindow}}
 \doxysubsubsection{\texorpdfstring{eventFilter()}{eventFilter()}}
@@ -189,6 +456,12 @@ bool {\ttfamily true} если событие было обработано, и�
 
 
 Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01829}{1829}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_a94cfed712db5e35ec39e8c385760cb81}\index{MainWindow@{MainWindow}!formatLastSeen@{formatLastSeen}}
+\index{formatLastSeen@{formatLastSeen}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{formatLastSeen()}{formatLastSeen()}}
+{\footnotesize\ttfamily \label{class_main_window_a94cfed712db5e35ec39e8c385760cb81} 
+QString Main\+Window\+::format\+Last\+Seen (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_user}{User}} \&}]{user}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 \Hypertarget{class_main_window_a029385b11f2570b8937c70f708c95e14}\index{MainWindow@{MainWindow}!getChatCache@{getChatCache}}
 \index{getChatCache@{getChatCache}!MainWindow@{MainWindow}}
@@ -263,6 +536,780 @@ Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01714}{1714}} of fil
 
 Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01692}{1692}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
 
+\Hypertarget{class_main_window_aebfa94748ff949e5bed57a0f72339ada}\index{MainWindow@{MainWindow}!handleAddContactFailure@{handleAddContactFailure}}
+\index{handleAddContactFailure@{handleAddContactFailure}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleAddContactFailure()}{handleAddContactFailure()}}
+{\footnotesize\ttfamily \label{class_main_window_aebfa94748ff949e5bed57a0f72339ada} 
+void Main\+Window\+::handle\+Add\+Contact\+Failure (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера об ошибке при отправке запроса на добавление в контакты. 
+
+Этот слот-\/обработчик вызывается, если сервер по какой-\/либо причине не смог обработать запрос на добавление в контакты. Причины могут быть разными\+:
+\begin{DoxyItemize}
+\item Пользователь уже находится в вашем списке контактов.
+\item Вы уже отправили этому пользователю запрос, и он ожидает ответа.
+\item Пользователя с таким {\ttfamily username} не существует (хотя это маловероятно при выборе из поиска).
+\item Произошла ошибка на стороне базы данных сервера.
+\end{DoxyItemize}
+
+Задача этого метода — предоставить пользователю четкую и понятную обратную связь о том, почему его действие не было выполнено. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера. Обязательно должен содержать поле {\ttfamily reason} с текстом, объясняющим причину ошибки. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01277}{1277}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aebfa94748ff949e5bed57a0f72339ada_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a4dcb63751419ba260b64f9fd10068615}\index{MainWindow@{MainWindow}!handleAddContactSuccess@{handleAddContactSuccess}}
+\index{handleAddContactSuccess@{handleAddContactSuccess}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleAddContactSuccess()}{handleAddContactSuccess()}}
+{\footnotesize\ttfamily \label{class_main_window_a4dcb63751419ba260b64f9fd10068615} 
+void Main\+Window\+::handle\+Add\+Contact\+Success (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера об успешной отправке запроса на добавление в контакты. 
+
+Этот слот-\/обработчик является конечной точкой для сценария "{}Пользователь -\/$>$ Найти -\/$>$ Выбрать -\/$>$ Подтвердить добавление"{}. Он вызывается, когда сервер подтверждает, что запрос на добавление в друзья был успешно создан и либо доставлен другому пользователю онлайн, либо сохранен для доставки, когда тот войдет в сеть.
+
+Функция выполняет единственную, но важную задачу\+: информирует пользователя об успехе. Это обеспечивает положительную обратную связь (positive feedback), давая пользователю понять, что его действие было успешно обработано системой. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера. Ожидается, что он будет содержать поле {\ttfamily reason} с текстовым сообщением для пользователя, например, "{}Запрос на добавление в контакты пользователю \textquotesingle{}\+John\+Doe\textquotesingle{} успешно отправлен."{} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01255}{1255}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a4dcb63751419ba260b64f9fd10068615_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aee01af1e9adc9f85f463c75f1358ebd7}\index{MainWindow@{MainWindow}!handleContactList@{handleContactList}}
+\index{handleContactList@{handleContactList}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleContactList()}{handleContactList()}}
+{\footnotesize\ttfamily \label{class_main_window_aee01af1e9adc9f85f463c75f1358ebd7} 
+void Main\+Window\+::handle\+Contact\+List (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера со списком контактов пользователя. 
+
+Этот метод вызывается после успешного входа. Он получает от сервера список всех подтвержденных контактов текущего пользователя, заполняет локальный кэш {\ttfamily m\+\_\+user\+Cache} этими данными и затем запускает обновление UI списка контактов.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий массив "{}users"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00789}{789}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aee01af1e9adc9f85f463c75f1358ebd7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aee01af1e9adc9f85f463c75f1358ebd7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a4b8f3494d69ec0bb36bf7a6e861a27c3}\index{MainWindow@{MainWindow}!handleDeleteMessage@{handleDeleteMessage}}
+\index{handleDeleteMessage@{handleDeleteMessage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleDeleteMessage()}{handleDeleteMessage()}}
+{\footnotesize\ttfamily \label{class_main_window_a4b8f3494d69ec0bb36bf7a6e861a27c3} 
+void Main\+Window\+::handle\+Delete\+Message (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает команду от сервера об удалении сообщения. 
+
+Этот метод вызывается, когда кто-\/то (мы с другого устройства или наш собеседник) удалил сообщение. Он удаляет сообщение из кэша и, если необходимо, из видимой на экране модели чата. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий "{}id"{} удаленного сообщения и "{}with\+\_\+user"{} (имя собеседника в этом чате). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01142}{1142}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a4b8f3494d69ec0bb36bf7a6e861a27c3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a4b8f3494d69ec0bb36bf7a6e861a27c3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a6ae06054225d0b76a79c34ccb75956f9}\index{MainWindow@{MainWindow}!handleEditMessage@{handleEditMessage}}
+\index{handleEditMessage@{handleEditMessage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleEditMessage()}{handleEditMessage()}}
+{\footnotesize\ttfamily \label{class_main_window_a6ae06054225d0b76a79c34ccb75956f9} 
+void Main\+Window\+::handle\+Edit\+Message (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает команду от сервера об изменении текста сообщения. 
+
+Этот метод вызывается, когда кто-\/то (мы с другого устройства или наш собеседник) отредактировал сообщение в одном из чатов.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий "{}id"{} сообщения, "{}payload"{} (новый текст) и "{}with\+\_\+user"{} (имя собеседника, в чате с которым произошло изменение). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01098}{1098}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6ae06054225d0b76a79c34ccb75956f9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6ae06054225d0b76a79c34ccb75956f9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a6a0cf8e647234eb241152c028d8ad97a}\index{MainWindow@{MainWindow}!handleHistoryData@{handleHistoryData}}
+\index{handleHistoryData@{handleHistoryData}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleHistoryData()}{handleHistoryData()}}
+{\footnotesize\ttfamily \label{class_main_window_a6a0cf8e647234eb241152c028d8ad97a} 
+void Main\+Window\+::handle\+History\+Data (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера с первоначальным "{}пакетом"{} истории сообщений. 
+
+Этот метод вызывается, когда пользователь открывает чат, для которого еще нет данных в локальном кэше. Он получает от сервера последний "{}срез"{} сообщений (например, последние 20), обрабатывает их, заполняет {\ttfamily \doxylink{class_chat_message_model}{Chat\+Message\+Model}} для отображения и сохраняет их в глобальный кэш {\ttfamily m\+\_\+chat\+History\+Cache} для последующего быстрого доступа.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий массив "{}history"{} и поле "{}with\+\_\+user"{}, указывающее, для какого чата эта история. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00834}{834}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6a0cf8e647234eb241152c028d8ad97a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6a0cf8e647234eb241152c028d8ad97a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a766d5b76c9358a7584957eed91ed96f5}\index{MainWindow@{MainWindow}!handleIncomingContactRequest@{handleIncomingContactRequest}}
+\index{handleIncomingContactRequest@{handleIncomingContactRequest}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleIncomingContactRequest()}{handleIncomingContactRequest()}}
+{\footnotesize\ttfamily \label{class_main_window_a766d5b76c9358a7584957eed91ed96f5} 
+void Main\+Window\+::handle\+Incoming\+Contact\+Request (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает push-\/уведомление от сервера о новом запросе на добавление в контакты. 
+
+Этот метод вызывается в реальном времени, когда другой пользователь отправляет {\itshape вам} запрос на добавление в друзья. Его задача — немедленно уведомить вас и предоставить возможность принять или отклонить этот запрос.
+
+Он не выполняет логику сам, а делегирует показ диалогового окна вспомогательному приватному методу {\ttfamily show\+Contact\+Request\+Prompt}. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий\+:
+\begin{DoxyItemize}
+\item {\ttfamily from\+Username}\+: Уникальное имя пользователя, отправившего запрос.
+\item {\ttfamily from\+Displayname}\+: Его отображаемое имя. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01297}{1297}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a766d5b76c9358a7584957eed91ed96f5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a766d5b76c9358a7584957eed91ed96f5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a68f6951168b306cd1d41e025851f856d}\index{MainWindow@{MainWindow}!handleLoginFailure@{handleLoginFailure}}
+\index{handleLoginFailure@{handleLoginFailure}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleLoginFailure()}{handleLoginFailure()}}
+{\footnotesize\ttfamily \label{class_main_window_a68f6951168b306cd1d41e025851f856d} 
+void Main\+Window\+::handle\+Login\+Failure (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает неудачный ответ на запрос входа. 
+
+Этот слот-\/обработчик вызывается, когда сервер отклоняет попытку входа (например, из-\/за неверного пароля или несуществующего пользователя). Он просто показывает пользователю диалоговое окно с причиной ошибки.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий поле "{}reason"{} с текстом ошибки. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00737}{737}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a68f6951168b306cd1d41e025851f856d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aecd1e4cfd67e0b351ba865f7bbc2fd9a}\index{MainWindow@{MainWindow}!handleLoginSuccess@{handleLoginSuccess}}
+\index{handleLoginSuccess@{handleLoginSuccess}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleLoginSuccess()}{handleLoginSuccess()}}
+{\footnotesize\ttfamily \label{class_main_window_aecd1e4cfd67e0b351ba865f7bbc2fd9a} 
+void Main\+Window\+::handle\+Login\+Success (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает успешный ответ на запрос входа. 
+
+Этот слот-\/обработчик вызывается, когда сервер подтверждает, что логин и пароль верны. Он выполняет все необходимые действия для перехода из состояния "{}не аутентифицирован"{} в состояние "{}в чате"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера (в данном случае не используется, так как сам факт вызова этого метода уже означает успех). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00675}{675}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aecd1e4cfd67e0b351ba865f7bbc2fd9a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a7e54a6f189934013a302d916aa8820ce}\index{MainWindow@{MainWindow}!handleLogoutFailure@{handleLogoutFailure}}
+\index{handleLogoutFailure@{handleLogoutFailure}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleLogoutFailure()}{handleLogoutFailure()}}
+{\footnotesize\ttfamily \label{class_main_window_a7e54a6f189934013a302d916aa8820ce} 
+void Main\+Window\+::handle\+Logout\+Failure (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает неудачный ответ на запрос выхода из аккаунта. 
+
+Этот слот-\/обработчик вызывается в редких случаях, когда сервер по какой-\/то причине не смог корректно завершить сессию пользователя. Он просто информирует пользователя об ошибке. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий поле {\ttfamily reason} с текстом ошибки. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01402}{1402}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a7e54a6f189934013a302d916aa8820ce_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aa1a49ceeb4183c52e0b929392fc832ea}\index{MainWindow@{MainWindow}!handleLogoutSuccess@{handleLogoutSuccess}}
+\index{handleLogoutSuccess@{handleLogoutSuccess}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleLogoutSuccess()}{handleLogoutSuccess()}}
+{\footnotesize\ttfamily \label{class_main_window_aa1a49ceeb4183c52e0b929392fc832ea} 
+void Main\+Window\+::handle\+Logout\+Success (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает успешный ответ на запрос выхода из аккаунта. 
+
+Этот метод вызывается, когда сервер подтверждает, что сессия пользователя была успешно завершена. Главная задача этого метода — полностью сбросить состояние клиентского приложения, вернув его к исходному виду (экрану входа). 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера (в данном случае не используется). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01344}{1344}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa1a49ceeb4183c52e0b929392fc832ea_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa1a49ceeb4183c52e0b929392fc832ea_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a7f7bcdcbcb06f7e40dddf31c8325c188}\index{MainWindow@{MainWindow}!handleMessageDelivered@{handleMessageDelivered}}
+\index{handleMessageDelivered@{handleMessageDelivered}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleMessageDelivered()}{handleMessageDelivered()}}
+{\footnotesize\ttfamily \label{class_main_window_a7f7bcdcbcb06f7e40dddf31c8325c188} 
+void Main\+Window\+::handle\+Message\+Delivered (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает уведомление от сервера о том, что сообщение было доставлено. 
+
+Этот метод вызывается, когда получатель нашего сообщения получает его (но еще не обязательно прочитал). Это означает, что наше исходящее сообщение должно сменить статус с {\ttfamily Sent} на {\ttfamily Delivered}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий "{}id"{} доставленного сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01060}{1060}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a7f7bcdcbcb06f7e40dddf31c8325c188_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a7f7bcdcbcb06f7e40dddf31c8325c188_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a9c64b32f9c75d20e489b85c156a4acd1}\index{MainWindow@{MainWindow}!handleMessageRead@{handleMessageRead}}
+\index{handleMessageRead@{handleMessageRead}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleMessageRead()}{handleMessageRead()}}
+{\footnotesize\ttfamily \label{class_main_window_a9c64b32f9c75d20e489b85c156a4acd1} 
+void Main\+Window\+::handle\+Message\+Read (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает уведомление от сервера о том, что сообщение было прочитано. 
+
+Этот метод вызывается, когда получатель нашего сообщения его прочитал (т.\+е. оно появилось у него на экране). Наше исходящее сообщение должно сменить свой статус на {\ttfamily Read}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий "{}id"{} прочитанного сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01080}{1080}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a9c64b32f9c75d20e489b85c156a4acd1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a9c64b32f9c75d20e489b85c156a4acd1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ac6fbcb3266b8fe5d0bdf799f1b94553b}\index{MainWindow@{MainWindow}!handleOldHistoryData@{handleOldHistoryData}}
+\index{handleOldHistoryData@{handleOldHistoryData}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleOldHistoryData()}{handleOldHistoryData()}}
+{\footnotesize\ttfamily \label{class_main_window_ac6fbcb3266b8fe5d0bdf799f1b94553b} 
+void Main\+Window\+::handle\+Old\+History\+Data (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера со старой порцией истории сообщений. 
+
+Этот метод вызывается в результате запроса, инициированного в {\ttfamily on\+Chat\+Scroll}, когда пользователь докрутил список до самого верха. Он получает предыдущую "{}порцию"{} сообщений, добавляет их в начало модели и кэша, а затем хитро восстанавливает позицию скроллбара так, чтобы пользователь остался на том же месте, где был, и не было "{}прыжка"{}. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий массив "{}history"{} и поле "{}with\+\_\+user"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01884}{1884}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ac6fbcb3266b8fe5d0bdf799f1b94553b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ac6fbcb3266b8fe5d0bdf799f1b94553b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aa3b5bca57796083ede701050469c1f45}\index{MainWindow@{MainWindow}!handlePendingRequestsList@{handlePendingRequestsList}}
+\index{handlePendingRequestsList@{handlePendingRequestsList}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handlePendingRequestsList()}{handlePendingRequestsList()}}
+{\footnotesize\ttfamily \label{class_main_window_aa3b5bca57796083ede701050469c1f45} 
+void Main\+Window\+::handle\+Pending\+Requests\+List (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает список ожидающих запросов в контакты, полученный при входе. 
+
+Этот метод вызывается один раз после успешной аутентификации. Он обрабатывает сценарий, когда вам отправили запросы в друзья, пока вы были офлайн. Сервер присылает список всех таких "{}висящих"{} запросов.
+
+Метод итерируется по списку и для каждого запроса показывает диалог подтверждения, позволяя пользователю последовательно разобрать все накопившиеся уведомления. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий массив {\ttfamily requests}, где каждый элемент — это объект с {\ttfamily from\+Username} и {\ttfamily from\+Displayname}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01319}{1319}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa3b5bca57796083ede701050469c1f45_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa3b5bca57796083ede701050469c1f45_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a76f3f2fc212fc0b0672b27d08c6421b3}\index{MainWindow@{MainWindow}!handlePrivateMessage@{handlePrivateMessage}}
+\index{handlePrivateMessage@{handlePrivateMessage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handlePrivateMessage()}{handlePrivateMessage()}}
+{\footnotesize\ttfamily \label{class_main_window_a76f3f2fc212fc0b0672b27d08c6421b3} 
+void Main\+Window\+::handle\+Private\+Message (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает входящие личные сообщения от сервера. 
+
+Этот метод является одним из самых важных, так как он обрабатывает как "{}echo"{}-\/ответы на наши собственные отправленные сообщения, так и новые сообщения от других пользователей.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, представляющий сообщение. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00901}{901}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a76f3f2fc212fc0b0672b27d08c6421b3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a76f3f2fc212fc0b0672b27d08c6421b3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ace7e3816c356c198f9c33f3da2cdd781}\index{MainWindow@{MainWindow}!handleRegisterFailure@{handleRegisterFailure}}
+\index{handleRegisterFailure@{handleRegisterFailure}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleRegisterFailure()}{handleRegisterFailure()}}
+{\footnotesize\ttfamily \label{class_main_window_ace7e3816c356c198f9c33f3da2cdd781} 
+void Main\+Window\+::handle\+Register\+Failure (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает неудачный ответ на запрос регистрации. 
+
+Этот слот-\/обработчик вызывается, когда сервер отклоняет попытку регистрации (например, потому что имя пользователя уже занято). Он показывает пользователю диалоговое окно с причиной ошибки.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий поле "{}reason"{} с текстом ошибки. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00773}{773}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ace7e3816c356c198f9c33f3da2cdd781_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a1d4de163a58c46f159fc5d6f12e496e8}\index{MainWindow@{MainWindow}!handleRegisterSuccess@{handleRegisterSuccess}}
+\index{handleRegisterSuccess@{handleRegisterSuccess}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleRegisterSuccess()}{handleRegisterSuccess()}}
+{\footnotesize\ttfamily \label{class_main_window_a1d4de163a58c46f159fc5d6f12e496e8} 
+void Main\+Window\+::handle\+Register\+Success (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает успешный ответ на запрос регистрации. 
+
+Этот слот-\/обработчик вызывается, когда сервер подтверждает, что новый пользователь был успешно создан. Он не выполняет никаких действий сам, а делегирует эту задачу {\ttfamily \doxylink{class_login_widget}{Login\+Widget}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера (в данном случае не используется). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00753}{753}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a1d4de163a58c46f159fc5d6f12e496e8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ac5642d41449d563b78330be439183c08}\index{MainWindow@{MainWindow}!handleSearchResults@{handleSearchResults}}
+\index{handleSearchResults@{handleSearchResults}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleSearchResults()}{handleSearchResults()}}
+{\footnotesize\ttfamily \label{class_main_window_ac5642d41449d563b78330be439183c08} 
+void Main\+Window\+::handle\+Search\+Results (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает ответ сервера с результатами глобального поиска пользователей. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий массив "{}users"{} с найденными пользователями. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01222}{1222}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ac5642d41449d563b78330be439183c08_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_adb145cf0f8bd193a23ca2f6b726f61e2}\index{MainWindow@{MainWindow}!handleTypingResponse@{handleTypingResponse}}
+\index{handleTypingResponse@{handleTypingResponse}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleTypingResponse()}{handleTypingResponse()}}
+{\footnotesize\ttfamily \label{class_main_window_adb145cf0f8bd193a23ca2f6b726f61e2} 
+void Main\+Window\+::handle\+Typing\+Response (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает уведомление от сервера о том, что пользователь начал печатать. 
+
+Этот метод вызывается, когда собеседник начинает вводить текст. Он обновляет состояние пользователя в кэше ({\ttfamily is\+Typing = true}) и запускает таймер, который по истечении времени сбросит этот статус. Также он немедленно обновляет UI, чтобы показать "{}печатает..."{} либо в заголовке текущего чата, либо в списке контактов. 
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий {\ttfamily from\+User} -\/ имя пользователя, который печатает. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l02002}{2002}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_adb145cf0f8bd193a23ca2f6b726f61e2_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_af6b85db32f5c582cadddfe01acad35a1}\index{MainWindow@{MainWindow}!handleUnreadCounts@{handleUnreadCounts}}
+\index{handleUnreadCounts@{handleUnreadCounts}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleUnreadCounts}{handleUnreadCounts}}
+{\footnotesize\ttfamily \label{class_main_window_af6b85db32f5c582cadddfe01acad35a1} 
+void Main\+Window\+::handle\+Unread\+Counts (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает ответ сервера с первоначальным списком непрочитанных сообщений. 
+
+Этот метод вызывается один раз после успешного входа. Сервер присылает список всех чатов, в которых для текущего пользователя есть непрочитанные сообщения, и их количество.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект ответа от сервера, содержащий массив "{}counts"{}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00702}{702}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_af6b85db32f5c582cadddfe01acad35a1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_af6b85db32f5c582cadddfe01acad35a1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ad79a3233f6eb76c7c648cd2ed9146655}\index{MainWindow@{MainWindow}!handleUserList@{handleUserList}}
+\index{handleUserList@{handleUserList}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{handleUserList()}{handleUserList()}}
+{\footnotesize\ttfamily \label{class_main_window_ad79a3233f6eb76c7c648cd2ed9146655} 
+void Main\+Window\+::handle\+User\+List (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{response}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обрабатывает широковещательное сообщение от сервера со списком онлайн-\/пользователей. 
+
+Этот метод вызывается каждый раз, когда кто-\/то из пользователей подключается к серверу или отключается от него. Он получает актуальный список {\ttfamily username}\textquotesingle{}ов тех, кто в сети, и обновляет флаг {\ttfamily is\+Online} в локальном кэше {\ttfamily m\+\_\+user\+Cache}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & JSON-\/объект, содержащий массив строк "{}users"{} с именами онлайн-\/пользователей. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01025}{1025}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ad79a3233f6eb76c7c648cd2ed9146655_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ad79a3233f6eb76c7c648cd2ed9146655_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a572190dcc763eb2de4d6f065a943e6f5}\index{MainWindow@{MainWindow}!initResponseHandlers@{initResponseHandlers}}
+\index{initResponseHandlers@{initResponseHandlers}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{initResponseHandlers()}{initResponseHandlers()}}
+{\footnotesize\ttfamily \label{class_main_window_a572190dcc763eb2de4d6f065a943e6f5} 
+void Main\+Window\+::init\+Response\+Handlers (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Заполняет карту {\ttfamily m\+\_\+response\+Handlers} для обработки команд сервера. 
+
+Инициализирует карту обработчиков команд от сервера.
+
+Этот метод реализует паттерн "{}Команда"{} (Command Pattern). Он создает сопоставление между строковым идентификатором команды (ключ в JSON "{}type"{}) и указателем на метод-\/обработчик внутри класса {\ttfamily \doxylink{class_main_window}{Main\+Window}}.
+
+Это позволяет методу {\ttfamily \doxylink{class_main_window_a209079830a37745e47076a762bab17d6}{on\+Ready\+Read()}} динамически вызывать нужную логику, избегая громоздких конструкций {\ttfamily if-\/else} или {\ttfamily switch}, и делает добавление новых команд очень простым\+: достаточно добавить одну строку в этот метод и реализовать соответствующий метод-\/обработчик. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00629}{629}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a572190dcc763eb2de4d6f065a943e6f5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a572190dcc763eb2de4d6f065a943e6f5_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901}\index{MainWindow@{MainWindow}!newMessageForCurrentChat@{newMessageForCurrentChat}}
 \index{newMessageForCurrentChat@{newMessageForCurrentChat}!MainWindow@{MainWindow}}
 \doxysubsubsection{\texorpdfstring{newMessageForCurrentChat}{newMessageForCurrentChat}}
@@ -273,14 +1320,1190 @@ void Main\+Window\+::new\+Message\+For\+Current\+Chat (\begin{DoxyParamCaption}{
 
 Сигнал, который отправляется в \doxylink{class_chat_view_widget}{Chat\+View\+Widget}. 
 
-Эмитируется, когда приходит новое сообщение для текущего чата, но пользователь прокрутил историю вверх и не видит его. Запускает показ кнопки "{}прокрутить вниз"{} и счетчика. Here is the call graph for this function\+:
+Эмитируется, когда приходит новое сообщение для текущего чата, но пользователь прокрутил историю вверх и не видит его. Запускает показ кнопки "{}прокрутить вниз"{} и счетчика. Here is the caller graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901_cgraph}
+\includegraphics[width=350pt]{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{class_main_window_a32f67c6fedcbbe91ed87891d24033422}\index{MainWindow@{MainWindow}!onAddContactRequested@{onAddContactRequested}}
+\index{onAddContactRequested@{onAddContactRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onAddContactRequested}{onAddContactRequested}}
+{\footnotesize\ttfamily \label{class_main_window_a32f67c6fedcbbe91ed87891d24033422} 
+void Main\+Window\+::on\+Add\+Contact\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает запрос на добавление нового контакта. 
+
+Этот слот вызывается, когда пользователь выбирает кого-\/то из всплывающего списка результатов поиска ({\ttfamily \doxylink{class_search_results_popup}{Search\+Results\+Popup}}). Он показывает диалог подтверждения и, в случае согласия, отправляет запрос на добавление контакта на сервер.
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя, которого нужно добавить в контакты. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00358}{358}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a32f67c6fedcbbe91ed87891d24033422_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a32f67c6fedcbbe91ed87891d24033422_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ae2d91d0b981fb0055075c80dd1526208}\index{MainWindow@{MainWindow}!onChatScroll@{onChatScroll}}
+\index{onChatScroll@{onChatScroll}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onChatScroll}{onChatScroll}}
+{\footnotesize\ttfamily \label{class_main_window_ae2d91d0b981fb0055075c80dd1526208} 
+void Main\+Window\+::on\+Chat\+Scroll (\begin{DoxyParamCaption}\item[{int}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает прокрутку списка сообщений. 
+
+Основная задача этого слота — определить, когда пользователь достиг самого верха истории, и инициировать подгрузку более старых сообщений (пагинацию). 
+\begin{DoxyParams}{Parameters}
+{\em value} & Текущее значение позиции скроллбара (0 -\/ в самом верху). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01851}{1851}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ae2d91d0b981fb0055075c80dd1526208_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ae2d91d0b981fb0055075c80dd1526208_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a147df600e1c050fafd17669f643c5372}\index{MainWindow@{MainWindow}!onChatSearchTriggered@{onChatSearchTriggered}}
+\index{onChatSearchTriggered@{onChatSearchTriggered}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onChatSearchTriggered}{onChatSearchTriggered}}
+{\footnotesize\ttfamily \label{class_main_window_a147df600e1c050fafd17669f643c5372} 
+void Main\+Window\+::on\+Chat\+Search\+Triggered (\begin{DoxyParamCaption}\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+(ЗАГОТОВКА) Обрабатывает запрос на поиск текста в истории текущего чата. 
+
+Этот слот предназначен для активации фильтрации в {\ttfamily m\+\_\+chat\+Filter\+Proxy\+Model}, чтобы в списке сообщений отображались только те, которые содержат поисковый запрос.
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & Текст для поиска. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00447}{447}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_a95c5779447a66e87120526d332aaef1f}\index{MainWindow@{MainWindow}!onConnected@{onConnected}}
+\index{onConnected@{onConnected}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onConnected}{onConnected}}
+{\footnotesize\ttfamily \label{class_main_window_a95c5779447a66e87120526d332aaef1f} 
+void Main\+Window\+::on\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Вызывается при успешном подключении к серверу. 
+
+Слот, вызываемый при успешном установлении TCP-\/соединения.
+
+Этот метод обновляет UI, чтобы показать пользователю, что соединение установлено, и активирует элементы управления на экране входа, позволяя пользователю начать аутентификацию. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00475}{475}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a95c5779447a66e87120526d332aaef1f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aef8cffa51d68c6257769f3b1452f2dbd}\index{MainWindow@{MainWindow}!onDeleteMessageRequested@{onDeleteMessageRequested}}
+\index{onDeleteMessageRequested@{onDeleteMessageRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onDeleteMessageRequested}{onDeleteMessageRequested}}
+{\footnotesize\ttfamily \label{class_main_window_aef8cffa51d68c6257769f3b1452f2dbd} 
+void Main\+Window\+::on\+Delete\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, который отправляет на сервер запрос на удаление сообщения. 
+
+Этот слот вызывается, когда пользователь выбирает "{}Удалить"{} в контекстном меню своего сообщения в {\ttfamily \doxylink{class_chat_view_widget}{Chat\+View\+Widget}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & Уникальный ID сообщения, которое нужно удалить. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00337}{337}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aef8cffa51d68c6257769f3b1452f2dbd_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aef8cffa51d68c6257769f3b1452f2dbd_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aa34b96b03c221e201ff14b278c59517a}\index{MainWindow@{MainWindow}!onDisconnected@{onDisconnected}}
+\index{onDisconnected@{onDisconnected}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onDisconnected}{onDisconnected}}
+{\footnotesize\ttfamily \label{class_main_window_aa34b96b03c221e201ff14b278c59517a} 
+void Main\+Window\+::on\+Disconnected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Вызывается при разрыве соединения с сервером. 
+
+Слот, вызываемый при разрыве TCP-\/соединения.
+
+Этот метод обновляет UI, информируя пользователя о потере соединения, и блокирует элементы управления, которые требуют активного подключения, чтобы предотвратить отправку данных в "{}пустоту"{}. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00494}{494}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa34b96b03c221e201ff14b278c59517a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ad00b5167fbd38434880f34e7fab6c281}\index{MainWindow@{MainWindow}!onEditMessageRequested@{onEditMessageRequested}}
+\index{onEditMessageRequested@{onEditMessageRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onEditMessageRequested}{onEditMessageRequested}}
+{\footnotesize\ttfamily \label{class_main_window_ad00b5167fbd38434880f34e7fab6c281} 
+void Main\+Window\+::on\+Edit\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{const QString \&}]{old\+Text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, который активирует режим редактирования сообщения. 
+
+Этот слот вызывается, когда пользователь выбирает "{}Редактировать"{} в контекстном меню сообщения в {\ttfamily \doxylink{class_chat_view_widget}{Chat\+View\+Widget}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & Уникальный ID сообщения, которое нужно отредактировать. \\
+\hline
+{\em old\+Text} & Текущий текст этого сообщения, который будет помещен в поле ввода. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00316}{316}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ad00b5167fbd38434880f34e7fab6c281_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aa0475ab4fcfcd40af2d014e35636af1e}\index{MainWindow@{MainWindow}!onGlobalSearchTriggered@{onGlobalSearchTriggered}}
+\index{onGlobalSearchTriggered@{onGlobalSearchTriggered}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onGlobalSearchTriggered}{onGlobalSearchTriggered}}
+{\footnotesize\ttfamily \label{class_main_window_aa0475ab4fcfcd40af2d014e35636af1e} 
+void Main\+Window\+::on\+Global\+Search\+Triggered (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Инициирует отправку запроса на глобальный поиск пользователей. 
+
+Этот слот вызывается по таймауту {\ttfamily m\+\_\+global\+Search\+Timer}, то есть спустя короткое время после того, как пользователь прекратил ввод текста в {\ttfamily m\+\_\+search\+Line\+Edit}. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01800}{1800}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa0475ab4fcfcd40af2d014e35636af1e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa0475ab4fcfcd40af2d014e35636af1e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aba71555e9040f34bc4340b222945870e}\index{MainWindow@{MainWindow}!onLoginRequested@{onLoginRequested}}
+\index{onLoginRequested@{onLoginRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onLoginRequested}{onLoginRequested}}
+{\footnotesize\ttfamily \label{class_main_window_aba71555e9040f34bc4340b222945870e} 
+void Main\+Window\+::on\+Login\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает запрос на вход от {\ttfamily \doxylink{class_login_widget}{Login\+Widget}}. 
+
+Этот слот вызывается, когда пользователь вводит свои данные на экране входа и нажимает кнопку "{}Войти"{}. Метод выполняет базовую проверку введенных данных на клиенте, после чего формирует и отправляет JSON-\/запрос на аутентификацию на сервер. 
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя, введенное в {\ttfamily QLine\+Edit}. \\
+\hline
+{\em password} & Пароль, введенный в {\ttfamily QLine\+Edit}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01417}{1417}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aba71555e9040f34bc4340b222945870e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aba71555e9040f34bc4340b222945870e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_aa0d0068618dad0ed01291740b7674282}\index{MainWindow@{MainWindow}!onLogoutButtonClicked@{onLogoutButtonClicked}}
+\index{onLogoutButtonClicked@{onLogoutButtonClicked}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onLogoutButtonClicked}{onLogoutButtonClicked}}
+{\footnotesize\ttfamily \label{class_main_window_aa0d0068618dad0ed01291740b7674282} 
+void Main\+Window\+::on\+Logout\+Button\+Clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает клик по кнопке "{}Выйти"{}. 
+
+Формирует и отправляет на сервер JSON-\/запрос на выход из аккаунта. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01552}{1552}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa0d0068618dad0ed01291740b7674282_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aa0d0068618dad0ed01291740b7674282_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a209079830a37745e47076a762bab17d6}\index{MainWindow@{MainWindow}!onReadyRead@{onReadyRead}}
+\index{onReadyRead@{onReadyRead}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onReadyRead}{onReadyRead}}
+{\footnotesize\ttfamily \label{class_main_window_a209079830a37745e47076a762bab17d6} 
+void Main\+Window\+::on\+Ready\+Read (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Главный слот для чтения и парсинга всех входящих данных от сервера. 
+
+Слот, вызываемый, когда в TCP-\/сокете появляются новые данные для чтения.
+
+Этот метод реализует логику чтения пакетов, отправленных по протоколу, описанному в {\ttfamily send\+Json}. Он может обработать несколько JSON-\/пакетов, пришедших одновременно, или дождаться полной загрузки "{}разбитого"{} пакета. После успешного извлечения JSON-\/объекта он передает его на обработку в {\ttfamily process\+Json\+Request} (которая была позже заменена на логику с {\ttfamily m\+\_\+response\+Handlers}). 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00565}{565}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a209079830a37745e47076a762bab17d6_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ad6a7aa3a6c2bd377b0d35ff7edc8fa3f}\index{MainWindow@{MainWindow}!onRegisterRequested@{onRegisterRequested}}
+\index{onRegisterRequested@{onRegisterRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onRegisterRequested}{onRegisterRequested}}
+{\footnotesize\ttfamily \label{class_main_window_ad6a7aa3a6c2bd377b0d35ff7edc8fa3f} 
+void Main\+Window\+::on\+Register\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{, }\item[{const QString \&}]{display\+Name}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает запрос на регистрацию от {\ttfamily \doxylink{class_login_widget}{Login\+Widget}}. 
+
+Этот слот вызывается, когда пользователь заполняет форму регистрации и нажимает кнопку "{}Зарегистрироваться"{}. Метод выполняет базовую клиентскую валидацию, после чего формирует и отправляет JSON-\/запрос на создание нового аккаунта на сервер.
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Желаемое имя пользователя (логин). \\
+\hline
+{\em display\+Name} & Желаемое отображаемое имя. \\
+\hline
+{\em password} & Желаемый пароль. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01449}{1449}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ad6a7aa3a6c2bd377b0d35ff7edc8fa3f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ad6a7aa3a6c2bd377b0d35ff7edc8fa3f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a4750c97d91d2e5d5c7ddb6ea1231515c}\index{MainWindow@{MainWindow}!onReplyToMessage@{onReplyToMessage}}
+\index{onReplyToMessage@{onReplyToMessage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onReplyToMessage}{onReplyToMessage}}
+{\footnotesize\ttfamily \label{class_main_window_a4750c97d91d2e5d5c7ddb6ea1231515c} 
+void Main\+Window\+::on\+Reply\+To\+Message (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Активирует режим ответа на сообщение. 
+
+Этот слот вызывается, когда пользователь выбирает "{}Ответить"{} в контекстном меню или делает двойной клик по сообщению.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & ID сообщения, на которое нужно ответить. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00421}{421}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a4750c97d91d2e5d5c7ddb6ea1231515c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a2cace9fd0bd82d43856f04fa48789057}\index{MainWindow@{MainWindow}!onSendMessageReadReceipt@{onSendMessageReadReceipt}}
+\index{onSendMessageReadReceipt@{onSendMessageReadReceipt}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onSendMessageReadReceipt}{onSendMessageReadReceipt}}
+{\footnotesize\ttfamily \label{class_main_window_a2cace9fd0bd82d43856f04fa48789057} 
+void Main\+Window\+::on\+Send\+Message\+Read\+Receipt (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Отправляет на сервер подтверждение о прочтении сообщения. 
+
+Этот слот вызывается сигналом {\ttfamily message\+Needs\+Read\+Receipt} от {\ttfamily \doxylink{class_chat_message_model}{Chat\+Message\+Model}}. Сигнал, в свою очередь, испускается, когда {\ttfamily mark\+Message\+As\+Read} успешно меняет статус сообщения с {\ttfamily Delivered} на {\ttfamily Read}. 
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & ID сообщения, которое было прочитано. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l02057}{2057}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a2cace9fd0bd82d43856f04fa48789057_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a2cace9fd0bd82d43856f04fa48789057_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a2ac218f3cfa5f2326d1c893f6ceb8223}\index{MainWindow@{MainWindow}!onSendMessageRequested@{onSendMessageRequested}}
+\index{onSendMessageRequested@{onSendMessageRequested}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onSendMessageRequested}{onSendMessageRequested}}
+{\footnotesize\ttfamily \label{class_main_window_a2ac218f3cfa5f2326d1c893f6ceb8223} 
+void Main\+Window\+::on\+Send\+Message\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Обрабатывает запрос на отправку сообщения из {\ttfamily \doxylink{class_chat_view_widget}{Chat\+View\+Widget}}. 
+
+Это центральный метод для отправки сообщений. Он имеет две основные ветки логики\+:
+\begin{DoxyItemize}
+\item Если установлен флаг {\ttfamily m\+\_\+editing\+Message\+Id}, он отправляет команду на редактирование.
+\item В противном случае, он создает новое сообщение (с учетом возможного ответа), добавляет его в модель для мгновенного отображения ("{}оптимистичное обновление"{}) и отправляет на сервер. 
+\begin{DoxyParams}{Parameters}
+{\em text} & Текст сообщения из поля ввода {\ttfamily QText\+Edit}. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01479}{1479}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a2ac218f3cfa5f2326d1c893f6ceb8223_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a2ac218f3cfa5f2326d1c893f6ceb8223_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a42177f0cc53e1305be01d88d356c9055}\index{MainWindow@{MainWindow}!onTypingNotificationFired@{onTypingNotificationFired}}
+\index{onTypingNotificationFired@{onTypingNotificationFired}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onTypingNotificationFired}{onTypingNotificationFired}}
+{\footnotesize\ttfamily \label{class_main_window_a42177f0cc53e1305be01d88d356c9055} 
+void Main\+Window\+::on\+Typing\+Notification\+Fired (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Отправляет на сервер уведомление о наборе текста ("{}печатает..."{}). 
+
+Этот слот подключен к сигналу {\ttfamily text\+Changed} поля ввода сообщения. Чтобы не отправлять уведомление на каждое нажатие клавиши, используется таймер {\ttfamily m\+\_\+typing\+Send\+Timer}, который ограничивает частоту отправок. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00391}{391}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a42177f0cc53e1305be01d88d356c9055_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a42177f0cc53e1305be01d88d356c9055_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a6464eacb64929cb4663868f04675a91b}\index{MainWindow@{MainWindow}!onUserSelectionChanged@{onUserSelectionChanged}}
+\index{onUserSelectionChanged@{onUserSelectionChanged}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onUserSelectionChanged}{onUserSelectionChanged}}
+{\footnotesize\ttfamily \label{class_main_window_a6464eacb64929cb4663868f04675a91b} 
+void Main\+Window\+::on\+User\+Selection\+Changed (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{current}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Слот, обрабатывающий выбор нового контакта (чата) в списке. 
+
+Этот метод является центральной точкой для логики переключения чатов. Он выполняет следующие действия\+:
+\begin{DoxyEnumerate}
+\item Сбрасывает состояния (ответ на сообщение, счетчик непрочитанных).
+\item Устанавливает нового "{}собеседника"{} ({\ttfamily m\+\_\+current\+Chat\+Partner}).
+\item Обновляет UI (заголовок чата, переключает на виджет чата).
+\item Проверяет наличие истории чата в локальном кэше.
+\item Если история в кэше есть -\/ загружает ее мгновенно.
+\item Если истории нет -\/ отправляет запрос на сервер. 
+\begin{DoxyParams}{Parameters}
+{\em current} & Индекс ({\ttfamily QModel\+Index}) нового выбранного элемента в {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01574}{1574}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6464eacb64929cb4663868f04675a91b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a6464eacb64929cb4663868f04675a91b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a57d325c95f6bd04fdb537545c9d9e23e}\index{MainWindow@{MainWindow}!processVisibleMessages@{processVisibleMessages}}
+\index{processVisibleMessages@{processVisibleMessages}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{processVisibleMessages}{processVisibleMessages}}
+{\footnotesize\ttfamily \label{class_main_window_a57d325c95f6bd04fdb537545c9d9e23e} 
+void Main\+Window\+::process\+Visible\+Messages (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Проверяет видимые сообщения и помечает их как прочитанные. 
+
+Обрабатывает все видимые в данный момент сообщения в чате.
+
+Этот слот вызывается после того, как пользователь завершил прокрутку ({\ttfamily slider\+Released}). Он итерируется по всем видимым элементам в {\ttfamily QList\+View} и для каждого входящего, еще не прочитанного сообщения, инициирует процесс отправки уведомления о прочтении. Это более надежный и производительный способ, чем делать это в делегате. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00268}{268}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a57d325c95f6bd04fdb537545c9d9e23e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ab2038cc55b19e450d8c606323ed3c012}\index{MainWindow@{MainWindow}!resetApplicationState@{resetApplicationState}}
+\index{resetApplicationState@{resetApplicationState}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{resetApplicationState()}{resetApplicationState()}}
+{\footnotesize\ttfamily \label{class_main_window_ab2038cc55b19e450d8c606323ed3c012} 
+void Main\+Window\+::reset\+Application\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Сбрасывает все кэши и состояние при выходе из аккаунта. 
+
+Сбрасывает все состояние приложения к начальному (как при запуске).
+
+Этот метод вызывается после успешного выхода из аккаунта. Он очищает все кэши, модели, сбрасывает текущего пользователя и переключает интерфейс обратно на экран входа. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01365}{1365}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_ab2038cc55b19e450d8c606323ed3c012_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a79248e5cffb9376a9c1909e992e10919}\index{MainWindow@{MainWindow}!sendJson@{sendJson}}
+\index{sendJson@{sendJson}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{sendJson()}{sendJson()}}
+{\footnotesize\ttfamily \label{class_main_window_a79248e5cffb9376a9c1909e992e10919} 
+void Main\+Window\+::send\+Json (\begin{DoxyParamCaption}\item[{const QJson\+Object \&}]{json}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Сериализует JSON-\/объект и отправляет его на сервер по TCP. 
+
+Этот метод реализует кастомный протокол отправки\+:
+\begin{DoxyEnumerate}
+\item JSON-\/объект преобразуется в компактную строку {\ttfamily QByte\+Array}.
+\item С помощью {\ttfamily QData\+Stream} формируется пакет, где сначала идет 4-\/байтовое число (quint32) с размером последующих данных, а затем сами JSON-\/данные. Это позволяет серверу на другой стороне точно знать, сколько байт нужно прочитать, чтобы получить полный и неповрежденный JSON-\/пакет.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em json} & JSON-\/объект, который нужно отправить. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00525}{525}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a79248e5cffb9376a9c1909e992e10919_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a95dc085bf70bd0c1ad05bd80f897fd1d}\index{MainWindow@{MainWindow}!setupConnections@{setupConnections}}
+\index{setupConnections@{setupConnections}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{setupConnections()}{setupConnections()}}
+{\footnotesize\ttfamily \label{class_main_window_a95dc085bf70bd0c1ad05bd80f897fd1d} 
+void Main\+Window\+::setup\+Connections (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Устанавливает все {\ttfamily connect} между объектами. 
+
+Устанавливает все соединения "{}сигнал-\/слот"{} между объектами приложения.
+
+Этот метод вызывается один раз в конструкторе и отвечает за создание всей логики взаимодействия. Он связывает\+:
+\begin{DoxyItemize}
+\item События сетевого сокета с их обработчиками.
+\item Сигналы от UI-\/виджетов (\doxylink{class_login_widget}{Login\+Widget}, \doxylink{class_chat_view_widget}{Chat\+View\+Widget}) с основной логикой в \doxylink{class_main_window}{Main\+Window}.
+\item Сигналы от моделей данных с их обработчиками.
+\item Работу таймеров с соответствующими слотами. 
+\end{DoxyItemize}
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00198}{198}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_main_window_a95dc085bf70bd0c1ad05bd80f897fd1d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a95dc085bf70bd0c1ad05bd80f897fd1d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a65b8df26fd76fa4f7cd40a17cf23d4e0}\index{MainWindow@{MainWindow}!showContactRequestPrompt@{showContactRequestPrompt}}
+\index{showContactRequestPrompt@{showContactRequestPrompt}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{showContactRequestPrompt()}{showContactRequestPrompt()}}
+{\footnotesize\ttfamily \label{class_main_window_a65b8df26fd76fa4f7cd40a17cf23d4e0} 
+void Main\+Window\+::show\+Contact\+Request\+Prompt (\begin{DoxyParamCaption}\item[{const QString \&}]{from\+Username}{, }\item[{const QString \&}]{from\+Display\+Name}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Показывает пользователю модальный диалог с запросом на добавление в контакты. 
+
+Этот метод создает QMessage\+Box с кнопками "{}Да"{} и "{}Нет"{}, позволяя пользователю принять или отклонить запрос. После выбора пользователя формирует и отправляет на сервер JSON-\/ответ с принятым решением. 
+\begin{DoxyParams}{Parameters}
+{\em from\+Username} & Уникальное имя пользователя, отправившего запрос. \\
+\hline
+{\em from\+Display\+Name} & Его отображаемое имя. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01738}{1738}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a65b8df26fd76fa4f7cd40a17cf23d4e0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a65b8df26fd76fa4f7cd40a17cf23d4e0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a7e51b5f573f15d8a8d209ffcec8db70c}\index{MainWindow@{MainWindow}!showProfileView@{showProfileView}}
+\index{showProfileView@{showProfileView}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{showProfileView}{showProfileView}}
+{\footnotesize\ttfamily \label{class_main_window_a7e51b5f573f15d8a8d209ffcec8db70c} 
+void Main\+Window\+::show\+Profile\+View (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+(ЗАГОТОВКА) Показывает профиль текущего собеседника. 
+
+На данный момент является заглушкой, которая показывает QMessage\+Box с именем пользователя. В будущем здесь может быть реализовано открытие отдельного окна или боковой панели с детальной информацией. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01681}{1681}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a7e51b5f573f15d8a8d209ffcec8db70c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ab85ffaf32b6e163d9d9201d9ac9df434}\index{MainWindow@{MainWindow}!updateChatHeader@{updateChatHeader}}
+\index{updateChatHeader@{updateChatHeader}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{updateChatHeader()}{updateChatHeader()}}
+{\footnotesize\ttfamily \label{class_main_window_ab85ffaf32b6e163d9d9201d9ac9df434} 
+void Main\+Window\+::update\+Chat\+Header (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_main_window_a1350e459b9f889d66f70ac73e83c982e}\index{MainWindow@{MainWindow}!updateContactItem@{updateContactItem}}
+\index{updateContactItem@{updateContactItem}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{updateContactItem()}{updateContactItem()}}
+{\footnotesize\ttfamily \label{class_main_window_a1350e459b9f889d66f70ac73e83c982e} 
+void Main\+Window\+::update\+Contact\+Item (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обновляет отображение одного конкретного контакта в списке. 
+
+Этот вспомогательный метод является оберткой над {\ttfamily \doxylink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}{Contact\+List\+Model\+::refresh\+Contact}}. Он вызывается всякий раз, когда изменяется какое-\/либо из данных контакта (статус онлайн, пришло новое сообщение, начал/закончил печатать), чтобы инициировать его перерисовку в {\ttfamily QList\+View}. 
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя, элемент которого нужно обновить. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01987}{1987}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a1350e459b9f889d66f70ac73e83c982e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_afb46069aa39e10ec53248a3e73c07a5c}\index{MainWindow@{MainWindow}!updateMessageStatusInCacheAndModel@{updateMessageStatusInCacheAndModel}}
+\index{updateMessageStatusInCacheAndModel@{updateMessageStatusInCacheAndModel}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{updateMessageStatusInCacheAndModel}{updateMessageStatusInCacheAndModel}}
+{\footnotesize\ttfamily \label{class_main_window_afb46069aa39e10ec53248a3e73c07a5c} 
+void Main\+Window\+::update\+Message\+Status\+In\+Cache\+And\+Model (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}}]{new\+Status}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+Централизованно обновляет статус сообщения и в кэше, и в активной модели. 
+
+Этот вспомогательный метод ищет сообщение по {\ttfamily message\+Id} во всех кэшированных чатах. Найдя, он обновляет его статус и, если это сообщение из текущего открытого чата, также обновляет его в {\ttfamily m\+\_\+chat\+Model} для немедленной перерисовки. 
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & ID сообщения, статус которого нужно обновить. \\
+\hline
+{\em new\+Status} & Новый статус из {\ttfamily \doxylink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01188}{1188}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_afb46069aa39e10ec53248a3e73c07a5c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_a23b91a72f3ec6566c686e0b46a45fa62}\index{MainWindow@{MainWindow}!updateUserList@{updateUserList}}
+\index{updateUserList@{updateUserList}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{updateUserList()}{updateUserList()}}
+{\footnotesize\ttfamily \label{class_main_window_a23b91a72f3ec6566c686e0b46a45fa62} 
+void Main\+Window\+::update\+User\+List (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обновляет модель списка контактов на основе данных из {\ttfamily m\+\_\+user\+Cache}. 
+
+Этот метод является центральной точкой для обновления UI списка контактов. Он извлекает всех пользователей из кэша, сортирует их по отображаемому имени и передает отсортированный список {\ttfamily username}\textquotesingle{}ов в {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}} для "{}умного"{} и эффективного обновления представления. 
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01772}{1772}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a23b91a72f3ec6566c686e0b46a45fa62_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_main_window_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_main_window_a0cc1b7200a43f34bee4dc411782745de}\index{MainWindow@{MainWindow}!m\_chatHistoryCache@{m\_chatHistoryCache}}
+\index{m\_chatHistoryCache@{m\_chatHistoryCache}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_chatHistoryCache}{m\_chatHistoryCache}}
+{\footnotesize\ttfamily \label{class_main_window_a0cc1b7200a43f34bee4dc411782745de} 
+QMap$<$QString, \mbox{\hyperlink{struct_chat_cache}{Chat\+Cache}}$>$ Main\+Window\+::m\+\_\+chat\+History\+Cache\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Кэш истории сообщений для каждого чата. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00206}{206}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a3bbd1e2bb2e4865cc588664e12badd7f}\index{MainWindow@{MainWindow}!m\_chatListPanel@{m\_chatListPanel}}
+\index{m\_chatListPanel@{m\_chatListPanel}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_chatListPanel}{m\_chatListPanel}}
+{\footnotesize\ttfamily \label{class_main_window_a3bbd1e2bb2e4865cc588664e12badd7f} 
+QWidget\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+chat\+List\+Panel\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00223}{223}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a9a249abd819e35a3e0f487068240150d}\index{MainWindow@{MainWindow}!m\_chatModel@{m\_chatModel}}
+\index{m\_chatModel@{m\_chatModel}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_chatModel}{m\_chatModel}}
+{\footnotesize\ttfamily \label{class_main_window_a9a249abd819e35a3e0f487068240150d} 
+\mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}}\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+chat\+Model\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00237}{237}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a228522e0dc042b9c3d6842c9f0961eaa}\index{MainWindow@{MainWindow}!m\_chatViewWidget@{m\_chatViewWidget}}
+\index{m\_chatViewWidget@{m\_chatViewWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_chatViewWidget}{m\_chatViewWidget}}
+{\footnotesize\ttfamily \label{class_main_window_a228522e0dc042b9c3d6842c9f0961eaa} 
+\mbox{\hyperlink{class_chat_view_widget}{Chat\+View\+Widget}}\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+chat\+View\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00233}{233}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a266085a6fa7c783b22ba87fd5ce7a12b}\index{MainWindow@{MainWindow}!m\_contactModel@{m\_contactModel}}
+\index{m\_contactModel@{m\_contactModel}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_contactModel}{m\_contactModel}}
+{\footnotesize\ttfamily \label{class_main_window_a266085a6fa7c783b22ba87fd5ce7a12b} 
+\mbox{\hyperlink{class_contact_list_model}{Contact\+List\+Model}}\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+contact\+Model\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00226}{226}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_ac28d34e21cfffd8dcaa2c4db5873f990}\index{MainWindow@{MainWindow}!m\_currentChatPartner@{m\_currentChatPartner}}
+\index{m\_currentChatPartner@{m\_currentChatPartner}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_currentChatPartner}{m\_currentChatPartner}}
+{\footnotesize\ttfamily \label{class_main_window_ac28d34e21cfffd8dcaa2c4db5873f990} 
+\mbox{\hyperlink{struct_user}{User}} Main\+Window\+::m\+\_\+current\+Chat\+Partner\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Данные собеседника в активном чате. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00212}{212}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_afe424f63899d6791131dd2eccdba84a6}\index{MainWindow@{MainWindow}!m\_currentUsername@{m\_currentUsername}}
+\index{m\_currentUsername@{m\_currentUsername}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_currentUsername}{m\_currentUsername}}
+{\footnotesize\ttfamily \label{class_main_window_afe424f63899d6791131dd2eccdba84a6} 
+QString Main\+Window\+::m\+\_\+current\+Username\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Имя пользователя текущей сессии. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00211}{211}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_ae1c3360658b2ae3c14a2c85f016e2c90}\index{MainWindow@{MainWindow}!m\_editingMessageId@{m\_editingMessageId}}
+\index{m\_editingMessageId@{m\_editingMessageId}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_editingMessageId}{m\_editingMessageId}}
+{\footnotesize\ttfamily \label{class_main_window_ae1c3360658b2ae3c14a2c85f016e2c90} 
+qint64 Main\+Window\+::m\+\_\+editing\+Message\+Id = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ID сообщения, которое редактируется в данный момент. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00215}{215}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a23e214c74908d8fa21da50e38b15647a}\index{MainWindow@{MainWindow}!m\_globalSearchTimer@{m\_globalSearchTimer}}
+\index{m\_globalSearchTimer@{m\_globalSearchTimer}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_globalSearchTimer}{m\_globalSearchTimer}}
+{\footnotesize\ttfamily \label{class_main_window_a23e214c74908d8fa21da50e38b15647a} 
+QTimer\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+global\+Search\+Timer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00241}{241}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_af1b1ba8e1e314b366ab4254d13909b1b}\index{MainWindow@{MainWindow}!m\_isChatSearchActive@{m\_isChatSearchActive}}
+\index{m\_isChatSearchActive@{m\_isChatSearchActive}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_isChatSearchActive}{m\_isChatSearchActive}}
+{\footnotesize\ttfamily \label{class_main_window_af1b1ba8e1e314b366ab4254d13909b1b} 
+bool Main\+Window\+::m\+\_\+is\+Chat\+Search\+Active = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00245}{245}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a62b852c0b1338d47fdf018f28cad38b2}\index{MainWindow@{MainWindow}!m\_isLoadingHistory@{m\_isLoadingHistory}}
+\index{m\_isLoadingHistory@{m\_isLoadingHistory}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_isLoadingHistory}{m\_isLoadingHistory}}
+{\footnotesize\ttfamily \label{class_main_window_a62b852c0b1338d47fdf018f28cad38b2} 
+bool Main\+Window\+::m\+\_\+is\+Loading\+History = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Флаг, предотвращающий повторные запросы истории при прокрутке. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00213}{213}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_aab36e21e93d78f4fe20cad757126cc37}\index{MainWindow@{MainWindow}!m\_loginWidget@{m\_loginWidget}}
+\index{m\_loginWidget@{m\_loginWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_loginWidget}{m\_loginWidget}}
+{\footnotesize\ttfamily \label{class_main_window_aab36e21e93d78f4fe20cad757126cc37} 
+\mbox{\hyperlink{class_login_widget}{Login\+Widget}}\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+login\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00219}{219}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a21a481d753e83401f61230d7506f4fc1}\index{MainWindow@{MainWindow}!m\_logoutButton@{m\_logoutButton}}
+\index{m\_logoutButton@{m\_logoutButton}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_logoutButton}{m\_logoutButton}}
+{\footnotesize\ttfamily \label{class_main_window_a21a481d753e83401f61230d7506f4fc1} 
+QPush\+Button\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+logout\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00227}{227}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a0720796a669c7a44e0833163124f04a4}\index{MainWindow@{MainWindow}!m\_mainChatWidget@{m\_mainChatWidget}}
+\index{m\_mainChatWidget@{m\_mainChatWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_mainChatWidget}{m\_mainChatWidget}}
+{\footnotesize\ttfamily \label{class_main_window_a0720796a669c7a44e0833163124f04a4} 
+QWidget\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+main\+Chat\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00220}{220}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_ab83fb4a620db0f489f53e7afe9996e2b}\index{MainWindow@{MainWindow}!m\_nextBlockSize@{m\_nextBlockSize}}
+\index{m\_nextBlockSize@{m\_nextBlockSize}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_nextBlockSize}{m\_nextBlockSize}}
+{\footnotesize\ttfamily \label{class_main_window_ab83fb4a620db0f489f53e7afe9996e2b} 
+quint32 Main\+Window\+::m\+\_\+next\+Block\+Size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Для корректного чтения TCP-\/пакетов переменной длины. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00203}{203}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a1b8f22fc0164f0159d201dd44664ff17}\index{MainWindow@{MainWindow}!m\_oldestMessageId@{m\_oldestMessageId}}
+\index{m\_oldestMessageId@{m\_oldestMessageId}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_oldestMessageId}{m\_oldestMessageId}}
+{\footnotesize\ttfamily \label{class_main_window_a1b8f22fc0164f0159d201dd44664ff17} 
+qint64 Main\+Window\+::m\+\_\+oldest\+Message\+Id = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ID самого старого сообщения в чате (для пагинации). 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00214}{214}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a9bc1e0867a0eae6a4a355905eb8187aa}\index{MainWindow@{MainWindow}!m\_placeholderWidget@{m\_placeholderWidget}}
+\index{m\_placeholderWidget@{m\_placeholderWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_placeholderWidget}{m\_placeholderWidget}}
+{\footnotesize\ttfamily \label{class_main_window_a9bc1e0867a0eae6a4a355905eb8187aa} 
+QWidget\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+placeholder\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00232}{232}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a8b692db7115a2628cddd1dbf832285ca}\index{MainWindow@{MainWindow}!m\_profileViewWidget@{m\_profileViewWidget}}
+\index{m\_profileViewWidget@{m\_profileViewWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_profileViewWidget}{m\_profileViewWidget}}
+{\footnotesize\ttfamily \label{class_main_window_a8b692db7115a2628cddd1dbf832285ca} 
+Profile\+View\+Widget\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+profile\+View\+Widget\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00234}{234}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_ae83bb8e3a33906281d114cd00694aaba}\index{MainWindow@{MainWindow}!m\_replyToMessageId@{m\_replyToMessageId}}
+\index{m\_replyToMessageId@{m\_replyToMessageId}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_replyToMessageId}{m\_replyToMessageId}}
+{\footnotesize\ttfamily \label{class_main_window_ae83bb8e3a33906281d114cd00694aaba} 
+qint64 Main\+Window\+::m\+\_\+reply\+To\+Message\+Id = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ID сообщения, на которое создается ответ. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00216}{216}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a56e12bd8f1b93e1707a2786ae88bc8da}\index{MainWindow@{MainWindow}!m\_responseHandlers@{m\_responseHandlers}}
+\index{m\_responseHandlers@{m\_responseHandlers}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_responseHandlers}{m\_responseHandlers}}
+{\footnotesize\ttfamily \label{class_main_window_a56e12bd8f1b93e1707a2786ae88bc8da} 
+QMap$<$QString, \mbox{\hyperlink{class_main_window_a3076164dc4f8c35048e3f10056095cbd}{Response\+Handler}}$>$ Main\+Window\+::m\+\_\+response\+Handlers\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Карта, сопоставляющая строковую команду от сервера с методом-\/обработчиком. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00154}{154}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_ac2dcaab3e7b4f01b22b91aa0876f0cc7}\index{MainWindow@{MainWindow}!m\_rightSideContainer@{m\_rightSideContainer}}
+\index{m\_rightSideContainer@{m\_rightSideContainer}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_rightSideContainer}{m\_rightSideContainer}}
+{\footnotesize\ttfamily \label{class_main_window_ac2dcaab3e7b4f01b22b91aa0876f0cc7} 
+QWidget\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+right\+Side\+Container\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00230}{230}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a32147ab972802ce83b62aad303e872e1}\index{MainWindow@{MainWindow}!m\_rightSideLayout@{m\_rightSideLayout}}
+\index{m\_rightSideLayout@{m\_rightSideLayout}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_rightSideLayout}{m\_rightSideLayout}}
+{\footnotesize\ttfamily \label{class_main_window_a32147ab972802ce83b62aad303e872e1} 
+QStacked\+Layout\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+right\+Side\+Layout\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00231}{231}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a3ae1e210b0c2d8ca5cc4c46d587f0c1a}\index{MainWindow@{MainWindow}!m\_searchLineEdit@{m\_searchLineEdit}}
+\index{m\_searchLineEdit@{m\_searchLineEdit}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_searchLineEdit}{m\_searchLineEdit}}
+{\footnotesize\ttfamily \label{class_main_window_a3ae1e210b0c2d8ca5cc4c46d587f0c1a} 
+QLine\+Edit\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+search\+Line\+Edit\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00224}{224}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_aca2ff7d8f0453d6c5a3cf8cf21762692}\index{MainWindow@{MainWindow}!m\_searchResultsPopup@{m\_searchResultsPopup}}
+\index{m\_searchResultsPopup@{m\_searchResultsPopup}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_searchResultsPopup}{m\_searchResultsPopup}}
+{\footnotesize\ttfamily \label{class_main_window_aca2ff7d8f0453d6c5a3cf8cf21762692} 
+\mbox{\hyperlink{class_search_results_popup}{Search\+Results\+Popup}}\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+search\+Results\+Popup\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00240}{240}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a328dc79249b83796b4d8b6315d5eb8a7}\index{MainWindow@{MainWindow}!m\_typingReceiveTimers@{m\_typingReceiveTimers}}
+\index{m\_typingReceiveTimers@{m\_typingReceiveTimers}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_typingReceiveTimers}{m\_typingReceiveTimers}}
+{\footnotesize\ttfamily \label{class_main_window_a328dc79249b83796b4d8b6315d5eb8a7} 
+QMap$<$QString, QTimer\texorpdfstring{$\ast$}{*}$>$ Main\+Window\+::m\+\_\+typing\+Receive\+Timers\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00243}{243}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a201782106d364daffe3eae9b0e9a6b9e}\index{MainWindow@{MainWindow}!m\_typingSendTimer@{m\_typingSendTimer}}
+\index{m\_typingSendTimer@{m\_typingSendTimer}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_typingSendTimer}{m\_typingSendTimer}}
+{\footnotesize\ttfamily \label{class_main_window_a201782106d364daffe3eae9b0e9a6b9e} 
+QTimer\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+typing\+Send\+Timer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00242}{242}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a397d79ddc62b2c544f639c0baec7358f}\index{MainWindow@{MainWindow}!m\_unreadCounts@{m\_unreadCounts}}
+\index{m\_unreadCounts@{m\_unreadCounts}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_unreadCounts}{m\_unreadCounts}}
+{\footnotesize\ttfamily \label{class_main_window_a397d79ddc62b2c544f639c0baec7358f} 
+QMap$<$QString, int$>$ Main\+Window\+::m\+\_\+unread\+Counts\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Кэш счетчиков непрочитанных сообщений. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00208}{208}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_acee90b1781579b33c1e62fe6e520cd7f}\index{MainWindow@{MainWindow}!m\_userCache@{m\_userCache}}
+\index{m\_userCache@{m\_userCache}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_userCache}{m\_userCache}}
+{\footnotesize\ttfamily \label{class_main_window_acee90b1781579b33c1e62fe6e520cd7f} 
+QMap$<$QString, \mbox{\hyperlink{struct_user}{User}}$>$ Main\+Window\+::m\+\_\+user\+Cache\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Кэш данных о пользователях (display\+Name, last\+Seen и т.\+д.). 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00207}{207}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a4ce76f51c225a7cfbfd759067aeb5805}\index{MainWindow@{MainWindow}!m\_userListView@{m\_userListView}}
+\index{m\_userListView@{m\_userListView}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_userListView}{m\_userListView}}
+{\footnotesize\ttfamily \label{class_main_window_a4ce76f51c225a7cfbfd759067aeb5805} 
+QList\+View\texorpdfstring{$\ast$}{*} Main\+Window\+::m\+\_\+user\+List\+View\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00225}{225}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_af85cfe62c116f8d2f2021e5411b0356e}\index{MainWindow@{MainWindow}!socket@{socket}}
+\index{socket@{socket}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{socket}{socket}}
+{\footnotesize\ttfamily \label{class_main_window_af85cfe62c116f8d2f2021e5411b0356e} 
+QTcp\+Socket\texorpdfstring{$\ast$}{*} Main\+Window\+::socket\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Главный сокет для связи с сервером. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00202}{202}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a35466a70ed47252a0191168126a352a5}\index{MainWindow@{MainWindow}!ui@{ui}}
+\index{ui@{ui}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{ui}{ui}}
+{\footnotesize\ttfamily \label{class_main_window_a35466a70ed47252a0191168126a352a5} 
+Ui\+::\+Main\+Window\texorpdfstring{$\ast$}{*} Main\+Window\+::ui\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Указатель на UI-\/форму из Qt Designer. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00199}{199}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

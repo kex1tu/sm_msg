@@ -1,0 +1,7 @@
+<map id="Server::onWebSocketTextMessageReceived" name="Server::onWebSocketTextMessageReceived">
+<area shape="rect" id="Node000001" title="Слот для обработки текстового сообщения, полученного по WebSocket." alt="" coords="448,5,674,48"/>
+<area shape="rect" id="Node000002" href="$class_server.html#af9ee0faf4c581fd425e4b3750ca4d4c0" title="Слот, обрабатывающий новое входящее WebSocket&#45;подключение." alt="" coords="159,13,400,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="432,29,401,29,401,24,432,24"/>
+<area shape="rect" id="Node000003" href="$class_server.html#aaf98d5194faee831c6340cc736b9b879" title="Конструктор." alt="" coords="5,13,111,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,29,111,29,111,24,143,24"/>
+</map>

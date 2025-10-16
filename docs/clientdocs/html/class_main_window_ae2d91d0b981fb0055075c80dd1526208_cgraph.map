@@ -1,0 +1,5 @@
+<map id="MainWindow::onChatScroll" name="MainWindow::onChatScroll">
+<area shape="rect" id="Node000001" title="Обрабатывает прокрутку списка сообщений." alt="" coords="5,5,185,32"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a79248e5cffb9376a9c1909e992e10919" title="Сериализует JSON&#45;объект и отправляет его на сервер по TCP." alt="" coords="233,5,393,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,16,217,16,217,21,185,21"/>
+</map>

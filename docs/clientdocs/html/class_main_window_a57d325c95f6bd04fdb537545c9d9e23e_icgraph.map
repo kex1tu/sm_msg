@@ -1,0 +1,22 @@
+<map id="MainWindow::processVisibleMessages" name="MainWindow::processVisibleMessages">
+<area shape="rect" id="Node000001" title="Проверяет видимые сообщения и помечает их как прочитанные." alt="" coords="770,107,960,149"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#a6a0cf8e647234eb241152c028d8ad97a" title="Обрабатывает ответ сервера с первоначальным &quot;пакетом&quot; истории сообщений." alt="" coords="500,5,712,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="820,100,773,72,721,46,686,35,687,30,723,42,776,67,823,96"/>
+<area shape="rect" id="Node000005" href="$class_main_window.html#ac6fbcb3266b8fe5d0bdf799f1b94553b" title="Обрабатывает ответ сервера со старой порцией истории сообщений." alt="" coords="490,56,722,83"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="756,105,722,97,671,86,672,81,723,92,757,100"/>
+<area shape="rect" id="Node000006" href="$class_main_window.html#a76f3f2fc212fc0b0672b27d08c6421b3" title="Обрабатывает входящие личные сообщения от сервера." alt="" coords="514,107,698,149"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="755,131,698,131,698,125,755,125"/>
+<area shape="rect" id="Node000007" href="$class_main_window.html#a6464eacb64929cb4663868f04675a91b" title="Слот, обрабатывающий выбор нового контакта (чата) в списке." alt="" coords="506,173,706,216"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="765,156,692,175,691,170,764,151"/>
+<area shape="rect" id="Node000008" href="$class_main_window.html#a95dc085bf70bd0c1ad05bd80f897fd1d" title="Устанавливает все connect между объектами." alt="" coords="233,181,442,208"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="833,162,784,200,754,217,723,231,677,242,629,247,580,247,533,243,446,229,379,211,381,206,448,223,534,238,580,242,628,241,676,236,722,225,752,213,781,196,830,158"/>
+<area shape="rect" id="Node000003" href="$class_main_window.html#a572190dcc763eb2de4d6f065a943e6f5" title="Заполняет карту m_responseHandlers для обработки команд сервера." alt="" coords="247,77,428,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="521,39,491,47,395,79,393,74,489,41,519,34"/>
+<area shape="rect" id="Node000004" href="$class_main_window.html#a996c5a2b6f77944776856f08ec30858d" title="Конструктор главного окна." alt="" coords="5,133,185,160"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="233,122,167,135,166,130,232,117"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="137,121,123,114,95,112,69,114,56,119,52,124,59,131,54,135,47,125,52,115,68,109,95,107,124,109,139,116"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="475,86,428,91,428,86,474,81"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="498,119,427,111,428,106,499,114"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="490,197,442,197,442,192,490,192"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="251,180,165,163,166,158,252,175"/>
+</map>
