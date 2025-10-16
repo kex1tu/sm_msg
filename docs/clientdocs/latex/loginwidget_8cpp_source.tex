@@ -1,0 +1,135 @@
+\doxysection{loginwidget.\+cpp}
+\hypertarget{loginwidget_8cpp_source}{}\label{loginwidget_8cpp_source}\mbox{\hyperlink{loginwidget_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{loginwidget_8h}{loginwidget.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}ui\_loginwidget.h"{}}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QMessageBox>}\ \textcolor{comment}{//\ Для\ показа\ информационных\ сообщений.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QAction>}\ \ \ \ \ \textcolor{comment}{//\ Для\ создания\ действия\ "{}показать/скрыть\ пароль"{}.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <QIcon>}\ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ установки\ иконок\ на\ QAction.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <QDebug>}\ \ \ \ \ \ \textcolor{comment}{//\ Для\ отладочных\ сообщений.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00022}\mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{00022}}\ \mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{LoginWidget::LoginWidget}}(QWidget\ *parent)}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00023}00023\ \ \ \ \ :\ QWidget(parent)}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00024}00024\ \ \ \ \ ,\ ui(new\ \mbox{\hyperlink{namespace_ui}{Ui}}::\mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{LoginWidget}})}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ Инициализация\ UI\ из\ сгенерированного\ uic\ файла\ (loginwidget.ui).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00027}00027\ \ \ \ \ ui-\/>setupUi(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Настройка\ кнопки\ "{}Показать/Скрыть\ пароль"{}\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ 1.\ Создаем\ QAction,\ который\ будет\ служить\ "{}кнопкой"{}\ внутри\ QLineEdit.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00031}00031\ \ \ \ \ m\_passwordVisibilityAction\ =\ \textcolor{keyword}{new}\ QAction(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ 2.\ Устанавливаем\ начальную\ иконку\ (пароль\ скрыт).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00033}00033\ \ \ \ \ m\_passwordVisibilityAction-\/>setIcon(QIcon(\textcolor{stringliteral}{"{}:/icons/crossed\_eye.png"{}}));}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ 3.\ Добавляем\ QAction\ в\ поле\ ввода\ пароля.\ Он\ будет\ отображаться\ справа\ (TrailingPosition).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00036}00036\ \ \ \ \ ui-\/>loginPasswordEdit-\/>addAction(m\_passwordVisibilityAction,\ QLineEdit::TrailingPosition);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ 4.\ Устанавливаем\ начальный\ режим\ отображения\ пароля\ (скрыт\ символами).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00039}00039\ \ \ \ \ ui-\/>loginPasswordEdit-\/>setEchoMode(QLineEdit::Password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Соединение\ сигналов\ и\ слотов\ (Connects)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ сигнал\ triggered()\ от\ QAction\ с\ нашим\ слотом\ для\ переключения\ видимости.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00043}00043\ \ \ \ \ connect(m\_passwordVisibilityAction,\ \&QAction::triggered,\ \textcolor{keyword}{this},\ \&LoginWidget::onTogglePasswordVisibilityTriggered);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ клики\ по\ кнопкам\ навигации\ с\ соответствующими\ слотами.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00046}00046\ \ \ \ \ connect(ui-\/>goToRegisterButton,\ \&QPushButton::clicked,\ \textcolor{keyword}{this},\ \&LoginWidget::ongoToRegisterButtonclicked);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00047}00047\ \ \ \ \ connect(ui-\/>goToLoginButton,\ \&QPushButton::clicked,\ \textcolor{keyword}{this},\ \&LoginWidget::ongoToLoginButtonclicked);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ клик\ по\ кнопке\ "{}Войти"{}\ с\ лямбда-\/функцией,\ которая\ собирает\ данные\ и\ эмитирует\ сигнал.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00050}00050\ \ \ \ \ connect(ui-\/>loginButton,\ \&QPushButton::clicked,\ \textcolor{keyword}{this},\ [\textcolor{keyword}{this}]()\{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}LoginWidget:\ loginButton\ clicked.\ Emitting\ loginRequested\ signal."{}};}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Получаем\ и\ очищаем\ данные\ из\ полей\ ввода.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ QString\ username\ =\ ui-\/>loginUsernameEdit-\/>text().trimmed();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ QString\ password\ =\ ui-\/>loginPasswordEdit-\/>text();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ сигнал\ наружу\ (в\ MainWindow).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ emit\ loginRequested(username,\ password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00059}00059\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\ Аналогично\ для\ кнопки\ "{}Зарегистрироваться"{}.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00062}00062\ \ \ \ \ connect(ui-\/>registerButton,\ \&QPushButton::clicked,\ \textcolor{keyword}{this},\ [\textcolor{keyword}{this}]()\{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}LoginWidget:\ registerButton\ clicked.\ Emitting\ registerRequested\ signal."{}};}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ QString\ username\ =\ ui-\/>registerUsernameEdit-\/>text().trimmed();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ QString\ displayName\ =\ ui-\/>registerDisplayNameEdit-\/>text().trimmed();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ QString\ password\ =\ ui-\/>registerPasswordEdit-\/>text();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ emit\ registerRequested(username,\ displayName,\ password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00070}00070\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00071}00071\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00076}\mbox{\hyperlink{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}{00076}}\ \mbox{\hyperlink{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}{LoginWidget::\string~LoginWidget}}()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00077}00077\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keyword}{delete}\ ui;}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00085}00085\ \textcolor{keywordtype}{void}\ LoginWidget::onTogglePasswordVisibilityTriggered()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00086}00086\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ Проверяем\ текущий\ режим\ отображения.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{if}\ (ui-\/>loginPasswordEdit-\/>echoMode()\ ==\ QLineEdit::Password)\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ пароль\ был\ скрыт\ -\/>\ показываем\ его.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ ui-\/>loginPasswordEdit-\/>setEchoMode(QLineEdit::Normal);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Меняем\ иконку\ на\ "{}открытый\ глаз"{}.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ m\_passwordVisibilityAction-\/>setIcon(QIcon(\textcolor{stringliteral}{"{}:/icons/eye.png"{}}));}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00093}00093\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ пароль\ был\ виден\ -\/>\ скрываем\ его.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ ui-\/>loginPasswordEdit-\/>setEchoMode(QLineEdit::Password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Меняем\ иконку\ обратно\ на\ "{}закрытый\ глаз"{}.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ m\_passwordVisibilityAction-\/>setIcon(QIcon(\textcolor{stringliteral}{"{}:/icons/crossed\_eye.png"{}}));}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00099}00099\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00105}\mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{00105}}\ QString\ \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{LoginWidget::username}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00106}00106\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{return}\ ui-\/>loginUsernameEdit-\/>text().trimmed();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00108}00108\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00114}\mbox{\hyperlink{class_login_widget_a0d64d935de92dff39242bc6887a7c989}{00114}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a0d64d935de92dff39242bc6887a7c989}{LoginWidget::onRegistrationSuccess}}()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00115}00115\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00116}00116\ \ \ \ \ QMessageBox::information(\textcolor{keyword}{this},\ \textcolor{stringliteral}{"{}Регистрация\ успешна"{}},\ \textcolor{stringliteral}{"{}Теперь\ вы\ можете\ войти,\ используя\ свои\ данные."{}});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{comment}{//\ Очищаем\ поля\ формы\ регистрации.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00119}00119\ \ \ \ \ ui-\/>registerUsernameEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00120}00120\ \ \ \ \ ui-\/>registerDisplayNameEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00121}00121\ \ \ \ \ ui-\/>registerPasswordEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{comment}{//\ Переключаем\ QStackedWidget\ на\ страницу\ входа\ (индекс\ 1).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00124}00124\ \ \ \ \ ui-\/>stackedWidget-\/>setCurrentIndex(1);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00125}00125\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00130}00130\ \textcolor{keywordtype}{void}\ LoginWidget::ongoToRegisterButtonclicked()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00131}00131\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00132}00132\ \ \ \ \ ui-\/>stackedWidget-\/>setCurrentIndex(0);\ \textcolor{comment}{//\ Индекс\ страницы\ регистрации.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00138}00138\ \textcolor{keywordtype}{void}\ LoginWidget::ongoToLoginButtonclicked()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00139}00139\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00140}00140\ \ \ \ \ ui-\/>stackedWidget-\/>setCurrentIndex(1);\ \textcolor{comment}{//\ Индекс\ страницы\ входа.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00141}00141\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00146}\mbox{\hyperlink{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f}{00146}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f}{LoginWidget::clearFields}}()}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00147}00147\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00148}00148\ \ \ \ \ ui-\/>loginUsernameEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00149}00149\ \ \ \ \ ui-\/>loginPasswordEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00150}00150\ \ \ \ \ ui-\/>registerUsernameEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00151}00151\ \ \ \ \ ui-\/>registerPasswordEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00152}00152\ \ \ \ \ ui-\/>registerDisplayNameEdit-\/>clear();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00153}00153\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00161}\mbox{\hyperlink{class_login_widget_a9a3fa3187e640990165071b37ac33a57}{00161}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a9a3fa3187e640990165071b37ac33a57}{LoginWidget::setUiEnabled}}(\textcolor{keywordtype}{bool}\ enabled)}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00162}00162\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//\ Просто\ устанавливаем\ свойство\ \`{}enabled`\ для\ каждого\ элемента\ управления.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00164}00164\ \ \ \ \ ui-\/>loginUsernameEdit-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00165}00165\ \ \ \ \ ui-\/>loginPasswordEdit-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00166}00166\ \ \ \ \ ui-\/>loginButton-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00167}00167\ \ \ \ \ ui-\/>goToRegisterButton-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00168}00168\ \ \ \ \ ui-\/>registerUsernameEdit-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00169}00169\ \ \ \ \ ui-\/>registerPasswordEdit-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00170}00170\ \ \ \ \ ui-\/>registerDisplayNameEdit-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00171}00171\ \ \ \ \ ui-\/>registerButton-\/>setEnabled(enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8cpp_source_l00172}00172\ \}}
+
+\end{DoxyCode}

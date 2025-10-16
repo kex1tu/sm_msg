@@ -1,0 +1,103 @@
+\doxysection{server.\+h}
+\hypertarget{server_8h_source}{}\label{server_8h_source}\mbox{\hyperlink{server_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00002}00002\ \textcolor{preprocessor}{\#ifndef\ SERVER\_H}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00003}00003\ \textcolor{preprocessor}{\#define\ SERVER\_H}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00005}00005\ \textcolor{comment}{//\ Включения\ базовых\ классов\ и\ утилит\ Qt}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QObject>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <QHostAddress>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00009}00009\ \textcolor{comment}{//\ Включения\ для\ сетевого\ взаимодействия}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QTcpServer>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QWebSocketServer>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00013}00013\ \textcolor{comment}{//\ Включения\ для\ структур\ данных}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <QMap>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <QJsonObject>}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}\ \textcolor{comment}{//\ Кастомные\ структуры\ данных\ (User,\ ChatMessage).}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00018}00018\ \textcolor{comment}{//\ Прямые\ объявления\ (Forward\ Declarations)\ для\ использования\ указателей}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00019}00019\ \textcolor{comment}{//\ без\ включения\ полных\ заголовочных\ файлов.}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00020}00020\ \textcolor{keyword}{class\ }QTcpSocket;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00021}00021\ \textcolor{keyword}{class\ }QWebSocket;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00032}\mbox{\hyperlink{class_server}{00032}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server}}\ :\ \textcolor{keyword}{public}\ QObject}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00033}00033\ \{}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00034}00034\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00036}00036\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server}}(QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{listen}}(\textcolor{keyword}{const}\ QHostAddress\ \&address\ =\ QHostAddress::Any,\ quint16\ tcpPort\ =\ 1234,\ quint16\ wsPort\ =\ 8080);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00052}00052\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Методы-\/обработчики\ (handlers),\ вынесенные\ в\ protected\ для\ наглядности\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00054}00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_a56ec5259c858a9599d0ff16c33fe6882}{initHandlers}}();}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00055}00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_af49291bcd5c9d7d8b9054ec18aa43728}{handleMessageDelivered}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00056}00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{handleMessageRead}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{handleLogoutRequest}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00059}00059\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Слоты\ для\ обработки\ событий\ TCP-\/сервера\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{void}\ onNewTcpConnection();}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00062}00062\ \ \ \ \ \textcolor{keywordtype}{void}\ onTcpReadyRead();}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{void}\ onClientDisconnected();\ \textcolor{comment}{//\ Общий\ слот\ для\ TCP\ и\ WebSocket}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Слоты\ для\ обработки\ событий\ WebSocket-\/сервера\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{void}\ onNewWebSocketConnection();}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{void}\ onWebSocketTextMessageReceived(\textcolor{keyword}{const}\ QString\ \&message);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00069}00069\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{using\ }Handler\ =\ void\ (\mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server}}::*)(QObject*,\ \textcolor{keyword}{const}\ QJsonObject\&);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00076}00076\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Методы\ инициализации\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00077}00077\ \ \ \ \ \textcolor{keywordtype}{bool}\ initDatabase();}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00079}00079\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Набор\ приватных\ методов-\/обработчиков\ для\ каждой\ команды\ от\ клиента\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{void}\ handleGetHistory(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{void}\ handleRegister(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ handleSearchUsers(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00083}00083\ \ \ \ \ \textcolor{keywordtype}{void}\ handleAddContactRequest(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00084}00084\ \ \ \ \ \textcolor{keywordtype}{void}\ handleLogin(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{void}\ handlePrivateMessage(QObject*\ fromUserSocket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{void}\ handleEditMessage(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00087}00087\ \ \ \ \ \textcolor{keywordtype}{void}\ handleDeleteMessage(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{void}\ handleContactRequestResponse(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{void}\ handleTyping(QObject\ *socket,\ \textcolor{keyword}{const}\ QJsonObject\ \&request);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Вспомогательные\ методы\ для\ отправки\ данных\ клиентам\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00092}00092\ \ \ \ \ \textcolor{keywordtype}{void}\ sendJson(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00093}00093\ \ \ \ \ \textcolor{keywordtype}{void}\ sendContactList(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00094}00094\ \ \ \ \ \textcolor{keywordtype}{void}\ sendFullUserList(QObject*\ socket);\ \textcolor{comment}{//\ (Вероятно,\ устарел\ или\ для\ админ-\/панели)}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{void}\ broadcastUserList();\ \textcolor{comment}{//\ Отправляет\ список\ онлайн-\/пользователей\ всем\ подключенным.}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00096}00096\ \ \ \ \ \textcolor{keywordtype}{void}\ sendOfflineMessages(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username);\ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00097}00097\ \ \ \ \ \textcolor{keywordtype}{void}\ sendOnlineStatusList(QObject*\ clientSocket);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00098}00098\ \ \ \ \ \textcolor{keywordtype}{void}\ sendUnreadCounts(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username);\ \textcolor{comment}{//\ Отправляет\ счетчики\ непрочитанных.}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{void}\ sendPendingContactRequests(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00101}00101\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Указатели\ на\ серверные\ объекты\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00103}00103\ \ \ \ \ QTcpServer\ *m\_tcpServer;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00104}00104\ \ \ \ \ QWebSocketServer\ *m\_webSocketServer;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Структуры\ для\ управления\ состоянием\ онлайн-\/клиентов\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00107}00107\ \ \ \ \ QMap<QString,\ QObject*>\ m\_clients;\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00108}00108\ \ \ \ \ QMap<QObject*,\ QString>\ m\_clientsReverse;\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Внутренние\ методы\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00116}00116\ \ \ \ \ \textcolor{keywordtype}{void}\ processJsonRequest(\textcolor{keyword}{const}\ QJsonObject\&\ request,\ QObject*\ clientSocket);}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00117}00117\ \ \ \ \ \textcolor{keywordtype}{void}\ removeClient(QObject*\ clientSocket);\ \textcolor{comment}{//\ (Заготовка/Не\ используется)}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00119}00119\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Специфично\ для\ TCP\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00124}00124\ \ \ \ \ QMap<QTcpSocket*,\ quint32>\ m\_nextBlockSizes;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00126}00126\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Карта\ обработчиков\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00132}00132\ \ \ \ \ QMap<QString,\ Handler>\ m\_handlers;}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00133}00133\ \};}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00135}00135\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SERVER\_H}}
+\DoxyCodeLine{\Hypertarget{server_8h_source_l00136}00136\ }
+
+\end{DoxyCode}

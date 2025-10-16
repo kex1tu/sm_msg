@@ -1,0 +1,81 @@
+\doxysection{Chat\+Cache Struct Reference}
+\hypertarget{struct_chat_cache}{}\label{struct_chat_cache}\index{ChatCache@{ChatCache}}
+
+
+Структура для кэширования истории одного чата в оперативной памяти клиента.  
+
+
+
+
+{\ttfamily \#include $<$structures.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \mbox{\hyperlink{struct_chat_cache_a633a9293cfbc94bf85105f826ce96572}{messages}}
+\begin{DoxyCompactList}\small\item\em Список всех загруженных сообщений для данного чата. \end{DoxyCompactList}\item 
+qint64 \mbox{\hyperlink{struct_chat_cache_acebd5032db9d6f645d12de41efde6dd7}{oldest\+Message\+Id}} = -\/1
+\begin{DoxyCompactList}\small\item\em ID самого старого из загруженных сообщений. Используется для пагинации (запроса более старой истории). -\/1 означает, что история еще не загружалась. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_chat_cache_a1e8ec8d2217f878089ac72ff09908adc}{all\+Messages\+Loaded}} = false
+\begin{DoxyCompactList}\small\item\em Флаг, указывающий, что вся история для этого чата была загружена и больше нет смысла отправлять запросы {\ttfamily get\+\_\+history}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Структура для кэширования истории одного чата в оперативной памяти клиента. 
+
+Используется в {\ttfamily \doxylink{class_main_window}{Main\+Window}} для мгновенного отображения переписок при переключении между контактами без повторных запросов к серверу. 
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00085}{85}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{struct_chat_cache_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_chat_cache_a1e8ec8d2217f878089ac72ff09908adc}\index{ChatCache@{ChatCache}!allMessagesLoaded@{allMessagesLoaded}}
+\index{allMessagesLoaded@{allMessagesLoaded}!ChatCache@{ChatCache}}
+\doxysubsubsection{\texorpdfstring{allMessagesLoaded}{allMessagesLoaded}}
+{\footnotesize\ttfamily \label{struct_chat_cache_a1e8ec8d2217f878089ac72ff09908adc} 
+bool Chat\+Cache\+::all\+Messages\+Loaded = false}
+
+
+
+Флаг, указывающий, что вся история для этого чата была загружена и больше нет смысла отправлять запросы {\ttfamily get\+\_\+history}. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00088}{88}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_cache_a633a9293cfbc94bf85105f826ce96572}\index{ChatCache@{ChatCache}!messages@{messages}}
+\index{messages@{messages}!ChatCache@{ChatCache}}
+\doxysubsubsection{\texorpdfstring{messages}{messages}}
+{\footnotesize\ttfamily \label{struct_chat_cache_a633a9293cfbc94bf85105f826ce96572} 
+QList$<$\mbox{\hyperlink{struct_chat_message}{Chat\+Message}}$>$ Chat\+Cache\+::messages}
+
+
+
+Список всех загруженных сообщений для данного чата. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00086}{86}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_cache_acebd5032db9d6f645d12de41efde6dd7}\index{ChatCache@{ChatCache}!oldestMessageId@{oldestMessageId}}
+\index{oldestMessageId@{oldestMessageId}!ChatCache@{ChatCache}}
+\doxysubsubsection{\texorpdfstring{oldestMessageId}{oldestMessageId}}
+{\footnotesize\ttfamily \label{struct_chat_cache_acebd5032db9d6f645d12de41efde6dd7} 
+qint64 Chat\+Cache\+::oldest\+Message\+Id = -\/1}
+
+
+
+ID самого старого из загруженных сообщений. Используется для пагинации (запроса более старой истории). -\/1 означает, что история еще не загружалась. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00087}{87}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structures_8h}{structures.\+h}}\end{DoxyCompactItemize}

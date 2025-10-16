@@ -1,0 +1,57 @@
+\doxysection{contactlistmodel.\+h}
+\hypertarget{contactlistmodel_8h_source}{}\label{contactlistmodel_8h_source}\mbox{\hyperlink{contactlistmodel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ CONTACTLISTMODEL\_H}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ CONTACTLISTMODEL\_H}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QAbstractListModel>}\ \textcolor{comment}{//\ Базовый\ класс\ для\ списочных\ моделей\ Qt.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QStringList>}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ хранения\ списка\ имен\ пользователей.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QMap>}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00009}00009\ \textcolor{comment}{//\ Прямое\ объявление\ (Forward\ Declaration)\ класса\ MainWindow.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00010}00010\ \textcolor{comment}{//\ Позволяет\ использовать\ указатель\ MainWindow*\ без\ включения\ mainwindow.h,}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00011}00011\ \textcolor{comment}{//\ что\ предотвращает\ циклические\ зависимости\ (т.к.\ MainWindow\ включает\ contactlistmodel.h).}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00012}00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_window}{MainWindow}};}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00026}\mbox{\hyperlink{class_contact_list_model}{00026}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}{ContactListModel}}\ :\ \textcolor{keyword}{public}\ QAbstractListModel}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00028}00028\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ системы\ сигналов\ и\ слотов\ Qt.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00030}00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00038}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}{00038}}\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}{ContactRoles}}\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00039}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7af5a4ec23b3f28f25bd540cd7a67cf1ea}{00039}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7af5a4ec23b3f28f25bd540cd7a67cf1ea}{UsernameRole}}\ =\ Qt::UserRole\ +\ 1,\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00040}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b}{00040}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b}{IsOnlineRole}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00041}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}{00041}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}{IsTypingRole}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00042}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}{00042}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}{LastMessageRole}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00043}\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}{00043}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}{UnreadCountRole}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00044}00044\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}{ContactListModel}}(\mbox{\hyperlink{class_main_window}{MainWindow}}*\ mainWindow,\ QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Реализация\ обязательных\ методов\ QAbstractListModel\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6}{rowCount}}(\textcolor{keyword}{const}\ QModelIndex\ \&parent\ =\ QModelIndex())\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00075}00075\ \ \ \ \ QVariant\ \mbox{\hyperlink{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620}{data}}(\textcolor{keyword}{const}\ QModelIndex\ \&index,\ \textcolor{keywordtype}{int}\ role\ =\ Qt::DisplayRole)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Публичный\ API\ для\ управления\ моделью\ (вызывается\ из\ MainWindow)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00087}00087\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327}{updateContacts}}(\textcolor{keyword}{const}\ QStringList\&\ usernames);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00097}00097\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}{refreshContact}}(\textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00103}00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_model_a90195e311bda835eacf5abd5f4c5b0b2}{clear}}();}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00105}00105\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ Указатель\ на\ MainWindow.\ Используется\ как\ источник\ данных.}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00107}00107\ \ \ \ \ \mbox{\hyperlink{class_main_window}{MainWindow}}*\ m\_mainWindow;}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00109}00109\ \ \ \ \ \textcolor{comment}{//\ Единственные\ данные,\ которыми\ владеет\ сама\ модель:}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//\ упорядоченный\ список\ имен\ пользователей\ (первичных\ ключей).}}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00111}00111\ \ \ \ \ QStringList\ m\_contactUsernames;}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00112}00112\ \};}
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{contactlistmodel_8h_source_l00114}00114\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONTACTLISTMODEL\_H}}
+
+\end{DoxyCode}

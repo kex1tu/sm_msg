@@ -1,0 +1,62 @@
+\doxysection{smoothtextedit.\+cpp}
+\hypertarget{smoothtextedit_8cpp_source}{}\label{smoothtextedit_8cpp_source}\mbox{\hyperlink{smoothtextedit_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{smoothtextedit_8h}{smoothtextedit.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <QWheelEvent>}\ \ \ \ \ \ \textcolor{comment}{//\ Для\ обработки\ событий\ колеса\ мыши.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QScrollBar>}\ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ доступа\ к\ вертикальному\ скроллбару.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QEasingCurve>}\ \ \ \ \ \textcolor{comment}{//\ Для\ задания\ кривой\ анимации\ (плавное\ замедление).}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00019}\mbox{\hyperlink{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}{00019}}\ \mbox{\hyperlink{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}{SmoothTextEdit::SmoothTextEdit}}(QWidget\ *parent)}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00020}00020\ \ \ \ \ :\ QTextEdit(parent)}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00021}00021\ \{}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ 1.\ Создаем\ экземпляр\ анимации.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00023}00023\ \ \ \ \ m\_scrollAnimation\ =\ \textcolor{keyword}{new}\ QPropertyAnimation(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ 2.\ Устанавливаем\ цель\ анимации.\ Мы\ будем\ анимировать\ не\ сам\ QTextEdit,}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ \ \ \ а\ его\ вертикальный\ скроллбар.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00027}00027\ \ \ \ \ m\_scrollAnimation-\/>setTargetObject(verticalScrollBar());}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ 3.\ Указываем,\ какое\ свойство\ цели\ мы\ будем\ анимировать.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ \ \ \ У\ QScrollBar\ есть\ свойство\ "{}value"{},\ которое\ хранит\ его\ текущую\ позицию.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00031}00031\ \ \ \ \ m\_scrollAnimation-\/>setPropertyName(\textcolor{stringliteral}{"{}value"{}});}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ 4.\ Задаем\ длительность\ анимации\ в\ миллисекундах.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00034}00034\ \ \ \ \ m\_scrollAnimation-\/>setDuration(200);}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ 5.\ Устанавливаем\ "{}кривую\ замедления"{}\ (easing\ curve).}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ \ \ \ OutCubic\ означает,\ что\ анимация\ начнется\ быстро\ и\ плавно\ замедлится\ к\ концу,}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ \ \ \ что\ создает\ приятный\ и\ естественный\ эффект.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00039}00039\ \ \ \ \ m\_scrollAnimation-\/>setEasingCurve(QEasingCurve::OutCubic);}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00040}00040\ \}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00049}\mbox{\hyperlink{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}{00049}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}{SmoothTextEdit::wheelEvent}}(QWheelEvent\ *e)}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00050}00050\ \{}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ 1.\ Если\ анимация\ уже\ проигрывается,\ останавливаем\ ее.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ важно,\ если\ пользователь\ быстро\ крутит\ колесо,\ чтобы}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ \ \ \ новая\ анимация\ начиналась\ с\ текущей\ фактической\ позиции.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00054}00054\ \ \ \ \ m\_scrollAnimation-\/>stop();}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//\ 2.\ Получаем\ текущую\ позицию\ скроллбара.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{int}\ currentValue\ =\ verticalScrollBar()-\/>value();}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ 3.\ Вычисляем,\ на\ сколько\ пикселей\ нужно\ прокрутить.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ e-\/>angleDelta().y()\ возвращает\ "{}шаги"{}\ колеса\ (обычно\ кратно\ 120).}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ Знак\ "{}-\/"{}\ инвертирует\ направление\ (стандартно\ для\ Qt).}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ Коэффициент\ 0.4\ уменьшает\ скорость/дистанцию\ прокрутки.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{int}\ delta\ =\ e-\/>angleDelta().y()\ *\ -\/0.4;}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ 4.\ Настраиваем\ анимацию:\ откуда\ и\ куда\ двигаться.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00066}00066\ \ \ \ \ m\_scrollAnimation-\/>setStartValue(currentValue);}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00067}00067\ \ \ \ \ m\_scrollAnimation-\/>setEndValue(currentValue\ +\ delta);}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//\ 5.\ Запускаем\ анимацию.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00070}00070\ \ \ \ \ m\_scrollAnimation-\/>start();}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{comment}{//\ 6.\ "{}Принимаем"{}\ событие,\ сообщая\ Qt,\ что\ мы\ его\ обработали.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ предотвращает\ передачу\ события\ родительским\ виджетам.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00074}00074\ \ \ \ \ e-\/>accept();}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8cpp_source_l00075}00075\ \}}
+
+\end{DoxyCode}

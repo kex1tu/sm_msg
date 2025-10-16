@@ -1,0 +1,179 @@
+\doxysection{Contact\+List\+Delegate Class Reference}
+\hypertarget{class_contact_list_delegate}{}\label{class_contact_list_delegate}\index{ContactListDelegate@{ContactListDelegate}}
+
+
+Кастомный делегат для отрисовки элементов в списке контактов (QList\+View).  
+
+
+
+
+{\ttfamily \#include $<$contactlistdelegate.\+h$>$}
+
+
+
+Inheritance diagram for Contact\+List\+Delegate\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_contact_list_delegate__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Contact\+List\+Delegate\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_contact_list_delegate__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}{Contact\+List\+Delegate}} (QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804}{paint}} (QPainter \texorpdfstring{$\ast$}{*}painter, const QStyle\+Option\+View\+Item \&option, const QModel\+Index \&index) const override
+\begin{DoxyCompactList}\small\item\em Основной метод, отвечающий за отрисовку одного элемента списка. \end{DoxyCompactList}\item 
+QSize \mbox{\hyperlink{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415}{size\+Hint}} (const QStyle\+Option\+View\+Item \&option, const QModel\+Index \&index) const override
+\begin{DoxyCompactList}\small\item\em Метод для расчета размера элемента. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Кастомный делегат для отрисовки элементов в списке контактов (QList\+View). 
+
+Этот класс полностью отвечает за визуальное представление каждого контакта в списке. Он не хранит никаких данных, а получает всю необходимую информацию для отрисовки напрямую из модели (\doxylink{class_contact_list_model}{Contact\+List\+Model}) через {\ttfamily QModel\+Index} и кастомные роли.
+
+В обязанности делегата входит отрисовка\+:
+\begin{DoxyItemize}
+\item Двухстрочного представления\+: Имя пользователя и превью последнего сообщения.
+\item Визуального статуса "{}онлайн"{} (жирный шрифт).
+\item Статуса "{}печатает..."{}.
+\item "{}Бейджа"{} с количеством непрочитанных сообщений. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+\end{DoxyItemize}
+
+Definition at line \mbox{\hyperlink{contactlistdelegate_8h_source_l00024}{24}} of file \mbox{\hyperlink{contactlistdelegate_8h_source}{contactlistdelegate.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_contact_list_delegate_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}\index{ContactListDelegate@{ContactListDelegate}!ContactListDelegate@{ContactListDelegate}}
+\index{ContactListDelegate@{ContactListDelegate}!ContactListDelegate@{ContactListDelegate}}
+\doxysubsubsection{\texorpdfstring{ContactListDelegate()}{ContactListDelegate()}}
+{\footnotesize\ttfamily \label{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2} 
+Contact\+List\+Delegate\+::\+Contact\+List\+Delegate (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект (стандартно для Qt).\\
+\hline
+\end{DoxyParams}
+В отличие от предыдущих версий, конструктор теперь максимально прост. Делегат полностью отвязан от \doxylink{class_main_window}{Main\+Window} и не требует указателей на его кэши, что является значительным архитектурным улучшением.
+
+Делегат полностью отвязан от \doxylink{class_main_window}{Main\+Window} и не хранит собственного состояния, поэтому конструктор максимально прост. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{contactlistdelegate_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{contactlistdelegate_8cpp_source}{contactlistdelegate.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_contact_list_delegate_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804}\index{ContactListDelegate@{ContactListDelegate}!paint@{paint}}
+\index{paint@{paint}!ContactListDelegate@{ContactListDelegate}}
+\doxysubsubsection{\texorpdfstring{paint()}{paint()}}
+{\footnotesize\ttfamily \label{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804} 
+void Contact\+List\+Delegate\+::paint (\begin{DoxyParamCaption}\item[{QPainter \texorpdfstring{$\ast$}{*}}]{painter}{, }\item[{const QStyle\+Option\+View\+Item \&}]{option}{, }\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Основной метод, отвечающий за отрисовку одного элемента списка. 
+
+Основной метод отрисовки одного элемента (контакта) в списке.
+
+Этот метод вызывается QList\+View для каждого видимого элемента. Он получает все данные из модели через {\ttfamily index.\+data(\+Role)} и использует {\ttfamily QPainter} для создания кастомного вида.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & "{}Холст"{} (QPainter), на котором происходит вся отрисовка. \\
+\hline
+{\em option} & Содержит информацию о состоянии элемента (выделен, наведен и т.\+д.) и его геометрию (прямоугольник, в котором нужно рисовать). \\
+\hline
+{\em index} & Индекс элемента в модели, предоставляющий доступ к данным (имя, статус, и т.\+д.).\\
+\hline
+\end{DoxyParams}
+Этот метод вызывается QList\+View для каждого видимого элемента. Он запрашивает все необходимые данные у модели через кастомные роли и использует QPainter для создания сложного двухстрочного представления. 
+\begin{DoxyParams}{Parameters}
+{\em painter} & "{}Холст"{} (QPainter) для рисования. \\
+\hline
+{\em option} & Содержит геометрию и состояние элемента (выделен, наведен и т.\+д.). \\
+\hline
+{\em index} & Индекс элемента в \doxylink{class_contact_list_model}{Contact\+List\+Model}, предоставляющий доступ к данным. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{contactlistdelegate_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{contactlistdelegate_8cpp_source}{contactlistdelegate.\+cpp}}.
+
+\Hypertarget{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415}\index{ContactListDelegate@{ContactListDelegate}!sizeHint@{sizeHint}}
+\index{sizeHint@{sizeHint}!ContactListDelegate@{ContactListDelegate}}
+\doxysubsubsection{\texorpdfstring{sizeHint()}{sizeHint()}}
+{\footnotesize\ttfamily \label{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415} 
+QSize Contact\+List\+Delegate\+::size\+Hint (\begin{DoxyParamCaption}\item[{const QStyle\+Option\+View\+Item \&}]{option}{, }\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Метод для расчета размера элемента. 
+
+Метод для расчета размера элемента списка.
+
+QList\+View вызывает этот метод, чтобы определить, сколько места выделить для каждого элемента в списке. Это необходимо, так как наши элементы выше стандартных из-\/за двухстрочного отображения.
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & Опции представления, которые могут влиять на размер. \\
+\hline
+{\em index} & Индекс элемента, для которого рассчитывается размер. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QSize Рекомендуемый размер (ширина и высота) для этого элемента.
+\end{DoxyReturn}
+QList\+View вызывает этот метод, чтобы определить, сколько места выделить для каждого контакта. 
+\begin{DoxyParams}{Parameters}
+{\em option} & Опции представления. \\
+\hline
+{\em index} & Индекс элемента. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QSize Рекомендуемый размер. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{contactlistdelegate_8cpp_source_l00121}{121}} of file \mbox{\hyperlink{contactlistdelegate_8cpp_source}{contactlistdelegate.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{contactlistdelegate_8h}{contactlistdelegate.\+h}}\item 
+\mbox{\hyperlink{contactlistdelegate_8cpp}{contactlistdelegate.\+cpp}}\end{DoxyCompactItemize}

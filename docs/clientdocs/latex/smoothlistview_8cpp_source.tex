@@ -1,0 +1,96 @@
+\doxysection{smoothlistview.\+cpp}
+\hypertarget{smoothlistview_8cpp_source}{}\label{smoothlistview_8cpp_source}\mbox{\hyperlink{smoothlistview_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{smoothlistview_8h}{smoothlistview.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <QWheelEvent>}\ \ \textcolor{comment}{//\ Для\ обработки\ событий\ колеса\ мыши.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QResizeEvent>}\ \textcolor{comment}{//\ Для\ обработки\ событий\ изменения\ размера.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QEvent>}\ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ обработки\ общих\ событий.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00019}\mbox{\hyperlink{class_smooth_list_view_abc9ceb413c63f2970f44efcff2771c7b}{00019}}\ \mbox{\hyperlink{class_smooth_list_view_abc9ceb413c63f2970f44efcff2771c7b}{SmoothListView::SmoothListView}}(QWidget\ *parent)}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00020}00020\ \ \ \ \ :\ QListView(parent)}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00021}00021\ \{}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ 1.\ Устанавливаем\ режим\ попиксельной\ прокрутки.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Вместо\ стандартного\ режима\ "{}по\ элементам"{}\ (ScrollPerItem),\ этот\ режим}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ \ \ \ позволяет\ плавно\ сдвигать\ содержимое\ на\ любое\ количество\ пикселей.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ основа\ для\ плавной\ прокрутки.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00026}00026\ \ \ \ \ setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ 2.\ Отключаем\ горизонтальный\ скроллбар,\ так\ как\ наш\ контент\ (сообщения)}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ \ \ \ должен\ всегда\ подстраиваться\ под\ ширину\ виджета.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00030}00030\ \ \ \ \ setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ 3.\ Устанавливаем\ режим\ пакетной\ компоновки\ (Batched\ layout).}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ оптимизация\ производительности.\ Вместо\ того\ чтобы\ пересчитывать}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{comment}{//\ \ \ \ геометрию\ всех\ элементов\ при\ каждом\ небольшом\ изменении,\ QListView}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ \ \ \ будет\ делать\ это\ "{}пачками"{}\ по\ \`{}batchSize`\ элементов,\ что\ снижает}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ \ \ \ нагрузку\ при\ работе\ с\ очень\ большими\ списками.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00037}00037\ \ \ \ \ setLayoutMode(QListView::Batched);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00038}00038\ \ \ \ \ setBatchSize(100);\ \textcolor{comment}{//\ Размер\ "{}пачки"{}.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00039}00039\ \}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00045}\mbox{\hyperlink{class_smooth_list_view_a1946c9e371257f0983140241f203dc38}{00045}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_smooth_list_view_a1946c9e371257f0983140241f203dc38}{SmoothListView::wheelEvent}}(QWheelEvent\ *e)}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00046}00046\ \{}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ Стандартная\ прокрутка\ в\ режиме\ ScrollPerPixel\ может\ быть\ слишком\ быстрой.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ Мы\ перехватываем\ событие,\ чтобы\ уменьшить\ его\ интенсивность.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ 1.\ Получаем\ "{}дельта-\/угол"{}\ —\ насколько\ было\ повернуто\ колесо.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00051}00051\ \ \ \ \ QPoint\ angleDelta\ =\ e-\/>angleDelta();}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ 2.\ Определяем\ коэффициент\ замедления.\ 0.5\ означает,\ что\ прокрутка}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ \ \ \ будет\ в\ два\ раза\ медленнее\ стандартной.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordtype}{double}\ scrollFactor\ =\ 0.5;}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ 3.\ Создаем\ НОВОЕ\ событие\ QWheelEvent,\ копируя\ все\ поля\ из\ старого,}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ \ \ \ но\ умножая\ \`{}angleDelta`\ на\ наш\ коэффициент.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00059}00059\ \ \ \ \ QWheelEvent\ newEvent(}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ e-\/>position(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ e-\/>globalPosition(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ e-\/>pixelDelta(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ QPoint(angleDelta.x()\ *\ scrollFactor,\ angleDelta.y()\ *\ scrollFactor),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ e-\/>buttons(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ e-\/>modifiers(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ e-\/>phase(),}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ e-\/>inverted()}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ 4.\ Передаем\ наше\ измененное,\ "{}ослабленное"{}\ событие\ в\ стандартный}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ \ \ \ обработчик\ базового\ класса\ QListView.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00072}00072\ \ \ \ \ QListView::wheelEvent(\&newEvent);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00073}00073\ \}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00079}\mbox{\hyperlink{class_smooth_list_view_a003ef806d614ddbd63d8c9a69c513015}{00079}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_smooth_list_view_a003ef806d614ddbd63d8c9a69c513015}{SmoothListView::resizeEvent}}(QResizeEvent\ *e)}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ 1.\ Сначала\ вызываем\ стандартный\ обработчик.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00082}00082\ \ \ \ \ QListView::resizeEvent(e);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ 2.\ Затем\ принудительно\ вызываем\ \`{}doItemsLayout()`.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ необходимо,\ потому\ что\ в\ режиме\ пакетной\ компоновки\ и\ попиксельной}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{comment}{//\ \ \ \ прокрутки\ QListView\ может\ не\ сразу\ обновить\ расположение\ элементов}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ \ \ \ при\ изменении\ ширины,\ что\ приводит\ к\ визуальным\ артефактам.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Этот\ вызов\ заставляет\ его\ немедленно\ пересчитать\ геометрию\ всех\ видимых\ элементов.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00089}00089\ \ \ \ \ doItemsLayout();}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00090}00090\ \}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00101}\mbox{\hyperlink{class_smooth_list_view_a0c6b539f2419b22c33d449ca45a1e783}{00101}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_smooth_list_view_a0c6b539f2419b22c33d449ca45a1e783}{SmoothListView::viewportEvent}}(QEvent\ *event)}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{switch}\ (event-\/>type())\ \{}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ Если\ мышь\ вошла\ в\ область\ виджета,\ двигается\ над\ ним\ или\ покинула\ его...}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{case}\ QEvent::HoverEnter:}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{case}\ QEvent::HoverMove:}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{case}\ QEvent::HoverLeave:}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ мы\ "{}принимаем"{}\ событие.\ Это\ гарантирует,\ что\ Qt\ продолжит}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ отслеживать\ положение\ мыши\ и\ отправлять\ события\ наведения,}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ которые\ нужны\ для\ hover-\/эффектов\ в\ делегате.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}-\/>accept();}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Для\ всех\ остальных\ типов\ событий\ вызываем\ стандартный\ обработчик.}}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{return}\ QListView::viewportEvent(event);}
+\DoxyCodeLine{\Hypertarget{smoothlistview_8cpp_source_l00119}00119\ \}}
+
+\end{DoxyCode}

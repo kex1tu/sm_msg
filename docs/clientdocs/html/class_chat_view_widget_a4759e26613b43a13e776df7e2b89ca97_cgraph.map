@@ -1,0 +1,7 @@
+<map id="ChatViewWidget::hideReplyUI" name="ChatViewWidget::hideReplyUI">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,205,57"/>
+<area shape="rect" id="Node000002" href="$class_chat_view_widget.html#ab3171e6e82933e146664c24127e616b1" title="Сбрасывает текст&#45;подсказку (placeholder) в поле ввода." alt="" coords="258,5,461,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,31,242,28,242,33,205,37"/>
+<area shape="rect" id="Node000003" href="$class_chat_view_widget.html#ab3b4618e5a002eb5a3efd9e73e1463c9" title=" " alt="" coords="253,56,466,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,51,237,55,237,60,205,57"/>
+</map>

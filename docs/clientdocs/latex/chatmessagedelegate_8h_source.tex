@@ -1,0 +1,46 @@
+\doxysection{chatmessagedelegate.\+h}
+\hypertarget{chatmessagedelegate_8h_source}{}\label{chatmessagedelegate_8h_source}\mbox{\hyperlink{chatmessagedelegate_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00002}00002\ \textcolor{preprocessor}{\#ifndef\ CHATMESSAGEDELEGATE\_H\ }\textcolor{comment}{//\ Защита\ от\ двойного\ включения\ (Include\ Guard),}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00003}\mbox{\hyperlink{chatmessagedelegate_8h_aef085acdecce2957c63d4e36fbb28adf}{00003}}\ \textcolor{preprocessor}{\#define\ CHATMESSAGEDELEGATE\_H\ }\textcolor{comment}{//\ стандартная\ практика\ для\ заголовочных\ файлов\ C++.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QObject>}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QStyledItemDelegate>}\ \textcolor{comment}{//\ Включаем\ базовый\ класс\ для\ нашего\ делегата.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <QMap>}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Используется\ для\ хранения\ SVG-\/рендереров.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Включаем\ определение\ структуры\ ChatMessage.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00010}00010\ \textcolor{comment}{//\ Прямое\ объявление\ (Forward\ Declaration)\ классов.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00011}00011\ \textcolor{comment}{//\ Это\ позволяет\ нам\ использовать\ указатели\ на\ эти\ классы\ (ChatMessageModel*,\ QSvgRenderer*)}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00012}00012\ \textcolor{comment}{//\ без\ необходимости\ включать\ их\ полные\ заголовочные\ файлы\ (.h).}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00013}00013\ \textcolor{comment}{//\ Такой\ подход\ ускоряет\ компиляцию\ и\ уменьшает\ зависимости\ между\ файлами.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00014}00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00015}00015\ \textcolor{keyword}{class\ }QSvgRenderer;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00027}\mbox{\hyperlink{class_chat_message_delegate}{00027}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}{ChatMessageDelegate}}\ :\ \textcolor{keyword}{public}\ QStyledItemDelegate}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00029}00029\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}{ChatMessageDelegate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}}*\ model,\ QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00046}00046\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{paint}}(QPainter\ *painter,\ \textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00055}00055\ \ \ \ \ QSize\ \mbox{\hyperlink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{sizeHint}}(\textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00057}00057\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ Указатель\ на\ модель.\ \`{}const`,\ потому\ что\ делегат\ не\ должен\ изменять\ данные,}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ он\ их\ только\ читает\ для\ отрисовки.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}}*\ m\_model;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Статические\ члены\ для\ эффективного\ управления\ ресурсами\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{static}\ QMap<ChatMessage::MessageStatus,\ QSvgRenderer*>\ m\_statusRenderers;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ m\_renderersInitialized;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00087}00087\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ initRenderers(QObject*\ parent);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00088}00088\ \};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00090}00090\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CHATMESSAGEDELEGATE\_H}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8h_source_l00091}00091\ }
+
+\end{DoxyCode}

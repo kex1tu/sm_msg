@@ -1,0 +1,287 @@
+\doxysection{Server Class Reference}
+\hypertarget{class_server}{}\label{class_server}\index{Server@{Server}}
+
+
+Главный класс, реализующий логику чат-\/сервера.  
+
+
+
+
+{\ttfamily \#include $<$server.\+h$>$}
+
+
+
+Inheritance diagram for Server\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=132pt]{class_server__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Server\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=132pt]{class_server__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server}} (QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{listen}} (const QHost\+Address \&address=QHost\+Address\+::\+Any, quint16 tcp\+Port=1234, quint16 ws\+Port=8080)
+\begin{DoxyCompactList}\small\item\em Запускает сервер для прослушивания входящих подключений. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_server_a56ec5259c858a9599d0ff16c33fe6882}{init\+Handlers}} ()
+\begin{DoxyCompactList}\small\item\em Инициализирует карту обработчиков команд (Command Pattern). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_af49291bcd5c9d7d8b9054ec18aa43728}{handle\+Message\+Delivered}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{handle\+Message\+Read}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает уведомление от клиента о том, что сообщение было прочитано. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{handle\+Logout\+Request}} (QObject \texorpdfstring{$\ast$}{*}socket, const QJson\+Object \&request)
+\begin{DoxyCompactList}\small\item\em Обрабатывает запрос клиента на выход из системы. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Главный класс, реализующий логику чат-\/сервера. 
+
+Этот класс управляет TCP и Web\+Socket серверами, обрабатывает подключения клиентов, аутентифицирует их, обрабатывает их запросы (отправка сообщений, поиск, управление контактами и т.\+д.), взаимодействует с базой данных SQLite для хранения информации и управляет состоянием онлайн-\/пользователей. 
+
+Definition at line \mbox{\hyperlink{server_8h_source_l00032}{32}} of file \mbox{\hyperlink{server_8h_source}{server.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_server_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_server_aaf98d5194faee831c6340cc736b9b879}\index{Server@{Server}!Server@{Server}}
+\index{Server@{Server}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{Server()}{Server()}}
+{\footnotesize\ttfamily \label{class_server_aaf98d5194faee831c6340cc736b9b879} 
+Server\+::\+Server (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор класса \doxylink{class_server}{Server}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект.\\
+\hline
+\end{DoxyParams}
+Этот конструктор выполняет всю необходимую первоначальную настройку для запуска сервера\+:
+\begin{DoxyEnumerate}
+\item Создает экземпляры TCP и Web\+Socket серверов.
+\item Соединяет их сигналы {\ttfamily new\+Connection} со слотами для обработки новых клиентских подключений.
+\item Инициализирует базу данных, создавая необходимые таблицы, если их нет. В случае неудачи, приложение аварийно завершается.
+\item Инициализирует карту обработчиков команд ({\ttfamily m\+\_\+handlers}).
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект в иерархии Qt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00040}{40}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aaf98d5194faee831c6340cc736b9b879_cgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-func-members}
+\Hypertarget{class_server_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_server_ab0cc0ba54dab5ede748107dbe62811a1}\index{Server@{Server}!handleLogoutRequest@{handleLogoutRequest}}
+\index{handleLogoutRequest@{handleLogoutRequest}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleLogoutRequest()}{handleLogoutRequest()}}
+{\footnotesize\ttfamily \label{class_server_ab0cc0ba54dab5ede748107dbe62811a1} 
+void Server\+::handle\+Logout\+Request (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Обрабатывает запрос клиента на выход из системы. 
+
+Этот метод выполняет проверку безопасности, чтобы убедиться, что клиент пытается выйти из своего собственного аккаунта. В случае успеха, он отправляет подтверждение клиенту, удаляет его из списков онлайн-\/пользователей и рассылает всем остальным обновленный список присутствия.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, отправившего запрос. \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily username} пользователя, который хочет выйти. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00265}{265}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_ab0cc0ba54dab5ede748107dbe62811a1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_af49291bcd5c9d7d8b9054ec18aa43728}\index{Server@{Server}!handleMessageDelivered@{handleMessageDelivered}}
+\index{handleMessageDelivered@{handleMessageDelivered}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleMessageDelivered()}{handleMessageDelivered()}}
+{\footnotesize\ttfamily \label{class_server_af49291bcd5c9d7d8b9054ec18aa43728} 
+void Server\+::handle\+Message\+Delivered (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено. 
+
+Когда клиент получает сообщение, он отправляет это подтверждение обратно. Сервер обновляет статус сообщения в базе данных на {\ttfamily is\+\_\+delivered = 1}, а затем пересылает это уведомление {\bfseries{автору}} сообщения, чтобы тот увидел, что его сообщение дошло до адресата.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, приславшего подтверждение (получатель сообщения). \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily id} доставленного сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00176}{176}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_af49291bcd5c9d7d8b9054ec18aa43728_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_aadc3f04c0a456be1165c480843936617}\index{Server@{Server}!handleMessageRead@{handleMessageRead}}
+\index{handleMessageRead@{handleMessageRead}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{handleMessageRead()}{handleMessageRead()}}
+{\footnotesize\ttfamily \label{class_server_aadc3f04c0a456be1165c480843936617} 
+void Server\+::handle\+Message\+Read (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QJson\+Object \&}]{request}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Обрабатывает уведомление от клиента о том, что сообщение было прочитано. 
+
+Логика аналогична {\ttfamily handle\+Message\+Delivered}. Когда клиент-\/получатель показывает сообщение на экране, он отправляет это подтверждение. Сервер обновляет статус в БД на {\ttfamily is\+\_\+read = 1} и пересылает уведомление автору сообщения, чтобы тот увидел, что его сообщение прочитано.
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket} & Сокет клиента, приславшего подтверждение (получатель сообщения). \\
+\hline
+{\em request} & JSON-\/объект, содержащий {\ttfamily id} прочитанного сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00221}{221}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_aadc3f04c0a456be1165c480843936617_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_a56ec5259c858a9599d0ff16c33fe6882}\index{Server@{Server}!initHandlers@{initHandlers}}
+\index{initHandlers@{initHandlers}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{initHandlers()}{initHandlers()}}
+{\footnotesize\ttfamily \label{class_server_a56ec5259c858a9599d0ff16c33fe6882} 
+void Server\+::init\+Handlers (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Инициализирует карту обработчиков команд (Command Pattern). 
+
+Этот метод заполняет {\ttfamily m\+\_\+handlers}, сопоставляя строковые имена команд, приходящие от клиентов в JSON-\/поле "{}type"{}, с указателями на методы класса {\ttfamily \doxylink{class_server}{Server}}, которые должны их обрабатывать. 
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00149}{149}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_server_a56ec5259c858a9599d0ff16c33fe6882_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{class_server_a56ec5259c858a9599d0ff16c33fe6882_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_server_abb791768fde7d1871855b9cf0aebdcbe}\index{Server@{Server}!listen@{listen}}
+\index{listen@{listen}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily \label{class_server_abb791768fde7d1871855b9cf0aebdcbe} 
+bool Server\+::listen (\begin{DoxyParamCaption}\item[{const QHost\+Address \&}]{address}{ = {\ttfamily QHostAddress\+:\+:Any}, }\item[{quint16}]{tcp\+Port}{ = {\ttfamily 1234}, }\item[{quint16}]{ws\+Port}{ = {\ttfamily 8080}}\end{DoxyParamCaption})}
+
+
+
+Запускает сервер для прослушивания входящих подключений. 
+
+Запускает TCP и Web\+Socket серверы для прослушивания входящих подключений.
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & IP-\/адрес для прослушивания (по умолчанию QHost\+Address\+::\+Any -\/ все интерфейсы). \\
+\hline
+{\em tcp\+Port} & Порт для TCP-\/подключений. \\
+\hline
+{\em ws\+Port} & Порт для Web\+Socket-\/подключений. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} если оба сервера успешно запущены, иначе {\ttfamily false}.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em address} & IP-\/адрес, на котором будут прослушиваться порты. По умолчанию QHost\+Address\+::\+Any, что означает все доступные сетевые интерфейсы. \\
+\hline
+{\em tcp\+Port} & Порт для TCP-\/подключений. \\
+\hline
+{\em ws\+Port} & Порт для Web\+Socket-\/подключений. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} если оба сервера успешно запущены, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{server_8cpp_source_l00084}{84}} of file \mbox{\hyperlink{server_8cpp_source}{server.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=227pt]{class_server_abb791768fde7d1871855b9cf0aebdcbe_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{server_8h}{server.\+h}}\item 
+\mbox{\hyperlink{server_8cpp}{server.\+cpp}}\end{DoxyCompactItemize}

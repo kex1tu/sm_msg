@@ -1,0 +1,162 @@
+\doxysection{Chat\+Message\+Delegate Class Reference}
+\hypertarget{class_chat_message_delegate}{}\label{class_chat_message_delegate}\index{ChatMessageDelegate@{ChatMessageDelegate}}
+
+
+Кастомный делегат для отрисовки сообщений в виде "{}пузырей"{} в QList\+View.  
+
+
+
+
+{\ttfamily \#include $<$chatmessagedelegate.\+h$>$}
+
+
+
+Inheritance diagram for Chat\+Message\+Delegate\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{class_chat_message_delegate__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Chat\+Message\+Delegate\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{class_chat_message_delegate__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}{Chat\+Message\+Delegate}} (const \mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}} \texorpdfstring{$\ast$}{*}model, QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{paint}} (QPainter \texorpdfstring{$\ast$}{*}painter, const QStyle\+Option\+View\+Item \&option, const QModel\+Index \&index) const override
+\begin{DoxyCompactList}\small\item\em Основной метод отрисовки. Вызывается для каждого видимого элемента. \end{DoxyCompactList}\item 
+QSize \mbox{\hyperlink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{size\+Hint}} (const QStyle\+Option\+View\+Item \&option, const QModel\+Index \&index) const override
+\begin{DoxyCompactList}\small\item\em Метод для расчета размера элемента. Вызывается представлением (QList\+View) чтобы определить, сколько места выделить для каждого сообщения. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Кастомный делегат для отрисовки сообщений в виде "{}пузырей"{} в QList\+View. 
+
+Этот класс полностью берет на себя ответственность за визуальное представление каждого элемента в списке сообщений. Он наследуется от QStyled\+Item\+Delegate, чтобы иметь доступ к стилям приложения, но переопределяет методы \doxylink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{paint()} и \doxylink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{size\+Hint()} для создания уникального внешнего вида. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8h_source_l00027}{27}} of file \mbox{\hyperlink{chatmessagedelegate_8h_source}{chatmessagedelegate.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_chat_message_delegate_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}\index{ChatMessageDelegate@{ChatMessageDelegate}!ChatMessageDelegate@{ChatMessageDelegate}}
+\index{ChatMessageDelegate@{ChatMessageDelegate}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{ChatMessageDelegate()}{ChatMessageDelegate()}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe} 
+Chat\+Message\+Delegate\+::\+Chat\+Message\+Delegate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_chat_message_model}{Chat\+Message\+Model}} \texorpdfstring{$\ast$}{*}}]{model}{, }\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+Конструктор делегата.
+
+
+\begin{DoxyParams}{Parameters}
+{\em model} & Указатель на модель данных. Необходим для получения информации о цитируемых сообщениях (ответах), так как делегат имеет доступ только к текущему элементу (index). \\
+\hline
+{\em parent} & Родительский объект (стандартно для Qt).\\
+\hline
+{\em model} & Указатель на модель данных, необходим для получения информации о цитируемых сообщениях. \\
+\hline
+{\em parent} & Родительский объект. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00025}{25}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_chat_message_delegate_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}\index{ChatMessageDelegate@{ChatMessageDelegate}!paint@{paint}}
+\index{paint@{paint}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{paint()}{paint()}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_a63a8d8680f60653282990409146e300b} 
+void Chat\+Message\+Delegate\+::paint (\begin{DoxyParamCaption}\item[{QPainter \texorpdfstring{$\ast$}{*}}]{painter}{, }\item[{const QStyle\+Option\+View\+Item \&}]{option}{, }\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Основной метод отрисовки. Вызывается для каждого видимого элемента. 
+
+Основной метод отрисовки одного элемента (сообщения) в списке.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & "{}Холст"{} (QPainter), на котором происходит вся отрисовка. \\
+\hline
+{\em option} & Содержит информацию о состоянии элемента (выделен, наведен и т.\+д.) и его геометрию (прямоугольник, в котором нужно рисовать). \\
+\hline
+{\em index} & Индекс элемента в модели, предоставляющий доступ к данным (\doxylink{struct_chat_message}{Chat\+Message}).\\
+\hline
+{\em painter} & QPainter, предоставляющий API для рисования. \\
+\hline
+{\em option} & QStyle\+Option\+View\+Item, содержащий геометрию и состояние элемента. \\
+\hline
+{\em index} & QModel\+Index, предоставляющий доступ к данным сообщения в модели. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00061}{61}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
+
+\Hypertarget{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}\index{ChatMessageDelegate@{ChatMessageDelegate}!sizeHint@{sizeHint}}
+\index{sizeHint@{sizeHint}!ChatMessageDelegate@{ChatMessageDelegate}}
+\doxysubsubsection{\texorpdfstring{sizeHint()}{sizeHint()}}
+{\footnotesize\ttfamily \label{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759} 
+QSize Chat\+Message\+Delegate\+::size\+Hint (\begin{DoxyParamCaption}\item[{const QStyle\+Option\+View\+Item \&}]{option}{, }\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Метод для расчета размера элемента. Вызывается представлением (QList\+View) чтобы определить, сколько места выделить для каждого сообщения. 
+
+Метод для расчета высоты элемента.
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & Опции представления, включая доступную ширину. \\
+\hline
+{\em index} & Индекс элемента для доступа к его данным (тексту, наличию цитаты). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QSize Рекомендуемый размер (ширина и высота) для этого элемента.
+\end{DoxyReturn}
+View вызывает этот метод, чтобы знать, сколько места выделить под сообщение. Расчет должен быть консистентным с логикой в {\ttfamily \doxylink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{paint()}}. 
+\begin{DoxyParams}{Parameters}
+{\em option} & Опции, включая доступную ширину. \\
+\hline
+{\em index} & Индекс для доступа к данным сообщения. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QSize Требуемая высота и ширина. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatmessagedelegate_8cpp_source_l00245}{245}} of file \mbox{\hyperlink{chatmessagedelegate_8cpp_source}{chatmessagedelegate.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{chatmessagedelegate_8h}{chatmessagedelegate.\+h}}\item 
+\mbox{\hyperlink{chatmessagedelegate_8cpp}{chatmessagedelegate.\+cpp}}\end{DoxyCompactItemize}

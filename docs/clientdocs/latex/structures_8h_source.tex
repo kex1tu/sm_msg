@@ -1,0 +1,67 @@
+\doxysection{structures.\+h}
+\hypertarget{structures_8h_source}{}\label{structures_8h_source}\mbox{\hyperlink{structures_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ STRUCTURES\_H}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ STRUCTURES\_H}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QString>}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QList>}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00015}\mbox{\hyperlink{struct_user}{00015}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_user}{User}}\ \{}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00016}\mbox{\hyperlink{struct_user_a4add19c6c562392fb90a4d7f9f32e8ef}{00016}}\ \ \ \ \ qint64\ \textcolor{keywordtype}{id}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00017}\mbox{\hyperlink{struct_user_ae4202de2b7974e92a55b913d20b03833}{00017}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_user_ae4202de2b7974e92a55b913d20b03833}{username}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00018}\mbox{\hyperlink{struct_user_ae418bae525108abf256b89c56273869b}{00018}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_user_ae418bae525108abf256b89c56273869b}{displayName}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00019}\mbox{\hyperlink{struct_user_a45f489e797addfcf9d99323494adcb70}{00019}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_user_a45f489e797addfcf9d99323494adcb70}{lastSeen}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00020}\mbox{\hyperlink{struct_user_ab5ab662a0151ff00e19564bb68099566}{00020}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_user_ab5ab662a0151ff00e19564bb68099566}{avatarUrl}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00021}\mbox{\hyperlink{struct_user_a3c3038d972fc637b8f2dd70a8d705d47}{00021}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_user_a3c3038d972fc637b8f2dd70a8d705d47}{statusMessage}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Поля\ состояния,\ управляемые\ на\ клиенте\ в\ реальном\ времени\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00024}\mbox{\hyperlink{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}{00024}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}{isTyping}}\ =\ \textcolor{keyword}{false};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00025}\mbox{\hyperlink{struct_user_aa2298ce1333031a1e7d608dbfdba6802}{00025}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_user_aa2298ce1333031a1e7d608dbfdba6802}{isOnline}}\ =\ \textcolor{keyword}{false};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00026}00026\ \};}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00034}\mbox{\hyperlink{struct_chat_message}{00034}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ \{}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00040}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{00040}}\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{MessageType}}\ \{}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00041}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a4cebeaca3cbaadff876d311845d61be2}{00041}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a4cebeaca3cbaadff876d311845d61be2}{Text}},\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00042}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a410367ffa006c16a8563227ff1283929}{00042}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a410367ffa006c16a8563227ff1283929}{Image}},\ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00043}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818}{00043}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818}{File}},\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00044}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14ab24d10c50d47b4388e7805a366d2b0b6}{00044}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14ab24d10c50d47b4388e7805a366d2b0b6}{Sticker}},\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00045}\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a7bb0ba473e020eca1256a1bd94a80dce}{00045}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a7bb0ba473e020eca1256a1bd94a80dce}{System}}\ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00046}00046\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00052}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{00052}}\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{MessageStatus}}\ \{}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00053}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a}{00053}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a}{Sending}},\ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00054}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade}{00054}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade}{Sent}},\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00055}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}{00055}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}{Delivered}},\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00056}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{00056}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{Read}},\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00057}\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d}{00057}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d}{Error}}\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00058}00058\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Основные\ данные\ сообщения\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00061}\mbox{\hyperlink{struct_chat_message_a0001e7002d56cdb2b04b76b35bc3a7db}{00061}}\ \ \ \ \ quint64\ \textcolor{keywordtype}{id}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00062}\mbox{\hyperlink{struct_chat_message_ac4a924c82b7f6da1d860294ed735bacd}{00062}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_ac4a924c82b7f6da1d860294ed735bacd}{tempId}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00063}\mbox{\hyperlink{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}{00063}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}{fromUser}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00064}\mbox{\hyperlink{struct_chat_message_ab44c225a0acfa58e752b1f922c70f30d}{00064}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_ab44c225a0acfa58e752b1f922c70f30d}{toUser}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00065}\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{00065}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00066}\mbox{\hyperlink{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90}{00066}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90}{timestamp}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Метаданные\ и\ флаги\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00069}\mbox{\hyperlink{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c}{00069}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c}{isEdited}}\ =\ \textcolor{keyword}{false};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00070}\mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{00070}}\ \ \ \ \ qint64\ \mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{replyToId}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00071}\mbox{\hyperlink{struct_chat_message_aa7b73c47eb32c3e20b690174ac7896a0}{00071}}\ \ \ \ \ \mbox{\hyperlink{struct_user}{User}}\ \mbox{\hyperlink{struct_chat_message_aa7b73c47eb32c3e20b690174ac7896a0}{forwardedFrom}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00072}\mbox{\hyperlink{struct_chat_message_a5faba45cdada5ee748cccf895d1a1eea}{00072}}\ \ \ \ \ \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{MessageType}}\ \mbox{\hyperlink{struct_chat_message_a5faba45cdada5ee748cccf895d1a1eea}{messageType}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00073}\mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{00073}}\ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{MessageStatus}}\ \mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{status}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00074}\mbox{\hyperlink{struct_chat_message_a76d959dae0fda2d0c6adea2d1a31ae68}{00074}}\ \ \ \ \ QString\ \mbox{\hyperlink{struct_chat_message_a76d959dae0fda2d0c6adea2d1a31ae68}{mediaUrl}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00075}\mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{00075}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{isOutgoing}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00076}00076\ \};}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00085}\mbox{\hyperlink{struct_chat_cache}{00085}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_chat_cache}{ChatCache}}\ \{}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00086}\mbox{\hyperlink{struct_chat_cache_a633a9293cfbc94bf85105f826ce96572}{00086}}\ \ \ \ \ QList<ChatMessage>\ \mbox{\hyperlink{struct_chat_cache_a633a9293cfbc94bf85105f826ce96572}{messages}};\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00087}\mbox{\hyperlink{struct_chat_cache_acebd5032db9d6f645d12de41efde6dd7}{00087}}\ \ \ \ \ qint64\ \mbox{\hyperlink{struct_chat_cache_acebd5032db9d6f645d12de41efde6dd7}{oldestMessageId}}\ =\ -\/1;\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00088}\mbox{\hyperlink{struct_chat_cache_a1e8ec8d2217f878089ac72ff09908adc}{00088}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_chat_cache_a1e8ec8d2217f878089ac72ff09908adc}{allMessagesLoaded}}\ =\ \textcolor{keyword}{false};\ \ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00089}00089\ \};}
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{structures_8h_source_l00091}00091\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STRUCTURES\_H}}
+
+\end{DoxyCode}

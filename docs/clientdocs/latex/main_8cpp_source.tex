@@ -1,0 +1,55 @@
+\doxysection{main.\+cpp}
+\hypertarget{main_8cpp_source}{}\label{main_8cpp_source}\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{mainwindow_8h}{mainwindow.h}}"{}}\ \textcolor{comment}{//\ Включаем\ заголовочный\ файл\ нашего\ главного\ окна.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <QFile>}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ работы\ с\ файлами\ (в\ данном\ случае,\ с\ файлом\ стилей\ из\ ресурсов).}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <QDebug>}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ вывода\ отладочной\ информации\ (qDebug,\ qWarning).}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <QApplication>}\ \ \textcolor{comment}{//\ Основной\ класс\ для\ управления\ GUI-\/приложением.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}\mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00025}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *argv[])}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{comment}{//\ 1.\ Создание\ объекта\ QApplication.\ Этот\ объект\ должен\ быть\ создан}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ \ \ \ самым\ первым,\ так\ как\ он\ управляет\ всеми\ ресурсами\ приложения,}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ \ \ \ обработкой\ событий\ и\ т.д.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030\ \ \ \ \ QApplication\ a(argc,\ argv);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Загрузка\ и\ применение\ глобальной\ таблицы\ стилей\ (QSS)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ Указываем\ путь\ к\ файлу\ стилей\ в\ системе\ ресурсов\ Qt\ (префикс\ "{}:/"{}).}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034\ \ \ \ \ QFile\ styleFile(\textcolor{stringliteral}{"{}:/styles.css"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ Пытаемся\ открыть\ файл\ только\ для\ чтения.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (!styleFile.open(QFile::ReadOnly))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ файл\ не\ удалось\ открыть\ (например,\ ошибка\ в\ пути\ или\ в\ .qrc\ файле),}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ выводим\ предупреждение\ в\ консоль.\ Приложение\ продолжит\ работу,\ но\ без\ стилей.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}Warning:\ Could\ not\ open\ style\ file\ from\ resources."{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ файл\ успешно\ открыт:}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Считываем\ все\ его\ содержимое\ в\ строку.\ QLatin1String\ -\/\ это\ оптимизация,}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ которая\ говорит,\ что\ наш\ CSS-\/файл\ не\ содержит\ не-\/латинских\ символов.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ QString\ styleSheet\ =\ QLatin1String(styleFile.readAll());}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Применяем\ считанные\ стили\ ко\ всему\ приложению.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ a.setStyleSheet(styleSheet);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Style\ sheet\ loaded\ successfully."{}};\ \textcolor{comment}{//\ Выводим\ сообщение\ об\ успехе.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ styleFile.close();\ \textcolor{comment}{//\ Закрываем\ файл.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ 3.\ Создание\ экземпляра\ нашего\ главного\ окна.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056\ \ \ \ \ \mbox{\hyperlink{class_main_window}{MainWindow}}\ w;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ 4.\ Отображение\ главного\ окна\ на\ экране.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00059}00059\ \ \ \ \ w.show();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\ 5.\ Запуск\ главного\ цикла\ обработки\ событий\ Qt.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Эта\ функция\ блокирует\ выполнение\ и\ передает\ управление\ Qt.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Она\ будет\ выполняться\ до\ тех\ пор,\ пока\ приложение\ не\ будет\ закрыто}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ \ \ \ (например,\ через\ вызов\ w.close()\ или\ QApplication::quit()).}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Возвращает\ код\ завершения,\ который\ передается\ операционной\ системе.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{return}\ a.exec();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00067}00067\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,5 @@
+<map id="ChatMessage" name="ChatMessage">
+<area shape="rect" id="Node000001" title="Представляет собой модель данных одного сообщения в чате." alt="" coords="5,104,108,131"/>
+<area shape="rect" id="Node000002" href="$struct_user.html" title="Представляет собой модель данных одного пользователя в приложении." alt="" coords="32,5,81,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,48,59,104,54,104,54,48"/>
+</map>

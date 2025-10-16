@@ -1,0 +1,23 @@
+<map id="loginwidget.cpp" name="loginwidget.cpp">
+<area shape="rect" id="Node000001" title="Реализация виджета для аутентификации и регистрации пользователя." alt="" coords="396,5,507,32"/>
+<area shape="rect" id="Node000002" href="$loginwidget_8h.html" title=" " alt="" coords="83,80,180,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="396,35,196,80,195,75,395,30"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="204,80,318,107"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="419,35,309,77,307,72,417,30"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="342,80,449,107"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="444,34,416,69,412,66,439,31"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="473,80,542,107"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="463,31,491,66,486,69,459,34"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="566,80,622,107"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="477,30,557,70,554,75,475,35"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="646,80,715,107"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="492,30,632,74,630,79,490,35"/>
+<area shape="rect" id="Node000003" href="$structures_8h.html" title=" " alt="" coords="34,155,124,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="124,109,99,144,95,141,120,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="148,155,221,181"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="143,106,169,141,164,144,138,109"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,229,71,256"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,183,55,217,50,215,70,181"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="94,229,147,256"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="89,181,108,215,104,217,84,183"/>
+</map>

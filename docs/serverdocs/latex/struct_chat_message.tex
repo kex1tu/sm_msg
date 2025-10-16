@@ -1,0 +1,349 @@
+\doxysection{Chat\+Message Struct Reference}
+\hypertarget{struct_chat_message}{}\label{struct_chat_message}\index{ChatMessage@{ChatMessage}}
+
+
+Представляет собой модель данных одного сообщения в чате.  
+
+
+
+
+{\ttfamily \#include $<$structures.\+h$>$}
+
+
+
+Collaboration diagram for Chat\+Message\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{struct_chat_message__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Message\+Type}} \{ \newline
+\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a4cebeaca3cbaadff876d311845d61be2}{Text}}
+, \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a410367ffa006c16a8563227ff1283929}{Image}}
+, \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818}{File}}
+, \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14ab24d10c50d47b4388e7805a366d2b0b6}{Sticker}}
+, \newline
+\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a7bb0ba473e020eca1256a1bd94a80dce}{System}}
+ \}
+\begin{DoxyCompactList}\small\item\em Определяет тип содержимого сообщения. (Задел на будущее). \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Message\+Status}} \{ \newline
+\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a}{Sending}}
+, \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade}{Sent}}
+, \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}{Delivered}}
+, \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{Read}}
+, \newline
+\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d}{Error}}
+ \}
+\begin{DoxyCompactList}\small\item\em Определяет жизненный цикл и статус доставки исходящего сообщения. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+quint64 \mbox{\hyperlink{struct_chat_message_a0001e7002d56cdb2b04b76b35bc3a7db}{id}} = 0
+\begin{DoxyCompactList}\small\item\em Уникальный ID сообщения из базы данных сервера. 0 для еще не отправленных. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_ac4a924c82b7f6da1d860294ed735bacd}{temp\+Id}}
+\begin{DoxyCompactList}\small\item\em Временный уникальный ID, генерируемый клиентом. Используется для сопоставления "{}отправленного"{} сообщения с "{}подтвержденным"{} от сервера. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}{from\+User}}
+\begin{DoxyCompactList}\small\item\em {\ttfamily username} отправителя. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_ab44c225a0acfa58e752b1f922c70f30d}{to\+User}}
+\begin{DoxyCompactList}\small\item\em {\ttfamily username} получателя. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}}
+\begin{DoxyCompactList}\small\item\em Основное содержимое сообщения (текст, URL файла и т.\+д.). \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90}{timestamp}}
+\begin{DoxyCompactList}\small\item\em Дата и время отправки в формате ISO. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c}{is\+Edited}} = false
+\begin{DoxyCompactList}\small\item\em Флаг, указывающий, было ли сообщение отредактировано. \end{DoxyCompactList}\item 
+qint64 \mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{reply\+To\+Id}} = 0
+\begin{DoxyCompactList}\small\item\em ID сообщения, на которое это сообщение является ответом. 0, если это не ответ. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_user}{User}} \mbox{\hyperlink{struct_chat_message_aa7b73c47eb32c3e20b690174ac7896a0}{forwarded\+From}}
+\begin{DoxyCompactList}\small\item\em Данные пользователя, от которого было переслано сообщение (задел на будущее). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Message\+Type}} \mbox{\hyperlink{struct_chat_message_a5faba45cdada5ee748cccf895d1a1eea}{message\+Type}}
+\begin{DoxyCompactList}\small\item\em Тип сообщения из {\ttfamily enum \doxylink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Message\+Type}} (задел на будущее). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Message\+Status}} \mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{status}}
+\begin{DoxyCompactList}\small\item\em Текущий статус доставки сообщения. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_chat_message_a76d959dae0fda2d0c6adea2d1a31ae68}{media\+Url}}
+\begin{DoxyCompactList}\small\item\em URL для загрузки медиа-\/контента (задел на будущее). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{is\+Outgoing}}
+\begin{DoxyCompactList}\small\item\em Флаг, определяемый на стороне клиента. {\ttfamily true}, если сообщение отправлено текущим пользователем. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Представляет собой модель данных одного сообщения в чате. 
+
+Эта структура является основной единицей обмена и хранения в переписках. 
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00034}{34}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+\label{doc-enum-members}
+\Hypertarget{struct_chat_message_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}\index{ChatMessage@{ChatMessage}!MessageStatus@{MessageStatus}}
+\index{MessageStatus@{MessageStatus}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{MessageStatus}{MessageStatus}}
+{\footnotesize\ttfamily \label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51} 
+enum \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}}
+
+
+
+Определяет жизненный цикл и статус доставки исходящего сообщения. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Sending@{Sending}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Sending@{Sending}}}\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a}\label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a} 
+Sending&Сообщение отправляется (еще не получило подтверждения от сервера). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Sent@{Sent}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Sent@{Sent}}}\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade}\label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade} 
+Sent&Сообщение успешно доставлено на сервер. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Delivered@{Delivered}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Delivered@{Delivered}}}\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}\label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe} 
+Delivered&Сообщение доставлено получателю. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Read@{Read}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Read@{Read}}}\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}\label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9} 
+Read&Получатель прочитал сообщение. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Error@{Error}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Error@{Error}}}\Hypertarget{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d}\label{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51aa52be97a68b0a8a080a91cc21733fc6d} 
+Error&Произошла ошибка при отправке сообщения. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00052}{52}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}\index{ChatMessage@{ChatMessage}!MessageType@{MessageType}}
+\index{MessageType@{MessageType}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{MessageType}{MessageType}}
+{\footnotesize\ttfamily \label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14} 
+enum \mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Chat\+Message\+::\+Message\+Type}}}
+
+
+
+Определяет тип содержимого сообщения. (Задел на будущее). 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Text@{Text}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Text@{Text}}}\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a4cebeaca3cbaadff876d311845d61be2}\label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a4cebeaca3cbaadff876d311845d61be2} 
+Text&Обычное текстовое сообщение. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Image@{Image}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Image@{Image}}}\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a410367ffa006c16a8563227ff1283929}\label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a410367ffa006c16a8563227ff1283929} 
+Image&Сообщение с изображением. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{File@{File}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!File@{File}}}\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818}\label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a3a306326c4db73d6bef409173fd90818} 
+File&Сообщение с файлом. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Sticker@{Sticker}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!Sticker@{Sticker}}}\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14ab24d10c50d47b4388e7805a366d2b0b6}\label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14ab24d10c50d47b4388e7805a366d2b0b6} 
+Sticker&Сообщение-\/стикер. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{System@{System}!ChatMessage@{ChatMessage}}\index{ChatMessage@{ChatMessage}!System@{System}}}\Hypertarget{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a7bb0ba473e020eca1256a1bd94a80dce}\label{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14a7bb0ba473e020eca1256a1bd94a80dce} 
+System&Системное уведомление в чате (например, "{}Пользователь присоединился"{}). \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00040}{40}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{struct_chat_message_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_chat_message_aa7b73c47eb32c3e20b690174ac7896a0}\index{ChatMessage@{ChatMessage}!forwardedFrom@{forwardedFrom}}
+\index{forwardedFrom@{forwardedFrom}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{forwardedFrom}{forwardedFrom}}
+{\footnotesize\ttfamily \label{struct_chat_message_aa7b73c47eb32c3e20b690174ac7896a0} 
+\mbox{\hyperlink{struct_user}{User}} Chat\+Message\+::forwarded\+From}
+
+
+
+Данные пользователя, от которого было переслано сообщение (задел на будущее). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00071}{71}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}\index{ChatMessage@{ChatMessage}!fromUser@{fromUser}}
+\index{fromUser@{fromUser}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{fromUser}{fromUser}}
+{\footnotesize\ttfamily \label{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1} 
+QString Chat\+Message\+::from\+User}
+
+
+
+{\ttfamily username} отправителя. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00063}{63}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a0001e7002d56cdb2b04b76b35bc3a7db}\index{ChatMessage@{ChatMessage}!id@{id}}
+\index{id@{id}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \label{struct_chat_message_a0001e7002d56cdb2b04b76b35bc3a7db} 
+quint64 Chat\+Message\+::id = 0}
+
+
+
+Уникальный ID сообщения из базы данных сервера. 0 для еще не отправленных. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00061}{61}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c}\index{ChatMessage@{ChatMessage}!isEdited@{isEdited}}
+\index{isEdited@{isEdited}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{isEdited}{isEdited}}
+{\footnotesize\ttfamily \label{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c} 
+bool Chat\+Message\+::is\+Edited = false}
+
+
+
+Флаг, указывающий, было ли сообщение отредактировано. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00069}{69}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}\index{ChatMessage@{ChatMessage}!isOutgoing@{isOutgoing}}
+\index{isOutgoing@{isOutgoing}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{isOutgoing}{isOutgoing}}
+{\footnotesize\ttfamily \label{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4} 
+bool Chat\+Message\+::is\+Outgoing}
+
+
+
+Флаг, определяемый на стороне клиента. {\ttfamily true}, если сообщение отправлено текущим пользователем. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00075}{75}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a76d959dae0fda2d0c6adea2d1a31ae68}\index{ChatMessage@{ChatMessage}!mediaUrl@{mediaUrl}}
+\index{mediaUrl@{mediaUrl}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{mediaUrl}{mediaUrl}}
+{\footnotesize\ttfamily \label{struct_chat_message_a76d959dae0fda2d0c6adea2d1a31ae68} 
+QString Chat\+Message\+::media\+Url}
+
+
+
+URL для загрузки медиа-\/контента (задел на будущее). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00074}{74}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a5faba45cdada5ee748cccf895d1a1eea}\index{ChatMessage@{ChatMessage}!messageType@{messageType}}
+\index{messageType@{messageType}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{messageType}{messageType}}
+{\footnotesize\ttfamily \label{struct_chat_message_a5faba45cdada5ee748cccf895d1a1eea} 
+\mbox{\hyperlink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Message\+Type}} Chat\+Message\+::message\+Type}
+
+
+
+Тип сообщения из {\ttfamily enum \doxylink{struct_chat_message_ae92f02a02ea4d868b9f9b5e98b66bb14}{Message\+Type}} (задел на будущее). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00072}{72}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}\index{ChatMessage@{ChatMessage}!payload@{payload}}
+\index{payload@{payload}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{payload}{payload}}
+{\footnotesize\ttfamily \label{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35} 
+QString Chat\+Message\+::payload}
+
+
+
+Основное содержимое сообщения (текст, URL файла и т.\+д.). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00065}{65}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}\index{ChatMessage@{ChatMessage}!replyToId@{replyToId}}
+\index{replyToId@{replyToId}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{replyToId}{replyToId}}
+{\footnotesize\ttfamily \label{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f} 
+qint64 Chat\+Message\+::reply\+To\+Id = 0}
+
+
+
+ID сообщения, на которое это сообщение является ответом. 0, если это не ответ. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00070}{70}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}\index{ChatMessage@{ChatMessage}!status@{status}}
+\index{status@{status}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{status}{status}}
+{\footnotesize\ttfamily \label{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c} 
+\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Message\+Status}} Chat\+Message\+::status}
+
+
+
+Текущий статус доставки сообщения. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00073}{73}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_ac4a924c82b7f6da1d860294ed735bacd}\index{ChatMessage@{ChatMessage}!tempId@{tempId}}
+\index{tempId@{tempId}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{tempId}{tempId}}
+{\footnotesize\ttfamily \label{struct_chat_message_ac4a924c82b7f6da1d860294ed735bacd} 
+QString Chat\+Message\+::temp\+Id}
+
+
+
+Временный уникальный ID, генерируемый клиентом. Используется для сопоставления "{}отправленного"{} сообщения с "{}подтвержденным"{} от сервера. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00062}{62}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90}\index{ChatMessage@{ChatMessage}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{timestamp}{timestamp}}
+{\footnotesize\ttfamily \label{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90} 
+QString Chat\+Message\+::timestamp}
+
+
+
+Дата и время отправки в формате ISO. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00066}{66}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_chat_message_ab44c225a0acfa58e752b1f922c70f30d}\index{ChatMessage@{ChatMessage}!toUser@{toUser}}
+\index{toUser@{toUser}!ChatMessage@{ChatMessage}}
+\doxysubsubsection{\texorpdfstring{toUser}{toUser}}
+{\footnotesize\ttfamily \label{struct_chat_message_ab44c225a0acfa58e752b1f922c70f30d} 
+QString Chat\+Message\+::to\+User}
+
+
+
+{\ttfamily username} получателя. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00064}{64}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structures_8h}{structures.\+h}}\end{DoxyCompactItemize}

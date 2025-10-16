@@ -1,0 +1,289 @@
+\doxysection{Main\+Window Class Reference}
+\hypertarget{class_main_window}{}\label{class_main_window}\index{MainWindow@{MainWindow}}
+
+
+Главное окно и центральный контроллер ("{}мозг"{}) всего клиентского приложения.  
+
+
+
+
+{\ttfamily \#include $<$mainwindow.\+h$>$}
+
+
+
+Inheritance diagram for Main\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_main_window__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Main\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_main_window__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901}{new\+Message\+For\+Current\+Chat}} ()
+\begin{DoxyCompactList}\small\item\em Сигнал, который отправляется в \doxylink{class_chat_view_widget}{Chat\+View\+Widget}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{Main\+Window}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор главного окна. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{\texorpdfstring{$\sim$}{\string~}\+Main\+Window}} ()
+\begin{DoxyCompactList}\small\item\em Деструктор главного окна. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Публичные геттеры}\par
+{\em Предоставляют моделям и делегатам контролируемый доступ (только для чтения) к централизованным кэшам данных, сохраняя \doxylink{class_main_window}{Main\+Window} как "{}единственный источник правды"{}. }\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_user}{User}} \mbox{\hyperlink{class_main_window_ade7be47a07f7382f62c1a7750247c72f}{get\+User\+From\+Cache}} (const QString \&username) const
+\begin{DoxyCompactList}\small\item\em Возвращает объект \doxylink{struct_user}{User} из кэша по имени пользователя. \end{DoxyCompactList}\item 
+const QMap$<$ QString, \mbox{\hyperlink{struct_chat_cache}{Chat\+Cache}} $>$ \& \mbox{\hyperlink{class_main_window_a029385b11f2570b8937c70f708c95e14}{get\+Chat\+Cache}} () const
+\begin{DoxyCompactList}\small\item\em Возвращает константную ссылку на кэш истории чатов. \end{DoxyCompactList}\item 
+const QMap$<$ QString, int $>$ \& \mbox{\hyperlink{class_main_window_a3aaecdbb40c97e7856537be6fa8e2986}{get\+Unread\+Counts}} () const
+\begin{DoxyCompactList}\small\item\em Возвращает константную ссылку на кэш счетчиков непрочитанных сообщений. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_user}{User}} \mbox{\hyperlink{class_main_window_a854797537bb7ba3a1c5615f3371e637f}{get\+Current\+Chat\+Partner}} () const
+\begin{DoxyCompactList}\small\item\em Возвращает данные о текущем собеседнике. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_main_window_ade305265b2120df2489a5ebeb07ebbe1}{event\+Filter}} (QObject \texorpdfstring{$\ast$}{*}watched, QEvent \texorpdfstring{$\ast$}{*}event) override
+\begin{DoxyCompactList}\small\item\em Перехватывает события для других объектов. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Главное окно и центральный контроллер ("{}мозг"{}) всего клиентского приложения. 
+
+Этот класс выполняет роль "{}дирижера"{}, координируя работу всех остальных компонентов\+:
+\begin{DoxyItemize}
+\item Управляет сетевым соединением и обрабатывает протокол обмена данными с сервером.
+\item Хранит всё состояние приложения (кэши, текущего пользователя, текущий чат).
+\item Собирает основной пользовательский интерфейс из составных виджетов.
+\item Связывает сигналы от UI-\/элементов со слотами бизнес-\/логики. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+\end{DoxyItemize}
+
+Definition at line \mbox{\hyperlink{mainwindow_8h_source_l00044}{44}} of file \mbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_main_window_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_main_window_a996c5a2b6f77944776856f08ec30858d}\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{MainWindow()}{MainWindow()}}
+{\footnotesize\ttfamily \label{class_main_window_a996c5a2b6f77944776856f08ec30858d} 
+Main\+Window\+::\+Main\+Window (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})}
+
+
+
+Конструктор главного окна. 
+
+Конструктор главного окна \doxylink{class_main_window}{Main\+Window}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет, по умолчанию {\ttfamily nullptr}.\\
+\hline
+\end{DoxyParams}
+Этот конструктор выполняет всю основную работу по инициализации приложения\+:
+\begin{DoxyEnumerate}
+\item Настраивает UI, сгенерированный из .ui файла.
+\item Создает экземпляры ключевых моделей (\doxylink{class_chat_message_model}{Chat\+Message\+Model}).
+\item Программно собирает основной интерфейс чата ({\ttfamily build\+Main\+UI}).
+\item Инициализирует сетевые компоненты (QTcp\+Socket).
+\item Создает и настраивает таймеры для отложенных действий (поиск, "{}печатает"{}).
+\item Инициализирует карту обработчиков серверных команд ({\ttfamily init\+Response\+Handlers}).
+\item Соединяет все необходимые сигналы и слоты ({\ttfamily setup\+Connections}).
+\item Устанавливает начальный виджет (экран входа) и инициирует подключение к серверу.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l00059}{59}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_a996c5a2b6f77944776856f08ec30858d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}\index{MainWindow@{MainWindow}!````~MainWindow@{\texorpdfstring{$\sim$}{\string~}MainWindow}}
+\index{````~MainWindow@{\texorpdfstring{$\sim$}{\string~}MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}MainWindow()}{\string~MainWindow()}}
+{\footnotesize\ttfamily \label{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7} 
+Main\+Window\+::\texorpdfstring{$\sim$}{\string~}\+Main\+Window (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Деструктор главного окна. 
+
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l02077}{2077}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_main_window_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_main_window_ade305265b2120df2489a5ebeb07ebbe1}\index{MainWindow@{MainWindow}!eventFilter@{eventFilter}}
+\index{eventFilter@{eventFilter}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{eventFilter()}{eventFilter()}}
+{\footnotesize\ttfamily \label{class_main_window_ade305265b2120df2489a5ebeb07ebbe1} 
+bool Main\+Window\+::event\+Filter (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{watched}{, }\item[{QEvent \texorpdfstring{$\ast$}{*}}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Перехватывает события для других объектов. 
+
+Перехватывает события, предназначенные для других объектов в приложении.
+
+Используется для закрытия всплывающего окна {\ttfamily m\+\_\+search\+Results\+Popup} при клике мышью в любом другом месте приложения. 
+\begin{DoxyParams}{Parameters}
+{\em watched} & Объект, за которым наблюдаем. \\
+\hline
+{\em event} & Произошедшее событие. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool {\ttfamily true} если событие было обработано, иначе {\ttfamily false}.
+\end{DoxyReturn}
+Используется для реализации закрытия всплывающего окна {\ttfamily m\+\_\+search\+Results\+Popup} при клике мышью в любом другом месте приложения. 
+\begin{DoxyParams}{Parameters}
+{\em watched} & Объект, получивший событие. \\
+\hline
+{\em event} & Само событие. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} если событие было обработано, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01829}{1829}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_a029385b11f2570b8937c70f708c95e14}\index{MainWindow@{MainWindow}!getChatCache@{getChatCache}}
+\index{getChatCache@{getChatCache}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{getChatCache()}{getChatCache()}}
+{\footnotesize\ttfamily \label{class_main_window_a029385b11f2570b8937c70f708c95e14} 
+const QMap$<$ QString, \mbox{\hyperlink{struct_chat_cache}{Chat\+Cache}} $>$ \& Main\+Window\+::get\+Chat\+Cache (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Возвращает константную ссылку на кэш истории чатов. 
+
+Используется {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}, чтобы получить доступ к последним сообщениям для отображения превью в списке контактов. \begin{DoxyReturn}{Returns}
+const QMap$<$\+QString, Chat\+Cache$>$\& Ссылка на кэш. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01703}{1703}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_a854797537bb7ba3a1c5615f3371e637f}\index{MainWindow@{MainWindow}!getCurrentChatPartner@{getCurrentChatPartner}}
+\index{getCurrentChatPartner@{getCurrentChatPartner}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{getCurrentChatPartner()}{getCurrentChatPartner()}}
+{\footnotesize\ttfamily \label{class_main_window_a854797537bb7ba3a1c5615f3371e637f} 
+\mbox{\hyperlink{struct_user}{User}} Main\+Window\+::get\+Current\+Chat\+Partner (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Возвращает данные о текущем собеседнике. 
+
+Используется {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}, чтобы определить, какой чат является активным в данный момент (например, чтобы не показывать для него "{}печатает..."{}). \begin{DoxyReturn}{Returns}
+\doxylink{struct_user}{User} Копия объекта \doxylink{struct_user}{User} текущего собеседника. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01725}{1725}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_a3aaecdbb40c97e7856537be6fa8e2986}\index{MainWindow@{MainWindow}!getUnreadCounts@{getUnreadCounts}}
+\index{getUnreadCounts@{getUnreadCounts}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{getUnreadCounts()}{getUnreadCounts()}}
+{\footnotesize\ttfamily \label{class_main_window_a3aaecdbb40c97e7856537be6fa8e2986} 
+const QMap$<$ QString, int $>$ \& Main\+Window\+::get\+Unread\+Counts (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Возвращает константную ссылку на кэш счетчиков непрочитанных сообщений. 
+
+Используется {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}} для отображения "{}бейджей"{} с количеством непрочитанных сообщений. \begin{DoxyReturn}{Returns}
+const QMap$<$\+QString, int$>$\& Ссылка на кэш. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01714}{1714}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_ade7be47a07f7382f62c1a7750247c72f}\index{MainWindow@{MainWindow}!getUserFromCache@{getUserFromCache}}
+\index{getUserFromCache@{getUserFromCache}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{getUserFromCache()}{getUserFromCache()}}
+{\footnotesize\ttfamily \label{class_main_window_ade7be47a07f7382f62c1a7750247c72f} 
+\mbox{\hyperlink{struct_user}{User}} Main\+Window\+::get\+User\+From\+Cache (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{}\end{DoxyParamCaption}) const}
+
+
+
+Возвращает объект \doxylink{struct_user}{User} из кэша по имени пользователя. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя для поиска. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{struct_user}{User} Копия объекта \doxylink{struct_user}{User}. Если пользователь не найден, вернется пустой объект \doxylink{struct_user}{User}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{mainwindow_8cpp_source_l01692}{1692}} of file \mbox{\hyperlink{mainwindow_8cpp_source}{mainwindow.\+cpp}}.
+
+\Hypertarget{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901}\index{MainWindow@{MainWindow}!newMessageForCurrentChat@{newMessageForCurrentChat}}
+\index{newMessageForCurrentChat@{newMessageForCurrentChat}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{newMessageForCurrentChat}{newMessageForCurrentChat}}
+{\footnotesize\ttfamily \label{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901} 
+void Main\+Window\+::new\+Message\+For\+Current\+Chat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+Сигнал, который отправляется в \doxylink{class_chat_view_widget}{Chat\+View\+Widget}. 
+
+Эмитируется, когда приходит новое сообщение для текущего чата, но пользователь прокрутил историю вверх и не видит его. Запускает показ кнопки "{}прокрутить вниз"{} и счетчика. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{mainwindow_8h}{mainwindow.\+h}}\item 
+\mbox{\hyperlink{mainwindow_8cpp}{mainwindow.\+cpp}}\end{DoxyCompactItemize}

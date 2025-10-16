@@ -1,0 +1,5 @@
+<map id="LoginWidget::registerRequested" name="LoginWidget::registerRequested">
+<area shape="rect" id="Node000001" title="Сигнал испускается, когда пользователь нажимает кнопку &quot;Зарегистрироваться&quot;." alt="" coords="5,5,213,32"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html#a01a9e3569fdca13ae9a0c2cb2caa43f3" title="Геттер для получения имени пользователя из поля ввода." alt="" coords="261,5,419,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,16,245,16,245,21,213,21"/>
+</map>

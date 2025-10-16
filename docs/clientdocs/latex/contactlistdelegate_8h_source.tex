@@ -1,0 +1,27 @@
+\doxysection{contactlistdelegate.\+h}
+\hypertarget{contactlistdelegate_8h_source}{}\label{contactlistdelegate_8h_source}\mbox{\hyperlink{contactlistdelegate_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ CONTACTLISTDELEGATE\_H}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ CONTACTLISTDELEGATE\_H}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QStyledItemDelegate>}\ \textcolor{comment}{//\ Включаем\ базовый\ класс\ QStyledItemDelegate.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00005}00005\ \textcolor{comment}{//\ Мы\ используем\ QStyledItemDelegate,\ а\ не\ QItemDelegate,}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00006}00006\ \textcolor{comment}{//\ потому\ что\ он\ позволяет\ отрисовке\ использовать}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00007}00007\ \textcolor{comment}{//\ текущую\ таблицу\ стилей\ (QSS)\ приложения.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00024}\mbox{\hyperlink{class_contact_list_delegate}{00024}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}{ContactListDelegate}}\ :\ \textcolor{keyword}{public}\ QStyledItemDelegate}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00026}00026\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ классов\ Qt,\ даже\ если\ нет\ сигналов/слотов.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00028}00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}{ContactListDelegate}}(QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00039}00039\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00052}00052\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804}{paint}}(QPainter\ *painter,\ \textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00065}00065\ \ \ \ \ QSize\ \mbox{\hyperlink{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415}{sizeHint}}(\textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00066}00066\ \};}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8h_source_l00068}00068\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONTACTLISTDELEGATE\_H}}
+
+\end{DoxyCode}

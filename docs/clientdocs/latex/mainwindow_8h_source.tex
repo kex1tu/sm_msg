@@ -1,0 +1,192 @@
+\doxysection{mainwindow.\+h}
+\hypertarget{mainwindow_8h_source}{}\label{mainwindow_8h_source}\mbox{\hyperlink{mainwindow_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ MAINWINDOW\_H}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ MAINWINDOW\_H}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QMainWindow>}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QMap>}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{chatfilterproxymodel_8h}{chatfilterproxymodel.h}}"{}}\ \textcolor{comment}{//\ (Сейчас\ не\ используется,\ но\ оставлено\ как\ заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00009}00009\ \textcolor{comment}{//\ Прямые\ объявления\ (Forward\ Declarations)\ для\ классов\ Qt.}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00010}00010\ \textcolor{comment}{//\ Позволяют\ использовать\ указатели\ на\ них\ без\ включения\ полных\ .h\ файлов,}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00011}00011\ \textcolor{comment}{//\ что\ ускоряет\ компиляцию\ и\ разрывает\ циклические\ зависимости.}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00012}00012\ QT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00013}00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_ui}{Ui}}\ \{\ \textcolor{keyword}{class\ }MainWindow;\ \}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00014}00014\ \textcolor{keyword}{class\ }QTcpSocket;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00015}00015\ \textcolor{keyword}{class\ }QJsonObject;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00016}00016\ \textcolor{keyword}{class\ }QLineEdit;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00017}00017\ \textcolor{keyword}{class\ }QPushButton;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00018}00018\ \textcolor{keyword}{class\ }QStackedLayout;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00019}00019\ \textcolor{keyword}{class\ }QTimer;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00020}00020\ \textcolor{keyword}{class\ }QPoint;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00021}00021\ \textcolor{keyword}{class\ }QListView;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00022}00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_contact_list_model}{ContactListModel}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00023}00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_contact_list_delegate}{ContactListDelegate}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00024}00024\ QT\_END\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00026}00026\ \textcolor{comment}{//\ Прямые\ объявления\ кастомных\ классов\ приложения.}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00027}00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_login_widget}{LoginWidget}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00028}00028\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chat_view_widget}{ChatViewWidget}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00029}00029\ \textcolor{keyword}{class\ }ProfileViewWidget;\ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00030}00030\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00031}00031\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_search_results_popup}{SearchResultsPopup}};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00044}\mbox{\hyperlink{class_main_window}{00044}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{MainWindow}}\ :\ \textcolor{keyword}{public}\ QMainWindow}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00045}00045\ \{}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00046}00046\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00048}00048\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00053}00053\ \ \ \ \ \mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{MainWindow}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00054}00054\ \ \ \ \ \mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{\string~MainWindow}}();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00062}00062\ \ \ \ \ \mbox{\hyperlink{struct_user}{User}}\ \mbox{\hyperlink{class_main_window_ade7be47a07f7382f62c1a7750247c72f}{getUserFromCache}}(\textcolor{keyword}{const}\ QString\&\ username)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{const}\ QMap<QString,\ ChatCache>\&\ \mbox{\hyperlink{class_main_window_a029385b11f2570b8937c70f708c95e14}{getChatCache}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{const}\ QMap<QString,\ int>\&\ \mbox{\hyperlink{class_main_window_a3aaecdbb40c97e7856537be6fa8e2986}{getUnreadCounts}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00065}00065\ \ \ \ \ \mbox{\hyperlink{struct_user}{User}}\ \mbox{\hyperlink{class_main_window_a854797537bb7ba3a1c5615f3371e637f}{getCurrentChatPartner}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00068}00068\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00077}00077\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_main_window_ade305265b2120df2489a5ebeb07ebbe1}{eventFilter}}(QObject\ *watched,\ QEvent\ *event)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00079}00079\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00083}00083\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00084}00084\ \ \ \ \ \textcolor{keywordtype}{void}\ onConnected();\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{void}\ onDisconnected();\ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{void}\ onReadyRead();\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00093}00093\ \ \ \ \ \textcolor{keywordtype}{void}\ onLoginRequested(\textcolor{keyword}{const}\ QString\&\ username,\ \textcolor{keyword}{const}\ QString\&\ password);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00094}00094\ \ \ \ \ \textcolor{keywordtype}{void}\ onRegisterRequested(\textcolor{keyword}{const}\ QString\&\ username,\ \textcolor{keyword}{const}\ QString\&\ displayName,\ \textcolor{keyword}{const}\ QString\&\ password);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{void}\ onSendMessageRequested(\textcolor{keyword}{const}\ QString\&\ text);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00096}00096\ \ \ \ \ \textcolor{keywordtype}{void}\ onUserSelectionChanged(\textcolor{keyword}{const}\ QModelIndex\ \&current);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00097}00097\ \ \ \ \ \textcolor{keywordtype}{void}\ onLogoutButtonClicked();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00098}00098\ \ \ \ \ \textcolor{keywordtype}{void}\ onAddContactRequested(\textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{void}\ onEditMessageRequested(qint64\ messageId,\ \textcolor{keyword}{const}\ QString\&\ oldText);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00100}00100\ \ \ \ \ \textcolor{keywordtype}{void}\ onDeleteMessageRequested(qint64\ messageId);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00101}00101\ \ \ \ \ \textcolor{keywordtype}{void}\ onChatSearchTriggered(\textcolor{keyword}{const}\ QString\ \&text);\ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00102}00102\ \ \ \ \ \textcolor{keywordtype}{void}\ showProfileView();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00103}00103\ \ \ \ \ \textcolor{keywordtype}{void}\ onReplyToMessage(qint64\ messageId);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00104}00104\ \ \ \ \ \textcolor{keywordtype}{void}\ onSendMessageReadReceipt(qint64\ messageId);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00105}00105\ \ \ \ \ \textcolor{keywordtype}{void}\ onGlobalSearchTriggered();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00106}00106\ \ \ \ \ \textcolor{keywordtype}{void}\ onChatScroll(\textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{void}\ onTypingNotificationFired();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00113}00113\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00114}00114\ \ \ \ \ \textcolor{keywordtype}{void}\ handleUnreadCounts(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00115}00115\ \ \ \ \ \textcolor{keywordtype}{void}\ updateMessageStatusInCacheAndModel(qint64\ messageId,\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{ChatMessage::MessageStatus}}\ newStatus);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00116}00116\ \ \ \ \ \textcolor{keywordtype}{void}\ processVisibleMessages();\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00120}00120\ signals:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00127}\mbox{\hyperlink{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901}{00127}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_main_window_aca6f76d8507ea2e1a3ffce8e263eb901}{newMessageForCurrentChat}}();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00129}00129\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00130}00130\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00133}00133\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00134}00134\ \ \ \ \ \textcolor{keywordtype}{void}\ buildMainUI();\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00135}00135\ \ \ \ \ \textcolor{keywordtype}{void}\ setupConnections();\ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00136}00136\ \ \ \ \ \textcolor{keywordtype}{void}\ initResponseHandlers();\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00137}00137\ \ \ \ \ \textcolor{keywordtype}{void}\ connectToServer();\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00138}00138\ \ \ \ \ \textcolor{keywordtype}{void}\ resetApplicationState();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00141}00141\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00149}00149\ \ \ \ \ \textcolor{keyword}{using\ }ResponseHandler\ =\ void\ (\mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{MainWindow}}::*)(\textcolor{keyword}{const}\ QJsonObject\&);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00154}00154\ \ \ \ \ QMap<QString,\ ResponseHandler>\ m\_responseHandlers;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00156}00156\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Набор\ методов-\/обработчиков\ для\ каждой\ команды\ от\ сервера\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00157}00157\ \ \ \ \ \textcolor{keywordtype}{void}\ handleLoginSuccess(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00158}00158\ \ \ \ \ \textcolor{keywordtype}{void}\ handleLoginFailure(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00159}00159\ \ \ \ \ \textcolor{keywordtype}{void}\ handleRegisterSuccess(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00160}00160\ \ \ \ \ \textcolor{keywordtype}{void}\ handleRegisterFailure(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00161}00161\ \ \ \ \ \textcolor{keywordtype}{void}\ handleContactList(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00162}00162\ \ \ \ \ \textcolor{keywordtype}{void}\ handleHistoryData(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00163}00163\ \ \ \ \ \textcolor{keywordtype}{void}\ handleOldHistoryData(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00164}00164\ \ \ \ \ \textcolor{keywordtype}{void}\ handlePrivateMessage(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00165}00165\ \ \ \ \ \textcolor{keywordtype}{void}\ handleUserList(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00166}00166\ \ \ \ \ \textcolor{keywordtype}{void}\ handleMessageDelivered(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00167}00167\ \ \ \ \ \textcolor{keywordtype}{void}\ handleMessageRead(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00168}00168\ \ \ \ \ \textcolor{keywordtype}{void}\ handleEditMessage(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00169}00169\ \ \ \ \ \textcolor{keywordtype}{void}\ handleDeleteMessage(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00170}00170\ \ \ \ \ \textcolor{keywordtype}{void}\ handleSearchResults(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00171}00171\ \ \ \ \ \textcolor{keywordtype}{void}\ handleAddContactSuccess(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00172}00172\ \ \ \ \ \textcolor{keywordtype}{void}\ handleAddContactFailure(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00173}00173\ \ \ \ \ \textcolor{keywordtype}{void}\ handleIncomingContactRequest(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00174}00174\ \ \ \ \ \textcolor{keywordtype}{void}\ handlePendingRequestsList(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00175}00175\ \ \ \ \ \textcolor{keywordtype}{void}\ handleLogoutSuccess(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00176}00176\ \ \ \ \ \textcolor{keywordtype}{void}\ handleLogoutFailure(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00177}00177\ \ \ \ \ \textcolor{keywordtype}{void}\ handleTypingResponse(\textcolor{keyword}{const}\ QJsonObject\&\ response);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00184}00184\ \ \ \ \ \textcolor{keywordtype}{void}\ sendJson(\textcolor{keyword}{const}\ QJsonObject\&\ json);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00185}00185\ \ \ \ \ \textcolor{keywordtype}{void}\ updateUserList();}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00186}00186\ \ \ \ \ \textcolor{keywordtype}{void}\ showContactRequestPrompt(\textcolor{keyword}{const}\ QString\&\ fromUsername,\ \textcolor{keyword}{const}\ QString\&\ fromDisplayName);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00187}00187\ \ \ \ \ \textcolor{keywordtype}{void}\ updateContactItem(\textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00188}00188\ \ \ \ \ QString\ formatLastSeen(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_user}{User}}\ \&user);}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00189}00189\ \ \ \ \ \textcolor{keywordtype}{void}\ updateChatHeader();\ \textcolor{comment}{//\ (Не\ используется,\ можно\ удалить)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00192}00192\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00193}00193\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00196}00196\ \ \ \ \ \textcolor{comment}{//=========================================================================}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00198}00198\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ UI\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00199}00199\ \ \ \ \ Ui::MainWindow\ *ui;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00201}00201\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Сеть\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00202}00202\ \ \ \ \ QTcpSocket\ *socket;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00203}00203\ \ \ \ \ quint32\ m\_nextBlockSize;\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00205}00205\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Кэши\ данных\ (Single\ Source\ of\ Truth)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00206}00206\ \ \ \ \ QMap<QString,\ ChatCache>\ m\_chatHistoryCache;\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00207}00207\ \ \ \ \ QMap<QString,\ User>\ m\_userCache;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00208}00208\ \ \ \ \ QMap<QString,\ int>\ m\_unreadCounts;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00210}00210\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Текущее\ состояние\ приложения\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00211}00211\ \ \ \ \ QString\ m\_currentUsername;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00212}00212\ \ \ \ \ \mbox{\hyperlink{struct_user}{User}}\ m\_currentChatPartner;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00213}00213\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_isLoadingHistory\ =\ \textcolor{keyword}{false};\ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00214}00214\ \ \ \ \ qint64\ m\_oldestMessageId\ =\ 0;\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00215}00215\ \ \ \ \ qint64\ m\_editingMessageId\ =\ 0;\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00216}00216\ \ \ \ \ qint64\ m\_replyToMessageId\ =\ 0;\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00218}00218\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Указатели\ на\ основные\ виджеты\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00219}00219\ \ \ \ \ \mbox{\hyperlink{class_login_widget}{LoginWidget}}*\ m\_loginWidget;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00220}00220\ \ \ \ \ QWidget*\ m\_mainChatWidget;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00222}00222\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Компоненты\ левой\ панели\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00223}00223\ \ \ \ \ QWidget*\ m\_chatListPanel;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00224}00224\ \ \ \ \ QLineEdit*\ m\_searchLineEdit;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00225}00225\ \ \ \ \ QListView*\ m\_userListView;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Заменил\ QListWidget}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00226}00226\ \ \ \ \ \mbox{\hyperlink{class_contact_list_model}{ContactListModel}}*\ m\_contactModel;\ \ \textcolor{comment}{//\ Новая\ модель\ для\ списка\ контактов}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00227}00227\ \ \ \ \ QPushButton*\ m\_logoutButton;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00229}00229\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Компоненты\ правой\ панели\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00230}00230\ \ \ \ \ QWidget*\ m\_rightSideContainer;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00231}00231\ \ \ \ \ QStackedLayout*\ m\_rightSideLayout;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00232}00232\ \ \ \ \ QWidget*\ m\_placeholderWidget;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00233}00233\ \ \ \ \ \mbox{\hyperlink{class_chat_view_widget}{ChatViewWidget}}*\ m\_chatViewWidget;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00234}00234\ \ \ \ \ ProfileViewWidget*\ m\_profileViewWidget;\ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00236}00236\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Модели\ данных\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00237}00237\ \ \ \ \ \mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}}*\ m\_chatModel;\ \textcolor{comment}{//\ Модель\ для\ сообщений\ в\ *текущем*\ чате.}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00239}00239\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/\ Вспомогательные\ виджеты\ и\ таймеры\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00240}00240\ \ \ \ \ \mbox{\hyperlink{class_search_results_popup}{SearchResultsPopup}}*\ m\_searchResultsPopup;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00241}00241\ \ \ \ \ QTimer*\ m\_globalSearchTimer;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00242}00242\ \ \ \ \ QTimer*\ m\_typingSendTimer;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00243}00243\ \ \ \ \ QMap<QString,\ QTimer*>\ m\_typingReceiveTimers;}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00245}00245\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_isChatSearchActive\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ (Заготовка)}}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00247}00247\ \};}
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{mainwindow_8h_source_l00249}00249\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MAINWINDOW\_H}}
+
+\end{DoxyCode}

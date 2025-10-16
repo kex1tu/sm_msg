@@ -1,0 +1,294 @@
+\doxysection{Contact\+List\+Model Class Reference}
+\hypertarget{class_contact_list_model}{}\label{class_contact_list_model}\index{ContactListModel@{ContactListModel}}
+
+
+Кастомная модель данных для списка контактов.  
+
+
+
+
+{\ttfamily \#include $<$contactlistmodel.\+h$>$}
+
+
+
+Inheritance diagram for Contact\+List\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{class_contact_list_model__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Contact\+List\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{class_contact_list_model__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}{Contact\+Roles}} \{ \newline
+\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7af5a4ec23b3f28f25bd540cd7a67cf1ea}{Username\+Role}} = Qt\+::User\+Role + 1
+, \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b}{Is\+Online\+Role}}
+, \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}{Is\+Typing\+Role}}
+, \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}{Last\+Message\+Role}}
+, \newline
+\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}{Unread\+Count\+Role}}
+ \}
+\begin{DoxyCompactList}\small\item\em Определяет кастомные роли данных для запроса информации делегатом. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}{Contact\+List\+Model}} (\mbox{\hyperlink{class_main_window}{Main\+Window}} \texorpdfstring{$\ast$}{*}main\+Window, QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6}{row\+Count}} (const QModel\+Index \&parent=QModel\+Index()) const override
+\begin{DoxyCompactList}\small\item\em Возвращает количество контактов в списке. \end{DoxyCompactList}\item 
+QVariant \mbox{\hyperlink{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620}{data}} (const QModel\+Index \&index, int role=Qt\+::\+Display\+Role) const override
+\begin{DoxyCompactList}\small\item\em Основной метод доступа к данным. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327}{update\+Contacts}} (const QString\+List \&usernames)
+\begin{DoxyCompactList}\small\item\em Интеллектуально обновляет список контактов. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}{refresh\+Contact}} (const QString \&username)
+\begin{DoxyCompactList}\small\item\em Принудительно обновляет данные одного контакта. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_contact_list_model_a90195e311bda835eacf5abd5f4c5b0b2}{clear}} ()
+\begin{DoxyCompactList}\small\item\em Полностью очищает модель. Вызывается, например, при выходе из аккаунта. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Кастомная модель данных для списка контактов. 
+
+Этот класс выступает в роли адаптера (Proxy) между централизованными кэшами данных, хранящимися в \doxylink{class_main_window}{Main\+Window}, и представлением (QList\+View).
+
+Он не дублирует данные, а лишь хранит отсортированный список идентификаторов (usernames) и предоставляет унифицированный интерфейс для делегата (\doxylink{class_contact_list_delegate}{Contact\+List\+Delegate}) для получения информации о контактах через кастомные роли. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8h_source_l00026}{26}} of file \mbox{\hyperlink{contactlistmodel_8h_source}{contactlistmodel.\+h}}.
+
+
+
+\label{doc-enum-members}
+\Hypertarget{class_contact_list_model_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}\index{ContactListModel@{ContactListModel}!ContactRoles@{ContactRoles}}
+\index{ContactRoles@{ContactRoles}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{ContactRoles}{ContactRoles}}
+{\footnotesize\ttfamily \label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7} 
+enum \mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}{Contact\+List\+Model\+::\+Contact\+Roles}}}
+
+
+
+Определяет кастомные роли данных для запроса информации делегатом. 
+
+Qt\+::\+Display\+Role используется для основного отображаемого имени. Эти роли используются для получения дополнительной контекстной информации. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UsernameRole@{UsernameRole}!ContactListModel@{ContactListModel}}\index{ContactListModel@{ContactListModel}!UsernameRole@{UsernameRole}}}\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7af5a4ec23b3f28f25bd540cd7a67cf1ea}\label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7af5a4ec23b3f28f25bd540cd7a67cf1ea} 
+Username\+Role&Уникальное имя пользователя (QString). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IsOnlineRole@{IsOnlineRole}!ContactListModel@{ContactListModel}}\index{ContactListModel@{ContactListModel}!IsOnlineRole@{IsOnlineRole}}}\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b}\label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b} 
+Is\+Online\+Role&Онлайн-\/статус (bool). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IsTypingRole@{IsTypingRole}!ContactListModel@{ContactListModel}}\index{ContactListModel@{ContactListModel}!IsTypingRole@{IsTypingRole}}}\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}\label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e} 
+Is\+Typing\+Role&Печатает ли пользователь сообщение (bool). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LastMessageRole@{LastMessageRole}!ContactListModel@{ContactListModel}}\index{ContactListModel@{ContactListModel}!LastMessageRole@{LastMessageRole}}}\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}\label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024} 
+Last\+Message\+Role&Текст последнего сообщения в чате (QString). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UnreadCountRole@{UnreadCountRole}!ContactListModel@{ContactListModel}}\index{ContactListModel@{ContactListModel}!UnreadCountRole@{UnreadCountRole}}}\Hypertarget{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}\label{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5} 
+Unread\+Count\+Role&Количество непрочитанных сообщений (int). \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8h_source_l00038}{38}} of file \mbox{\hyperlink{contactlistmodel_8h_source}{contactlistmodel.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_contact_list_model_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30}\index{ContactListModel@{ContactListModel}!ContactListModel@{ContactListModel}}
+\index{ContactListModel@{ContactListModel}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{ContactListModel()}{ContactListModel()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_aa1eae729da4317998e0e3355cd257b30} 
+Contact\+List\+Model\+::\+Contact\+List\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_main_window}{Main\+Window}} \texorpdfstring{$\ast$}{*}}]{main\+Window}{, }\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em main\+Window} & Указатель на главное окно. Необходим модели для доступа к центральным кэшам данных (пользователей, истории, счетчиков). \\
+\hline
+{\em parent} & Родительский объект (стандартно для Qt).\\
+\hline
+{\em main\+Window} & Указатель на \doxylink{class_main_window}{Main\+Window}, который выступает в роли "{}источника правды"{} (владельца всех кэшей данных). \\
+\hline
+{\em parent} & Родительский объект в иерархии Qt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_contact_list_model_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_contact_list_model_a90195e311bda835eacf5abd5f4c5b0b2}\index{ContactListModel@{ContactListModel}!clear@{clear}}
+\index{clear@{clear}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_a90195e311bda835eacf5abd5f4c5b0b2} 
+void Contact\+List\+Model\+::clear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Полностью очищает модель. Вызывается, например, при выходе из аккаунта. 
+
+Полностью очищает модель от всех данных.
+
+Вызывается, например, при выходе пользователя из аккаунта. 
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+\Hypertarget{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620}\index{ContactListModel@{ContactListModel}!data@{data}}
+\index{data@{data}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_abbbf31d97220318d9e1d3cbf12e08620} 
+QVariant Contact\+List\+Model\+::data (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{index}{, }\item[{int}]{role}{ = {\ttfamily Qt\+:\+:DisplayRole}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Основной метод доступа к данным. 
+
+Основной метод для получения данных из модели по запросу от представления/делегата.
+
+Делегат вызывает этот метод, передавая индекс и роль, чтобы получить конкретную информацию для отрисовки. Модель берет username по индексу из своего списка, а затем запрашивает детальную информацию у \doxylink{class_main_window}{Main\+Window} в зависимости от роли.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс элемента. \\
+\hline
+{\em role} & Роль запрашиваемых данных (из Qt\+::\+Item\+Data\+Role или \doxylink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7}{Contact\+Roles}). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QVariant Запрошенные данные.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс элемента (строка, колонка), для которого нужны данные. \\
+\hline
+{\em role} & Роль (тип) запрашиваемых данных, например, Qt\+::\+Display\+Role или кастомная роль. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QVariant Данные, обернутые в QVariant. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+\Hypertarget{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26}\index{ContactListModel@{ContactListModel}!refreshContact@{refreshContact}}
+\index{refreshContact@{refreshContact}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{refreshContact()}{refreshContact()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_a5d6cde2a5f067a1edef40dde0e789a26} 
+void Contact\+List\+Model\+::refresh\+Contact (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{}\end{DoxyParamCaption})}
+
+
+
+Принудительно обновляет данные одного контакта. 
+
+Принудительно обновляет один элемент в списке.
+
+Вызывается, когда изменяется состояние контакта (например, пришел статус "{}печатает"{}, новое сообщение, или изменился счетчик непрочитанных), но порядок в списке не меняется. Эмитирует сигнал data\+Changed() для конкретной строки, заставляя представление перерисовать её. 
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя, данные которого нужно обновить.\\
+\hline
+\end{DoxyParams}
+Этот метод вызывается, когда данные контакта изменились (например, статус "{}онлайн"{} или "{}печатает"{}), но его позиция в списке осталась прежней. 
+\begin{DoxyParams}{Parameters}
+{\em username} & Имя пользователя, элемент которого нужно перерисовать. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+\Hypertarget{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6}\index{ContactListModel@{ContactListModel}!rowCount@{rowCount}}
+\index{rowCount@{rowCount}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{rowCount()}{rowCount()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_a6fcdf80cde0d5e46d3b2c694ea5977c6} 
+int Contact\+List\+Model\+::row\+Count (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{parent}{ = {\ttfamily QModelIndex()}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Возвращает количество контактов в списке. 
+
+Возвращает количество строк (контактов) в модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Для списочной модели всегда должен быть невалидным QModel\+Index(). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Количество строк (контактов).
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Для одноуровневой списочной модели этот параметр всегда невалидный. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Количество контактов. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00030}{30}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+\Hypertarget{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327}\index{ContactListModel@{ContactListModel}!updateContacts@{updateContacts}}
+\index{updateContacts@{updateContacts}!ContactListModel@{ContactListModel}}
+\doxysubsubsection{\texorpdfstring{updateContacts()}{updateContacts()}}
+{\footnotesize\ttfamily \label{class_contact_list_model_a4d65ea854724114c7e14049ea81c6327} 
+void Contact\+List\+Model\+::update\+Contacts (\begin{DoxyParamCaption}\item[{const QString\+List \&}]{new\+Usernames}{}\end{DoxyParamCaption})}
+
+
+
+Интеллектуально обновляет список контактов. 
+
+Выполняет "{}умное"{} обновление списка контактов.
+
+Сравнивает текущий список с новым, вычисляет разницу (diff) и применяет только необходимые изменения (вставка/удаление строк). Это позволяет избежать полной перерисовки списка и сброса выделения. 
+\begin{DoxyParams}{Parameters}
+{\em usernames} & Новый отсортированный список имен пользователей.\\
+\hline
+\end{DoxyParams}
+Сравнивает старый и новый списки контактов и применяет только необходимые изменения (добавление новых, удаление старых), вместо полной перезагрузки. Это сохраняет выделение и позицию прокрутки в QList\+View. 
+\begin{DoxyParams}{Parameters}
+{\em new\+Usernames} & Новый, уже отсортированный, список имен пользователей. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{contactlistmodel_8cpp_source_l00125}{125}} of file \mbox{\hyperlink{contactlistmodel_8cpp_source}{contactlistmodel.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{contactlistmodel_8h}{contactlistmodel.\+h}}\item 
+\mbox{\hyperlink{contactlistmodel_8cpp}{contactlistmodel.\+cpp}}\end{DoxyCompactItemize}

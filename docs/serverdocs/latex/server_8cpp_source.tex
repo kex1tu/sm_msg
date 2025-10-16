@@ -1,0 +1,1252 @@
+\doxysection{server.\+cpp}
+\hypertarget{server_8cpp_source}{}\label{server_8cpp_source}\mbox{\hyperlink{server_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QCoreApplication>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <QTcpServer>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <QTcpSocket>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <QDebug>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QSqlDatabase>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QSqlQuery>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <QSqlError>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <QCryptographicHash>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <QJsonObject>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <QJsonDocument>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <QJsonArray>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <QDataStream>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <QSqlRecord>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <QWebSocket>}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{server_8h}{server.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00040}\mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{00040}}\ \mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server::Server}}(QObject\ *parent)\ :\ QObject(parent)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{comment}{//\ 1.\ Создаем\ экземпляр\ TCP-\/сервера.\ \`{}this`\ в\ качестве\ родителя}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//\ \ \ \ гарантирует,\ что\ объект\ \`{}m\_tcpServer`\ будет\ автоматически\ удален}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ \ \ \ при\ уничтожении\ объекта\ \`{}Server`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00045}00045\ \ \ \ \ m\_tcpServer\ =\ \textcolor{keyword}{new}\ QTcpServer(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ 2.\ Создаем\ экземпляр\ WebSocket-\/сервера.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ "{}MessengerServer"{}:\ Имя\ сервера,\ которое\ может\ быть\ видно\ клиентам.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ QWebSocketServer::NonSecureMode:\ Указывает,\ что\ мы\ используем}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ незащищенное\ соединение\ (ws://),\ а\ не\ защищенное\ (wss://).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ \`{}this`:\ Родительский\ объект.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00052}00052\ \ \ \ \ m\_webSocketServer\ =\ \textcolor{keyword}{new}\ QWebSocketServer(\textcolor{stringliteral}{"{}MessengerServer"{}},\ QWebSocketServer::NonSecureMode,\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ 3.\ Соединяем\ сигналы\ серверов\ со\ слотами-\/обработчиками.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ Когда\ \`{}QTcpServer`\ получает\ новое\ входящее\ TCP-\/подключение,\ он}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ испускает\ сигнал\ \`{}newConnection`,\ который\ вызывает\ наш\ слот\ \`{}onNewTcpConnection`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00057}00057\ \ \ \ \ connect(m\_tcpServer,\ \&QTcpServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewTcpConnection);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ \ \ \ -\/\ Аналогично\ для\ WebSocket-\/сервера.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00060}00060\ \ \ \ \ connect(m\_webSocketServer,\ \&QWebSocketServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewWebSocketConnection);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ 4.\ Инициализируем\ базу\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{if}\ (!initDatabase())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ инициализация\ БД\ провалилась\ (например,\ нет\ прав\ на\ запись\ файла),}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ дальнейшая\ работа\ сервера\ невозможна.\ \`{}qFatal`\ выводит\ критическое}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ сообщение\ и\ немедленно\ завершает\ приложение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ qFatal(\textcolor{stringliteral}{"{}Fatal:\ Database\ initialization\ failed!"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00068}00068\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ 5.\ Заполняем\ нашу\ карту\ \`{}m\_handlers`,\ которая\ связывает\ строковые}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ \ \ \ имена\ команд\ с\ указателями\ на\ методы,\ их\ обрабатывающие.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00072}00072\ \ \ \ \ \mbox{\hyperlink{class_server_a56ec5259c858a9599d0ff16c33fe6882}{initHandlers}}();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00073}00073\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00084}\mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{00084}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{Server::listen}}(\textcolor{keyword}{const}\ QHostAddress\ \&address,\ quint16\ tcpPort,\ quint16\ wsPort)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00085}00085\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{comment}{//\ Пытаемся\ запустить\ каждый\ сервер\ на\ указанном\ адресе\ и\ порту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordtype}{bool}\ tcpSuccess\ =\ m\_tcpServer-\/>listen(address,\ tcpPort);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{bool}\ wsSuccess\ =\ m\_webSocketServer-\/>listen(address,\ wsPort);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//\ Если\ оба\ запустились\ успешно...}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{if}\ (tcpSuccess\ \&\&\ wsSuccess)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}TCP\ Server\ listening\ on\ port"{}}\ <<\ tcpPort;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}WebSocket\ Server\ listening\ on\ port"{}}\ <<\ wsPort;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ ...возвращаем\ успех.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00095}00095\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ Если\ какой-\/либо\ из\ серверов\ не\ запустился,\ выводим\ подробную\ ошибку.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (!tcpSuccess)\ qDebug()\ <<\ \textcolor{stringliteral}{"{}TCP\ Server\ failed\ to\ start:"{}}\ <<\ m\_tcpServer-\/>errorString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{if}\ (!wsSuccess)\ qDebug()\ <<\ \textcolor{stringliteral}{"{}WebSocket\ Server\ failed\ to\ start:"{}}\ <<\ m\_webSocketServer-\/>errorString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Возвращаем\ неудачу.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00102}00102\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00112}00112\ \textcolor{keywordtype}{void}\ Server::onNewTcpConnection()}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00113}00113\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{comment}{//\ Извлекаем\ сокет\ клиента,\ ожидающий\ подключения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00115}00115\ \ \ \ \ QTcpSocket\ *socket\ =\ m\_tcpServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00116}00116\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}New\ TCP\ client\ connected\ from:"{}}\ <<\ socket-\/>peerAddress().toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ сигналы\ от\ этого\ конкретного\ сокета\ с\ нашими\ слотами-\/обработчиками.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00119}00119\ \ \ \ \ connect(socket,\ \&QTcpSocket::readyRead,\ \textcolor{keyword}{this},\ \&Server::onTcpReadyRead);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00120}00120\ \ \ \ \ connect(socket,\ \&QTcpSocket::disconnected,\ \textcolor{keyword}{this},\ \&Server::onClientDisconnected);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00122}00122\ \ \ \ \ \textcolor{comment}{//\ Инициализируем\ хранилище\ размера\ следующего\ блока\ для\ этого\ сокета\ нулем.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00123}00123\ \ \ \ \ m\_nextBlockSizes.insert(socket,\ 0);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00124}00124\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00132}00132\ \textcolor{keywordtype}{void}\ Server::onNewWebSocketConnection()}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00133}00133\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{comment}{//\ Извлекаем\ WebSocket-\/сокет\ клиента.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00135}00135\ \ \ \ \ QWebSocket\ *socket\ =\ m\_webSocketServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00136}00136\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}New\ WebSocket\ client\ connected\ from:"{}}\ <<\ socket-\/>peerAddress().toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{comment}{//\ Соединяем\ сигналы.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00139}00139\ \ \ \ \ connect(socket,\ \&QWebSocket::textMessageReceived,\ \textcolor{keyword}{this},\ \&Server::onWebSocketTextMessageReceived);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00140}00140\ \ \ \ \ connect(socket,\ \&QWebSocket::disconnected,\ \textcolor{keyword}{this},\ \&Server::onClientDisconnected);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00141}00141\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00149}\mbox{\hyperlink{class_server_a56ec5259c858a9599d0ff16c33fe6882}{00149}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_a56ec5259c858a9599d0ff16c33fe6882}{Server::initHandlers}}()\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00150}00150\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}login"{}}]\ =\ \&Server::handleLogin;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00151}00151\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}register"{}}]\ =\ \&Server::handleRegister;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00152}00152\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}search\_users"{}}]\ =\ \&Server::handleSearchUsers;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00153}00153\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}private\_message"{}}]\ =\ \&Server::handlePrivateMessage;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00154}00154\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}get\_history"{}}]\ =\ \&Server::handleGetHistory;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00155}00155\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}add\_contact\_request"{}}]\ =\ \&Server::handleAddContactRequest;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00156}00156\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}contact\_request\_response"{}}]\ =\ \&Server::handleContactRequestResponse;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00157}00157\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}delete\_message"{}}]\ =\ \&Server::handleDeleteMessage;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00158}00158\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}edit\_message"{}}]\ =\ \&Server::handleEditMessage;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00159}00159\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}typing"{}}]\ =\ \&Server::handleTyping;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00160}00160\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}message\_delivered"{}}]\ =\ \&\mbox{\hyperlink{class_server_af49291bcd5c9d7d8b9054ec18aa43728}{Server::handleMessageDelivered}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00161}00161\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}message\_read"{}}]\ =\ \&\mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{Server::handleMessageRead}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00162}00162\ \ \ \ \ m\_handlers[\textcolor{stringliteral}{"{}logout\_request"{}}]\ =\ \&\mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{Server::handleLogoutRequest}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00163}00163\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00176}\mbox{\hyperlink{class_server_af49291bcd5c9d7d8b9054ec18aa43728}{00176}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_af49291bcd5c9d7d8b9054ec18aa43728}{Server::handleMessageDelivered}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00177}00177\ \ \ \ \ Q\_UNUSED(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00178}00178\ \ \ \ \ quint64\ messageId\ =\ request[\textcolor{stringliteral}{"{}id"{}}].toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\ 1.\ Обновляем\ статус\ в\ базе\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00181}00181\ \ \ \ \ QSqlQuery\ updateQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00182}00182\ \ \ \ \ updateQuery.prepare(\textcolor{stringliteral}{"{}UPDATE\ messages\ SET\ is\_delivered\ =\ 1\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00183}00183\ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{if}\ (!updateQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ to\ mark\ message\ as\ delivered:"{}}\ <<\ updateQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00186}00186\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Marked\ message"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}as\ delivered."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{comment}{//\ 2.\ Находим\ автора\ исходного\ сообщения,\ чтобы\ переслать\ ему\ уведомление.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00191}00191\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00192}00192\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ fromUser\ FROM\ messages\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00193}00193\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec()\ ||\ !query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}DB\ Error:\ Could\ not\ find\ original\ sender\ for\ message\ ID"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00197}00197\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00198}00198\ \ \ \ \ QString\ originalSender\ =\ query.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00200}00200\ \ \ \ \ \textcolor{comment}{//\ 3.\ Формируем\ команду\ "{}message\_delivered"{}\ для\ автора.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00201}00201\ \ \ \ \ QJsonObject\ deliveredCmd;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00202}00202\ \ \ \ \ deliveredCmd[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}message\_delivered"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00203}00203\ \ \ \ \ deliveredCmd[\textcolor{stringliteral}{"{}id"{}}]\ =\ (double)messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{comment}{//\ 4.\ Отправляем\ уведомление\ автору\ сообщения,\ если\ он\ онлайн.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00206}00206\ \ \ \ \ sendJson(m\_clients.value(originalSender),\ deliveredCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00207}00207\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00221}\mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{00221}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_aadc3f04c0a456be1165c480843936617}{Server::handleMessageRead}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00222}00222\ \ \ \ \ Q\_UNUSED(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00223}00223\ \ \ \ \ quint64\ messageId\ =\ request[\textcolor{stringliteral}{"{}id"{}}].toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00225}00225\ \ \ \ \ \textcolor{comment}{//\ 1.\ Обновляем\ статус\ в\ базе\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00226}00226\ \ \ \ \ QSqlQuery\ updateQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00227}00227\ \ \ \ \ updateQuery.prepare(\textcolor{stringliteral}{"{}UPDATE\ messages\ SET\ is\_read\ =\ 1\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00228}00228\ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00229}00229\ \ \ \ \ \textcolor{keywordflow}{if}\ (!updateQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ to\ mark\ message\ as\ read:"{}}\ <<\ updateQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00231}00231\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Marked\ message"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}as\ read."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00233}00233\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00235}00235\ \ \ \ \ \textcolor{comment}{//\ 2.\ Находим\ автора\ исходного\ сообщения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00236}00236\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00237}00237\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ fromUser\ FROM\ messages\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00238}00238\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00239}00239\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec()\ ||\ !query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}DB\ Error:\ Could\ not\ find\ original\ sender\ for\ message\ ID"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00242}00242\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00243}00243\ \ \ \ \ QString\ originalSender\ =\ query.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00245}00245\ \ \ \ \ \textcolor{comment}{//\ 3.\ Формируем\ команду\ "{}message\_read"{}\ для\ автора.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00246}00246\ \ \ \ \ QJsonObject\ readCmd;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00247}00247\ \ \ \ \ readCmd[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}message\_read"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00248}00248\ \ \ \ \ readCmd[\textcolor{stringliteral}{"{}id"{}}]\ =\ (double)messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00250}00250\ \ \ \ \ \textcolor{comment}{//\ 4.\ Отправляем\ уведомление\ автору,\ если\ он\ онлайн.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00251}00251\ \ \ \ \ sendJson(m\_clients.value(originalSender),\ readCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00252}00252\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00265}\mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{00265}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_server_ab0cc0ba54dab5ede748107dbe62811a1}{Server::handleLogoutRequest}}(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00266}00266\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{comment}{//\ Имя\ пользователя,\ указанное\ в\ запросе.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00268}00268\ \ \ \ \ QString\ fromUser\ =\ request[\textcolor{stringliteral}{"{}username"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{comment}{//\ Имя\ пользователя,\ реально\ ассоциированное\ с\ этим\ сокетом\ (извлеченное\ при\ логине).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00270}00270\ \ \ \ \ QString\ requestingUser\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00271}00271\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{comment}{//\ Проверка\ безопасности:\ совпадают\ ли\ имена.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00274}00274\ \ \ \ \ \textcolor{keywordflow}{if}\ (fromUser\ !=\ requestingUser)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ нет\ -\/\ это\ подозрительная\ активность.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ SECURITY:\ User"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}is\ trying\ to\ log\ out\ as"{}}\ <<\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}logout\_request\_failure"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}reason"{}}]\ =\ \textcolor{stringliteral}{"{}Authentication\ mismatch."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00281}00281\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ все\ в\ порядке,\ отправляем\ клиенту\ подтверждение\ об\ успешном\ выходе.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}logout\_request\_success"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Удаляем\ пользователя\ из\ обеих\ карт,\ отслеживающих\ онлайн-\/статус.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ QString\ username\ =\ m\_clientsReverse.value(socket);\ \textcolor{comment}{//\ Получаем\ имя\ еще\ раз\ для\ надежности.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ m\_clients.remove(username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ m\_clientsReverse.remove(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рассылаем\ всем\ оставшимся\ онлайн-\/пользователям\ обновленный\ список\ присутствия.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ broadcastUserList();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}logged\ out\ successfully."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00294}00294\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00295}00295\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00306}00306\ \textcolor{keywordtype}{void}\ Server::onTcpReadyRead()}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00307}00307\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{comment}{//\ Определяем,\ какой\ именно\ сокет\ отправил\ сигнал.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00309}00309\ \ \ \ \ \textcolor{keyword}{auto}\ socket\ =\ qobject\_cast<QTcpSocket*>(sender());}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00310}00310\ \ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00312}00312\ \ \ \ \ QDataStream\ in(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00313}00313\ \ \ \ \ in.setVersion(QDataStream::Qt\_6\_2);\ \textcolor{comment}{//\ Версия\ должна\ совпадать\ с\ клиентом.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00315}00315\ \ \ \ \ \textcolor{comment}{//\ Цикл\ для\ чтения\ всех\ полных\ пакетов,\ которые\ могли\ прийти\ за\ один\ раз.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00316}00316\ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ quint32\ \&nextBlockSize\ =\ m\_nextBlockSizes[socket];}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Фаза\ 1:\ Чтение\ размера\ пакета.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nextBlockSize\ ==\ 0)\ \{\ \textcolor{comment}{//\ Если\ мы\ еще\ не\ знаем\ размер\ следующего\ пакета...}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (socket-\/>bytesAvailable()\ <\ \textcolor{keyword}{sizeof}(quint32))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ ...и\ данных\ в\ буфере\ недостаточно\ даже\ для\ чтения\ размера,\ выходим.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ in\ >>\ nextBlockSize;\ \textcolor{comment}{//\ Читаем\ размер\ (4\ байта).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Фаза\ 2:\ Чтение\ данных\ пакета.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (socket-\/>bytesAvailable()\ <\ nextBlockSize)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ Если\ пакет\ пришел\ не\ полностью,\ выходим\ и\ ждем\ следующей\ порции\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Данных\ достаточно,\ читаем\ JSON-\/пакет.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ QByteArray\ jsonData;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ in\ >>\ jsonData;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ nextBlockSize\ =\ 0;\ \textcolor{comment}{//\ Сбрасываем\ размер\ для\ следующей\ итерации.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Фаза\ 3:\ Парсинг\ и\ маршрутизация.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ QJsonDocument\ doc\ =\ QJsonDocument::fromJson(jsonData);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!doc.isNull()\ \&\&\ doc.isObject())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ processJsonRequest(doc.object(),\ socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ QString\ type\ =\ doc.object()[\textcolor{stringliteral}{"{}type"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Unknown\ request\ type\ received:"{}}\ <<\ type;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}error"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Unknown\ command:\ "{}}\ +\ type\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00348}00348\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00349}00349\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00361}00361\ \textcolor{keywordtype}{void}\ Server::onWebSocketTextMessageReceived(\textcolor{keyword}{const}\ QString\ \&message)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00362}00362\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00363}00363\ \ \ \ \ \textcolor{keyword}{auto}\ socket\ =\ qobject\_cast<QWebSocket*>(sender());}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00364}00364\ \ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00366}00366\ \ \ \ \ QJsonDocument\ doc\ =\ QJsonDocument::fromJson(message.toUtf8());}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00367}00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (!doc.isNull()\ \&\&\ doc.isObject())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ парсинг\ прошел\ успешно,\ передаем\ запрос\ в\ общий\ обработчик.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ processJsonRequest(doc.object(),\ socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00370}00370\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Received\ invalid\ JSON\ from\ WebSocket\ client."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00372}00372\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00373}00373\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00374}00374\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00388}00388\ \textcolor{keywordtype}{void}\ Server::processJsonRequest(\textcolor{keyword}{const}\ QJsonObject\&\ request,\ QObject*\ socket)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00389}00389\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00390}00390\ \ \ \ \ QString\ type\ =\ request[\textcolor{stringliteral}{"{}type"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00391}00391\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Processing\ message\ of\ type:"{}}\ <<\ type\ <<\ \textcolor{stringliteral}{"{}from"{}}\ <<\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00393}00393\ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ существует\ ли\ обработчик\ для\ такой\ команды.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00394}00394\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_handlers.contains(type))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ Handler\ handler\ =\ m\_handlers.value(type);\ \textcolor{comment}{//\ Получаем\ указатель\ на\ метод.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ (this-\/>*handler)(socket,\ request);\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Вызываем\ метод\ по\ указателю.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00397}00397\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Unknown\ request\ type\ received\ in\ processJsonRequest:"{}}\ <<\ type;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}error"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Unknown\ command:\ "{}}\ +\ type\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00400}00400\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00401}00401\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00415}00415\ \textcolor{keywordtype}{void}\ Server::onClientDisconnected()}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00416}00416\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00417}00417\ \ \ \ \ \textcolor{comment}{//\ 1.\ Получаем\ указатель\ на\ объект-\/отправитель\ сигнала\ (отключившийся\ сокет).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{keyword}{auto}\ socket\ =\ qobject\_cast<QObject*>(sender());}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00419}00419\ \ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00421}00421\ \ \ \ \ \textcolor{comment}{//\ 2.\ Определяем,\ был\ ли\ этот\ клиент\ аутентифицирован\ (т.е.\ есть\ ли\ он\ в\ \`{}m\_clientsReverse`).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00422}00422\ \ \ \ \ QString\ username\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00423}00423\ \ \ \ \ \textcolor{keywordflow}{if}\ (!username.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Если\ клиент\ был\ аутентифицирован\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}User"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}disconnected."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00426}00426\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 3.\ Обновляем\ в\ БД\ время\ последнего\ визита.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ QSqlQuery\ updateQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ updateQuery.prepare(\textcolor{stringliteral}{"{}UPDATE\ users\ SET\ last\_seen\ =\ :lastSeen\ WHERE\ username\ =\ :username"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00430}00430\ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:lastSeen"{}},\ QDateTime::currentDateTime().toString(Qt::ISODate));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!updateQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER][ERROR]\ Failed\ to\ update\ last\_seen\ for\ user"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ updateQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Updated\ last\_seen\ for\ user"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 4.\ Удаляем\ пользователя\ из\ обеих\ карт,\ отслеживающих\ онлайн-\/статус.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ m\_clients.remove(username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ m\_clientsReverse.remove(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 5.\ Рассылаем\ всем\ оставшимся\ онлайн-\/клиентам\ обновленный\ список\ присутствия.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ broadcastUserList();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00444}00444\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00446}00446\ \ \ \ \ \textcolor{comment}{//\ 6.\ Если\ это\ был\ TCP-\/сокет,\ удаляем\ его\ из\ карты\ \`{}m\_nextBlockSizes`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00447}00447\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ tcpSocket\ =\ qobject\_cast<QTcpSocket*>(socket))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ m\_nextBlockSizes.remove(tcpSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00449}00449\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00450}00450\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00451}00451\ \ \ \ \ \textcolor{comment}{//\ 7.\ Помечаем\ объект\ сокета\ для\ удаления.\ \`{}deleteLater()`\ -\/\ это\ безопасный}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00452}00452\ \ \ \ \ \textcolor{comment}{//\ \ \ \ способ\ удалить\ QObject.\ Удаление\ произойдет,\ когда\ управление\ вернется}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00453}00453\ \ \ \ \ \textcolor{comment}{//\ \ \ \ в\ цикл\ обработки\ событий\ Qt,\ что\ предотвращает\ падения,\ если}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00454}00454\ \ \ \ \ \textcolor{comment}{//\ \ \ \ для\ этого\ объекта\ еще\ есть\ ожидающие\ события.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00455}00455\ \ \ \ \ sender()-\/>deleteLater();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00456}00456\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00470}00470\ \textcolor{keywordtype}{bool}\ Server::initDatabase()}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00471}00471\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00472}00472\ \ \ \ \ \textcolor{comment}{//\ 1.\ Получаем\ объект\ соединения\ с\ БД.\ QSqlDatabase::addDatabase()\ создает}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00473}00473\ \ \ \ \ \textcolor{comment}{//\ \ \ \ именованное\ соединение\ (по\ умолчанию\ "{}qt\_sql\_default\_connection"{}).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00474}00474\ \ \ \ \ QSqlDatabase\ db\ =\ QSqlDatabase::addDatabase(\textcolor{stringliteral}{"{}QSQLITE"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00475}00475\ \ \ \ \ db.setDatabaseName(\textcolor{stringliteral}{"{}messenger.db"{}});\ \textcolor{comment}{//\ Указываем\ имя\ файла\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00476}00476\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00477}00477\ \ \ \ \ \textcolor{comment}{//\ 2.\ Пытаемся\ открыть\ соединение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00478}00478\ \ \ \ \ \textcolor{keywordflow}{if}\ (!db.open())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ qCritical()\ <<\ \textcolor{stringliteral}{"{}Error:\ connection\ with\ database\ failed:"{}}\ <<\ db.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00481}00481\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00482}00482\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Database\ connection\ established\ successfully."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00483}00483\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00484}00484\ \ \ \ \ QSqlQuery\ query;\ \textcolor{comment}{//\ Создаем\ объект\ для\ выполнения\ SQL-\/запросов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00486}00486\ \ \ \ \ \textcolor{comment}{//\ 3.\ Создаем\ таблицу\ \`{}users`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00487}00487\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \`{}IF\ NOT\ EXISTS`\ предотвращает\ ошибку,\ если\ таблица\ уже\ существует.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00488}00488\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec(\textcolor{stringliteral}{"{}CREATE\ TABLE\ IF\ NOT\ EXISTS\ users\ ("{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id\ INTEGER\ PRIMARY\ KEY\ AUTOINCREMENT,\ "{}}\ \textcolor{comment}{//\ Уникальный\ ID,\ автоинкремент.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}username\ TEXT\ UNIQUE\ NOT\ NULL,\ "{}}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Логин,\ должен\ быть\ уникальным.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}display\_name\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}password\_hash\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}creation\_date\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}last\_seen\ TEXT,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}avatar\_url\ TEXT,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}status\_message\ TEXT"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{});"{}}))}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00498}00498\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ qCritical()\ <<\ \textcolor{stringliteral}{"{}DB\ Error:\ failed\ to\ create\ 'users'\ table:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00501}00501\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00503}00503\ \ \ \ \ \textcolor{comment}{//\ 4.\ Создаем\ таблицу\ \`{}messages`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00504}00504\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec(\textcolor{stringliteral}{"{}CREATE\ TABLE\ IF\ NOT\ EXISTS\ messages\ ("{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id\ INTEGER\ PRIMARY\ KEY\ AUTOINCREMENT,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fromUser\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}toUser\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}payload\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}timestamp\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}is\_delivered\ INTEGER\ NOT\ NULL\ DEFAULT\ 0,\ "{}}\ \textcolor{comment}{//\ Флаги\ доставки/прочтения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}is\_read\ INTEGER\ NOT\ NULL\ DEFAULT\ 0,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}is\_edited\ INTEGER\ NOT\ NULL\ DEFAULT\ 0,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}reply\_to\_id\ INTEGER,\ "{}}\ \textcolor{comment}{//\ ID\ цитируемого\ сообщения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}forwarded\_from\ TEXT,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}message\_type\ INTEGER\ NOT\ NULL\ DEFAULT\ 0,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}media\_url\ TEXT"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{});"{}}))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00518}00518\ \ \ \ \ \ \ \ \ qCritical()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ DB\ Error:\ failed\ to\ create\ 'messages'\ table:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00520}00520\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00521}00521\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00522}00522\ \ \ \ \ \textcolor{comment}{//\ 5.\ Создаем\ таблицу\ \`{}contacts`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00523}00523\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Это\ связующая\ таблица\ для\ отношений\ "{}многие\ ко\ многим"{}\ между\ пользователями.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00524}00524\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec(\textcolor{stringliteral}{"{}CREATE\ TABLE\ IF\ NOT\ EXISTS\ contacts\ ("{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id\ INTEGER\ PRIMARY\ KEY\ AUTOINCREMENT,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}user\_id\_1\ INTEGER\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}user\_id\_2\ INTEGER\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}status\ INTEGER\ NOT\ NULL\ DEFAULT\ 0,\ "{}}\ \textcolor{comment}{//\ 0=pending,\ 1=accepted,\ 2=blocked\ и\ т.д.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}creation\_date\ TEXT\ NOT\ NULL,\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FOREIGN\ KEY(user\_id\_1)\ REFERENCES\ users(id),\ "{}}\ \textcolor{comment}{//\ Внешние\ ключи\ для\ целостности\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FOREIGN\ KEY(user\_id\_2)\ REFERENCES\ users(id),\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UNIQUE(user\_id\_1,\ user\_id\_2),\ "{}}\ \textcolor{comment}{//\ Гарантирует,\ что\ пара\ юзеров\ уникальна.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CHECK(user\_id\_1\ <\ user\_id\_2)"{}}\ \textcolor{comment}{//\ Предотвращает\ дублирование\ (1,2)\ и\ (2,1).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{});"{}}))}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00535}00535\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ qCritical()\ <<\ \textcolor{stringliteral}{"{}DB\ Error:\ failed\ to\ create\ 'contacts'\ table:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00537}00537\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00538}00538\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00539}00539\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00540}00540\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Database\ tables\ initialized\ successfully."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00541}00541\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00542}00542\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00543}00543\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00555}00555\ \textcolor{keywordtype}{void}\ Server::handleTyping(QObject\ *socket,\ \textcolor{keyword}{const}\ QJsonObject\ \&request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00556}00556\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00557}00557\ \ \ \ \ \textcolor{comment}{//\ 1.\ Определяем\ отправителя\ по\ его\ сокету.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00558}00558\ \ \ \ \ QString\ fromUsername\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00560}00560\ \ \ \ \ \textcolor{comment}{//\ 2.\ Получаем\ получателя\ из\ запроса.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00561}00561\ \ \ \ \ QString\ toUsername\ =\ request[\textcolor{stringliteral}{"{}toUser"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00563}00563\ \ \ \ \ \textcolor{comment}{//\ 3.\ Ищем\ сокет\ получателя\ в\ списке\ онлайн-\/клиентов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00564}00564\ \ \ \ \ QObject*\ toSocket\ =\ m\_clients.value(toUsername,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00565}00565\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00566}00566\ \ \ \ \ \textcolor{comment}{//\ 4.\ Если\ получатель\ онлайн\ (сокет\ найден)...}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00567}00567\ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00568}00568\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...создаем\ новое\ JSON-\/сообщение\ и\ пересылаем\ его.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00569}00569\ \ \ \ \ \ \ \ \ QJsonObject\ forwardMessage;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00570}00570\ \ \ \ \ \ \ \ \ forwardMessage[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}typing"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00571}00571\ \ \ \ \ \ \ \ \ forwardMessage[\textcolor{stringliteral}{"{}fromUser"{}}]\ =\ fromUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00573}00573\ \ \ \ \ \ \ \ \ sendJson(toSocket,\ forwardMessage);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00574}00574\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00575}00575\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00576}00576\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00589}00589\ \textcolor{keywordtype}{void}\ Server::handleGetHistory(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00590}00590\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00591}00591\ \ \ \ \ \textcolor{comment}{//\ 1.\ Извлекаем\ параметры\ запроса.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00592}00592\ \ \ \ \ QString\ requestingUser\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00593}00593\ \ \ \ \ QString\ chatPartner\ =\ request[\textcolor{stringliteral}{"{}with\_user"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00594}00594\ \ \ \ \ qint64\ beforeId\ =\ request[\textcolor{stringliteral}{"{}before\_id"{}}].toDouble();\ \textcolor{comment}{//\ 0,\ если\ поле\ отсутствует.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00596}00596\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ History\ request\ from"{}}\ <<\ requestingUser}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}for\ chat\ with"{}}\ <<\ chatPartner}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}before\ message\ ID:"{}}\ <<\ beforeId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00599}00599\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00600}00600\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Формирование\ SQL-\/запроса\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00601}00601\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00602}00602\ \ \ \ \ QString\ queryString\ =}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00603}00603\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ id,\ fromUser,\ toUser,\ payload,\ timestamp,\ reply\_to\_id,\ is\_read,\ is\_edited,\ is\_delivered\ FROM\ messages\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00604}00604\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WHERE\ ((fromUser\ =\ :user1\ AND\ toUser\ =\ :user2)\ OR\ (fromUser\ =\ :user2\ AND\ toUser\ =\ :user1))\ "{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00605}00605\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00606}00606\ \ \ \ \ \textcolor{comment}{//\ Если\ указан\ \`{}beforeId`,\ добавляем\ условие\ для\ пагинации\ (загрузка\ более\ старых\ сообщений).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00607}00607\ \ \ \ \ \textcolor{keywordflow}{if}\ (beforeId\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ queryString\ +=\ \textcolor{stringliteral}{"{}AND\ id\ <\ :beforeId\ "{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00609}00609\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00610}00610\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00611}00611\ \ \ \ \ \textcolor{comment}{//\ Сортируем\ по\ ID\ в\ обратном\ порядке\ (от\ новых\ к\ старым)\ и\ берем\ не\ более\ 20.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00612}00612\ \ \ \ \ queryString\ +=\ \textcolor{stringliteral}{"{}ORDER\ BY\ id\ DESC\ LIMIT\ 20"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00613}00613\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00614}00614\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 3.\ Подготовка\ и\ выполнение\ запроса\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00615}00615\ \ \ \ \ query.prepare(queryString);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00616}00616\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:user1"{}},\ requestingUser);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00617}00617\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:user2"{}},\ chatPartner);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00618}00618\ \ \ \ \ \textcolor{keywordflow}{if}\ (beforeId\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00619}00619\ \ \ \ \ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:beforeId"{}},\ beforeId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00620}00620\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00621}00621\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00622}00622\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00623}00623\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}DB\ Error:\ History\ request\ failed:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00624}00624\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00625}00625\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00626}00626\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00627}00627\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Формирование\ JSON-\/ответа\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00628}00628\ \ \ \ \ QJsonArray\ historyArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00629}00629\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00630}00630\ \ \ \ \ \ \ \ \ QSqlRecord\ record\ =\ query.record();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00631}00631\ \ \ \ \ \ \ \ \ QJsonObject\ messageObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00632}00632\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Заполняем\ JSON-\/объект\ данными\ из\ записи\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00633}00633\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}id"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00634}00634\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}fromUser"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}toUser"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}toUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00636}00636\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}payload"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}payload"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00637}00637\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}timestamp"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}timestamp"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00638}00638\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}is\_read"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}is\_read"{}}).toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00639}00639\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}is\_delivered"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}is\_delivered"{}}).toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00640}00640\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}is\_edited"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}is\_edited"{}}).toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00641}00641\ \ \ \ \ \ \ \ \ messageObject[\textcolor{stringliteral}{"{}reply\_to\_id"{}}]\ =\ record.value(\textcolor{stringliteral}{"{}reply\_to\_id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00642}00642\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00643}00643\ \ \ \ \ \ \ \ \ historyArray.append(messageObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00644}00644\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00645}00645\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Found"{}}\ <<\ historyArray.count()\ <<\ \textcolor{stringliteral}{"{}messages\ for\ this\ chat."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00646}00646\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00647}00647\ \ \ \ \ \textcolor{comment}{//\ Так\ как\ мы\ выбирали\ сообщения\ от\ новых\ к\ старым\ (DESC),\ а\ клиенту\ нужно}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00648}00648\ \ \ \ \ \textcolor{comment}{//\ их\ отобразить\ от\ старых\ к\ новым,\ мы\ инвертируем\ порядок\ массива.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00649}00649\ \ \ \ \ QJsonArray\ reversedArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00650}00650\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ historyArray.size()\ -\/\ 1;\ i\ >=\ 0;\ -\/-\/i)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00651}00651\ \ \ \ \ \ \ \ \ reversedArray.append(historyArray.at(i));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00652}00652\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00653}00653\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00654}00654\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 5.\ Отправка\ ответа\ клиенту\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00655}00655\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00656}00656\ \ \ \ \ \textcolor{comment}{//\ Тип\ ответа\ зависит\ от\ того,\ был\ ли\ это\ первоначальный\ запрос\ или\ подгрузка.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00657}00657\ \ \ \ \ \textcolor{keywordflow}{if}\ (beforeId\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}history\_data"{}};\ \textcolor{comment}{//\ Первоначальная\ загрузка.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00659}00659\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}old\_history\_data"{}};\ \textcolor{comment}{//\ Подгрузка\ старой\ истории.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00661}00661\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00662}00662\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00663}00663\ \ \ \ \ response[\textcolor{stringliteral}{"{}with\_user"{}}]\ =\ chatPartner;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00664}00664\ \ \ \ \ response[\textcolor{stringliteral}{"{}history"{}}]\ =\ reversedArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00665}00665\ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00666}00666\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00667}00667\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00679}00679\ \textcolor{keywordtype}{void}\ Server::handleRegister(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00680}00680\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00681}00681\ \ \ \ \ \textcolor{comment}{//\ 1.\ Извлекаем\ данные\ из\ запроса.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00682}00682\ \ \ \ \ QString\ username\ =\ request[\textcolor{stringliteral}{"{}username"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00683}00683\ \ \ \ \ QString\ display\_name\ =\ request[\textcolor{stringliteral}{"{}display\_name"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00684}00684\ \ \ \ \ QString\ password\ =\ request[\textcolor{stringliteral}{"{}password"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00685}00685\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00686}00686\ \ \ \ \ \textcolor{comment}{//\ 2.\ Хэшируем\ пароль\ для\ безопасного\ хранения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00687}00687\ \ \ \ \ QByteArray\ passwordHash\ =\ QCryptographicHash::hash(password.toUtf8(),\ QCryptographicHash::Sha256).toHex();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00688}00688\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00689}00689\ \ \ \ \ \textcolor{comment}{//\ 3.\ Готовим\ SQL-\/запрос\ на\ вставку.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00690}00690\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00691}00691\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ display\_name,\ password\_hash,\ creation\_date)\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}VALUES\ (:username,\ :display\_name,\ :password\_hash,\ :creation\_date)"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00693}00693\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00694}00694\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:password\_hash"{}},\ QString(passwordHash));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00695}00695\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:display\_name"{}},\ display\_name);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00696}00696\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:creation\_date"{}},\ QDateTime::currentDateTime().toString(Qt::ISODate));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00697}00697\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00698}00698\ \ \ \ \ \textcolor{comment}{//\ 4.\ Выполняем\ запрос\ и\ формируем\ ответ.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00699}00699\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00700}00700\ \ \ \ \ \textcolor{keywordflow}{if}\ (query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00701}00701\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ запрос\ выполнен\ успешно,\ значит,\ пользователь\ создан.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00702}00702\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}register\_success"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00703}00703\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ New\ user\ registered:"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00704}00704\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Примечание:\ \`{}broadcastUserList`\ здесь\ не\ совсем\ уместен,\ так\ как\ новый}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00705}00705\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ пользователь\ еще\ не\ в\ списке\ контактов\ ни\ у\ кого.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00706}00706\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ broadcastUserList();}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00707}00707\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00708}00708\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ произошла\ ошибка,\ скорее\ всего,\ сработало\ ограничение\ UNIQUE\ на\ поле\ \`{}username`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00709}00709\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}register\_failure"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00710}00710\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}reason"{}}]\ =\ \textcolor{stringliteral}{"{}Username\ already\ exists."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00711}00711\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Registration\ failed\ for"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00712}00712\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00713}00713\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00714}00714\ \ \ \ \ \textcolor{comment}{//\ 5.\ Отправляем\ ответ\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00715}00715\ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00716}00716\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00717}00717\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00729}00729\ \textcolor{keywordtype}{void}\ Server::handleSearchUsers(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00730}00730\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00731}00731\ \ \ \ \ \textcolor{comment}{//\ 1.\ Извлекаем\ параметры:\ поисковый\ запрос\ и\ имя\ текущего\ пользователя.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00732}00732\ \ \ \ \ QString\ searchTerm\ =\ request[\textcolor{stringliteral}{"{}term"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00733}00733\ \ \ \ \ QString\ currentUser\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00734}00734\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00735}00735\ \ \ \ \ \textcolor{comment}{//\ 2.\ Готовим\ SQL-\/запрос.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00736}00736\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00737}00737\ \ \ \ \ \textcolor{comment}{//\ \`{}LIKE`\ с\ символами\ \`{}\%`\ используется\ для\ поиска\ подстроки.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00738}00738\ \ \ \ \ \textcolor{comment}{//\ \`{}username\ !=\ :currentUser`\ исключает\ самого\ себя\ из\ результатов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00739}00739\ \ \ \ \ \textcolor{comment}{//\ \`{}LIMIT\ 20`\ ограничивает\ количество\ возвращаемых\ строк.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00740}00740\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ username,\ display\_name\ FROM\ users\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WHERE\ (username\ LIKE\ :term\ OR\ display\_name\ LIKE\ :term)\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}AND\ username\ !=\ :currentUser\ LIMIT\ 20"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00743}00743\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:term"{}},\ \textcolor{stringliteral}{"{}\%"{}}\ +\ searchTerm\ +\ \textcolor{stringliteral}{"{}\%"{}});\ \textcolor{comment}{//\ Оборачиваем\ поисковый\ запрос\ в\ \%.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00744}00744\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:currentUser"{}},\ currentUser);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00745}00745\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00746}00746\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00747}00747\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User\ search\ failed:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00748}00748\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00749}00749\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00750}00750\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00751}00751\ \ \ \ \ \textcolor{comment}{//\ 3.\ Формируем\ JSON-\/массив\ с\ результатами.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00752}00752\ \ \ \ \ QJsonArray\ usersFound;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00753}00753\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00754}00754\ \ \ \ \ \ \ \ \ QJsonObject\ userObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00755}00755\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}username"{}}]\ =\ query.value(0).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00756}00756\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}displayname"{}}]\ =\ query.value(1).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00757}00757\ \ \ \ \ \ \ \ \ usersFound.append(userObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00758}00758\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00759}00759\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00760}00760\ \ \ \ \ \textcolor{comment}{//\ 4.\ Отправляем\ ответ\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00761}00761\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00762}00762\ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}search\_results"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00763}00763\ \ \ \ \ response[\textcolor{stringliteral}{"{}users"{}}]\ =\ usersFound;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00764}00764\ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00765}00765\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Found"{}}\ <<\ usersFound.count()\ <<\ \textcolor{stringliteral}{"{}users\ for\ term\ '"{}}\ <<\ searchTerm\ <<\ \textcolor{stringliteral}{"{}'."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00766}00766\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00779}00779\ \textcolor{keywordtype}{void}\ Server::sendContactList(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00780}00780\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00781}00781\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Шаг\ 1:\ Получаем\ ID\ пользователя\ по\ его\ имени\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00782}00782\ \ \ \ \ QSqlQuery\ userQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00783}00783\ \ \ \ \ userQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ username\ =\ :username"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00784}00784\ \ \ \ \ userQuery.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00785}00785\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00786}00786\ \ \ \ \ \textcolor{keywordflow}{if}\ (!userQuery.exec()\ ||\ !userQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00787}00787\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Could\ not\ find\ ID\ for\ user"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}to\ send\ contact\ list."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00788}00788\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00789}00789\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00790}00790\ \ \ \ \ qint64\ userId\ =\ userQuery.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00791}00791\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00792}00792\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Шаг\ 2:\ Основной\ SQL-\/запрос\ для\ получения\ контактов\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00793}00793\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00794}00794\ \ \ \ \ \textcolor{comment}{//\ Этот\ запрос\ объединяет\ таблицы\ \`{}users`\ и\ \`{}contacts`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00795}00795\ \ \ \ \ \textcolor{comment}{//\ Он\ находит\ все\ записи\ в\ \`{}contacts`,\ где\ \`{}userId`\ является\ либо\ \`{}user\_id\_1`,\ либо\ \`{}user\_id\_2`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00796}00796\ \ \ \ \ \textcolor{comment}{//\ Затем\ он\ извлекает\ данные\ пользователя\ (`username`,\ \`{}display\_name`,\ \`{}last\_seen`)}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00797}00797\ \ \ \ \ \textcolor{comment}{//\ для\ "{}другой\ стороны"{}\ этой\ связи.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00798}00798\ \ \ \ \ query.prepare(}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00799}00799\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ u.username,\ u.display\_name,\ u.last\_seen\ FROM\ users\ u\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00800}00800\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}JOIN\ contacts\ c\ ON\ (u.id\ =\ c.user\_id\_1\ OR\ u.id\ =\ c.user\_id\_2)\ "{}}\ \textcolor{comment}{//\ Условие\ соединения.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00801}00801\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WHERE\ (c.user\_id\_1\ =\ :userId\ OR\ c.user\_id\_2\ =\ :userId)\ "{}}\ \textcolor{comment}{//\ Находим\ все\ связи,\ где\ есть\ наш\ юзер.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00802}00802\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}AND\ c.status\ =\ 1\ "{}}\ \textcolor{comment}{//\ Выбираем\ только\ подтвержденные\ контакты.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00803}00803\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}AND\ u.id\ !=\ :userId"{}}\ \textcolor{comment}{//\ Исключаем\ самого\ себя\ из\ результатов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00804}00804\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00805}00805\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:userId"{}},\ userId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00806}00806\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00807}00807\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00808}00808\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ to\ get\ contact\ list\ for"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00809}00809\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00810}00810\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00811}00811\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00812}00812\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Шаг\ 3:\ Формирование\ и\ отправка\ JSON-\/ответа\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00813}00813\ \ \ \ \ QJsonArray\ contactsArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00814}00814\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00815}00815\ \ \ \ \ \ \ \ \ QJsonObject\ userObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00816}00816\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}username"{}}]\ =\ query.value(0).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00817}00817\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}displayname"{}}]\ =\ query.value(1).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00818}00818\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}last\_seen"{}}]\ =\ query.value(2).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00819}00819\ \ \ \ \ \ \ \ \ contactsArray.append(userObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00820}00820\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00821}00821\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00822}00822\ \ \ \ \ QJsonObject\ message;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00823}00823\ \ \ \ \ message[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}contact\_list"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00824}00824\ \ \ \ \ message[\textcolor{stringliteral}{"{}users"{}}]\ =\ contactsArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00825}00825\ \ \ \ \ sendJson(socket,\ message);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00826}00826\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Sent\ contact\ list\ with"{}}\ <<\ contactsArray.count()\ <<\ \textcolor{stringliteral}{"{}contacts\ to"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00827}00827\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00828}00828\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00844}00844\ \textcolor{keywordtype}{void}\ Server::handleAddContactRequest(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00845}00845\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00846}00846\ \ \ \ \ \textcolor{comment}{//\ 1.\ Определяем\ отправителя\ и\ получателя.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00847}00847\ \ \ \ \ QString\ fromUsername\ =\ m\_clientsReverse.value(socket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00848}00848\ \ \ \ \ QString\ toUsername\ =\ request[\textcolor{stringliteral}{"{}username"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00849}00849\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00850}00850\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Валидация\ входных\ данных\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00851}00851\ \ \ \ \ \textcolor{keywordflow}{if}\ (toUsername.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00852}00852\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Некорректное\ имя\ пользователя."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00853}00853\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00854}00854\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00855}00855\ \ \ \ \ \textcolor{keywordflow}{if}\ (fromUsername\ ==\ toUsername)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00856}00856\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Вы\ не\ можете\ добавить\ самого\ себя\ в\ контакты."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00857}00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00858}00858\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00859}00859\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00860}00860\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 3.\ Получаем\ ID\ и\ display\_name\ обоих\ пользователей\ из\ БД\ одним\ запросом\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00861}00861\ \ \ \ \ QSqlQuery\ idQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00862}00862\ \ \ \ \ idQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ id,\ username,\ display\_name\ FROM\ users\ WHERE\ username\ =\ :from\ OR\ username\ =\ :to"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00863}00863\ \ \ \ \ idQuery.bindValue(\textcolor{stringliteral}{"{}:from"{}},\ fromUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00864}00864\ \ \ \ \ idQuery.bindValue(\textcolor{stringliteral}{"{}:to"{}},\ toUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00865}00865\ \ \ \ \ \textcolor{keywordflow}{if}\ (!idQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00866}00866\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ DB\ Error:\ Failed\ to\ find\ user\ IDs:"{}}\ <<\ idQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00867}00867\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Ошибка\ базы\ данных."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00868}00868\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00869}00869\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00870}00870\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00871}00871\ \ \ \ \ qint64\ fromId\ =\ -\/1,\ toId\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00872}00872\ \ \ \ \ QString\ fromDisplayName;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00873}00873\ \ \ \ \ \textcolor{keywordflow}{while}\ (idQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00874}00874\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (idQuery.value(\textcolor{stringliteral}{"{}username"{}}).toString()\ ==\ fromUsername)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00875}00875\ \ \ \ \ \ \ \ \ \ \ \ \ fromId\ =\ idQuery.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00876}00876\ \ \ \ \ \ \ \ \ \ \ \ \ fromDisplayName\ =\ idQuery.value(\textcolor{stringliteral}{"{}display\_name"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00877}00877\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00878}00878\ \ \ \ \ \ \ \ \ \ \ \ \ toId\ =\ idQuery.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00879}00879\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00880}00880\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00881}00881\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00882}00882\ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ что\ оба\ пользователя\ были\ найдены.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00883}00883\ \ \ \ \ \textcolor{keywordflow}{if}\ (fromId\ ==\ -\/1\ ||\ toId\ ==\ -\/1)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00884}00884\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Запрашиваемый\ пользователь\ не\ существует."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00885}00885\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00886}00886\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00887}00887\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00888}00888\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Проверка\ на\ существующие\ отношения\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00889}00889\ \ \ \ \ \textcolor{comment}{//\ Чтобы\ избежать\ дублирования\ (1,2)\ и\ (2,1),\ мы\ всегда\ храним\ ID\ в\ порядке\ возрастания.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00890}00890\ \ \ \ \ qint64\ userId1\ =\ std::min(fromId,\ toId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00891}00891\ \ \ \ \ qint64\ userId2\ =\ std::max(fromId,\ toId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00892}00892\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00893}00893\ \ \ \ \ QSqlQuery\ checkQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00894}00894\ \ \ \ \ checkQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ status\ FROM\ contacts\ WHERE\ user\_id\_1\ =\ :id1\ AND\ user\_id\_2\ =\ :id2"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00895}00895\ \ \ \ \ checkQuery.bindValue(\textcolor{stringliteral}{"{}:id1"{}},\ userId1);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00896}00896\ \ \ \ \ checkQuery.bindValue(\textcolor{stringliteral}{"{}:id2"{}},\ userId2);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00897}00897\ \ \ \ \ \textcolor{keywordflow}{if}\ (!checkQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00898}00898\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ DB\ Error:\ Failed\ to\ check\ for\ existing\ contact:"{}}\ <<\ checkQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00899}00899\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Ошибка\ базы\ данных."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00900}00900\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00901}00901\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00902}00902\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00903}00903\ \ \ \ \ \textcolor{comment}{//\ Если\ запрос\ вернул\ результат,\ значит,\ запись\ уже\ существует.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00904}00904\ \ \ \ \ \textcolor{keywordflow}{if}\ (checkQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00905}00905\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status\ =\ checkQuery.value(0).toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00906}00906\ \ \ \ \ \ \ \ \ QString\ reason;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00907}00907\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (status\ ==\ 0)\ reason\ =\ \textcolor{stringliteral}{"{}Запрос\ этому\ пользователю\ уже\ отправлен\ и\ ожидает\ ответа."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00908}00908\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (status\ ==\ 1)\ reason\ =\ \textcolor{stringliteral}{"{}Этот\ пользователь\ уже\ в\ вашем\ списке\ контактов."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00909}00909\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ reason\ =\ \textcolor{stringliteral}{"{}С\ этим\ пользователем\ уже\ существует\ связь."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00910}00910\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ reason\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00911}00911\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00912}00912\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00913}00913\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00914}00914\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 5.\ Создание\ нового\ запроса\ в\ контакты\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00915}00915\ \ \ \ \ QSqlQuery\ insertQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00916}00916\ \ \ \ \ insertQuery.prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ contacts\ (user\_id\_1,\ user\_id\_2,\ status,\ creation\_date)\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00917}00917\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}VALUES\ (:id1,\ :id2,\ 0,\ :date)"{}});\ \textcolor{comment}{//\ status\ =\ 0\ означает\ "{}pending"{}.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00918}00918\ \ \ \ \ insertQuery.bindValue(\textcolor{stringliteral}{"{}:id1"{}},\ userId1);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00919}00919\ \ \ \ \ insertQuery.bindValue(\textcolor{stringliteral}{"{}:id2"{}},\ userId2);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00920}00920\ \ \ \ \ insertQuery.bindValue(\textcolor{stringliteral}{"{}:date"{}},\ QDateTime::currentDateTime().toString(Qt::ISODate));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00921}00921\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00922}00922\ \ \ \ \ \textcolor{keywordflow}{if}\ (!insertQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00923}00923\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ DB\ Error:\ Failed\ to\ insert\ contact\ request:"{}}\ <<\ insertQuery.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00924}00924\ \ \ \ \ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_failure"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Ошибка\ базы\ данных\ при\ отправке\ запроса."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00925}00925\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00926}00926\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00927}00927\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00928}00928\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 6.\ Отправка\ уведомлений\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00929}00929\ \ \ \ \ \textcolor{comment}{//\ Если\ целевой\ пользователь\ онлайн,\ отправляем\ ему\ push-\/уведомление.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00930}00930\ \ \ \ \ QObject*\ toSocket\ =\ m\_clients.value(toUsername,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00931}00931\ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00932}00932\ \ \ \ \ \ \ \ \ QJsonObject\ notification;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00933}00933\ \ \ \ \ \ \ \ \ notification[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}incoming\_contact\_request"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00934}00934\ \ \ \ \ \ \ \ \ notification[\textcolor{stringliteral}{"{}fromUsername"{}}]\ =\ fromUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00935}00935\ \ \ \ \ \ \ \ \ notification[\textcolor{stringliteral}{"{}fromDisplayname"{}}]\ =\ fromDisplayName;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00936}00936\ \ \ \ \ \ \ \ \ sendJson(toSocket,\ notification);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00937}00937\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Sent\ incoming\ contact\ request\ notification\ to"{}}\ <<\ toUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00938}00938\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00939}00939\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00940}00940\ \ \ \ \ \textcolor{comment}{//\ Отправляем\ инициатору\ подтверждение\ об\ успехе.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00941}00941\ \ \ \ \ sendJson(socket,\ \{\{\textcolor{stringliteral}{"{}type"{}},\ \textcolor{stringliteral}{"{}add\_contact\_success"{}}\},\ \{\textcolor{stringliteral}{"{}reason"{}},\ \textcolor{stringliteral}{"{}Запрос\ на\ добавление\ успешно\ отправлен\ пользователю\ "{}}\ +\ toUsername\ +\ \textcolor{stringliteral}{"{}."{}}\}\});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00942}00942\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ fromUsername\ <<\ \textcolor{stringliteral}{"{}sent\ a\ contact\ request\ to"{}}\ <<\ toUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00943}00943\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00944}00944\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00962}00962\ \textcolor{keywordtype}{void}\ Server::handleLogin(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00963}00963\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00964}00964\ \ \ \ \ QString\ username\ =\ request[\textcolor{stringliteral}{"{}username"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00965}00965\ \ \ \ \ QString\ password\ =\ request[\textcolor{stringliteral}{"{}password"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00966}00966\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00967}00967\ \ \ \ \ \textcolor{comment}{//\ Хэшируем\ полученный\ пароль\ тем\ же\ алгоритмом\ (SHA-\/256),\ что\ и\ при\ регистрации.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00968}00968\ \ \ \ \ QString\ passwordHash\ =\ QCryptographicHash::hash(password.toUtf8(),\ QCryptographicHash::Sha256).toHex();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00969}00969\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00970}00970\ \ \ \ \ \textcolor{comment}{//\ Ищем\ пользователя\ в\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00971}00971\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00972}00972\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ password\_hash\ FROM\ users\ WHERE\ username\ =\ :username"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00973}00973\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00974}00974\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00975}00975\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00976}00976\ \ \ \ \ \textcolor{comment}{//\ Если\ запрос\ выполнен\ и\ пользователь\ с\ таким\ именем\ найден...}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00977}00977\ \ \ \ \ \textcolor{keywordflow}{if}\ (query.exec()\ \&\&\ query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00978}00978\ \ \ \ \ \ \ \ \ QString\ storedHash\ =\ query.value(0).toString();\ \textcolor{comment}{//\ Получаем\ хэш\ из\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00979}00979\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00980}00980\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...сравниваем\ хэши.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00981}00981\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (storedHash\ ==\ passwordHash)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00982}00982\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Успешный\ вход\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00983}00983\ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}logged\ in\ successfully."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00984}00984\ \ \ \ \ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}login\_success"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00985}00985\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00986}00986\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Регистрируем\ клиента\ в\ системе.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00987}00987\ \ \ \ \ \ \ \ \ \ \ \ \ m\_clients[username]\ =\ socket;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00988}00988\ \ \ \ \ \ \ \ \ \ \ \ \ m\_clientsReverse[socket]\ =\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00989}00989\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00990}00990\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ клиенту\ подтверждение\ успеха.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00991}00991\ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00992}00992\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00993}00993\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ всю\ необходимую\ для\ начала\ работы\ информацию\ этому\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00994}00994\ \ \ \ \ \ \ \ \ \ \ \ \ sendContactList(socket,\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00995}00995\ \ \ \ \ \ \ \ \ \ \ \ \ sendPendingContactRequests(socket,\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00996}00996\ \ \ \ \ \ \ \ \ \ \ \ \ sendUnreadCounts(socket,\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00997}00997\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00998}00998\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Оповещаем\ всех\ онлайн-\/пользователей\ (включая\ нового),}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l00999}00999\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ что\ список\ присутствия\ изменился.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01000}01000\ \ \ \ \ \ \ \ \ \ \ \ \ broadcastUserList();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01001}01001\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01002}01002\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01003}01003\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Неверный\ пароль\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01004}01004\ \ \ \ \ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ login\ attempt\ for\ user"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}:\ Invalid\ password."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01005}01005\ \ \ \ \ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}login\_failure"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01006}01006\ \ \ \ \ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}reason"{}}]\ =\ \textcolor{stringliteral}{"{}Неверное\ имя\ пользователя\ или\ пароль."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01007}01007\ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01008}01008\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01009}01009\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01010}01010\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Пользователь\ не\ найден\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01011}01011\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ login\ attempt:\ User"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}not\ found."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01012}01012\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}login\_failure"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01013}01013\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}reason"{}}]\ =\ \textcolor{stringliteral}{"{}Неверное\ имя\ пользователя\ или\ пароль."{}};\ \textcolor{comment}{//\ Отправляем\ общую\ ошибку\ из\ соображений\ безопасности.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01014}01014\ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01015}01015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01016}01016\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01017}01017\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01032}01032\ \textcolor{keywordtype}{void}\ Server::handlePrivateMessage(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01033}01033\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01034}01034\ \ \ \ \ \textcolor{comment}{//\ 1.\ Извлекаем\ все\ данные\ из\ JSON-\/запроса.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01035}01035\ \ \ \ \ QString\ fromUser\ =\ request[\textcolor{stringliteral}{"{}fromUser"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01036}01036\ \ \ \ \ QString\ toUser\ =\ request[\textcolor{stringliteral}{"{}toUser"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01037}01037\ \ \ \ \ QString\ payload\ =\ request[\textcolor{stringliteral}{"{}payload"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01038}01038\ \ \ \ \ qint64\ replyToId\ =\ request[\textcolor{stringliteral}{"{}reply\_to\_id"{}}].toVariant().toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01039}01039\ \ \ \ \ QString\ tempId\ =\ request[\textcolor{stringliteral}{"{}temp\_id"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01040}01040\ \ \ \ \ \textcolor{comment}{//\ Генерируем\ временную\ метку\ на\ сервере,\ чтобы\ избежать\ рассинхронизации\ времени\ у\ клиентов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01041}01041\ \ \ \ \ QString\ timestamp\ =\ QDateTime::currentDateTime().toString(Qt::ISODate);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01042}01042\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01043}01043\ \ \ \ \ \textcolor{comment}{//\ 2.\ Проверка\ безопасности:\ убеждаемся,\ что\ пользователь,\ отправляющий\ сообщение,}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01044}01044\ \ \ \ \ \textcolor{comment}{//\ \ \ \ действительно\ тот,\ за\ кого\ себя\ выдает\ (сравниваем\ \`{}fromUser`\ с\ именем,}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01045}01045\ \ \ \ \ \textcolor{comment}{//\ \ \ \ ассоциированным\ с\ этим\ сокетом\ при\ логине).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01046}01046\ \ \ \ \ \textcolor{keywordflow}{if}\ (fromUser\ !=\ m\_clientsReverse.value(socket))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01047}01047\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ SECURITY\ WARNING:\ User"{}}\ <<\ m\_clientsReverse.value(socket)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01048}01048\ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}tried\ to\ send\ a\ message\ as"{}}\ <<\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01049}01049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Молча\ прерываем\ обработку.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01050}01050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01051}01051\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01052}01052\ \ \ \ \ \textcolor{comment}{//\ 3.\ Сохраняем\ сообщение\ в\ базу\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01053}01053\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01054}01054\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ messages\ (fromUser,\ toUser,\ payload,\ timestamp,\ reply\_to\_id)\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01055}01055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}VALUES\ (:fromUser,\ :toUser,\ :payload,\ :timestamp,\ :reply\_to\_id)"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01056}01056\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:fromUser"{}},\ fromUser);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01057}01057\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:toUser"{}},\ toUser);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01058}01058\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:payload"{}},\ payload);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01059}01059\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:timestamp"{}},\ timestamp);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01060}01060\ \ \ \ \ \textcolor{comment}{//\ Обрабатываем\ \`{}replyToId`:\ если\ он\ 0,\ вставляем\ NULL\ в\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01061}01061\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:reply\_to\_id"{}},\ replyToId\ >\ 0\ ?\ QVariant(replyToId)\ :\ QVariant());}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01062}01062\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01063}01063\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01064}01064\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Failed\ to\ save\ message\ to\ DB:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01065}01065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Можно\ отправить\ отправителю\ сообщение\ об\ ошибке,\ но\ пока\ просто\ логируем.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01066}01066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01067}01067\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01068}01068\ \ \ \ \ \textcolor{comment}{//\ 4.\ Получаем\ ID,\ который\ база\ данных\ присвоила\ нашему\ новому\ сообщению.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01069}01069\ \ \ \ \ quint64\ messageId\ =\ query.lastInsertId().toULongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01070}01070\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01071}01071\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 5.\ Отправка\ Echo-\/ответа\ отправителю\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01072}01072\ \ \ \ \ QJsonObject\ echoMessage;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01073}01073\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}private\_message"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01074}01074\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}id"{}}]\ =\ (double)messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01075}01075\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}fromUser"{}}]\ =\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01076}01076\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}toUser"{}}]\ =\ toUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01077}01077\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}payload"{}}]\ =\ payload;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01078}01078\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}timestamp"{}}]\ =\ timestamp;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01079}01079\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}is\_delivered"{}}]\ =\ 0;\ \textcolor{comment}{//\ Изначально\ не\ доставлено.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01080}01080\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}is\_read"{}}]\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01081}01081\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}is\_edited"{}}]\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01082}01082\ \ \ \ \ \textcolor{keywordflow}{if}\ (replyToId\ >\ 0)\ echoMessage[\textcolor{stringliteral}{"{}reply\_to\_id"{}}]\ =\ replyToId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01083}01083\ \ \ \ \ echoMessage[\textcolor{stringliteral}{"{}temp\_id"{}}]\ =\ tempId;\ \textcolor{comment}{//\ Включаем\ temp\_id\ для\ сопоставления\ на\ клиенте.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01084}01084\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01085}01085\ \ \ \ \ sendJson(socket,\ echoMessage);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01086}01086\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01087}01087\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 6.\ Пересылка\ сообщения\ получателю\ (если\ он\ онлайн)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01088}01088\ \ \ \ \ \textcolor{comment}{//\ Удаляем\ \`{}temp\_id`,\ так\ как\ он\ не\ нужен\ получателю.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01089}01089\ \ \ \ \ echoMessage.remove(\textcolor{stringliteral}{"{}temp\_id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01090}01090\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01091}01091\ \ \ \ \ \textcolor{comment}{//\ Ищем\ сокет\ получателя\ в\ списке\ онлайн-\/клиентов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01092}01092\ \ \ \ \ QObject\ *toUserSocket\ =\ m\_clients.value(toUser,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01093}01093\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01094}01094\ \ \ \ \ \textcolor{keywordflow}{if}\ (toUserSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01095}01095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ получатель\ онлайн,\ отправляем\ ему\ сообщение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01096}01096\ \ \ \ \ \ \ \ \ sendJson(toUserSocket,\ echoMessage);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01097}01097\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Private\ message"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}forwarded\ from"{}}\ <<\ fromUser\ <<\ \textcolor{stringliteral}{"{}to"{}}\ <<\ toUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01098}01098\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01099}01099\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ toUser\ <<\ \textcolor{stringliteral}{"{}is\ offline.\ Message"{}}\ <<\ messageId\ <<\ \textcolor{stringliteral}{"{}stored."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01100}01100\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01101}01101\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01102}01102\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01113}01113\ \textcolor{keywordtype}{void}\ Server::sendJson(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ json)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01114}01114\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01115}01115\ \ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Проверка\ на\ null.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01116}01116\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01117}01117\ \ \ \ \ \textcolor{comment}{//\ Преобразуем\ JSON-\/объект\ в\ компактный\ байтовый\ массив.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01118}01118\ \ \ \ \ QByteArray\ jsonData\ =\ QJsonDocument(json).toJson(QJsonDocument::Compact);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01119}01119\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01120}01120\ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ является\ ли\ сокет\ TCP-\/сокетом.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01121}01121\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ tcpSocket\ =\ qobject\_cast<QTcpSocket*>(socket))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01122}01122\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Логика\ для\ TCP\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01123}01123\ \ \ \ \ \ \ \ \ QByteArray\ block;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01124}01124\ \ \ \ \ \ \ \ \ QDataStream\ out(\&block,\ QIODevice::WriteOnly);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01125}01125\ \ \ \ \ \ \ \ \ out.setVersion(QDataStream::Qt\_6\_2);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01126}01126\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Формируем\ пакет\ "{}размер\ (4\ байта)\ +\ данные"{}.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01127}01127\ \ \ \ \ \ \ \ \ out\ <<\ (quint32)0;\ \textcolor{comment}{//\ Резервируем\ место\ для\ размера.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01128}01128\ \ \ \ \ \ \ \ \ out\ <<\ jsonData;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01129}01129\ \ \ \ \ \ \ \ \ out.device()-\/>seek(0);\ \textcolor{comment}{//\ Возвращаемся\ в\ начало.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01130}01130\ \ \ \ \ \ \ \ \ out\ <<\ (quint32)(block.size()\ -\/\ \textcolor{keyword}{sizeof}(quint32));\ \textcolor{comment}{//\ Записываем\ реальный\ размер.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01131}01131\ \ \ \ \ \ \ \ \ tcpSocket-\/>write(block);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01132}01132\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01133}01133\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ является\ ли\ сокет\ WebSocket-\/сокетом.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01134}01134\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ wsSocket\ =\ qobject\_cast<QWebSocket*>(socket))\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01135}01135\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Логика\ для\ WebSocket\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01136}01136\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Просто\ отправляем\ данные\ как\ одно\ текстовое\ сообщение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01137}01137\ \ \ \ \ \ \ \ \ wsSocket-\/>sendTextMessage(QString::fromUtf8(jsonData));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01138}01138\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01139}01139\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01140}01140\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01151}01151\ \textcolor{keywordtype}{void}\ Server::sendFullUserList(QObject*\ socket)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01152}01152\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01153}01153\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01154}01154\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ username,\ display\_name\ FROM\ users"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01155}01155\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01156}01156\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}Failed\ to\ get\ full\ user\ list:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01157}01157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01158}01158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01159}01159\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01160}01160\ \ \ \ \ QJsonArray\ allUsers;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01161}01161\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01162}01162\ \ \ \ \ \ \ \ \ QJsonObject\ userObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01163}01163\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}username"{}}]\ =\ query.value(0).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01164}01164\ \ \ \ \ \ \ \ \ userObject[\textcolor{stringliteral}{"{}displayname"{}}]\ =\ query.value(1).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01165}01165\ \ \ \ \ \ \ \ \ allUsers.append(userObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01166}01166\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01167}01167\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01168}01168\ \ \ \ \ QJsonObject\ message;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01169}01169\ \ \ \ \ message[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}full\_user\_list"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01170}01170\ \ \ \ \ message[\textcolor{stringliteral}{"{}users"{}}]\ =\ allUsers;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01171}01171\ \ \ \ \ sendJson(socket,\ message);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01172}01172\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Sent\ full\ user\ list\ to\ a\ client."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01173}01173\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01174}01174\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01185}01185\ \textcolor{keywordtype}{void}\ Server::broadcastUserList()\{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01186}01186\ \ \ \ \ QStringList\ onlineUsers\ =\ m\_clients.keys();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01187}01187\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Broadcasting\ ONLINE\ user\ list:"{}}\ <<\ onlineUsers;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01188}01188\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01189}01189\ \ \ \ \ QJsonObject\ message;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01190}01190\ \ \ \ \ message[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}user\_list"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01191}01191\ \ \ \ \ message[\textcolor{stringliteral}{"{}users"{}}]\ =\ QJsonArray::fromStringList(onlineUsers);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01192}01192\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01193}01193\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01194}01194\ \ \ \ \ \textcolor{keywordflow}{for}\ (QObject\ \ *socket\ :\ \ m\_clients.values())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01195}01195\ \ \ \ \ \ \ \ \ sendJson(socket,\ message);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01196}01196\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01197}01197\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01198}01198\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01216}01216\ \textcolor{keywordtype}{void}\ Server::handleEditMessage(QObject*\ clientSocket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01217}01217\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01218}01218\ \ \ \ \ QString\ requestingUser\ =\ m\_clientsReverse.value(clientSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01219}01219\ \ \ \ \ quint64\ messageId\ =\ request[\textcolor{stringliteral}{"{}id"{}}].toDouble();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01220}01220\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01221}01221\ \ \ \ \ qDebug()\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}wants\ to\ edit\ message\ with\ id:"{}}\ <<\ messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01222}01222\ \ \ \ \ \textcolor{keywordflow}{if}\ (messageId\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01223}01223\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01224}01224\ \ \ \ \ \textcolor{comment}{//\ Проверка,\ что\ запрос\ пришел\ от\ аутентифицированного\ пользователя.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01225}01225\ \ \ \ \ \textcolor{keywordflow}{if}\ (requestingUser.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01226}01226\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}SECURITY:\ Edit\ request\ from\ an\ unauthenticated\ socket!"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01227}01227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01228}01228\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01229}01229\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01230}01230\ \ \ \ \ \textcolor{comment}{//\ Находим\ оригинального\ автора\ и\ получателя\ сообщения\ в\ БД.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01231}01231\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01232}01232\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ fromUser,\ toUser\ FROM\ messages\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01233}01233\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01234}01234\ \ \ \ \ \textcolor{keywordflow}{if}\ (query.exec()\ \&\&\ query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01235}01235\ \ \ \ \ \ \ \ \ QString\ fromUser\ =\ query.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01236}01236\ \ \ \ \ \ \ \ \ QString\ toUser\ =\ query.value(\textcolor{stringliteral}{"{}toUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01237}01237\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01238}01238\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}Requesting\ user:"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}\ fromUser\ in\ DB:"{}}\ <<\ fromUser\ <<\ \textcolor{stringliteral}{"{}\ toUser\ in\ DB:"{}}\ <<\ toUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01239}01239\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01240}01240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Проверка\ безопасности:\ только\ автор\ может\ редактировать\ свое\ сообщение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01241}01241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromUser\ ==\ requestingUser)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01242}01242\ \ \ \ \ \ \ \ \ \ \ \ \ QSqlQuery\ updateQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01243}01243\ \ \ \ \ \ \ \ \ \ \ \ \ QString\ newPayload\ =\ request[\textcolor{stringliteral}{"{}payload"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01244}01244\ \ \ \ \ \ \ \ \ \ \ \ \ updateQuery.prepare(\textcolor{stringliteral}{"{}UPDATE\ messages\ SET\ payload\ =\ :payload,\ is\_edited\ =\ 1\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01245}01245\ \ \ \ \ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:payload"{}},\ newPayload);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01246}01246\ \ \ \ \ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01247}01247\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01248}01248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updateQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01249}01249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}edited\ message"{}}\ <<\ messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01250}01250\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01251}01251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Формируем\ уведомление\ для\ рассылки.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01252}01252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QJsonObject\ editCmd;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01253}01253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ editCmd[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}edit\_message"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01254}01254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ editCmd[\textcolor{stringliteral}{"{}id"{}}]\ =\ (double)messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01255}01255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ editCmd[\textcolor{stringliteral}{"{}payload"{}}]\ =\ newPayload;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01256}01256\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01257}01257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ автору.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01258}01258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ fromSocket\ =\ m\_clients.value(fromUser,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01259}01259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01260}01260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ editCmd[\textcolor{stringliteral}{"{}with\_user"{}}]\ =\ toUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01261}01261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(fromSocket,\ editCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01262}01262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01263}01263\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01264}01264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ получателю.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01265}01265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ toSocket\ =\ m\_clients.value(toUser,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01266}01266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01267}01267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ editCmd[\textcolor{stringliteral}{"{}with\_user"{}}]\ =\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01268}01268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(toSocket,\ editCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01269}01269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01270}01270\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01271}01271\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01272}01272\ \ \ \ \ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}SECURITY:\ User"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}tried\ to\ edit\ a\ message\ they\ do\ not\ own\ (author:"{}}\ <<\ fromUser\ <<\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01273}01273\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01274}01274\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01275}01275\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01276}01276\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01293}01293\ \textcolor{keywordtype}{void}\ Server::handleDeleteMessage(QObject*\ clientSocket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01294}01294\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01295}01295\ \ \ \ \ \textcolor{comment}{//\ 1.\ Определяем\ пользователя,\ отправившего\ запрос,\ по\ сокету.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01296}01296\ \ \ \ \ QString\ requestingUser\ =\ m\_clientsReverse.value(clientSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01297}01297\ \ \ \ \ quint64\ messageId\ =\ request[\textcolor{stringliteral}{"{}id"{}}].toDouble();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01298}01298\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01299}01299\ \ \ \ \ qDebug()\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}wants\ to\ delete\ message\ with\ id:"{}}\ <<\ messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01300}01300\ \ \ \ \ \textcolor{keywordflow}{if}\ (messageId\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01301}01301\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01302}01302\ \ \ \ \ \textcolor{comment}{//\ 2.\ Проверяем,\ аутентифицирован\ ли\ пользователь.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01303}01303\ \ \ \ \ \textcolor{keywordflow}{if}\ (requestingUser.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01304}01304\ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}SECURITY:\ Delete\ request\ from\ an\ unauthenticated\ socket!"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01305}01305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01306}01306\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01307}01307\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01308}01308\ \ \ \ \ \textcolor{comment}{//\ 3.\ Находим\ в\ БД\ автора\ и\ получателя\ сообщения,\ чтобы\ проверить\ права\ доступа.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01309}01309\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01310}01310\ \ \ \ \ query.prepare(\textcolor{stringliteral}{"{}SELECT\ fromUser,\ toUser\ FROM\ messages\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01311}01311\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01312}01312\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01313}01313\ \ \ \ \ \textcolor{keywordflow}{if}\ (query.exec()\ \&\&\ query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01314}01314\ \ \ \ \ \ \ \ \ QString\ fromUser\ =\ query.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01315}01315\ \ \ \ \ \ \ \ \ QString\ toUser\ =\ query.value(\textcolor{stringliteral}{"{}toUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01316}01316\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01317}01317\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 4.\ Ключевая\ проверка\ безопасности:\ пользователь\ может\ удалить\ только\ свое\ сообщение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01318}01318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (requestingUser\ ==\ fromUser)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01319}01319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 5.\ Если\ проверка\ пройдена,\ удаляем\ сообщение\ из\ базы\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01320}01320\ \ \ \ \ \ \ \ \ \ \ \ \ QSqlQuery\ deleteQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01321}01321\ \ \ \ \ \ \ \ \ \ \ \ \ deleteQuery.prepare(\textcolor{stringliteral}{"{}DELETE\ FROM\ messages\ WHERE\ id\ =\ :id"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01322}01322\ \ \ \ \ \ \ \ \ \ \ \ \ deleteQuery.bindValue(\textcolor{stringliteral}{"{}:id"{}},\ messageId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01323}01323\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01324}01324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (deleteQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01325}01325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ User"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}deleted\ message"{}}\ <<\ messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01326}01326\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01327}01327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 6.\ Формируем\ уведомление\ об\ удалении\ для\ рассылки\ клиентам.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01328}01328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QJsonObject\ deleteCmd;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01329}01329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deleteCmd[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}delete\_message"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01330}01330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deleteCmd[\textcolor{stringliteral}{"{}id"{}}]\ =\ (double)messageId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01331}01331\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01332}01332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 7.\ Рассылаем\ уведомление\ автору\ и\ получателю,\ если\ они\ онлайн.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01333}01333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ fromSocket\ =\ m\_clients.value(fromUser,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01334}01334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01335}01335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deleteCmd[\textcolor{stringliteral}{"{}with\_user"{}}]\ =\ toUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01336}01336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(fromSocket,\ deleteCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01337}01337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01338}01338\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01339}01339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ toSocket\ =\ m\_clients.value(toUser,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01340}01340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01341}01341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deleteCmd[\textcolor{stringliteral}{"{}with\_user"{}}]\ =\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01342}01342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendJson(toSocket,\ deleteCmd);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01343}01343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01344}01344\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01345}01345\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01346}01346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ пользователь\ пытается\ удалить\ чужое\ сообщение,\ логируем\ это\ как\ угрозу\ безопасности.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01347}01347\ \ \ \ \ \ \ \ \ \ \ \ \ qWarning()\ <<\ \textcolor{stringliteral}{"{}SECURITY:\ User"{}}\ <<\ requestingUser\ <<\ \textcolor{stringliteral}{"{}tried\ to\ delete\ a\ message\ they\ do\ not\ own\ (author:"{}}\ <<\ fromUser\ <<\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01348}01348\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01349}01349\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01350}01350\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01351}01351\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01368}01368\ \textcolor{keywordtype}{void}\ Server::handleContactRequestResponse(QObject*\ clientSocket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01369}01369\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01370}01370\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Received\ contact\_request\_response:"{}}\ <<\ request;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01371}01371\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01372}01372\ \ \ \ \ \textcolor{comment}{//\ 1.\ Определяем\ участников:\ кто\ ответил\ (`toUsername`)\ и\ кто\ отправлял\ запрос\ (`fromUsername`).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01373}01373\ \ \ \ \ QString\ toUsername\ =\ m\_clientsReverse.value(clientSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01374}01374\ \ \ \ \ QString\ fromUsername\ =\ request[\textcolor{stringliteral}{"{}fromUsername"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01375}01375\ \ \ \ \ QString\ response\ =\ request[\textcolor{stringliteral}{"{}response"{}}].toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01376}01376\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01377}01377\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Parsed\ response\ value:"{}}\ <<\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01378}01378\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01379}01379\ \ \ \ \ \textcolor{comment}{//\ 2.\ Получаем\ ID\ обоих\ пользователей\ из\ базы\ данных.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01380}01380\ \ \ \ \ QSqlQuery\ idQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01381}01381\ \ \ \ \ idQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ id,\ username\ FROM\ users\ WHERE\ username\ =\ :from\ OR\ username\ =\ :to"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01382}01382\ \ \ \ \ idQuery.bindValue(\textcolor{stringliteral}{"{}:from"{}},\ fromUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01383}01383\ \ \ \ \ idQuery.bindValue(\textcolor{stringliteral}{"{}:to"{}},\ toUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01384}01384\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01385}01385\ \ \ \ \ \textcolor{keywordflow}{if}\ (!idQuery.exec())\ \{\ \textcolor{keywordflow}{return};\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01386}01386\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01387}01387\ \ \ \ \ qint64\ fromId\ =\ -\/1,\ toId\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01388}01388\ \ \ \ \ \textcolor{keywordflow}{while}\ (idQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01389}01389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (idQuery.value(\textcolor{stringliteral}{"{}username"{}}).toString()\ ==\ fromUsername)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01390}01390\ \ \ \ \ \ \ \ \ \ \ \ \ fromId\ =\ idQuery.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01391}01391\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01392}01392\ \ \ \ \ \ \ \ \ \ \ \ \ toId\ =\ idQuery.value(\textcolor{stringliteral}{"{}id"{}}).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01393}01393\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01394}01394\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01395}01395\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01396}01396\ \ \ \ \ \textcolor{keywordflow}{if}\ (fromId\ ==\ -\/1\ ||\ toId\ ==\ -\/1)\ \{\ \textcolor{keywordflow}{return};\ \}\ \textcolor{comment}{//\ Если\ один\ из\ пользователей\ не\ найден,\ выходим.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01397}01397\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01398}01398\ \ \ \ \ \textcolor{comment}{//\ Для\ консистентности\ в\ БД\ храним\ ID\ в\ порядке\ возрастания.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01399}01399\ \ \ \ \ qint64\ userId1\ =\ std::min(fromId,\ toId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01400}01400\ \ \ \ \ qint64\ userId2\ =\ std::max(fromId,\ toId);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01401}01401\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01402}01402\ \ \ \ \ \textcolor{comment}{//\ 3.\ Обрабатываем\ ответ.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01403}01403\ \ \ \ \ \textcolor{keywordflow}{if}\ (response\ ==\ \textcolor{stringliteral}{"{}accepted"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01404}01404\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ запрос\ принят,\ обновляем\ статус\ в\ таблице\ \`{}contacts`.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01405}01405\ \ \ \ \ \ \ \ \ QSqlQuery\ updateQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01406}01406\ \ \ \ \ \ \ \ \ updateQuery.prepare(\textcolor{stringliteral}{"{}UPDATE\ contacts\ SET\ status\ =\ 1\ WHERE\ user\_id\_1\ =\ :id1\ AND\ user\_id\_2\ =\ :id2\ AND\ status\ =\ 0"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01407}01407\ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:id1"{}},\ userId1);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01408}01408\ \ \ \ \ \ \ \ \ updateQuery.bindValue(\textcolor{stringliteral}{"{}:id2"{}},\ userId2);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01409}01409\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01410}01410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updateQuery.exec()\ \&\&\ updateQuery.numRowsAffected()\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01411}01411\ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]"{}}\ <<\ toUsername\ <<\ \textcolor{stringliteral}{"{}accepted\ contact\ request\ from"{}}\ <<\ fromUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01412}01412\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01413}01413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Находим\ сокеты\ обоих\ пользователей.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01414}01414\ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ fromSocket\ =\ m\_clients.value(fromUsername,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01415}01415\ \ \ \ \ \ \ \ \ \ \ \ \ QObject*\ toSocket\ =\ m\_clients.value(toUsername,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01416}01416\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01417}01417\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Отправляем\ обоим\ обновленные\ списки\ контактов,\ так\ как\ они\ изменились.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01418}01418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01419}01419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendContactList(fromSocket,\ fromUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01420}01420\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01421}01421\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01422}01422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sendContactList(toSocket,\ toUsername);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01423}01423\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01424}01424\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01425}01425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Также\ отправляем\ им\ обновленные\ списки\ онлайн-\/пользователей.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01426}01426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fromSocket)\ sendOnlineStatusList(fromSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01427}01427\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (toSocket)\ sendOnlineStatusList(toSocket);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01428}01428\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01429}01429\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (response\ ==\ \textcolor{stringliteral}{"{}declined"{}})\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01430}01430\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ запрос\ отклонен,\ просто\ удаляем\ его\ из\ таблицы.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01431}01431\ \ \ \ \ \ \ \ \ QSqlQuery\ deleteQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01432}01432\ \ \ \ \ \ \ \ \ deleteQuery.prepare(\textcolor{stringliteral}{"{}DELETE\ FROM\ contacts\ WHERE\ user\_id\_1\ =\ :id1\ AND\ user\_id\_2\ =\ :id2\ AND\ status\ =\ 0"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01433}01433\ \ \ \ \ \ \ \ \ deleteQuery.bindValue(\textcolor{stringliteral}{"{}:id1"{}},\ userId1);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01434}01434\ \ \ \ \ \ \ \ \ deleteQuery.bindValue(\textcolor{stringliteral}{"{}:id2"{}},\ userId2);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01435}01435\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01436}01436\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (deleteQuery.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01437}01437\ \ \ \ \ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]"{}}\ <<\ toUsername\ <<\ \textcolor{stringliteral}{"{}declined\ contact\ request\ from"{}}\ <<\ fromUsername;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01438}01438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01439}01439\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01440}01440\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01441}01441\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01456}01456\ \textcolor{keywordtype}{void}\ Server::sendUnreadCounts(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01457}01457\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01458}01458\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][UNREAD]\ Собираем\ счетчики\ непрочитанных\ для\ пользователя:"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01459}01459\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01460}01460\ \ \ \ \ \textcolor{comment}{//\ 1.\ Получаем\ ID\ пользователя\ (хотя\ он\ и\ не\ используется\ в\ основном\ запросе,\ это\ хорошая\ практика).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01461}01461\ \ \ \ \ QSqlQuery\ idQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01462}01462\ \ \ \ \ idQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ username\ =\ :username"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01463}01463\ \ \ \ \ idQuery.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01464}01464\ \ \ \ \ \textcolor{keywordflow}{if}\ (!idQuery.exec()\ ||\ !idQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01465}01465\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][UNREAD][ERROR]\ Не\ удалось\ найти\ ID\ для\ пользователя:"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01466}01466\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01467}01467\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01468}01468\ \ \ \ \ qint64\ userId\ =\ idQuery.value(0).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01469}01469\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01470}01470\ \ \ \ \ \textcolor{comment}{//\ 2.\ Основной\ запрос:\ подсчитываем\ непрочитанные\ сообщения\ (`is\_read\ =\ 0`)}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01471}01471\ \ \ \ \ \textcolor{comment}{//\ \ \ \ и\ группируем\ их\ по\ отправителю\ (`fromUser`).}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01472}01472\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01473}01473\ \ \ \ \ query.prepare(}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01474}01474\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ fromUser,\ COUNT(*)\ as\ unread\_count\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01475}01475\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FROM\ messages\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01476}01476\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WHERE\ toUser\ =\ :username\ AND\ is\_read\ =\ 0\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01477}01477\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}GROUP\ BY\ fromUser"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01478}01478\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01479}01479\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01480}01480\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01481}01481\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01482}01482\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][UNREAD][ERROR]\ Ошибка\ при\ запросе\ к\ БД:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01483}01483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01484}01484\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01485}01485\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01486}01486\ \ \ \ \ \textcolor{comment}{//\ 3.\ Формируем\ JSON-\/массив\ с\ результатами.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01487}01487\ \ \ \ \ QJsonArray\ countsArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01488}01488\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01489}01489\ \ \ \ \ \ \ \ \ QJsonObject\ countObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01490}01490\ \ \ \ \ \ \ \ \ countObject[\textcolor{stringliteral}{"{}username"{}}]\ =\ query.value(\textcolor{stringliteral}{"{}fromUser"{}}).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01491}01491\ \ \ \ \ \ \ \ \ countObject[\textcolor{stringliteral}{"{}count"{}}]\ =\ query.value(\textcolor{stringliteral}{"{}unread\_count"{}}).toInt();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01492}01492\ \ \ \ \ \ \ \ \ countsArray.append(countObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01493}01493\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01494}01494\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01495}01495\ \ \ \ \ \textcolor{comment}{//\ Если\ непрочитанных\ сообщений\ нет,\ просто\ выходим.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01496}01496\ \ \ \ \ \textcolor{keywordflow}{if}\ (countsArray.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01497}01497\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][UNREAD]\ Непрочитанных\ сообщений\ для"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}не\ найдено."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01498}01498\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01499}01499\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01500}01500\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01501}01501\ \ \ \ \ \textcolor{comment}{//\ 4.\ Упаковываем\ массив\ в\ JSON-\/объект\ и\ отправляем\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01502}01502\ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01503}01503\ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}unread\_counts"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01504}01504\ \ \ \ \ response[\textcolor{stringliteral}{"{}counts"{}}]\ =\ countsArray;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01505}01505\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01506}01506\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][UNREAD]\ Отправка\ счетчиков\ для"{}}\ <<\ username\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01507}01507\ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01508}01508\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01509}01509\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01520}01520\ \textcolor{keywordtype}{void}\ Server::sendOnlineStatusList(QObject*\ clientSocket)}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01521}01521\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01522}01522\ \ \ \ \ \textcolor{comment}{//\ 1.\ Получаем\ список\ всех\ онлайн-\/пользователей\ из\ ключей\ карты\ m\_clients.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01523}01523\ \ \ \ \ QStringList\ onlineUsers\ =\ m\_clients.keys();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01524}01524\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01525}01525\ \ \ \ \ \textcolor{comment}{//\ 2.\ Создаем\ JSON-\/сообщение.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01526}01526\ \ \ \ \ QJsonObject\ message;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01527}01527\ \ \ \ \ message[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}user\_list"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01528}01528\ \ \ \ \ message[\textcolor{stringliteral}{"{}users"{}}]\ =\ QJsonArray::fromStringList(onlineUsers);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01529}01529\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01530}01530\ \ \ \ \ \textcolor{comment}{//\ 3.\ Отправляем\ сообщение\ указанному\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01531}01531\ \ \ \ \ sendJson(clientSocket,\ message);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01532}01532\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Sent\ online\ status\ list\ to\ a\ single\ client."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01533}01533\ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01534}01534\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01549}01549\ \textcolor{keywordtype}{void}\ Server::sendPendingContactRequests(QObject*\ socket,\ \textcolor{keyword}{const}\ QString\&\ username)\{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01550}01550\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ Checking\ for\ pending\ requests\ for\ user:"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01551}01551\ \ \ \ \ \textcolor{comment}{//\ 1.\ Находим\ ID\ текущего\ пользователя.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01552}01552\ \ \ \ \ QSqlQuery\ userQuery;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01553}01553\ \ \ \ \ userQuery.prepare(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ username\ =\ :username"{}});}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01554}01554\ \ \ \ \ userQuery.bindValue(\textcolor{stringliteral}{"{}:username"{}},\ username);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01555}01555\ \ \ \ \ \textcolor{keywordflow}{if}\ (!userQuery.exec()\ ||\ !userQuery.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01556}01556\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING][ERROR]\ Could\ not\ find\ ID\ for\ user:"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01557}01557\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01558}01558\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01559}01559\ \ \ \ \ qint64\ userId\ =\ userQuery.value(0).toLongLong();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01560}01560\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ User\ ID\ is:"{}}\ <<\ userId;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01561}01561\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01562}01562\ \ \ \ \ \textcolor{comment}{//\ 2.\ Основной,\ сложный\ запрос\ для\ поиска\ ожидающих\ запросов.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01563}01563\ \ \ \ \ QSqlQuery\ query;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01564}01564\ \ \ \ \ query.prepare(}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01565}01565\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ u.username,\ u.display\_name\ FROM\ users\ u\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01566}01566\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Соединяем\ с\ таблицей\ \`{}contacts`,\ находя\ ID\ "{}другого"{}\ пользователя\ в\ паре.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01567}01567\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}JOIN\ contacts\ c\ ON\ u.id\ =\ (CASE\ WHEN\ c.user\_id\_1\ =\ :userId\ THEN\ c.user\_id\_2\ ELSE\ c.user\_id\_1\ END)\ "{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01568}01568\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ищем\ все\ записи,\ где\ участвует\ наш\ пользователь\ и\ статус\ "{}pending"{}.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01569}01569\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WHERE\ (c.user\_id\_1\ =\ :userId\ OR\ c.user\_id\_2\ =\ :userId)\ AND\ c.status\ =\ 0"{}}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01570}01570\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01571}01571\ \ \ \ \ query.bindValue(\textcolor{stringliteral}{"{}:userId"{}},\ QVariant(userId));}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01572}01572\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01573}01573\ \ \ \ \ \textcolor{keywordflow}{if}\ (!query.exec())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01574}01574\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING][ERROR]\ DB\ Error:\ Failed\ to\ fetch\ pending\ requests:"{}}\ <<\ query.lastError().text();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01575}01575\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01576}01576\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01577}01577\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ Main\ SQL\ query\ executed\ successfully.\ Processing\ results..."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01578}01578\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01579}01579\ \ \ \ \ \textcolor{comment}{//\ 3.\ Собираем\ результаты\ в\ JSON-\/массив.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01580}01580\ \ \ \ \ QJsonArray\ pendingRequests;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01581}01581\ \ \ \ \ \textcolor{keywordflow}{while}\ (query.next())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01582}01582\ \ \ \ \ \ \ \ \ QString\ fromUser\ =\ query.value(0).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01583}01583\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ Found\ a\ pending\ request\ from:"{}}\ <<\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01584}01584\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01585}01585\ \ \ \ \ \ \ \ \ QJsonObject\ reqObject;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01586}01586\ \ \ \ \ \ \ \ \ reqObject[\textcolor{stringliteral}{"{}fromUsername"{}}]\ =\ fromUser;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01587}01587\ \ \ \ \ \ \ \ \ reqObject[\textcolor{stringliteral}{"{}fromDisplayname"{}}]\ =\ query.value(1).toString();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01588}01588\ \ \ \ \ \ \ \ \ pendingRequests.append(reqObject);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01589}01589\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01590}01590\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ Total\ pending\ requests\ found:"{}}\ <<\ pendingRequests.count();}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01591}01591\ }
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01592}01592\ \ \ \ \ \textcolor{comment}{//\ 4.\ Если\ найден\ хотя\ бы\ один\ запрос,\ отправляем\ их\ клиенту.}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01593}01593\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pendingRequests.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01594}01594\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER]\ Sending"{}}\ <<\ pendingRequests.count()\ <<\ \textcolor{stringliteral}{"{}pending\ contact\ requests\ to"{}}\ <<\ username;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01595}01595\ \ \ \ \ \ \ \ \ QJsonObject\ response;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01596}01596\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}type"{}}]\ =\ \textcolor{stringliteral}{"{}pending\_requests\_list"{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01597}01597\ \ \ \ \ \ \ \ \ response[\textcolor{stringliteral}{"{}requests"{}}]\ =\ pendingRequests;}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01598}01598\ \ \ \ \ \ \ \ \ sendJson(socket,\ response);}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01599}01599\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01600}01600\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01601}01601\ \ \ \ \ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[SERVER][PENDING]\ No\ requests\ to\ send.\ Function\ finished."{}};}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01602}01602\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{server_8cpp_source_l01603}01603\ \}}
+
+\end{DoxyCode}

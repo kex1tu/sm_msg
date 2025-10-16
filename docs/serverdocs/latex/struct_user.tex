@@ -1,0 +1,161 @@
+\doxysection{User Struct Reference}
+\hypertarget{struct_user}{}\label{struct_user}\index{User@{User}}
+
+
+Представляет собой модель данных одного пользователя в приложении.  
+
+
+
+
+{\ttfamily \#include $<$structures.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+qint64 \mbox{\hyperlink{struct_user_a4add19c6c562392fb90a4d7f9f32e8ef}{id}} = 0
+\begin{DoxyCompactList}\small\item\em Уникальный идентификатор пользователя в базе данных сервера. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_user_ae4202de2b7974e92a55b913d20b03833}{username}}
+\begin{DoxyCompactList}\small\item\em Уникальное имя пользователя (логин). \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_user_ae418bae525108abf256b89c56273869b}{display\+Name}}
+\begin{DoxyCompactList}\small\item\em Отображаемое имя пользователя. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_user_a45f489e797addfcf9d99323494adcb70}{last\+Seen}}
+\begin{DoxyCompactList}\small\item\em Дата и время последнего визита в формате ISO (например, "{}2025-\/10-\/15\+T10\+:00\+:00"{}). \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_user_ab5ab662a0151ff00e19564bb68099566}{avatar\+Url}}
+\begin{DoxyCompactList}\small\item\em URL для загрузки аватара пользователя (задел на будущее). \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{struct_user_a3c3038d972fc637b8f2dd70a8d705d47}{status\+Message}}
+\begin{DoxyCompactList}\small\item\em Личное статусное сообщение пользователя (задел на будущее). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}{is\+Typing}} = false
+\begin{DoxyCompactList}\small\item\em Флаг, указывающий, печатает ли пользователь сообщение в данный момент. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_user_aa2298ce1333031a1e7d608dbfdba6802}{is\+Online}} = false
+\begin{DoxyCompactList}\small\item\em Флаг, указывающий, находится ли пользователь в сети. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Представляет собой модель данных одного пользователя в приложении. 
+
+Эта структура используется для хранения и передачи всей информации, связанной с конкретным пользователем, как в кэшах на клиенте, так и для временного представления данных, полученных от сервера. 
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00015}{15}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{struct_user_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_user_ab5ab662a0151ff00e19564bb68099566}\index{User@{User}!avatarUrl@{avatarUrl}}
+\index{avatarUrl@{avatarUrl}!User@{User}}
+\doxysubsubsection{\texorpdfstring{avatarUrl}{avatarUrl}}
+{\footnotesize\ttfamily \label{struct_user_ab5ab662a0151ff00e19564bb68099566} 
+QString User\+::avatar\+Url}
+
+
+
+URL для загрузки аватара пользователя (задел на будущее). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00020}{20}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_ae418bae525108abf256b89c56273869b}\index{User@{User}!displayName@{displayName}}
+\index{displayName@{displayName}!User@{User}}
+\doxysubsubsection{\texorpdfstring{displayName}{displayName}}
+{\footnotesize\ttfamily \label{struct_user_ae418bae525108abf256b89c56273869b} 
+QString User\+::display\+Name}
+
+
+
+Отображаемое имя пользователя. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00018}{18}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_a4add19c6c562392fb90a4d7f9f32e8ef}\index{User@{User}!id@{id}}
+\index{id@{id}!User@{User}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \label{struct_user_a4add19c6c562392fb90a4d7f9f32e8ef} 
+qint64 User\+::id = 0}
+
+
+
+Уникальный идентификатор пользователя в базе данных сервера. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00016}{16}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_aa2298ce1333031a1e7d608dbfdba6802}\index{User@{User}!isOnline@{isOnline}}
+\index{isOnline@{isOnline}!User@{User}}
+\doxysubsubsection{\texorpdfstring{isOnline}{isOnline}}
+{\footnotesize\ttfamily \label{struct_user_aa2298ce1333031a1e7d608dbfdba6802} 
+bool User\+::is\+Online = false}
+
+
+
+Флаг, указывающий, находится ли пользователь в сети. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00025}{25}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_adbba129c8d7df66d7e0dd3482162a4f1}\index{User@{User}!isTyping@{isTyping}}
+\index{isTyping@{isTyping}!User@{User}}
+\doxysubsubsection{\texorpdfstring{isTyping}{isTyping}}
+{\footnotesize\ttfamily \label{struct_user_adbba129c8d7df66d7e0dd3482162a4f1} 
+bool User\+::is\+Typing = false}
+
+
+
+Флаг, указывающий, печатает ли пользователь сообщение в данный момент. 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00024}{24}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_a45f489e797addfcf9d99323494adcb70}\index{User@{User}!lastSeen@{lastSeen}}
+\index{lastSeen@{lastSeen}!User@{User}}
+\doxysubsubsection{\texorpdfstring{lastSeen}{lastSeen}}
+{\footnotesize\ttfamily \label{struct_user_a45f489e797addfcf9d99323494adcb70} 
+QString User\+::last\+Seen}
+
+
+
+Дата и время последнего визита в формате ISO (например, "{}2025-\/10-\/15\+T10\+:00\+:00"{}). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00019}{19}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_a3c3038d972fc637b8f2dd70a8d705d47}\index{User@{User}!statusMessage@{statusMessage}}
+\index{statusMessage@{statusMessage}!User@{User}}
+\doxysubsubsection{\texorpdfstring{statusMessage}{statusMessage}}
+{\footnotesize\ttfamily \label{struct_user_a3c3038d972fc637b8f2dd70a8d705d47} 
+QString User\+::status\+Message}
+
+
+
+Личное статусное сообщение пользователя (задел на будущее). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00021}{21}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+\Hypertarget{struct_user_ae4202de2b7974e92a55b913d20b03833}\index{User@{User}!username@{username}}
+\index{username@{username}!User@{User}}
+\doxysubsubsection{\texorpdfstring{username}{username}}
+{\footnotesize\ttfamily \label{struct_user_ae4202de2b7974e92a55b913d20b03833} 
+QString User\+::username}
+
+
+
+Уникальное имя пользователя (логин). 
+
+
+
+Definition at line \mbox{\hyperlink{structures_8h_source_l00017}{17}} of file \mbox{\hyperlink{structures_8h_source}{structures.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structures_8h}{structures.\+h}}\end{DoxyCompactItemize}

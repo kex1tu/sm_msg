@@ -1,0 +1,143 @@
+\chapter{Архитектура проекта\+: Чат-\/клиент (Версия 4) }
+\hypertarget{md_description}{}\label{md_description}\index{Архитектура проекта: Чат-\/клиент (Версия 4)@{Архитектура проекта: Чат-\/клиент (Версия 4)}}
+\label{md_description_autotoc_md0}%
+\Hypertarget{md_description_autotoc_md0}%
+\hypertarget{md_description_autotoc_md1}{}\doxysection{\texorpdfstring{1. Общее видение и принципы}{1. Общее видение и принципы}}\label{md_description_autotoc_md1}
+Версия 4 представляет собой зрелую архитектуру для десктопного мессенджера, построенную на принципах {\bfseries{производительности, отзывчивости и масштабируемости}}. В основе лежат проверенные временем паттерны проектирования и ключевые возможности фреймворка Qt, что обеспечивает четкое разделение ответственности между компонентами.\hypertarget{md_description_autotoc_md2}{}\doxysubsection{\texorpdfstring{Ключевые архитектурные принципы\+:}{Ключевые архитектурные принципы\+:}}\label{md_description_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Централизованный контроллер (Orchestrator)\+:}} Класс {\ttfamily \doxylink{class_main_window}{Main\+Window}} выступает в роли единого "{}мозгового центра"{}. Он управляет сетевым взаимодействием, состоянием приложения и кэшем данных, в то время как остальные UI-\/компоненты остаются "{}пассивными"{} и занимаются исключительно отображением и отправкой сигналов о действиях пользователя.
+\item {\bfseries{Разделение данных и представления (Model-\/\+View-\/\+Delegate)\+:}} Паттерн MVD используется в двух критически важных местах\+:
+\begin{DoxyItemize}
+\item {\bfseries{Для списка сообщений\+:}} Обеспечивает высочайшую производительность при рендеринге сложных кастомных элементов чата.
+\item {\bfseries{Для списка контактов\+:}} Позволяет легко добавлять кастомные элементы UI (например, счетчики непрочитанных сообщений), не изменяя логику самого виджета.
+\end{DoxyItemize}
+\item {\bfseries{Асинхронность и слабая связанность (Signals \& Slots)\+:}} Все взаимодействие между компонентами построено на механизме сигналов и слотов Qt. Это гарантирует, что компоненты не зависят от внутренней реализации друг друга, а UI никогда не "{}зависает"{} во время сетевых операций или обработки данных.
+\item {\bfseries{Кэширование в оперативной памяти (In-\/\+Memory Caching)\+:}} Для обеспечения мгновенного отклика при переключении между чатами реализован слой кэширования, который хранит уже загруженные истории переписок.
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md4}{}\doxysection{\texorpdfstring{2. Диаграмма архитектуры}{2. Диаграмма архитектуры}}\label{md_description_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MainWindow\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ (Центральный\ контроллер\ /\ Orchestrator)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/|}
+\DoxyCodeLine{|\ -\/\ QTcpSocket\ (Сеть)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ -\/\ m\_responseHandlers\ (Обработка\ протокола)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ -\/\ m\_chatHistoryCache\ (КЭШ\ ИСТОРИИ\ ЧАТОВ)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ -\/\ m\_unreadCounts\ (Счетчики\ непрочитанных)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ -\/\ m\_userCache\ (Кэш\ данных\ пользователей)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ -\/\ m\_currentUsername,\ m\_currentChatPartner\ (Состояние)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{\ \ \ \ \ \ \string^\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ |\ Сигналы\ \ \ \ \ \ \ \ |\ Прямые\ вызовы\ \ \ |\ Сигналы\ \ \ \ \ \ \ \ |\ Прямые\ вызовы\ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ |\ от\ виджетов\ \ \ \ |\ методов\ виджетов|\ от\ модели\ \ \ \ \ \ |\ к\ модели\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ v\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{|\ LoginWidget\ \ |\ \ |\ ChatViewWidget\ \ \ \ |\ \ |\ ChatMessageModel\ \ \ |\ \ |\ QListWidget\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{|\ (UI\ Входа)\ \ \ |\ \ |\ (UI\ Чата)\ \ \ \ \ \ \ \ \ |\ \ |\ (Данные\ чата)\ \ \ \ \ \ |\ \ |\ (UI\ Контактов)\ \ \ \ \ |}
+\DoxyCodeLine{|-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/|\ \ |-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/|\ \ |-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/|\ \ |-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/|}
+\DoxyCodeLine{|-\/>loginReq()\ \ |\ \ |-\/>sendMessageReq()|\ \ |-\/>msgNeedsReceipt()\ |\ \ |\ -\/\ ItemDelegate\ -\/>\ \ |}
+\DoxyCodeLine{|-\/>registerReq()|\ \ |-\/>editMsgReq()\ \ \ |\ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ |\ ContactListDelegate|}
+\DoxyCodeLine{+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ |-\/>replyReq()\ \ \ \ \ |\ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/\ SmoothListView\ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/\ replyWidget\ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/\ scrollToBtmBtn\ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \string^}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ Рендеринг}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |ChatMessageDelegate|}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ (Отрисовка\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ сообщений)\ \ \ \ \ \ \ \ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md6}{}\doxysection{\texorpdfstring{3. Компонентный разбор}{3. Компонентный разбор}}\label{md_description_autotoc_md6}
+\hypertarget{md_description_autotoc_md7}{}\doxysubsection{\texorpdfstring{3.\+1. {\ttfamily Main\+Window}\+: Ядро приложения}{3.\+1. {\ttfamily Main\+Window}\+: Ядро приложения}}\label{md_description_autotoc_md7}
+Это самый главный класс, связывающий все воедино.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Сетевой слой\+:}} Управляет экземпляром {\ttfamily QTcp\+Socket}. Отвечает за отправку ({\ttfamily send\+Json}) и получение ({\ttfamily on\+Ready\+Read}) всех данных.
+\item {\bfseries{Обработчик протокола\+:}} Содержит {\ttfamily m\+\_\+response\+Handlers} ({\ttfamily QMap}), который сопоставляет строковые типы команд из JSON с методами-\/обработчиками ({\ttfamily handle\+Private\+Message}, {\ttfamily handle\+User\+List} и т.\+д.). Такая структура позволяет легко добавлять новые команды от сервера.
+\item {\bfseries{Управление кэшем (V4)\+:}} Владеет {\ttfamily m\+\_\+chat\+History\+Cache}. При переключении чата он сначала проверяет наличие истории в этом кэше и только в случае отсутствия отправляет запрос на сервер. Это ключевая оптимизация производительности.
+\item {\bfseries{Управление состоянием\+:}} Хранит всю глобальную информацию\+:
+\begin{DoxyItemize}
+\item {\ttfamily m\+\_\+current\+Username}, {\ttfamily m\+\_\+current\+Chat\+Partner}\+: кто сейчас залогинен и с кем открыт чат.
+\item {\ttfamily m\+\_\+unread\+Counts}\+: {\ttfamily QMap}, хранящая количество непрочитанных сообщений для каждого чата.
+\item {\ttfamily m\+\_\+editing\+Message\+Id}, {\ttfamily m\+\_\+reply\+To\+Message\+Id}\+: флаги, определяющие режим ввода (редактирование или ответ).
+\end{DoxyItemize}
+\item {\bfseries{Координатор UI\+:}} Собирает главный интерфейс в {\ttfamily build\+Main\+UI} и управляет переключением между {\ttfamily \doxylink{class_login_widget}{Login\+Widget}} и основным виджетом чата. Он принимает сигналы от UI-\/компонентов и вызывает их публичные методы для обновления.
+\end{DoxyItemize}\hypertarget{md_description_autotoc_md8}{}\doxysubsection{\texorpdfstring{3.\+2. Компоненты чата ({\ttfamily Chat\+View\+Widget}, {\ttfamily Smooth\+List\+View}, {\ttfamily Chat\+Message\+Delegate}, {\ttfamily Chat\+Message\+Model})}{3.\+2. Компоненты чата ({\ttfamily Chat\+View\+Widget}, {\ttfamily Smooth\+List\+View}, {\ttfamily Chat\+Message\+Delegate}, {\ttfamily Chat\+Message\+Model})}}\label{md_description_autotoc_md8}
+Это наиболее сложная и проработанная часть системы.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{class_chat_view_widget}{Chat\+View\+Widget}} (Представление/Контроллер UI)\+:}}
+\begin{DoxyItemize}
+\item Отвечает за визуальное представление одного чата.
+\item Содержит {\ttfamily \doxylink{class_smooth_list_view}{Smooth\+List\+View}} для отображения сообщений, {\ttfamily header\+Widget} с информацией о собеседнике и {\ttfamily message\+Input\+Widget} с полем ввода.
+\item {\bfseries{Новое в V4\+:}} Управляет видимостью и состоянием {\ttfamily scroll\+To\+Bottom\+Button} и {\ttfamily unread\+Count\+Label}, реагируя на прокрутку и получение новых сообщений.
+\item Не хранит никакой логики, кроме отображения. Все действия пользователя (отправка, запрос на редактирование) транслируются в {\ttfamily \doxylink{class_main_window}{Main\+Window}} через сигналы.
+\end{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{class_smooth_list_view}{Smooth\+List\+View}} (Представление)\+:}}
+\begin{DoxyItemize}
+\item Кастомный класс, наследуемый от {\ttfamily QList\+View}.
+\item Его единственная задача — обеспечить плавную попиксельную прокрутку, улучшая пользовательский опыт.
+\end{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{class_chat_message_model}{Chat\+Message\+Model}} (Модель)\+:}}
+\begin{DoxyItemize}
+\item Хранит данные {\bfseries{только для текущего активного чата}}.
+\item Содержит {\ttfamily QList} для последовательного доступа (требуется для View) и {\ttfamily QMap} для быстрого доступа по ID (требуется для {\ttfamily \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}} при отрисовке ответов).
+\item {\bfseries{Новое в V4\+:}} Реализует механизм "{}умной"{} отправки статуса "{}прочитано"{}. Имеет слот {\ttfamily mark\+Message\+As\+Read} и сигнал {\ttfamily message\+Needs\+Read\+Receipt}, создавая цепочку Делегат -\/\texorpdfstring{$>$}{>} Модель -\/\texorpdfstring{$>$}{>} {\ttfamily \doxylink{class_main_window}{Main\+Window}}.
+\end{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}} (Представление/Отрисовка)\+:}}
+\begin{DoxyItemize}
+\item "{}Художник"{}, отвечающий за рендеринг каждого сообщения.
+\item {\bfseries{Ключевая логика V4\+:}} Именно делегат, в момент отрисовки сообщения ({\ttfamily paint()}), инициирует процесс пометки сообщения как прочитанного. Это гарантирует, что статус отправляется только тогда, когда пользователь физически видит сообщение.
+\item Берет на себя всю сложную геометрию\+: расчет размеров пузырей, отрисовку блоков цитат, метаданных (время, статусы) и обработку переноса длинных строк.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_description_autotoc_md9}{}\doxysubsection{\texorpdfstring{3.\+3. Компоненты списка контактов ({\ttfamily QList\+Widget}, {\ttfamily Contact\+List\+Delegate})}{3.\+3. Компоненты списка контактов ({\ttfamily QList\+Widget}, {\ttfamily Contact\+List\+Delegate})}}\label{md_description_autotoc_md9}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily QList\+Widget} (Представление)\+:}}
+\begin{DoxyItemize}
+\item Стандартный виджет для отображения списка контактов.
+\item {\ttfamily \doxylink{class_main_window}{Main\+Window}} наполняет его данными из {\ttfamily m\+\_\+user\+Cache}.
+\end{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{class_contact_list_delegate}{Contact\+List\+Delegate}} (Представление/Отрисовка V4)\+:}}
+\begin{DoxyItemize}
+\item Новый класс в версии 4.
+\item Его задача — кастомизировать отрисовку элементов {\ttfamily QList\+Widget}.
+\item В конструктор передается указатель на {\ttfamily m\+\_\+unread\+Counts} из {\ttfamily \doxylink{class_main_window}{Main\+Window}}.
+\item При отрисовке каждого контакта он проверяет наличие непрочитанных сообщений и, если они есть, рисует поверх элемента круглый "{}бейдж"{} с их количеством.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_description_autotoc_md10}{}\doxysubsection{\texorpdfstring{3.\+4. Структуры данных ({\ttfamily structures.\+h})}{3.\+4. Структуры данных ({\ttfamily structures.\+h})}}\label{md_description_autotoc_md10}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily \doxylink{struct_user}{User}} и {\ttfamily \doxylink{struct_chat_message}{Chat\+Message}}\+:}} Простые {\ttfamily struct}, определяющие модели данных. Они являются "{}единым языком"{}, на котором общаются все компоненты системы.
+\item {\bfseries{{\ttfamily \doxylink{struct_chat_cache}{Chat\+Cache}} (Новое в V4)\+:}} Структура, инкапсулирующая кэш одного чата\+: список его сообщений и флаги для управления пагинацией. Это ядро новой системы кэширования.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md12}{}\doxysection{\texorpdfstring{4. Итоги по архитектуре V4}{4. Итоги по архитектуре V4}}\label{md_description_autotoc_md12}
+Архитектура четвертой версии является зрелой, производительной и хорошо продуманной.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Сильные стороны\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Отзывчивость\+:}} Благодаря кэшированию и асинхронности приложение ощущается очень быстрым.
+\item {\bfseries{Масштабируемость\+:}} Структура с центральным контроллером и обработчиками команд позволяет легко добавлять новый функционал (например, групповые чаты, отправку файлов), не ломая существующую логику.
+\item {\bfseries{Надежность\+:}} Четкое разделение ответственности и слабая связанность компонентов упрощают тестирование и отладку.
+\item {\bfseries{Качественный UX\+:}} Внимание к деталям, таким как плавная прокрутка, счетчики непрочитанных и умные статусы, ставит приложение в один ряд с коммерческими продуктами. 
+\end{DoxyItemize}
+\end{DoxyItemize}

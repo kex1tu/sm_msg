@@ -1,0 +1,26 @@
+\doxysection{smoothtextedit.\+h}
+\hypertarget{smoothtextedit_8h_source}{}\label{smoothtextedit_8h_source}\mbox{\hyperlink{smoothtextedit_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ SMOOTHTEXTEDIT\_H}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ SMOOTHTEXTEDIT\_H}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QTextEdit>}\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Включаем\ базовый\ класс\ QTextEdit.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QPropertyAnimation>}\ \textcolor{comment}{//\ Включаем\ класс\ для\ анимации\ свойств\ объектов\ Qt.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00017}\mbox{\hyperlink{class_smooth_text_edit}{00017}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}{SmoothTextEdit}}\ :\ \textcolor{keyword}{public}\ QTextEdit}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00019}00019\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ классов\ Qt.}}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00021}00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}{SmoothTextEdit}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00028}00028\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}{wheelEvent}}(QWheelEvent\ *e)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00041}00041\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00048}00048\ \ \ \ \ QPropertyAnimation\ *m\_scrollAnimation;}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00049}00049\ \};}
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{smoothtextedit_8h_source_l00051}00051\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SMOOTHTEXTEDIT\_H}}
+
+\end{DoxyCode}

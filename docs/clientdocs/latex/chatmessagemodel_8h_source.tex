@@ -1,0 +1,72 @@
+\doxysection{chatmessagemodel.\+h}
+\hypertarget{chatmessagemodel_8h_source}{}\label{chatmessagemodel_8h_source}\mbox{\hyperlink{chatmessagemodel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ CHATMESSAGEMODEL\_H}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ CHATMESSAGEMODEL\_H}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QAbstractListModel>}\ \textcolor{comment}{//\ Включаем\ базовый\ класс\ для\ списочных\ моделей\ Qt.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}\ \ \ \ \ \ \ \textcolor{comment}{//\ Включаем\ определение\ структуры\ ChatMessage.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00015}00015\ Q\_DECLARE\_METATYPE(\mbox{\hyperlink{struct_chat_message}{ChatMessage}})}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00028}\mbox{\hyperlink{class_chat_message_model}{00028}}\ class\ \mbox{\hyperlink{class_chat_message_model_aa3a3b6c95024027c98e91888fdf16331}{ChatMessageModel}}\ :\ public\ QAbstractListModel}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00030}00030\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ любого\ класса,\ использующего\ сигналы\ и\ слоты.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00032}00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_chat_message_model_aa3a3b6c95024027c98e91888fdf16331}{ChatMessageModel}}(QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00039}00039\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Переопределенные\ обязательные\ методы\ QAbstractListModel\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00046}00046\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_chat_message_model_a1086e40f1952c24224c6221f6d20b47f}{rowCount}}(\textcolor{keyword}{const}\ QModelIndex\ \&parent\ =\ QModelIndex())\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00055}00055\ \ \ \ \ QVariant\ \mbox{\hyperlink{class_chat_message_model_ab687665d0889263fab9c116c8d604814}{data}}(\textcolor{keyword}{const}\ QModelIndex\ \&index,\ \textcolor{keywordtype}{int}\ role\ =\ Qt::DisplayRole)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_chat_message_model_a7eaed5b52bf66ffb9bd85ef60e108a7b}{setData}}(\textcolor{keyword}{const}\ QModelIndex\ \&index,\ \textcolor{keyword}{const}\ QVariant\ \&value,\ \textcolor{keywordtype}{int}\ role\ =\ Qt::EditRole)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ Открытые\ слоты\ являются\ частью\ публичного\ API\ класса\ и\ могут\ быть\ вызваны\ из\ других\ объектов.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00069}00069\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ API\ для\ управления\ списком\ сообщений\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00072}00072\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_a9b39e349ca4fba03faa973402778189a}{addMessage}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ \&message);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Добавляет\ одно\ сообщение\ в\ конец\ списка.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00073}00073\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_a17620bcb263fc253dc74438674108342}{addMessages}}(\textcolor{keyword}{const}\ QList<ChatMessage>\ \&messages);\ \ \textcolor{comment}{//\ Добавляет\ несколько\ сообщений\ в\ конец\ (для\ первоначальной\ загрузки).}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00074}00074\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_a6eeb231d09b98aa03dbf95e6df63214a}{prependMessages}}(\textcolor{keyword}{const}\ QList<ChatMessage>\ \&messages);\ \textcolor{comment}{//\ Добавляет\ несколько\ сообщений\ в\ начало\ (для\ подгрузки\ старой\ истории).}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_af03a7197b20238996fe9f702004ecdd9}{clearMessages}}();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Полностью\ очищает\ модель.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00076}00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_aa3a3c5360b3d47d027fed90362095b19}{removeMessage}}(qint64\ messageId);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Удаляет\ сообщение\ по\ его\ уникальному\ ID.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ API\ для\ обновления\ существующих\ сообщений\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//\ Подтверждает\ сообщение,\ отправленное\ клиентом.\ Находит\ его\ по\ временному\ ID\ (tempId)}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ и\ заменяет\ на\ подтвержденное\ сообщение\ от\ сервера\ (с\ настоящим\ ID\ и\ timestamp).}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_ada5648d15f5146f9713723f73a149fea}{confirmMessage}}(\textcolor{keyword}{const}\ QString\&\ tempId,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\&\ confirmedMessage);}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ Обновляет\ статус\ сообщения\ (Sending\ -\/>\ Sent\ -\/>\ Delivered\ -\/>\ Read).}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_a2d0729f1abb9a3360d4b49fd627089be}{updateMessageStatus}}(qint64\ messageId,\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{ChatMessage::MessageStatus}}\ newStatus);}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ Изменяет\ текст\ сообщения\ и\ устанавливает\ флаг\ isEdited.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_aaad85d871559a3db0bafcd3a323a22f3}{editMessage}}(qint64\ messageId,\ \textcolor{keyword}{const}\ QString\&\ newPayload);}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Вспомогательные\ методы\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ Быстрый\ поиск\ сообщения\ по\ ID\ с\ использованием\ QMap.\ Возвращает\ true,\ если\ найдено.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00093}00093\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_chat_message_model_a2bdeaf8e7c26f5205e7763fa4c5bfcf0}{getMessageById}}(qint64\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ \&msg)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ Слот,\ вызываемый\ делегатом,\ когда\ сообщение\ становится\ видимым.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00096}00096\ \ \ \ \ \textcolor{comment}{//\ Он\ проверяет,\ нужно\ ли\ отправить\ уведомление\ о\ прочтении,\ и\ если\ да,}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ испускает\ сигнал\ messageNeedsReadReceipt.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00098}00098\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_a1977a1f3fd95a7f6d14592754bc38881}{markMessageAsRead}}(\textcolor{keyword}{const}\ QModelIndex\ \&index);}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ Сигналы\ -\/\ это\ способ,\ которым\ модель\ уведомляет\ другие\ части\ приложения\ о\ событиях.}}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00101}00101\ signals:}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00110}\mbox{\hyperlink{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f}{00110}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f}{messageNeedsReadReceipt}}(qint64\ messageId);}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00112}00112\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00119}00119\ \ \ \ \ QList<ChatMessage>\ m\_messages;}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00129}00129\ \ \ \ \ QMap<qint64,\ ChatMessage>\ m\_messageMap;}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00130}00130\ \};}
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{chatmessagemodel_8h_source_l00132}00132\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CHATMESSAGEMODEL\_H}}
+
+\end{DoxyCode}

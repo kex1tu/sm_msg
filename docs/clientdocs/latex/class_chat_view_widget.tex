@@ -1,0 +1,436 @@
+\doxysection{Chat\+View\+Widget Class Reference}
+\hypertarget{class_chat_view_widget}{}\label{class_chat_view_widget}\index{ChatViewWidget@{ChatViewWidget}}
+
+
+Виджет, отвечающий за отображение интерфейса одного чата.  
+
+
+
+
+{\ttfamily \#include $<$chatviewwidget.\+h$>$}
+
+
+
+Inheritance diagram for Chat\+View\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{class_chat_view_widget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Chat\+View\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{class_chat_view_widget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_adb9f862c41708983a26f8dff91f236d1}{update\+Header}} (const \mbox{\hyperlink{struct_user}{User}} \&chat\+Partner)
+\begin{DoxyCompactList}\small\item\em Обновляет информацию в заголовке чата (имя, онлайн-\/статус, "{}печатает..."{}). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_abf039471b650ef2e53c21136c366ae27}{set\+Edit\+Mode}} (bool enabled, const QString \&text=QString())
+\begin{DoxyCompactList}\small\item\em Переключает виджет в режим редактирования сообщения. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_ab3171e6e82933e146664c24127e616b1}{clear\+Reply\+UI}} ()
+\begin{DoxyCompactList}\small\item\em Сбрасывает текст-\/подсказку (placeholder) в поле ввода. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_a72583a4d51c922ac0ddfb55f20aff440}{show\+Reply\+UI}} (const QString \&name, const QString \&text)
+\begin{DoxyCompactList}\small\item\em Показывает панель ответа с плавной анимацией "{}разворачивания"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97}{hide\+Reply\+UI}} ()
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe}{on\+New\+Message\+Received}} ()
+\begin{DoxyCompactList}\small\item\em Слот, вызываемый, когда приходит новое сообщение, а пользователь прокрутил чат вверх. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_view_widget_a9a6c6e8bb568bc72d77a8ba0cd650216}{scroll\+To\+Bottom}} ()
+\begin{DoxyCompactList}\small\item\em Слот для принудительной прокрутки чата в самый низ. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a47c131ab7e783a4d8ce225f04aaf2b3c}{send\+Message\+Requested}} (const QString \&text)
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64}{header\+Clicked}} ()
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a9c0965f1ffbd755ffee56b1144aa6e5c}{search\+Button\+Clicked}} ()
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_aebd96881a5462aa694835bf8174d7547}{reply\+To\+Message\+Requested}} (qint64 message\+Id)
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839}{edit\+Message\+Requested}} (qint64 message\+Id, const QString \&old\+Text)
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_af82d1b93574bbc7115c45e6c059cfeb5}{delete\+Message\+Requested}} (qint64 message\+Id)
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_ab3b4618e5a002eb5a3efd9e73e1463c9}{reply\+Cancelled}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_chat_view_widget_a3c7872f26a19d204b25425a903703dc1}{Chat\+View\+Widget}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_chat_view_widget_ab6e30c55013f43ce83feab21121d4ea6}{\texorpdfstring{$\sim$}{\string~}\+Chat\+View\+Widget}} ()
+\begin{DoxyCompactList}\small\item\em Деструктор. \end{DoxyCompactList}\item 
+QList\+View \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_ac7acb54a1f01f290aacc82312b0dc561}{chat\+History\+View}} () const
+\begin{DoxyCompactList}\small\item\em Геттер, возвращающий указатель на {\ttfamily QList\+View} истории чата. \end{DoxyCompactList}\item 
+QText\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_chat_view_widget_ac1e3b538273e323f8842831a75648ed1}{message\+Text\+Edit}} () const
+\begin{DoxyCompactList}\small\item\em Геттер, возвращающий указатель на {\ttfamily QText\+Edit} поля ввода сообщения. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_chat_view_widget_a68d67be23a20119e84d2a1188dd0c1b4}{is\+Scrolled\+To\+Bottom}} () const
+\begin{DoxyCompactList}\small\item\em Проверяет, прокручен ли список сообщений до самого низа. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d}{resize\+Event}} (QResize\+Event \texorpdfstring{$\ast$}{*}event) override
+\begin{DoxyCompactList}\small\item\em Обработчик события изменения размера виджета. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_chat_view_widget_aff70dfe244c6201f87624d742e1fa9e1}{event\+Filter}} (QObject \texorpdfstring{$\ast$}{*}watched, QEvent \texorpdfstring{$\ast$}{*}event) override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Виджет, отвечающий за отображение интерфейса одного чата. 
+
+Этот класс инкапсулирует всю визуальную часть диалога\+: заголовок, историю сообщений и панель ввода. Он не содержит бизнес-\/логики, а только отображает данные и уведомляет {\ttfamily \doxylink{class_main_window}{Main\+Window}} о действиях пользователя через сигналы. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8h_source_l00033}{33}} of file \mbox{\hyperlink{chatviewwidget_8h_source}{chatviewwidget.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_chat_view_widget_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_chat_view_widget_a3c7872f26a19d204b25425a903703dc1}\index{ChatViewWidget@{ChatViewWidget}!ChatViewWidget@{ChatViewWidget}}
+\index{ChatViewWidget@{ChatViewWidget}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{ChatViewWidget()}{ChatViewWidget()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a3c7872f26a19d204b25425a903703dc1} 
+Chat\+View\+Widget\+::\+Chat\+View\+Widget (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор \doxylink{class_chat_view_widget}{Chat\+View\+Widget}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет.\\
+\hline
+\end{DoxyParams}
+Инициализирует UI из формы, созданной в Qt Designer. Настраивает дополнительные UI-\/компоненты (заголовок, анимации, поле ввода). Устанавливает фильтры событий и соединяет все необходимые сигналы и слоты. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00043}{43}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a3c7872f26a19d204b25425a903703dc1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{class_chat_view_widget_a3c7872f26a19d204b25425a903703dc1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_ab6e30c55013f43ce83feab21121d4ea6}\index{ChatViewWidget@{ChatViewWidget}!````~ChatViewWidget@{\texorpdfstring{$\sim$}{\string~}ChatViewWidget}}
+\index{````~ChatViewWidget@{\texorpdfstring{$\sim$}{\string~}ChatViewWidget}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}ChatViewWidget()}{\string~ChatViewWidget()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ab6e30c55013f43ce83feab21121d4ea6} 
+Chat\+View\+Widget\+::\texorpdfstring{$\sim$}{\string~}\+Chat\+View\+Widget (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Деструктор. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00118}{118}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_chat_view_widget_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_chat_view_widget_ac7acb54a1f01f290aacc82312b0dc561}\index{ChatViewWidget@{ChatViewWidget}!chatHistoryView@{chatHistoryView}}
+\index{chatHistoryView@{chatHistoryView}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{chatHistoryView()}{chatHistoryView()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ac7acb54a1f01f290aacc82312b0dc561} 
+QList\+View \texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::chat\+History\+View (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Геттер, возвращающий указатель на {\ttfamily QList\+View} истории чата. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00277}{277}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_ab3171e6e82933e146664c24127e616b1}\index{ChatViewWidget@{ChatViewWidget}!clearReplyUI@{clearReplyUI}}
+\index{clearReplyUI@{clearReplyUI}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{clearReplyUI}{clearReplyUI}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ab3171e6e82933e146664c24127e616b1} 
+void Chat\+View\+Widget\+::clear\+Reply\+UI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Сбрасывает текст-\/подсказку (placeholder) в поле ввода. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00221}{221}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_ab3171e6e82933e146664c24127e616b1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_af82d1b93574bbc7115c45e6c059cfeb5}\index{ChatViewWidget@{ChatViewWidget}!deleteMessageRequested@{deleteMessageRequested}}
+\index{deleteMessageRequested@{deleteMessageRequested}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{deleteMessageRequested}{deleteMessageRequested}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_af82d1b93574bbc7115c45e6c059cfeb5} 
+void Chat\+View\+Widget\+::delete\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839}\index{ChatViewWidget@{ChatViewWidget}!editMessageRequested@{editMessageRequested}}
+\index{editMessageRequested@{editMessageRequested}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{editMessageRequested}{editMessageRequested}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a2c34a79553acea8433547f5292ad4839} 
+void Chat\+View\+Widget\+::edit\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{const QString \&}]{old\+Text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_aff70dfe244c6201f87624d742e1fa9e1}\index{ChatViewWidget@{ChatViewWidget}!eventFilter@{eventFilter}}
+\index{eventFilter@{eventFilter}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{eventFilter()}{eventFilter()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_aff70dfe244c6201f87624d742e1fa9e1} 
+bool Chat\+View\+Widget\+::event\+Filter (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{watched}{, }\item[{QEvent \texorpdfstring{$\ast$}{*}}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00124}{124}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64}\index{ChatViewWidget@{ChatViewWidget}!headerClicked@{headerClicked}}
+\index{headerClicked@{headerClicked}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{headerClicked}{headerClicked}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ab4af52a90adc55bf6eaa4ac0edd10d64} 
+void Chat\+View\+Widget\+::header\+Clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97}\index{ChatViewWidget@{ChatViewWidget}!hideReplyUI@{hideReplyUI}}
+\index{hideReplyUI@{hideReplyUI}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{hideReplyUI}{hideReplyUI}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97} 
+void Chat\+View\+Widget\+::hide\+Reply\+UI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00171}{171}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_a4759e26613b43a13e776df7e2b89ca97_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_a68d67be23a20119e84d2a1188dd0c1b4}\index{ChatViewWidget@{ChatViewWidget}!isScrolledToBottom@{isScrolledToBottom}}
+\index{isScrolledToBottom@{isScrolledToBottom}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{isScrolledToBottom()}{isScrolledToBottom()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a68d67be23a20119e84d2a1188dd0c1b4} 
+bool Chat\+View\+Widget\+::is\+Scrolled\+To\+Bottom (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Проверяет, прокручен ли список сообщений до самого низа. 
+
+Проверяет, находится ли скроллбар в самом низу.
+
+\begin{DoxyReturn}{Returns}
+true, если пользователь видит последние сообщения.
+
+{\ttfamily true}, если скроллбар внизу (с небольшим допуском), иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00388}{388}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_ac1e3b538273e323f8842831a75648ed1}\index{ChatViewWidget@{ChatViewWidget}!messageTextEdit@{messageTextEdit}}
+\index{messageTextEdit@{messageTextEdit}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{messageTextEdit()}{messageTextEdit()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ac1e3b538273e323f8842831a75648ed1} 
+QText\+Edit \texorpdfstring{$\ast$}{*} Chat\+View\+Widget\+::message\+Text\+Edit (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Геттер, возвращающий указатель на {\ttfamily QText\+Edit} поля ввода сообщения. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00282}{282}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe}\index{ChatViewWidget@{ChatViewWidget}!onNewMessageReceived@{onNewMessageReceived}}
+\index{onNewMessageReceived@{onNewMessageReceived}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{onNewMessageReceived}{onNewMessageReceived}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a4005c440dc27de6530cb3207043538fe} 
+void Chat\+View\+Widget\+::on\+New\+Message\+Received (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Слот, вызываемый, когда приходит новое сообщение, а пользователь прокрутил чат вверх. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00351}{351}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_ab3b4618e5a002eb5a3efd9e73e1463c9}\index{ChatViewWidget@{ChatViewWidget}!replyCancelled@{replyCancelled}}
+\index{replyCancelled@{replyCancelled}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{replyCancelled}{replyCancelled}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_ab3b4618e5a002eb5a3efd9e73e1463c9} 
+void Chat\+View\+Widget\+::reply\+Cancelled (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_view_widget_ab3b4618e5a002eb5a3efd9e73e1463c9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_view_widget_aebd96881a5462aa694835bf8174d7547}\index{ChatViewWidget@{ChatViewWidget}!replyToMessageRequested@{replyToMessageRequested}}
+\index{replyToMessageRequested@{replyToMessageRequested}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{replyToMessageRequested}{replyToMessageRequested}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_aebd96881a5462aa694835bf8174d7547} 
+void Chat\+View\+Widget\+::reply\+To\+Message\+Requested (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d}\index{ChatViewWidget@{ChatViewWidget}!resizeEvent@{resizeEvent}}
+\index{resizeEvent@{resizeEvent}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{resizeEvent()}{resizeEvent()}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a50690b18f64cf6dcb5dde55d04d6193d} 
+void Chat\+View\+Widget\+::resize\+Event (\begin{DoxyParamCaption}\item[{QResize\+Event \texorpdfstring{$\ast$}{*}}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Обработчик события изменения размера виджета. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & Указатель на событие. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00398}{398}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_a9a6c6e8bb568bc72d77a8ba0cd650216}\index{ChatViewWidget@{ChatViewWidget}!scrollToBottom@{scrollToBottom}}
+\index{scrollToBottom@{scrollToBottom}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{scrollToBottom}{scrollToBottom}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a9a6c6e8bb568bc72d77a8ba0cd650216} 
+void Chat\+View\+Widget\+::scroll\+To\+Bottom (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Слот для принудительной прокрутки чата в самый низ. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00363}{363}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_a9c0965f1ffbd755ffee56b1144aa6e5c}\index{ChatViewWidget@{ChatViewWidget}!searchButtonClicked@{searchButtonClicked}}
+\index{searchButtonClicked@{searchButtonClicked}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{searchButtonClicked}{searchButtonClicked}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a9c0965f1ffbd755ffee56b1144aa6e5c} 
+void Chat\+View\+Widget\+::search\+Button\+Clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_a47c131ab7e783a4d8ce225f04aaf2b3c}\index{ChatViewWidget@{ChatViewWidget}!sendMessageRequested@{sendMessageRequested}}
+\index{sendMessageRequested@{sendMessageRequested}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{sendMessageRequested}{sendMessageRequested}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a47c131ab7e783a4d8ce225f04aaf2b3c} 
+void Chat\+View\+Widget\+::send\+Message\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\Hypertarget{class_chat_view_widget_abf039471b650ef2e53c21136c366ae27}\index{ChatViewWidget@{ChatViewWidget}!setEditMode@{setEditMode}}
+\index{setEditMode@{setEditMode}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{setEditMode}{setEditMode}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_abf039471b650ef2e53c21136c366ae27} 
+void Chat\+View\+Widget\+::set\+Edit\+Mode (\begin{DoxyParamCaption}\item[{bool}]{enabled}{, }\item[{const QString \&}]{text}{ = {\ttfamily QString()}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Переключает виджет в режим редактирования сообщения. 
+
+Этот публичный слот управляет состоянием панели ввода сообщения, переключая ее между режимом отправки нового сообщения и режимом редактирования существующего.
+
+
+\begin{DoxyParams}{Parameters}
+{\em enabled} & {\ttfamily true} для входа в режим редактирования, {\ttfamily false} для выхода. \\
+\hline
+{\em text} & Исходный текст сообщения для редактирования. Используется только, когда {\ttfamily enabled} равно {\ttfamily true}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00451}{451}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_a72583a4d51c922ac0ddfb55f20aff440}\index{ChatViewWidget@{ChatViewWidget}!showReplyUI@{showReplyUI}}
+\index{showReplyUI@{showReplyUI}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{showReplyUI}{showReplyUI}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_a72583a4d51c922ac0ddfb55f20aff440} 
+void Chat\+View\+Widget\+::show\+Reply\+UI (\begin{DoxyParamCaption}\item[{const QString \&}]{name}{, }\item[{const QString \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Показывает панель ответа с плавной анимацией "{}разворачивания"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Имя автора цитируемого сообщения. \\
+\hline
+{\em text} & Текст цитируемого сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00152}{152}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+\Hypertarget{class_chat_view_widget_adb9f862c41708983a26f8dff91f236d1}\index{ChatViewWidget@{ChatViewWidget}!updateHeader@{updateHeader}}
+\index{updateHeader@{updateHeader}!ChatViewWidget@{ChatViewWidget}}
+\doxysubsubsection{\texorpdfstring{updateHeader}{updateHeader}}
+{\footnotesize\ttfamily \label{class_chat_view_widget_adb9f862c41708983a26f8dff91f236d1} 
+void Chat\+View\+Widget\+::update\+Header (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_user}{User}} \&}]{chat\+Partner}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Обновляет информацию в заголовке чата (имя, онлайн-\/статус, "{}печатает..."{}). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em chat\+Partner} & Объект {\ttfamily \doxylink{struct_user}{User}} с актуальными данными о собеседнике. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00288}{288}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{chatviewwidget_8h}{chatviewwidget.\+h}}\item 
+\mbox{\hyperlink{chatviewwidget_8cpp}{chatviewwidget.\+cpp}}\end{DoxyCompactItemize}

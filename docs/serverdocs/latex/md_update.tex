@@ -1,0 +1,192 @@
+\chapter{Архитектурный рефакторинг\+: Переход на мультипротокольную модель (TCP + Web\+Socket) }
+\hypertarget{md_update}{}\label{md_update}\index{Архитектурный рефакторинг: Переход на мультипротокольную модель (TCP + WebSocket)@{Архитектурный рефакторинг: Переход на мультипротокольную модель (TCP + WebSocket)}}
+\label{md_update_autotoc_md13}%
+\Hypertarget{md_update_autotoc_md13}%
+
+
+Этот документ описывает ключевые изменения, внесенные в архитектуру сервера, в результате которых была осуществлена миграция от однопротокольной модели на основе наследования ({\ttfamily QTcp\+Server}) к более гибкой мультипротокольной модели на основе композиции ({\ttfamily QObject}).\hypertarget{md_update_autotoc_md14}{}\doxysection{\texorpdfstring{1. Мотивация для изменений}{1. Мотивация для изменений}}\label{md_update_autotoc_md14}
+Изначальная архитектура сервера была проста и эффективна, но имела существенное ограничение\+: она поддерживала {\bfseries{только TCP-\/соединения}}. Это исключало возможность прямого взаимодействия с веб-\/клиентами (браузерами), которые для двусторонней связи в реальном времени используют протокол {\bfseries{Web\+Socket}}.
+
+Основная цель рефакторинга — расширить функциональность сервера, добавив поддержку Web\+Socket, и заложить фундамент для дальнейшего масштабирования. Это позволяет нашему приложению обслуживать не только нативные десктопные клиенты, но и веб-\/приложения, значительно расширяя его охват.\hypertarget{md_update_autotoc_md15}{}\doxysection{\texorpdfstring{2. Сравнение архитектур "{}До"{} и "{}После"{}}{2. Сравнение архитектур "{}До"{} и "{}После"{}}}\label{md_update_autotoc_md15}
+\hypertarget{md_update_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{Старая архитектура (Версия 2)}{Старая архитектура (Версия 2)}}\label{md_update_autotoc_md16}
+
+\begin{DoxyItemize}
+\item {\bfseries{Принцип\+:}} Наследование. Класс {\ttfamily \doxylink{class_server}{Server}} наследовался напрямую от {\ttfamily QTcp\+Server} ({\ttfamily class \doxylink{class_server}{Server} \+: public QTcp\+Server}).
+\item {\bfseries{Протокол\+:}} Только TCP.
+\item {\bfseries{Обработка подключений\+:}} Переопределение виртуального метода {\ttfamily incoming\+Connection()}.
+\item {\bfseries{Хранение клиентов\+:}} Использовался {\ttfamily QMap\texorpdfstring{$<$}{<}QString, QTcp\+Socket\texorpdfstring{$\ast$}{*}\texorpdfstring{$>$}{>}}, что жестко привязывало логику к одному типу сокета.
+\end{DoxyItemize}\hypertarget{md_update_autotoc_md17}{}\doxysubsubsection{\texorpdfstring{Новая архитектура (Версия 1)}{Новая архитектура (Версия 1)}}\label{md_update_autotoc_md17}
+
+\begin{DoxyItemize}
+\item {\bfseries{Принцип\+:}} Композиция. Класс {\ttfamily \doxylink{class_server}{Server}} является наследником {\ttfamily QObject} и {\itshape управляет} экземплярами {\ttfamily QTcp\+Server} и {\ttfamily QWeb\+Socket\+Server} как своими членами.
+\item {\bfseries{Протоколы\+:}} TCP и Web\+Socket.
+\item {\bfseries{Обработка подключений\+:}} Использование сигналов ({\ttfamily new\+Connection}) от каждого серверного объекта и их привязка к соответствующим слотам.
+\item {\bfseries{Хранение клиентов\+:}} Использование {\ttfamily QMap\texorpdfstring{$<$}{<}QString, QObject\texorpdfstring{$\ast$}{*}\texorpdfstring{$>$}{>}}. Это позволяет хранить указатели на сокеты разных типов ({\ttfamily QTcp\+Socket\texorpdfstring{$\ast$}{*}}, {\ttfamily QWeb\+Socket\texorpdfstring{$\ast$}{*}}) полиморфно.
+\end{DoxyItemize}\hypertarget{md_update_autotoc_md18}{}\doxysection{\texorpdfstring{3. Ключевые этапы перехода и изменения в коде}{3. Ключевые этапы перехода и изменения в коде}}\label{md_update_autotoc_md18}
+Переход потребовал нескольких фундаментальных изменений в кодовой базе.\hypertarget{md_update_autotoc_md19}{}\doxysubsection{\texorpdfstring{Шаг 1\+: Изменение базового класса}{Шаг 1\+: Изменение базового класса}}\label{md_update_autotoc_md19}
+Первым делом был изменен базовый класс {\ttfamily \doxylink{class_server}{Server}}.
+
+{\bfseries{Было\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 1)}}
+\DoxyCodeLine{\textcolor{keyword}{class\ }\mbox{\hyperlink{class_server}{Server}}\ :\ \textcolor{keyword}{public}\ QTcpServer\ \{\ ...\ \};}
+
+\end{DoxyCode}
+
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keyword}{class\ }\mbox{\hyperlink{class_server}{Server}}\ :\ \textcolor{keyword}{public}\ QObject\ \{\ ...\ \};}
+
+\end{DoxyCode}
+ {\bfseries{Почему?}} Класс {\ttfamily \doxylink{class_server}{Server}} перестал {\itshape быть} TCP-\/сервером. Вместо этого он стал {\itshape управленцем} серверов. {\ttfamily QObject} является идеальным базовым классом для этого, так как он предоставляет механизм сигналов и слотов, необходимый для асинхронной обработки событий.\hypertarget{md_update_autotoc_md20}{}\doxysubsection{\texorpdfstring{Шаг 2\+: Введение серверных объектов (Композиция)}{Шаг 2\+: Введение серверных объектов (Композиция)}}\label{md_update_autotoc_md20}
+Вместо наследования мы добавили указатели на {\ttfamily QTcp\+Server} и {\ttfamily QWeb\+Socket\+Server} как члены класса.
+
+{\bfseries{Было\+:}} Класс сам был сервером.
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keyword}{private}:}
+\DoxyCodeLine{\ \ \ \ QTcpServer\ *m\_tcpServer;}
+\DoxyCodeLine{\ \ \ \ QWebSocketServer\ *m\_webSocketServer;}
+
+\end{DoxyCode}
+ В конструкторе эти объекты инициализируются\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
+\DoxyCodeLine{\mbox{\hyperlink{class_server_aaf98d5194faee831c6340cc736b9b879}{Server::Server}}(QObject\ *parent)\ :\ QObject(parent)\{}
+\DoxyCodeLine{\ \ \ \ m\_tcpServer\ =\ \textcolor{keyword}{new}\ QTcpServer(\textcolor{keyword}{this});}
+\DoxyCodeLine{\ \ \ \ m\_webSocketServer\ =\ \textcolor{keyword}{new}\ QWebSocketServer(\textcolor{stringliteral}{"{}MessengerServer"{}},\ QWebSocketServer::NonSecureMode,\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ ...}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_update_autotoc_md21}{}\doxysubsection{\texorpdfstring{Шаг 3\+: Обновление логики запуска сервера}{Шаг 3\+: Обновление логики запуска сервера}}\label{md_update_autotoc_md21}
+Метод {\ttfamily listen()} был адаптирован для запуска обоих серверов.
+
+{\bfseries{Было\+:}} {\ttfamily listen()} был унаследован от {\ttfamily QTcp\+Server} и вызывался напрямую.
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{Server::listen}}(\textcolor{keyword}{const}\ QHostAddress\ \&address,\ quint16\ tcpPort,\ quint16\ wsPort)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ tcpSuccess\ =\ m\_tcpServer-\/>listen(address,\ tcpPort);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ wsSuccess\ =\ m\_webSocketServer-\/>listen(address,\ wsPort);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ tcpSuccess\ \&\&\ wsSuccess;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_update_autotoc_md22}{}\doxysubsection{\texorpdfstring{Шаг 4\+: Новый механизм обработки подключений}{Шаг 4\+: Новый механизм обработки подключений}}\label{md_update_autotoc_md22}
+Метод {\ttfamily incoming\+Connection()} был удален. Вместо него мы используем сигналы и слоты для каждого протокола.
+
+{\bfseries{Было\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 1)}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::incomingConnection(qintptr\ socketDescriptor)\ \{\ ...\ \}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Стало\+:}} В конструкторе мы соединяем сигналы {\ttfamily new\+Connection} с новыми слотами\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
+\DoxyCodeLine{connect(m\_tcpServer,\ \&QTcpServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewTcpConnection);}
+\DoxyCodeLine{connect(m\_webSocketServer,\ \&QWebSocketServer::newConnection,\ \textcolor{keyword}{this},\ \&Server::onNewWebSocketConnection);}
+
+\end{DoxyCode}
+ И реализуем эти слоты\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::onNewTcpConnection()\ \{}
+\DoxyCodeLine{\ \ \ \ QTcpSocket\ *socket\ =\ m\_tcpServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ ...\ логика\ для\ TCP}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::onNewWebSocketConnection()\ \{}
+\DoxyCodeLine{\ \ \ \ QWebSocket\ *socket\ =\ m\_webSocketServer-\/>nextPendingConnection();}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ ...\ логика\ для\ WebSocket}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_update_autotoc_md23}{}\doxysubsection{\texorpdfstring{Шаг 5\+: Унификация управления клиентами}{Шаг 5\+: Унификация управления клиентами}}\label{md_update_autotoc_md23}
+Для хранения сокетов разных типов {\ttfamily QMap} был параметризован базовым классом {\ttfamily QObject\texorpdfstring{$\ast$}{*}}.
+
+{\bfseries{Было\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 1)}}
+\DoxyCodeLine{QMap<QString,\ QTcpSocket*>\ loggedInUsers;}
+
+\end{DoxyCode}
+
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 2)}}
+\DoxyCodeLine{QMap<QString,\ QObject*>\ m\_clients;\ \textcolor{comment}{//\ Для\ хранения\ сокетов\ по\ имени\ пользователя}}
+\DoxyCodeLine{QMap<QObject*,\ QString>\ m\_clientsReverse;\ \textcolor{comment}{//\ Для\ обратного\ поиска\ имени\ по\ сокету}}
+
+\end{DoxyCode}
+ {\bfseries{Почему?}} {\ttfamily QObject} является общим предком для {\ttfamily QTcp\+Socket} и {\ttfamily QWeb\+Socket}, что позволяет хранить их в одной коллекции. Двусторонняя карта ({\ttfamily m\+\_\+clients\+Reverse}) упрощает поиск пользователя при получении события от сокета (например, {\ttfamily disconnected} или {\ttfamily ready\+Read}).\hypertarget{md_update_autotoc_md24}{}\doxysubsection{\texorpdfstring{Шаг 6\+: Абстрагирование отправки данных}{Шаг 6\+: Абстрагирование отправки данных}}\label{md_update_autotoc_md24}
+Функция {\ttfamily send\+Json} была модифицирована для работы с обоими типами сокетов с использованием {\ttfamily qobject\+\_\+cast}.
+
+{\bfseries{Было\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 1)}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::sendJson(QTcpSocket*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ response)\ \{}
+\DoxyCodeLine{\ \ \ \ socket-\/>write(block);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.cpp\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ Server::sendJson(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ json)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (!socket)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\ \ \ \ QByteArray\ jsonData\ =\ QJsonDocument(json).toJson(QJsonDocument::Compact);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Пытаемся\ привести\ к\ QTcpSocket}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ tcpSocket\ =\ qobject\_cast<QTcpSocket*>(socket))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Логика\ отправки\ для\ TCP\ с\ указанием\ размера\ блока}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ tcpSocket-\/>write(block);}
+\DoxyCodeLine{\ \ \ \ \}\ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Если\ не\ получилось,\ пытаемся\ привести\ к\ QWebSocket}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ webSocket\ =\ qobject\_cast<QWebSocket*>(socket))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ webSocket-\/>sendTextMessage(QString::fromUtf8(jsonData));}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_update_autotoc_md25}{}\doxysubsection{\texorpdfstring{Шаг 7\+: Адаптация обработчиков (Handlers)}{Шаг 7\+: Адаптация обработчиков (Handlers)}}\label{md_update_autotoc_md25}
+Сигнатуры всех функций-\/обработчиков были изменены, чтобы принимать {\ttfamily QObject\texorpdfstring{$\ast$}{*}} вместо {\ttfamily QTcp\+Socket\texorpdfstring{$\ast$}{*}}. Это делает их независимыми от протокола.
+
+{\bfseries{Было\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 1)}}
+\DoxyCodeLine{\textcolor{keyword}{using\ }Handler\ =\ void\ (\mbox{\hyperlink{class_server}{Server}}::*)(QTcpSocket*,\ \textcolor{keyword}{const}\ QJsonObject\&);}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ handleLogin(QTcpSocket*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+
+\end{DoxyCode}
+
+
+{\bfseries{Стало\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ server.h\ (Версия\ 2)}}
+\DoxyCodeLine{\textcolor{keyword}{using\ }Handler\ =\ void\ (\mbox{\hyperlink{class_server}{Server}}::*)(QObject*,\ \textcolor{keyword}{const}\ QJsonObject\&);}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ handleLogin(QObject*\ socket,\ \textcolor{keyword}{const}\ QJsonObject\&\ request);}
+
+\end{DoxyCode}
+\hypertarget{md_update_autotoc_md26}{}\doxysection{\texorpdfstring{4. Преимущества новой архитектуры}{4. Преимущества новой архитектуры}}\label{md_update_autotoc_md26}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Поддержка Web\+Socket\+:}} Основная цель достигнута. Сервер теперь может обслуживать веб-\/клиентов.
+\item {\bfseries{Гибкость и масштабируемость\+:}} Архитектура на основе композиции позволяет легко добавлять новые протоколы в будущем, не затрагивая существующую логику.
+\item {\bfseries{Четкое разделение ответственности\+:}} Логика обработки конкретного протокола (установка соединения, чтение данных) изолирована в своих слотах, в то время как общая бизнес-\/логика (аутентификация, отправка сообщений) остается универсальной.
+\end{DoxyEnumerate}
+
+Этот рефакторинг превратил простой TCP-\/сервер в мощную и гибкую платформу для построения кросс-\/платформенного мессенджера. 

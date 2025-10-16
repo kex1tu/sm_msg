@@ -1,0 +1,153 @@
+\doxysection{Search\+Results\+Popup Class Reference}
+\hypertarget{class_search_results_popup}{}\label{class_search_results_popup}\index{SearchResultsPopup@{SearchResultsPopup}}
+
+
+Всплывающий виджет для отображения списка пользователей, найденных в результате глобального поиска.  
+
+
+
+
+{\ttfamily \#include $<$searchresultspopup.\+h$>$}
+
+
+
+Inheritance diagram for Search\+Results\+Popup\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_search_results_popup__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Search\+Results\+Popup\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_search_results_popup__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779}{user\+Selected}} (const QString \&username)
+\begin{DoxyCompactList}\small\item\em Сигнал испускается, когда пользователь кликает на один из элементов в списке. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8}{Search\+Results\+Popup}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}{show\+Results}} (const QJson\+Array \&users)
+\begin{DoxyCompactList}\small\item\em Заполняет виджет результатами поиска и отображает его. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Всплывающий виджет для отображения списка пользователей, найденных в результате глобального поиска. 
+
+Этот класс представляет собой самодостаточный, всплывающий (Qt\+::\+Popup) виджет, который появляется под строкой поиска. Он получает данные в виде QJson\+Array, отображает их в виде списка и уведомляет родительский виджет о выборе пользователя через сигнал \doxylink{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779}{user\+Selected()}. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{searchresultspopup_8h_source_l00018}{18}} of file \mbox{\hyperlink{searchresultspopup_8h_source}{searchresultspopup.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_search_results_popup_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8}\index{SearchResultsPopup@{SearchResultsPopup}!SearchResultsPopup@{SearchResultsPopup}}
+\index{SearchResultsPopup@{SearchResultsPopup}!SearchResultsPopup@{SearchResultsPopup}}
+\doxysubsubsection{\texorpdfstring{SearchResultsPopup()}{SearchResultsPopup()}}
+{\footnotesize\ttfamily \label{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8} 
+Search\+Results\+Popup\+::\+Search\+Results\+Popup (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+Конструктор \doxylink{class_search_results_popup}{Search\+Results\+Popup}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. Указание родителя важно для правильного управления памятью в системе Qt.\\
+\hline
+\end{DoxyParams}
+Настраивает флаги окна, чтобы оно вело себя как всплывающее меню, создает внутренние виджеты, устанавливает стили и соединяет сигналы. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{searchresultspopup_8cpp_source_l00020}{20}} of file \mbox{\hyperlink{searchresultspopup_8cpp_source}{searchresultspopup.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8_cgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-func-members}
+\Hypertarget{class_search_results_popup_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}\index{SearchResultsPopup@{SearchResultsPopup}!showResults@{showResults}}
+\index{showResults@{showResults}!SearchResultsPopup@{SearchResultsPopup}}
+\doxysubsubsection{\texorpdfstring{showResults()}{showResults()}}
+{\footnotesize\ttfamily \label{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4} 
+void Search\+Results\+Popup\+::show\+Results (\begin{DoxyParamCaption}\item[{const QJson\+Array \&}]{users}{}\end{DoxyParamCaption})}
+
+
+
+Заполняет виджет результатами поиска и отображает его. 
+
+Заполняет виджет результатами поиска, настраивает его размер и отображает.
+
+Этот метод очищает предыдущий список, заполняет его новыми данными из {\ttfamily users}, динамически настраивает свою высоту в зависимости от количества результатов и отображает себя на экране.
+
+
+\begin{DoxyParams}{Parameters}
+{\em users} & Массив JSON-\/объектов, где каждый объект представляет одного найденного пользователя (ожидается наличие полей "{}username"{} и "{}displayname"{}).\\
+\hline
+{\em users} & Массив JSON-\/объектов, представляющих найденных пользователей. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{searchresultspopup_8cpp_source_l00079}{79}} of file \mbox{\hyperlink{searchresultspopup_8cpp_source}{searchresultspopup.\+cpp}}.
+
+\Hypertarget{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779}\index{SearchResultsPopup@{SearchResultsPopup}!userSelected@{userSelected}}
+\index{userSelected@{userSelected}!SearchResultsPopup@{SearchResultsPopup}}
+\doxysubsubsection{\texorpdfstring{userSelected}{userSelected}}
+{\footnotesize\ttfamily \label{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779} 
+void Search\+Results\+Popup\+::user\+Selected (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+Сигнал испускается, когда пользователь кликает на один из элементов в списке. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Уникальное имя пользователя ({\ttfamily username}) выбранного контакта. \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{searchresultspopup_8h}{searchresultspopup.\+h}}\item 
+\mbox{\hyperlink{searchresultspopup_8cpp}{searchresultspopup.\+cpp}}\end{DoxyCompactItemize}

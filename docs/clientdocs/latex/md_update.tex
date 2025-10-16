@@ -1,0 +1,108 @@
+\chapter{Анализ изменений\+: Переход от Версии 5 к Версии 6 }
+\hypertarget{md_update}{}\label{md_update}\index{Анализ изменений: Переход от Версии 5 к Версии 6@{Анализ изменений: Переход от Версии 5 к Версии 6}}
+\label{md_update_autotoc_md13}%
+\Hypertarget{md_update_autotoc_md13}%
+
+
+Версия 6 представляет собой значительный шаг в сторону зрелости и правильной архитектуры приложения. Основные усилия были направлены на устранение "{}узких мест"{} предыдущей версии, полное разделение данных и представления в списке контактов, а также на качественное улучшение визуальных деталей в интерфейсе чата.\hypertarget{md_update_autotoc_md14}{}\doxysection{\texorpdfstring{1. 🏛️ Главное архитектурное изменение\+: {\ttfamily QList\+Widget} → {\ttfamily QList\+View} + {\ttfamily QAbstract\+List\+Model}}{1. 🏛️ Главное архитектурное изменение\+: {\ttfamily QList\+Widget} → {\ttfamily QList\+View} + {\ttfamily QAbstract\+List\+Model}}}\label{md_update_autotoc_md14}
+Это самое фундаментальное и важное изменение в версии 6, которое затрагивает всю левую панель приложения.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Проблема в Версии 5\+:}}
+\begin{DoxyItemize}
+\item Использовался {\ttfamily QList\+Widget}, который является удобным, но монолитным виджетом, смешивающим данные и их отображение.
+\item {\ttfamily \doxylink{class_contact_list_delegate}{Contact\+List\+Delegate}} был {\bfseries{критически тесно связан}} с {\ttfamily \doxylink{class_main_window}{Main\+Window}}. Он принимал в конструктор 4 указателя на внутренние кэши и переменные {\ttfamily \doxylink{class_main_window}{Main\+Window}}. Это было плохим архитектурным решением, так как нарушало инкапсуляцию и делало код хрупким и сложным для поддержки.
+\item Обновление списка контактов было неэффективным. {\ttfamily update\+User\+List} создавал {\ttfamily QList\+Widget\+Item}\textquotesingle{}ы вручную, что приводило к сбросу выделения и потенциальному мерцанию.
+\end{DoxyItemize}
+\item {\bfseries{Решение в Версии 6 (Правильный "{}\+Qt Way"{})\+:}}
+\begin{DoxyEnumerate}
+\item {\bfseries{Внедрение {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}\+:}}
+\begin{DoxyItemize}
+\item Создан новый класс {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}, унаследованный от {\ttfamily QAbstract\+List\+Model}. Теперь он является единственным {\bfseries{"{}источником правды"{}}} для списка контактов.
+\item Модель хранит только отсортированный список {\ttfamily username}\textquotesingle{}ов. Все остальные данные ({\ttfamily display\+Name}, статус, последнее сообщение) она получает по запросу из {\ttfamily \doxylink{class_main_window}{Main\+Window}} через кастомные роли ({\ttfamily Username\+Role}, {\ttfamily Is\+Online\+Role}, {\ttfamily Last\+Message\+Role} и т.\+д.).
+\item Реализован умный метод {\ttfamily update\+Contacts}, который сравнивает старый и новый списки контактов и использует {\ttfamily begin\+Insert\+Rows}/{\ttfamily end\+Insert\+Rows} и {\ttfamily begin\+Remove\+Rows}/{\ttfamily end\+Remove\+Rows} для {\bfseries{точечного}} обновления представления.
+\end{DoxyItemize}
+\item {\bfseries{Рефакторинг {\ttfamily \doxylink{class_contact_list_delegate}{Contact\+List\+Delegate}}\+:}}
+\begin{DoxyItemize}
+\item Делегат был {\bfseries{полностью отвязан}} от {\ttfamily \doxylink{class_main_window}{Main\+Window}}. Его конструктор теперь пуст.
+\item В методе {\ttfamily paint()} он больше не лезет в чужие кэши. Вся необходимая для отрисовки информация получается напрямую из модели через {\ttfamily index.\+data(\+Contact\+List\+Model\+::\+Some\+Role)}.
+\end{DoxyItemize}
+\item {\bfseries{Изменения в {\ttfamily \doxylink{class_main_window}{Main\+Window}}\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily QList\+Widget} был заменен на {\ttfamily QList\+View} и {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}.
+\item {\ttfamily update\+User\+List} теперь просто сортирует пользователей и передает отсортированный список {\ttfamily username}\textquotesingle{}ов в {\ttfamily m\+\_\+contact\+Model-\/\texorpdfstring{$>$}{>}update\+Contacts()}.
+\item Все обновления отдельных контактов (например, при получении статуса "{}печатает"{}) теперь проходят через {\ttfamily m\+\_\+contact\+Model-\/\texorpdfstring{$>$}{>}refresh\+Contact(username)}.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+\end{DoxyItemize}
+
+{\bfseries{Итог\+:}} Это образцовый рефакторинг. Он привел к\+:
+\begin{DoxyItemize}
+\item {\bfseries{Полному разделению данных и представления\+:}} {\ttfamily Model} отвечает за данные, {\ttfamily View} за отображение, {\ttfamily Delegate} за отрисовку.
+\item {\bfseries{Повышению производительности\+:}} {\ttfamily QList\+View} с моделью работает намного быстрее, особенно с большими списками.
+\item {\bfseries{Улучшению UX\+:}} Больше нет сброса выделения при обновлении списка контактов (например, когда кто-\/то выходит онлайн).
+\item {\bfseries{Чистоте кода\+:}} Компоненты стали независимыми и более простыми для понимания и тестирования.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_update_autotoc_md16}{}\doxysection{\texorpdfstring{2. 🎨 Визуальные улучшения и полировка UX}{2. 🎨 Визуальные улучшения и полировка UX}}\label{md_update_autotoc_md16}
+\hypertarget{md_update_autotoc_md17}{}\doxysubsection{\texorpdfstring{2.\+1. Векторные SVG-\/иконки для статусов сообщений}{2.\+1. Векторные SVG-\/иконки для статусов сообщений}}\label{md_update_autotoc_md17}
+Это ключевое визуальное улучшение, которое делает статусы сообщений более четкими и современными.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Проблема в Версии 5\+:}} Использовались текстовые символы ("{}✔"{}, "{}🕒"{}), которые могли по-\/разному отображаться на разных системах и не всегда выглядели аккуратно.
+\item {\bfseries{Решение в Версии 6\+:}}
+\begin{DoxyEnumerate}
+\item {\bfseries{Интеграция SVG\+:}} В {\ttfamily .pro} файл добавлен модуль {\ttfamily svg}. В ресурсы ({\ttfamily .qrc}) добавлены векторные иконки.
+\item {\bfseries{{\ttfamily \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}}\+:}}
+\begin{DoxyItemize}
+\item Создан статический {\ttfamily init\+Renderers}, который один раз при запуске загружает SVG-\/файлы в {\ttfamily QSvg\+Renderer}. Это очень эффективно, так как парсинг происходит только один раз.
+\item В методе {\ttfamily paint()} вместо отрисовки текста теперь используется {\bfseries{продвинутая техника перекрашивания SVG на лету}}\+:
+\begin{DoxyItemize}
+\item Иконка рендерится на временный {\ttfamily QPixmap}.
+\item С помощью {\ttfamily QPainter\+::\+Composition\+Mode\+\_\+\+Source\+In} на нее накладывается нужный цвет (серый для отправленных, синий для прочитанных).
+\item Итоговая цветная иконка рисуется в чате.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+\end{DoxyItemize}
+
+{\bfseries{Итог\+:}} Иконки теперь выглядят четко на любом разрешении экрана (High-\/\+DPI), и их цвет можно легко менять, не создавая новые файлы. Это профессиональный подход к иконографии в Qt.
+
+\DoxyHorRuler{0}
+\hypertarget{md_update_autotoc_md19}{}\doxysection{\texorpdfstring{3. 🧠 Улучшение логики и функциональности}{3. 🧠 Улучшение логики и функциональности}}\label{md_update_autotoc_md19}
+\hypertarget{md_update_autotoc_md20}{}\doxysubsection{\texorpdfstring{3.\+1. Более надежный механизм пометки сообщений как "{}Прочитано"{}}{3.\+1. Более надежный механизм пометки сообщений как "{}Прочитано"{}}}\label{md_update_autotoc_md20}
+Логика, которая была введена в 4-\/й версии, была еще раз пересмотрена и улучшена.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Проблема в Версии 5 (и 4)\+:}} "{}Умный"{} механизм, когда делегат в методе {\ttfamily paint()} инициировал отправку статуса "{}прочитано"{}, был хоть и умным, но архитектурно небезопасным (не рекомендуется изменять модель в процессе ее отрисовки, даже через {\ttfamily invoke\+Method}).
+\item {\bfseries{Решение в Версии 6\+:}}
+\begin{DoxyEnumerate}
+\item {\bfseries{{\ttfamily \doxylink{class_main_window}{Main\+Window}}\+:}} Появился новый слот {\ttfamily process\+Visible\+Messages()}.
+\item {\bfseries{Новый триггер\+:}} Этот слот подключается к сигналу {\ttfamily slider\+Released} у скроллбара чата.
+\item {\bfseries{Логика\+:}} Теперь статус "{}прочитано"{} отправляется не непрерывно во время отрисовки, а {\bfseries{в один момент времени}} — когда пользователь закончил прокрутку. Слот итерируется по всем {\itshape видимым} на экране элементам и для каждого входящего-\/непрочитанного сообщения инициирует отправку статуса.
+\end{DoxyEnumerate}
+\end{DoxyItemize}
+
+{\bfseries{Итог\+:}} Этот подход более контролируемый, предсказуемый и производительный. Он снижает количество ненужных сигналов и работает в четко определенный момент времени, что делает поведение системы более стабильным.\hypertarget{md_update_autotoc_md21}{}\doxysection{\texorpdfstring{Сводная таблица ключевых изменений}{Сводная таблица ключевых изменений}}\label{md_update_autotoc_md21}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Категория  }&\cellcolor{\tableheadbgcolor}\textbf{ Изменение в Версии 6  }&\cellcolor{\tableheadbgcolor}\textbf{ Преимущество  }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Категория  }&\cellcolor{\tableheadbgcolor}\textbf{ Изменение в Версии 6  }&\cellcolor{\tableheadbgcolor}\textbf{ Преимущество  }\\\cline{1-3}
+\endhead
+{\bfseries{Архитектура}}  &{\bfseries{Рефакторинг списка контактов на {\ttfamily QList\+View} + {\ttfamily \doxylink{class_contact_list_model}{Contact\+List\+Model}}}}.  &{\bfseries{Полное разделение данных и представления}}, повышение производительности, улучшение UX (нет сброса выделения).  \\\cline{1-3}
+{\bfseries{UI / UX}}  &Иконки статусов сообщений заменены на {\bfseries{перекрашиваемые SVG-\/иконки}}.  &Четкое, масштабируемое и современное отображение статусов на любом экране.  \\\cline{1-3}
+{\bfseries{Логика}}  &Механизм "{}прочитано"{} перенесен из {\ttfamily paint()} в {\bfseries{обработку {\ttfamily slider\+Released}}}.  &Более стабильное, предсказуемое и производительное поведение.  \\\cline{1-3}
+{\bfseries{Код}}  &{\ttfamily \doxylink{class_contact_list_delegate}{Contact\+List\+Delegate}} {\bfseries{полностью отвязан от {\ttfamily \doxylink{class_main_window}{Main\+Window}}}}.  &Улучшенная инкапсуляция, код стал чище и проще для поддержки.  \\\cline{1-3}
+\end{longtabu}
+
+
+{\bfseries{Заключение\+:}} Версия 6 — это пример отличной "{}работы над ошибками"{} и архитектурного взросления проекта. Вы не добавили много нового функционала, но провели фундаментальный рефакторинг, который сделал приложение значительно более качественным, производительным и готовым к дальнейшему масштабированию. Это самый важный этап в жизненном цикле любого серьезного приложения. 

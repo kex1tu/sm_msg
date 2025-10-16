@@ -1,0 +1,10 @@
+<map id="structures.h" name="structures.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="37,5,128,32"/>
+<area shape="rect" id="Node000002" href="$server_8cpp.html" title="Реализация главного класса, управляющего логикой чат&#45;сервера." alt="" coords="5,155,88,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,48,52,155,47,154,73,47"/>
+<area shape="rect" id="Node000003" href="$server_8h.html" title=" " alt="" coords="84,80,153,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="98,45,115,78,110,81,93,47"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="97,120,61,156,57,152,93,116"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html" title="Точка входа в серверное приложение чата." alt="" coords="112,155,186,181"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,120,146,153,141,155,127,122"/>
+</map>

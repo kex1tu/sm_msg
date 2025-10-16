@@ -1,0 +1,76 @@
+\doxysection{chatviewwidget.\+cpp File Reference}
+\hypertarget{chatviewwidget_8cpp}{}\label{chatviewwidget_8cpp}\index{chatviewwidget.cpp@{chatviewwidget.cpp}}
+
+
+Реализация виджета, отображающего интерфейс одного чата.  
+
+
+{\ttfamily \#include "{}chatviewwidget.\+h"{}}\newline
+{\ttfamily \#include "{}ui\+\_\+chatviewwidget.\+h"{}}\newline
+{\ttfamily \#include $<$QStacked\+Widget$>$}\newline
+{\ttfamily \#include $<$QHBox\+Layout$>$}\newline
+{\ttfamily \#include $<$QVBox\+Layout$>$}\newline
+{\ttfamily \#include $<$QLabel$>$}\newline
+{\ttfamily \#include $<$QTool\+Button$>$}\newline
+{\ttfamily \#include $<$QLine\+Edit$>$}\newline
+{\ttfamily \#include $<$QSpacer\+Item$>$}\newline
+{\ttfamily \#include $<$QDate\+Time$>$}\newline
+{\ttfamily \#include $<$QList\+View$>$}\newline
+{\ttfamily \#include $<$QMenu$>$}\newline
+{\ttfamily \#include $<$QAction$>$}\newline
+{\ttfamily \#include $<$QScroll\+Bar$>$}\newline
+{\ttfamily \#include $<$QResize\+Event$>$}\newline
+{\ttfamily \#include $<$QText\+Edit$>$}\newline
+{\ttfamily \#include $<$QEvent$>$}\newline
+{\ttfamily \#include $<$QKey\+Event$>$}\newline
+{\ttfamily \#include $<$QProperty\+Animation$>$}\newline
+{\ttfamily \#include $<$QEasing\+Curve$>$}\newline
+{\ttfamily \#include $<$QTimer$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+Include dependency graph for chatviewwidget.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chatviewwidget_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+QString \mbox{\hyperlink{chatviewwidget_8cpp_a117ba5628709b3d2986bb292bc53b233}{pluralize}} (int n, const QString \&form1, const QString \&form2, const QString \&form5)
+\begin{DoxyCompactList}\small\item\em Вспомогательная функция для правильного склонения слов в зависимости от числа. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Реализация виджета, отображающего интерфейс одного чата. 
+
+Этот класс инкапсулирует всю визуальную часть и логику взаимодействия пользователя с одним конкретным чатом\+: заголовком, историей сообщений и панелью ввода. \begin{DoxySeeAlso}{See also}
+\doxylink{class_chat_view_widget}{Chat\+View\+Widget} 
+\end{DoxySeeAlso}
+\begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition in file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{chatviewwidget_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{chatviewwidget_8cpp_a117ba5628709b3d2986bb292bc53b233}\index{chatviewwidget.cpp@{chatviewwidget.cpp}!pluralize@{pluralize}}
+\index{pluralize@{pluralize}!chatviewwidget.cpp@{chatviewwidget.cpp}}
+\doxysubsubsection{\texorpdfstring{pluralize()}{pluralize()}}
+{\footnotesize\ttfamily \label{chatviewwidget_8cpp_a117ba5628709b3d2986bb292bc53b233} 
+QString pluralize (\begin{DoxyParamCaption}\item[{int}]{n}{, }\item[{const QString \&}]{form1}{, }\item[{const QString \&}]{form2}{, }\item[{const QString \&}]{form5}{}\end{DoxyParamCaption})}
+
+
+
+Вспомогательная функция для правильного склонения слов в зависимости от числа. 
+
+
+
+Definition at line \mbox{\hyperlink{chatviewwidget_8cpp_source_l00305}{305}} of file \mbox{\hyperlink{chatviewwidget_8cpp_source}{chatviewwidget.\+cpp}}.
+

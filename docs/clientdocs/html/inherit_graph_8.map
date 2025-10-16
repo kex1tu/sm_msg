@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,56,78,83"/>
+<area shape="rect" id="Node000001" href="$class_chat_view_widget.html" title="Виджет, отвечающий за отображение интерфейса одного чата." alt="" coords="138,5,258,32"/>
+<area shape="poly" id="edge9_Node000000_Node000001" title=" " alt="" coords="92,50,153,30,155,35,93,55"/>
+<area shape="rect" id="Node000002" href="$class_login_widget.html" title="Виджет, отвечающий за интерфейс аутентификации и регистрации." alt="" coords="151,56,244,83"/>
+<area shape="poly" id="edge10_Node000000_Node000002" title=" " alt="" coords="93,67,151,67,151,72,93,72"/>
+<area shape="rect" id="Node000003" href="$class_search_results_popup.html" title="Всплывающий виджет для отображения списка пользователей, найденных в результате глобального поиска." alt="" coords="126,107,270,133"/>
+<area shape="poly" id="edge11_Node000000_Node000003" title=" " alt="" coords="93,83,155,104,153,109,92,88"/>
+</map>

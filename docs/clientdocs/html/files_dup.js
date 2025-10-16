@@ -1,0 +1,27 @@
+var files_dup =
+[
+    [ "chatfilterproxymodel.cpp", "chatfilterproxymodel_8cpp.html", null ],
+    [ "chatfilterproxymodel.h", "chatfilterproxymodel_8h.html", "chatfilterproxymodel_8h" ],
+    [ "chatmessagedelegate.cpp", "chatmessagedelegate_8cpp.html", null ],
+    [ "chatmessagedelegate.h", "chatmessagedelegate_8h.html", "chatmessagedelegate_8h" ],
+    [ "chatmessagemodel.cpp", "chatmessagemodel_8cpp.html", null ],
+    [ "chatmessagemodel.h", "chatmessagemodel_8h.html", "chatmessagemodel_8h" ],
+    [ "chatviewwidget.cpp", "chatviewwidget_8cpp.html", "chatviewwidget_8cpp" ],
+    [ "chatviewwidget.h", "chatviewwidget_8h.html", "chatviewwidget_8h" ],
+    [ "contactlistdelegate.cpp", "contactlistdelegate_8cpp.html", null ],
+    [ "contactlistdelegate.h", "contactlistdelegate_8h.html", "contactlistdelegate_8h" ],
+    [ "contactlistmodel.cpp", "contactlistmodel_8cpp.html", null ],
+    [ "contactlistmodel.h", "contactlistmodel_8h.html", "contactlistmodel_8h" ],
+    [ "loginwidget.cpp", "loginwidget_8cpp.html", null ],
+    [ "loginwidget.h", "loginwidget_8h.html", "loginwidget_8h" ],
+    [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
+    [ "mainwindow.cpp", "mainwindow_8cpp.html", null ],
+    [ "mainwindow.h", "mainwindow_8h.html", "mainwindow_8h" ],
+    [ "searchresultspopup.cpp", "searchresultspopup_8cpp.html", null ],
+    [ "searchresultspopup.h", "searchresultspopup_8h.html", "searchresultspopup_8h" ],
+    [ "smoothlistview.cpp", "smoothlistview_8cpp.html", null ],
+    [ "smoothlistview.h", "smoothlistview_8h.html", "smoothlistview_8h" ],
+    [ "smoothtextedit.cpp", "smoothtextedit_8cpp.html", null ],
+    [ "smoothtextedit.h", "smoothtextedit_8h.html", "smoothtextedit_8h" ],
+    [ "structures.h", "structures_8h.html", "structures_8h" ]
+];

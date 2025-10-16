@@ -1,0 +1,5 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title="Главная функция, точка входа в программу." alt="" coords="5,5,55,32"/>
+<area shape="rect" id="Node000002" href="$class_server.html#abb791768fde7d1871855b9cf0aebdcbe" title="Запускает сервер для прослушивания входящих подключений." alt="" coords="103,5,201,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="55,16,87,16,87,21,55,21"/>
+</map>

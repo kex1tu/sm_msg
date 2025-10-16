@@ -1,0 +1,107 @@
+\doxysection{contactlistdelegate.\+cpp}
+\hypertarget{contactlistdelegate_8cpp_source}{}\label{contactlistdelegate_8cpp_source}\mbox{\hyperlink{contactlistdelegate_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{contactlistdelegate_8h}{contactlistdelegate.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{contactlistmodel_8h}{contactlistmodel.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <QPainter>}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QApplication>}\ \textcolor{comment}{//\ Для\ доступа\ к\ глобальным\ настройкам,\ например,\ шрифту.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00019}\mbox{\hyperlink{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}{00019}}\ \mbox{\hyperlink{class_contact_list_delegate_aab12aba54c49ee63acb2c286143a74e2}{ContactListDelegate::ContactListDelegate}}(QObject\ *parent)}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00020}00020\ \ \ \ \ :\ QStyledItemDelegate(parent)}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00021}00021\ \{\}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00032}\mbox{\hyperlink{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804}{00032}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_contact_list_delegate_a2fc35b66547481decc84e5e7bbff7804}{ContactListDelegate::paint}}(QPainter\ *painter,\ \textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00033}00033\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00034}00034\ \ \ \ \ painter-\/>save();\ \textcolor{comment}{//\ Сохраняем\ текущее\ состояние\ painter'а\ (трансформации,\ кисти,\ перья).}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 1.\ Отрисовка\ фона\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ Вручную\ рисуем\ фон\ для\ состояний\ "{}выделен"{}\ и\ "{}наведен"{},\ чтобы\ иметь\ полный\ контроль.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (option.state\ \&\ QStyle::State\_Selected)\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ painter-\/>fillRect(option.rect,\ option.palette.highlight());\ \textcolor{comment}{//\ Цвет\ выделения\ из\ палитры.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00040}00040\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (option.state\ \&\ QStyle::State\_MouseOver)\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ painter-\/>fillRect(option.rect,\ option.palette.color(QPalette::AlternateBase));\ \textcolor{comment}{//\ Альтернативный\ цвет\ фона.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Получение\ данных\ из\ модели\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ Запрашиваем\ всю\ необходимую\ информацию\ у\ модели\ по\ кастомным\ ролям.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00046}00046\ \ \ \ \ QString\ displayName\ =\ index.data(Qt::DisplayRole).toString();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00047}00047\ \ \ \ \ QString\ lastMessage\ =\ index.data(\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7a953789a4f869953199a26fe04627a024}{ContactListModel::LastMessageRole}}).toString();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ isOnline\ =\ index.data(\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7acbdafde152d3dde6868c91f21640be5b}{ContactListModel::IsOnlineRole}}).toBool();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ isTyping\ =\ index.data(\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6cfabcc1c73a2f74a6d516b0805830e}{ContactListModel::IsTypingRole}}).toBool();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{int}\ unreadCount\ =\ index.data(\mbox{\hyperlink{class_contact_list_model_a0b646eeb6565b32cb57ef17ab4132cb7ab6a60d3ca332efd3edd04a11a80966e5}{ContactListModel::UnreadCountRole}}).toInt();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 3.\ Подготовка\ текста\ для\ нижней\ строки\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00053}00053\ \ \ \ \ QString\ bottomText\ =\ lastMessage;}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00054}00054\ \ \ \ \ QColor\ bottomTextColor\ =\ Qt::gray;}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//\ Статус\ "{}печатает..."{}\ имеет\ наивысший\ приоритет.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (isTyping)\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ bottomText\ =\ \textcolor{stringliteral}{"{}печатает..."{}};}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ bottomTextColor\ =\ QColor(\textcolor{stringliteral}{"{}\#F4ABC4"{}});\ \textcolor{comment}{//\ Акцентный\ цвет.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Расчет\ геометрии\ для\ текста\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{int}\ padding\ =\ 12;\ \textcolor{comment}{//\ Боковые\ отступы.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00064}00064\ \ \ \ \ QRect\ contentRect\ =\ option.rect.adjusted(padding,\ padding\ /\ 2,\ -\/padding,\ -\/padding\ /\ 2);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ Делим\ доступное\ пространство\ на\ два\ прямоугольника:\ для\ верхней\ и\ нижней\ строки.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00066}00066\ \ \ \ \ QRect\ topRect(contentRect.left(),\ contentRect.top(),\ contentRect.width(),\ contentRect.height()\ /\ 2);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00067}00067\ \ \ \ \ QRect\ bottomRect(contentRect.left(),\ contentRect.top()\ +\ contentRect.height()\ /\ 2,\ contentRect.width(),\ contentRect.height()\ /\ 2);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 5.\ Отрисовка\ верхней\ строки\ (Имя\ пользователя)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00070}00070\ \ \ \ \ QFont\ nameFont\ =\ painter-\/>font();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00071}00071\ \ \ \ \ nameFont.setBold(isOnline);\ \textcolor{comment}{//\ Жирный\ шрифт\ для\ онлайн-\/пользователей.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00072}00072\ \ \ \ \ painter-\/>setFont(nameFont);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00073}00073\ \ \ \ \ painter-\/>setPen(isOnline\ ?\ Qt::white\ :\ QColor(\textcolor{stringliteral}{"{}\#EAEAEA"{}}));}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00074}00074\ \ \ \ \ painter-\/>drawText(topRect,\ Qt::AlignLeft\ |\ Qt::AlignBottom,\ displayName);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00076}00076\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 6.\ Отрисовка\ нижней\ строки\ (Превью\ сообщения\ или\ статус)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00077}00077\ \ \ \ \ QFontMetrics\ fm(painter-\/>font());}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ Обрезаем\ длинный\ текст\ и\ добавляем\ многоточие.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00079}00079\ \ \ \ \ QString\ elidedBottomText\ =\ fm.elidedText(bottomText,\ Qt::ElideRight,\ bottomRect.width());}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00080}00080\ \ \ \ \ painter-\/>setFont(QApplication::font());\ \textcolor{comment}{//\ Возвращаем\ стандартный\ шрифт.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00081}00081\ \ \ \ \ painter-\/>setPen(bottomTextColor);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00082}00082\ \ \ \ \ painter-\/>drawText(bottomRect,\ Qt::AlignLeft\ |\ Qt::AlignTop,\ elidedBottomText);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 7.\ Отрисовка\ "{}бейджа"{}\ с\ количеством\ непрочитанных\ сообщений\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{if}\ (unreadCount\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ painter-\/>setRenderHint(QPainter::Antialiasing);\ \textcolor{comment}{//\ Включаем\ сглаживание\ для\ круга.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ badgeSize\ =\ 20;\ \textcolor{comment}{//\ Диаметр\ кружка.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ QColor\ badgeColor\ =\ option.palette.highlight().color();\ \textcolor{comment}{//\ Используем\ цвет\ выделения\ для\ фона.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ QColor\ textColor\ =\ option.palette.highlightedText().color();\ \textcolor{comment}{//\ Цвет\ текста\ на\ фоне\ выделения.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рассчитываем\ положение\ "{}бейджа"{}\ в\ правом\ углу\ элемента.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ QRect\ badgeRect(}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ option.rect.right()\ -\/\ badgeSize\ -\/\ padding,}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ option.rect.top()\ +\ (option.rect.height()\ -\/\ badgeSize)\ /\ 2,}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ badgeSize,\ badgeSize}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рисуем\ фон.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ painter-\/>setBrush(badgeColor);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ painter-\/>setPen(Qt::NoPen);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ painter-\/>drawEllipse(badgeRect);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рисуем\ текст\ (цифру).}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ painter-\/>setPen(textColor);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ painter-\/>setFont(QFont(\textcolor{stringliteral}{"{}Segoe\ UI"{}},\ 8,\ QFont::Bold));}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ painter-\/>drawText(badgeRect,\ Qt::AlignCenter,\ QString::number(unreadCount));}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00108}00108\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00110}00110\ \ \ \ \ painter-\/>restore();\ \textcolor{comment}{//\ Восстанавливаем\ состояние\ painter'а.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00111}00111\ \}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00121}\mbox{\hyperlink{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415}{00121}}\ QSize\ \mbox{\hyperlink{class_contact_list_delegate_a6eb595e59399f9966b5acc653b780415}{ContactListDelegate::sizeHint}}(\textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00122}00122\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00123}00123\ \ \ \ \ Q\_UNUSED(option);\ \textcolor{comment}{//\ Макрос,\ чтобы\ компилятор\ не\ ругался\ на\ неиспользуемые\ параметры.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00124}00124\ \ \ \ \ Q\_UNUSED(index);}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00126}00126\ \ \ \ \ \textcolor{comment}{//\ Рассчитываем\ высоту,\ достаточную\ для\ двух\ строк\ текста\ +\ вертикальные\ отступы.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00127}00127\ \ \ \ \ QFontMetrics\ fm(QApplication::font());}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{int}\ singleLineHeight\ =\ fm.height();}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{return}\ QSize(200,\ singleLineHeight\ *\ 2\ +\ 16);\ \textcolor{comment}{//\ 2\ строки\ +\ 16px\ на\ отступы.}}
+\DoxyCodeLine{\Hypertarget{contactlistdelegate_8cpp_source_l00130}00130\ \}}
+
+\end{DoxyCode}

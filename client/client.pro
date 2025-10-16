@@ -16,6 +16,7 @@ SOURCES += \
     chatmessagemodel.cpp \
     chatviewwidget.cpp \
     contactlistdelegate.cpp \
+    contactlistmodel.cpp \
     loginwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     chatmessagemodel.h \
     chatviewwidget.h \
     contactlistdelegate.h \
+    contactlistmodel.h \
     loginwidget.h \
     mainwindow.h \
     searchresultspopup.h \

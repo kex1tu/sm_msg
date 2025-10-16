@@ -1,0 +1,5 @@
+<map id="ChatMessageModel::markMessageAsRead" name="ChatMessageModel::markMessageAsRead">
+<area shape="rect" id="Node000001" title="Помечает входящее сообщение как прочитанное." alt="" coords="5,5,233,48"/>
+<area shape="rect" id="Node000002" href="$class_chat_message_model.html#aa9c99d4583b71d33c53873c065b6ef9f" title="Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на ..." alt="" coords="281,5,479,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,24,265,24,265,29,233,29"/>
+</map>

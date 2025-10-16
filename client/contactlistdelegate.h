@@ -1,37 +1,68 @@
 #ifndef CONTACTLISTDELEGATE_H
 #define CONTACTLISTDELEGATE_H
 
-#include <QStyledItemDelegate>
-#include <QMap>
-#include <QTimer>  
-#include "structures.h"  
+#include <QStyledItemDelegate> // Включаем базовый класс QStyledItemDelegate.
+// Мы используем QStyledItemDelegate, а не QItemDelegate,
+// потому что он позволяет отрисовке использовать
+// текущую таблицу стилей (QSS) приложения.
 
- 
-class MainWindow;
-
+/**
+ * @class ContactListDelegate
+ * @brief Кастомный делегат для отрисовки элементов в списке контактов (QListView).
+ *
+ * Этот класс полностью отвечает за визуальное представление каждого контакта в списке.
+ * Он не хранит никаких данных, а получает всю необходимую информацию для отрисовки
+ * напрямую из модели (ContactListModel) через `QModelIndex` и кастомные роли.
+ *
+ * В обязанности делегата входит отрисовка:
+ * - Двухстрочного представления: Имя пользователя и превью последнего сообщения.
+ * - Визуального статуса "онлайн" (жирный шрифт).
+ * - Статуса "печатает...".
+ * - "Бейджа" с количеством непрочитанных сообщений.
+ * @author kex1tu
+ */
 class ContactListDelegate : public QStyledItemDelegate
 {
-    Q_OBJECT
+    Q_OBJECT // Обязательный макрос для классов Qt, даже если нет сигналов/слотов.
+
 public:
-     
-    explicit ContactListDelegate(
-        const QMap<QString, User>* userCache,
-        const QMap<QString, ChatCache>* chatCache,
-        const QMap<QString, int>* unreadCounts,
-        const QString* currentChatUsername,
-        QObject *parent = nullptr
-        );
+    /**
+     * @brief Конструктор.
+     * @param parent Родительский объект (стандартно для Qt).
+     *
+     * В отличие от предыдущих версий, конструктор теперь максимально прост.
+     * Делегат полностью отвязан от MainWindow и не требует указателей на его кэши,
+     * что является значительным архитектурным улучшением.
+     */
+    explicit ContactListDelegate(QObject *parent = nullptr);
 
 protected:
+    /**
+     * @brief Основной метод, отвечающий за отрисовку одного элемента списка.
+     *
+     * Этот метод вызывается QListView для каждого видимого элемента. Он получает
+     * все данные из модели через `index.data(Role)` и использует `QPainter`
+     * для создания кастомного вида.
+     *
+     * @param painter "Холст" (QPainter), на котором происходит вся отрисовка.
+     * @param option Содержит информацию о состоянии элемента (выделен, наведен и т.д.)
+     *               и его геометрию (прямоугольник, в котором нужно рисовать).
+     * @param index Индекс элемента в модели, предоставляющий доступ к данным (имя, статус, и т.д.).
+     */
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-     
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-private:
-    const QMap<QString, User>* m_userCache;
-    const QMap<QString, ChatCache>* m_chatCache;
-    const QMap<QString, int>* m_unreadCounts;
-    const QString* m_currentChatUsername;
+    /**
+     * @brief Метод для расчета размера элемента.
+     *
+     * QListView вызывает этот метод, чтобы определить, сколько места выделить для каждого
+     * элемента в списке. Это необходимо, так как наши элементы выше стандартных
+     * из-за двухстрочного отображения.
+     *
+     * @param option Опции представления, которые могут влиять на размер.
+     * @param index Индекс элемента, для которого рассчитывается размер.
+     * @return QSize Рекомендуемый размер (ширина и высота) для этого элемента.
+     */
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif  
+#endif // CONTACTLISTDELEGATE_H

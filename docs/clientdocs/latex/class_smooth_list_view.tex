@@ -1,0 +1,182 @@
+\doxysection{Smooth\+List\+View Class Reference}
+\hypertarget{class_smooth_list_view}{}\label{class_smooth_list_view}\index{SmoothListView@{SmoothListView}}
+
+
+Кастомный класс QList\+View, обеспечивающий плавную попиксельную прокрутку.  
+
+
+
+
+{\ttfamily \#include $<$smoothlistview.\+h$>$}
+
+
+
+Inheritance diagram for Smooth\+List\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{class_smooth_list_view__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Smooth\+List\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{class_smooth_list_view__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_smooth_list_view_abc9ceb413c63f2970f44efcff2771c7b}{Smooth\+List\+View}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_smooth_list_view_a1946c9e371257f0983140241f203dc38}{wheel\+Event}} (QWheel\+Event \texorpdfstring{$\ast$}{*}e) override
+\begin{DoxyCompactList}\small\item\em Переопределенный обработчик событий колеса мыши. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_smooth_list_view_a003ef806d614ddbd63d8c9a69c513015}{resize\+Event}} (QResize\+Event \texorpdfstring{$\ast$}{*}e) override
+\begin{DoxyCompactList}\small\item\em Переопределенный обработчик событий изменения размера. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_smooth_list_view_a0c6b539f2419b22c33d449ca45a1e783}{viewport\+Event}} (QEvent \texorpdfstring{$\ast$}{*}event) override
+\begin{DoxyCompactList}\small\item\em Переопределенный обработчик событий для области просмотра (viewport). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Кастомный класс QList\+View, обеспечивающий плавную попиксельную прокрутку. 
+
+Этот класс наследуется от QList\+View и переопределяет его поведение, связанное с прокруткой и компоновкой, для достижения более плавного и современного пользовательского опыта, характерного для мобильных приложений и современных мессенджеров.
+
+Ключевые особенности\+:
+\begin{DoxyEnumerate}
+\item Включает режим попиксельной прокрутки ({\ttfamily Scroll\+Per\+Pixel}).
+\item Снижает интенсивность прокрутки колесом мыши для более точного контроля.
+\item Использует пакетную компоновку ({\ttfamily Batched} layout mode) для повышения производительности при работе с большим количеством элементов. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{smoothlistview_8h_source_l00021}{21}} of file \mbox{\hyperlink{smoothlistview_8h_source}{smoothlistview.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_smooth_list_view_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_smooth_list_view_abc9ceb413c63f2970f44efcff2771c7b}\index{SmoothListView@{SmoothListView}!SmoothListView@{SmoothListView}}
+\index{SmoothListView@{SmoothListView}!SmoothListView@{SmoothListView}}
+\doxysubsubsection{\texorpdfstring{SmoothListView()}{SmoothListView()}}
+{\footnotesize\ttfamily \label{class_smooth_list_view_abc9ceb413c63f2970f44efcff2771c7b} 
+Smooth\+List\+View\+::\+Smooth\+List\+View (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор \doxylink{class_smooth_list_view}{Smooth\+List\+View}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет.\\
+\hline
+\end{DoxyParams}
+Здесь задаются ключевые свойства, которые отличают этот виджет от стандартного QList\+View и обеспечивают плавность и производительность. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{smoothlistview_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{smoothlistview_8cpp_source}{smoothlistview.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_smooth_list_view_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_smooth_list_view_a003ef806d614ddbd63d8c9a69c513015}\index{SmoothListView@{SmoothListView}!resizeEvent@{resizeEvent}}
+\index{resizeEvent@{resizeEvent}!SmoothListView@{SmoothListView}}
+\doxysubsubsection{\texorpdfstring{resizeEvent()}{resizeEvent()}}
+{\footnotesize\ttfamily \label{class_smooth_list_view_a003ef806d614ddbd63d8c9a69c513015} 
+void Smooth\+List\+View\+::resize\+Event (\begin{DoxyParamCaption}\item[{QResize\+Event \texorpdfstring{$\ast$}{*}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Переопределенный обработчик событий изменения размера. 
+
+Переопределенный обработчик событий изменения размера виджета.
+
+Вызывает {\ttfamily do\+Items\+Layout()} после изменения размера, чтобы принудительно пересчитать компоновку элементов. Это помогает избежать визуальных артефактов, которые могут возникнуть при использовании {\ttfamily Scroll\+Per\+Pixel}. 
+\begin{DoxyParams}{Parameters}
+{\em e} & Указатель на событие изменения размера.\\
+\hline
+{\em e} & Указатель на событие изменения размера. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{smoothlistview_8cpp_source_l00079}{79}} of file \mbox{\hyperlink{smoothlistview_8cpp_source}{smoothlistview.\+cpp}}.
+
+\Hypertarget{class_smooth_list_view_a0c6b539f2419b22c33d449ca45a1e783}\index{SmoothListView@{SmoothListView}!viewportEvent@{viewportEvent}}
+\index{viewportEvent@{viewportEvent}!SmoothListView@{SmoothListView}}
+\doxysubsubsection{\texorpdfstring{viewportEvent()}{viewportEvent()}}
+{\footnotesize\ttfamily \label{class_smooth_list_view_a0c6b539f2419b22c33d449ca45a1e783} 
+bool Smooth\+List\+View\+::viewport\+Event (\begin{DoxyParamCaption}\item[{QEvent \texorpdfstring{$\ast$}{*}}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Переопределенный обработчик событий для области просмотра (viewport). 
+
+Используется для корректной обработки событий наведения мыши ({\ttfamily Hover}), чтобы делегат ({\ttfamily \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}}) мог корректно отрисовывать hover-\/эффекты для элементов списка. 
+\begin{DoxyParams}{Parameters}
+{\em event} & Указатель на событие. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool {\ttfamily true} если событие было обработано, иначе {\ttfamily false}.
+\end{DoxyReturn}
+Мы перехватываем события, связанные с наведением мыши, чтобы гарантировать, что они будут обработаны. Это позволяет нашему делегату ({\ttfamily \doxylink{class_chat_message_delegate}{Chat\+Message\+Delegate}}) получать информацию о состоянии {\ttfamily State\+\_\+\+Mouse\+Over} и корректно отрисовывать hover-\/эффекты для элементов. 
+\begin{DoxyParams}{Parameters}
+{\em event} & Указатель на событие. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} если событие было обработано, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{smoothlistview_8cpp_source_l00101}{101}} of file \mbox{\hyperlink{smoothlistview_8cpp_source}{smoothlistview.\+cpp}}.
+
+\Hypertarget{class_smooth_list_view_a1946c9e371257f0983140241f203dc38}\index{SmoothListView@{SmoothListView}!wheelEvent@{wheelEvent}}
+\index{wheelEvent@{wheelEvent}!SmoothListView@{SmoothListView}}
+\doxysubsubsection{\texorpdfstring{wheelEvent()}{wheelEvent()}}
+{\footnotesize\ttfamily \label{class_smooth_list_view_a1946c9e371257f0983140241f203dc38} 
+void Smooth\+List\+View\+::wheel\+Event (\begin{DoxyParamCaption}\item[{QWheel\+Event \texorpdfstring{$\ast$}{*}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Переопределенный обработчик событий колеса мыши. 
+
+Переопределенный обработчик событий колеса мыши для замедления прокрутки.
+
+Этот метод перехватывает стандартное событие прокрутки, уменьшает его интенсивность ({\ttfamily angle\+Delta}) и передает измененное событие в базовый класс, что приводит к более медленной и плавной прокрутке. 
+\begin{DoxyParams}{Parameters}
+{\em e} & Указатель на событие колеса мыши.\\
+\hline
+{\em e} & Указатель на событие колеса мыши. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{smoothlistview_8cpp_source_l00045}{45}} of file \mbox{\hyperlink{smoothlistview_8cpp_source}{smoothlistview.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{smoothlistview_8h}{smoothlistview.\+h}}\item 
+\mbox{\hyperlink{smoothlistview_8cpp}{smoothlistview.\+cpp}}\end{DoxyCompactItemize}

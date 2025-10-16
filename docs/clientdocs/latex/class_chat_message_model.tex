@@ -1,0 +1,464 @@
+\doxysection{Chat\+Message\+Model Class Reference}
+\hypertarget{class_chat_message_model}{}\label{class_chat_message_model}\index{ChatMessageModel@{ChatMessageModel}}
+
+
+Макрос Qt, регистрирующий кастомный тип \doxylink{struct_chat_message}{Chat\+Message} в мета-\/объектной системе Qt.  
+
+
+
+
+{\ttfamily \#include $<$chatmessagemodel.\+h$>$}
+
+
+
+Inheritance diagram for Chat\+Message\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_chat_message_model__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Chat\+Message\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_chat_message_model__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_message_model_a9b39e349ca4fba03faa973402778189a}{add\+Message}} (const \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&message)
+\begin{DoxyCompactList}\small\item\em Добавляет одно сообщение в конец модели. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_a17620bcb263fc253dc74438674108342}{add\+Messages}} (const QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \&messages)
+\begin{DoxyCompactList}\small\item\em Добавляет список сообщений в конец модели (оптимизировано для массовой вставки). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_a6eeb231d09b98aa03dbf95e6df63214a}{prepend\+Messages}} (const QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \&messages)
+\begin{DoxyCompactList}\small\item\em Добавляет список сообщений в начало модели (используется для подгрузки старой истории). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_af03a7197b20238996fe9f702004ecdd9}{clear\+Messages}} ()
+\begin{DoxyCompactList}\small\item\em Полностью очищает модель от всех сообщений. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_aa3a3c5360b3d47d027fed90362095b19}{remove\+Message}} (qint64 message\+Id)
+\begin{DoxyCompactList}\small\item\em Удаляет сообщение из модели по его ID. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_ada5648d15f5146f9713723f73a149fea}{confirm\+Message}} (const QString \&temp\+Id, const \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&confirmed\+Message)
+\begin{DoxyCompactList}\small\item\em Находит сообщение по временному ID и заменяет его на подтвержденное сервером. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_a2d0729f1abb9a3360d4b49fd627089be}{update\+Message\+Status}} (qint64 message\+Id, \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}} new\+Status)
+\begin{DoxyCompactList}\small\item\em Обновляет статус доставки/прочтения для сообщения по его ID. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_aaad85d871559a3db0bafcd3a323a22f3}{edit\+Message}} (qint64 message\+Id, const QString \&new\+Payload)
+\begin{DoxyCompactList}\small\item\em Обновляет текст отредактированного сообщения по его ID. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_chat_message_model_a2bdeaf8e7c26f5205e7763fa4c5bfcf0}{get\+Message\+By\+Id}} (qint64 id, \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&msg) const
+\begin{DoxyCompactList}\small\item\em Осуществляет быстрый поиск сообщения по ID с использованием {\ttfamily m\+\_\+message\+Map}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chat_message_model_a1977a1f3fd95a7f6d14592754bc38881}{mark\+Message\+As\+Read}} (const QModel\+Index \&index)
+\begin{DoxyCompactList}\small\item\em Помечает входящее сообщение как прочитанное. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f}{message\+Needs\+Read\+Receipt}} (qint64 message\+Id)
+\begin{DoxyCompactList}\small\item\em Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на сервер уведомление о прочтении. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_chat_message_model_aa3a3b6c95024027c98e91888fdf16331}{Chat\+Message\+Model}} (QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_chat_message_model_a1086e40f1952c24224c6221f6d20b47f}{row\+Count}} (const QModel\+Index \&parent=QModel\+Index()) const override
+\begin{DoxyCompactList}\small\item\em Возвращает количество элементов (сообщений) в модели. \end{DoxyCompactList}\item 
+QVariant \mbox{\hyperlink{class_chat_message_model_ab687665d0889263fab9c116c8d604814}{data}} (const QModel\+Index \&index, int role=Qt\+::\+Display\+Role) const override
+\begin{DoxyCompactList}\small\item\em Основной метод, через который представление (View) запрашивает данные. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_chat_message_model_a7eaed5b52bf66ffb9bd85ef60e108a7b}{set\+Data}} (const QModel\+Index \&index, const QVariant \&value, int role=Qt\+::\+Edit\+Role) override
+\begin{DoxyCompactList}\small\item\em Метод для изменения данных в модели извне (например, из делегата). Хотя в данной версии он не используется активно для изменения, его реализация важна для полноты API модели и может пригодиться в будущем. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Макрос Qt, регистрирующий кастомный тип \doxylink{struct_chat_message}{Chat\+Message} в мета-\/объектной системе Qt. 
+
+Это необходимо для того, чтобы мы могли\+:
+\begin{DoxyEnumerate}
+\item Оборачивать объекты \doxylink{struct_chat_message}{Chat\+Message} в QVariant (чтобы передавать их через \doxylink{class_chat_message_model_ab687665d0889263fab9c116c8d604814}{data()} модели).
+\item Использовать этот тип в механизме сигналов и слотов. \begin{DoxyAuthor}{Author}
+kex1tu
+\end{DoxyAuthor}
+Модель данных для списка сообщений в одном чате.
+\end{DoxyEnumerate}
+
+Этот класс является "{}источником правды"{} для {\ttfamily QList\+View}, который отображает чат. Он наследуется от QAbstract\+List\+Model, реализуя его виртуальные методы для предоставления данных представлению (View).
+
+Модель ничего не знает о том, как данные будут отображаться; она только хранит их и уведомляет представление об изменениях. 
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8h_source_l00028}{28}} of file \mbox{\hyperlink{chatmessagemodel_8h_source}{chatmessagemodel.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_chat_message_model_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_chat_message_model_aa3a3b6c95024027c98e91888fdf16331}\index{ChatMessageModel@{ChatMessageModel}!ChatMessageModel@{ChatMessageModel}}
+\index{ChatMessageModel@{ChatMessageModel}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{ChatMessageModel()}{ChatMessageModel()}}
+{\footnotesize\ttfamily \label{class_chat_message_model_aa3a3b6c95024027c98e91888fdf16331} 
+Chat\+Message\+Model\+::\+Chat\+Message\+Model (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+Конструктор модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский объект (стандартно для Qt).\\
+\hline
+{\em parent} & Родительский объект в иерархии Qt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00015}{15}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_chat_message_model_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_chat_message_model_a9b39e349ca4fba03faa973402778189a}\index{ChatMessageModel@{ChatMessageModel}!addMessage@{addMessage}}
+\index{addMessage@{addMessage}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{addMessage}{addMessage}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a9b39e349ca4fba03faa973402778189a} 
+void Chat\+Message\+Model\+::add\+Message (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&}]{message}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Добавляет одно сообщение в конец модели. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & Объект сообщения для добавления. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00096}{96}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a17620bcb263fc253dc74438674108342}\index{ChatMessageModel@{ChatMessageModel}!addMessages@{addMessages}}
+\index{addMessages@{addMessages}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{addMessages}{addMessages}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a17620bcb263fc253dc74438674108342} 
+void Chat\+Message\+Model\+::add\+Messages (\begin{DoxyParamCaption}\item[{const QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \&}]{messages}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Добавляет список сообщений в конец модели (оптимизировано для массовой вставки). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em messages} & Список сообщений. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00116}{116}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_af03a7197b20238996fe9f702004ecdd9}\index{ChatMessageModel@{ChatMessageModel}!clearMessages@{clearMessages}}
+\index{clearMessages@{clearMessages}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{clearMessages}{clearMessages}}
+{\footnotesize\ttfamily \label{class_chat_message_model_af03a7197b20238996fe9f702004ecdd9} 
+void Chat\+Message\+Model\+::clear\+Messages (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Полностью очищает модель от всех сообщений. 
+
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00156}{156}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_ada5648d15f5146f9713723f73a149fea}\index{ChatMessageModel@{ChatMessageModel}!confirmMessage@{confirmMessage}}
+\index{confirmMessage@{confirmMessage}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{confirmMessage}{confirmMessage}}
+{\footnotesize\ttfamily \label{class_chat_message_model_ada5648d15f5146f9713723f73a149fea} 
+void Chat\+Message\+Model\+::confirm\+Message (\begin{DoxyParamCaption}\item[{const QString \&}]{temp\+Id}{, }\item[{const \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&}]{confirmed\+Message}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Находит сообщение по временному ID и заменяет его на подтвержденное сервером. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em temp\+Id} & Временный ID, сгенерированный клиентом при отправке. \\
+\hline
+{\em confirmed\+Message} & Объект сообщения, полученный от сервера (с настоящим ID). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00191}{191}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_ab687665d0889263fab9c116c8d604814}\index{ChatMessageModel@{ChatMessageModel}!data@{data}}
+\index{data@{data}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily \label{class_chat_message_model_ab687665d0889263fab9c116c8d604814} 
+QVariant Chat\+Message\+Model\+::data (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{index}{, }\item[{int}]{role}{ = {\ttfamily Qt\+:\+:DisplayRole}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Основной метод, через который представление (View) запрашивает данные. 
+
+Основной метод для получения данных из модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс элемента (строка и колонка), для которого нужны данные. \\
+\hline
+{\em role} & Тип запрашиваемых данных (например, текст для отображения, цвет, иконка). Мы используем Qt\+::\+User\+Role для передачи всего объекта \doxylink{struct_chat_message}{Chat\+Message} целиком. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QVariant Данные, обернутые в QVariant.
+\end{DoxyReturn}
+Представление (View) и делегат (Delegate) вызывают этот метод для получения данных, которые нужно отобразить. 
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс элемента (строка, колонка), для которого запрашиваются данные. \\
+\hline
+{\em role} & Тип (роль) запрашиваемых данных (например, текст, цвет, иконка). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QVariant Данные, обернутые в QVariant. Пустой QVariant, если данные не найдены. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00044}{44}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_aaad85d871559a3db0bafcd3a323a22f3}\index{ChatMessageModel@{ChatMessageModel}!editMessage@{editMessage}}
+\index{editMessage@{editMessage}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{editMessage}{editMessage}}
+{\footnotesize\ttfamily \label{class_chat_message_model_aaad85d871559a3db0bafcd3a323a22f3} 
+void Chat\+Message\+Model\+::edit\+Message (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{const QString \&}]{new\+Payload}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Обновляет текст отредактированного сообщения по его ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & ID сообщения. \\
+\hline
+{\em new\+Payload} & Новый текст сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00229}{229}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a2bdeaf8e7c26f5205e7763fa4c5bfcf0}\index{ChatMessageModel@{ChatMessageModel}!getMessageById@{getMessageById}}
+\index{getMessageById@{getMessageById}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{getMessageById}{getMessageById}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a2bdeaf8e7c26f5205e7763fa4c5bfcf0} 
+bool Chat\+Message\+Model\+::get\+Message\+By\+Id (\begin{DoxyParamCaption}\item[{qint64}]{id}{, }\item[{\mbox{\hyperlink{struct_chat_message}{Chat\+Message}} \&}]{msg}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Осуществляет быстрый поиск сообщения по ID с использованием {\ttfamily m\+\_\+message\+Map}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID искомого сообщения. \\
+\hline
+{\em msg} & Выходной параметр; ссылка, куда будет скопирован найденный объект сообщения. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool {\ttfamily true}, если сообщение найдено, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00253}{253}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a1977a1f3fd95a7f6d14592754bc38881}\index{ChatMessageModel@{ChatMessageModel}!markMessageAsRead@{markMessageAsRead}}
+\index{markMessageAsRead@{markMessageAsRead}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{markMessageAsRead}{markMessageAsRead}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a1977a1f3fd95a7f6d14592754bc38881} 
+void Chat\+Message\+Model\+::mark\+Message\+As\+Read (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Помечает входящее сообщение как прочитанное. 
+
+Этот слот вызывается асинхронно из делегата, когда сообщение становится видимым на экране, или из {\ttfamily \doxylink{class_main_window}{Main\+Window}} после прокрутки. 
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс сообщения в модели. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00268}{268}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_message_model_a1977a1f3fd95a7f6d14592754bc38881_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f}\index{ChatMessageModel@{ChatMessageModel}!messageNeedsReadReceipt@{messageNeedsReadReceipt}}
+\index{messageNeedsReadReceipt@{messageNeedsReadReceipt}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{messageNeedsReadReceipt}{messageNeedsReadReceipt}}
+{\footnotesize\ttfamily \label{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f} 
+void Chat\+Message\+Model\+::message\+Needs\+Read\+Receipt (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+Сигнал, который модель испускает, когда считает, что для сообщения с указанным ID нужно отправить на сервер уведомление о прочтении. 
+
+Этот сигнал будет пойман в \doxylink{class_main_window}{Main\+Window}, который уже сформирует и отправит соответствующий JSON-\/запрос. 
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & Уникальный ID сообщения, которое было прочитано. \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_chat_message_model_aa9c99d4583b71d33c53873c065b6ef9f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_chat_message_model_a6eeb231d09b98aa03dbf95e6df63214a}\index{ChatMessageModel@{ChatMessageModel}!prependMessages@{prependMessages}}
+\index{prependMessages@{prependMessages}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{prependMessages}{prependMessages}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a6eeb231d09b98aa03dbf95e6df63214a} 
+void Chat\+Message\+Model\+::prepend\+Messages (\begin{DoxyParamCaption}\item[{const QList$<$ \mbox{\hyperlink{struct_chat_message}{Chat\+Message}} $>$ \&}]{messages}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Добавляет список сообщений в начало модели (используется для подгрузки старой истории). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em messages} & Список сообщений для добавления. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00137}{137}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_aa3a3c5360b3d47d027fed90362095b19}\index{ChatMessageModel@{ChatMessageModel}!removeMessage@{removeMessage}}
+\index{removeMessage@{removeMessage}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{removeMessage}{removeMessage}}
+{\footnotesize\ttfamily \label{class_chat_message_model_aa3a3c5360b3d47d027fed90362095b19} 
+void Chat\+Message\+Model\+::remove\+Message (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Удаляет сообщение из модели по его ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & Уникальный ID сообщения. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00172}{172}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a1086e40f1952c24224c6221f6d20b47f}\index{ChatMessageModel@{ChatMessageModel}!rowCount@{rowCount}}
+\index{rowCount@{rowCount}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{rowCount()}{rowCount()}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a1086e40f1952c24224c6221f6d20b47f} 
+int Chat\+Message\+Model\+::row\+Count (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{parent}{ = {\ttfamily QModelIndex()}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Возвращает количество элементов (сообщений) в модели. 
+
+Возвращает количество строк (сообщений) в модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Для списочной модели всегда должен быть невалидным QModel\+Index(). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Количество строк в списке.
+\end{DoxyReturn}
+Этот метод вызывается представлением (QList\+View), чтобы узнать, сколько элементов нужно отобразить. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Для одноуровневой списочной модели этот параметр всегда невалидный. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Количество сообщений во внутреннем списке {\ttfamily m\+\_\+messages}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00030}{30}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a7eaed5b52bf66ffb9bd85ef60e108a7b}\index{ChatMessageModel@{ChatMessageModel}!setData@{setData}}
+\index{setData@{setData}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{setData()}{setData()}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a7eaed5b52bf66ffb9bd85ef60e108a7b} 
+bool Chat\+Message\+Model\+::set\+Data (\begin{DoxyParamCaption}\item[{const QModel\+Index \&}]{index}{, }\item[{const QVariant \&}]{value}{, }\item[{int}]{role}{ = {\ttfamily Qt\+:\+:EditRole}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Метод для изменения данных в модели извне (например, из делегата). Хотя в данной версии он не используется активно для изменения, его реализация важна для полноты API модели и может пригодиться в будущем. 
+
+Метод для изменения данных в модели.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс изменяемого элемента. \\
+\hline
+{\em value} & Новое значение. \\
+\hline
+{\em role} & Роль, по которой изменяются данные. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true в случае успеха, иначе false.
+\end{DoxyReturn}
+Позволяет изменять данные элемента по его индексу. В нашем случае, мы используем его для обновления всего объекта \doxylink{struct_chat_message}{Chat\+Message} целиком. 
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс изменяемого элемента. \\
+\hline
+{\em value} & Новое значение (QVariant, содержащий \doxylink{struct_chat_message}{Chat\+Message}). \\
+\hline
+{\em role} & Роль, по которой изменяются данные (мы используем Qt\+::\+User\+Role). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool {\ttfamily true} в случае успеха, иначе {\ttfamily false}. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00072}{72}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+\Hypertarget{class_chat_message_model_a2d0729f1abb9a3360d4b49fd627089be}\index{ChatMessageModel@{ChatMessageModel}!updateMessageStatus@{updateMessageStatus}}
+\index{updateMessageStatus@{updateMessageStatus}!ChatMessageModel@{ChatMessageModel}}
+\doxysubsubsection{\texorpdfstring{updateMessageStatus}{updateMessageStatus}}
+{\footnotesize\ttfamily \label{class_chat_message_model_a2d0729f1abb9a3360d4b49fd627089be} 
+void Chat\+Message\+Model\+::update\+Message\+Status (\begin{DoxyParamCaption}\item[{qint64}]{message\+Id}{, }\item[{\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}}]{new\+Status}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Обновляет статус доставки/прочтения для сообщения по его ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\+Id} & ID сообщения. \\
+\hline
+{\em new\+Status} & Новый статус из {\ttfamily \doxylink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{Chat\+Message\+::\+Message\+Status}}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{chatmessagemodel_8cpp_source_l00210}{210}} of file \mbox{\hyperlink{chatmessagemodel_8cpp_source}{chatmessagemodel.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{chatmessagemodel_8h}{chatmessagemodel.\+h}}\item 
+\mbox{\hyperlink{chatmessagemodel_8cpp}{chatmessagemodel.\+cpp}}\end{DoxyCompactItemize}

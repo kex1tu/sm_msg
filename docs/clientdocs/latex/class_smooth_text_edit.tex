@@ -1,0 +1,121 @@
+\doxysection{Smooth\+Text\+Edit Class Reference}
+\hypertarget{class_smooth_text_edit}{}\label{class_smooth_text_edit}\index{SmoothTextEdit@{SmoothTextEdit}}
+
+
+Кастомный QText\+Edit с плавной анимацией прокрутки.  
+
+
+
+
+{\ttfamily \#include $<$smoothtextedit.\+h$>$}
+
+
+
+Inheritance diagram for Smooth\+Text\+Edit\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{class_smooth_text_edit__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Smooth\+Text\+Edit\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{class_smooth_text_edit__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}{Smooth\+Text\+Edit}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}{wheel\+Event}} (QWheel\+Event \texorpdfstring{$\ast$}{*}e) override
+\begin{DoxyCompactList}\small\item\em Переопределенный обработчик событий колеса мыши. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Кастомный QText\+Edit с плавной анимацией прокрутки. 
+
+Этот класс наследуется от QText\+Edit и переопределяет стандартное поведение прокрутки колесом мыши. Вместо мгновенного "{}прыжка"{} скроллбара, он использует QProperty\+Animation для создания плавной и анимированной прокрутки содержимого, если текст не помещается в видимую область. \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{smoothtextedit_8h_source_l00017}{17}} of file \mbox{\hyperlink{smoothtextedit_8h_source}{smoothtextedit.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_smooth_text_edit_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516}\index{SmoothTextEdit@{SmoothTextEdit}!SmoothTextEdit@{SmoothTextEdit}}
+\index{SmoothTextEdit@{SmoothTextEdit}!SmoothTextEdit@{SmoothTextEdit}}
+\doxysubsubsection{\texorpdfstring{SmoothTextEdit()}{SmoothTextEdit()}}
+{\footnotesize\ttfamily \label{class_smooth_text_edit_ab872f7fdbb47708c212672f0e2529516} 
+Smooth\+Text\+Edit\+::\+Smooth\+Text\+Edit (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор \doxylink{class_smooth_text_edit}{Smooth\+Text\+Edit}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет.\\
+\hline
+\end{DoxyParams}
+Здесь создается и настраивается объект {\ttfamily QProperty\+Animation}, который будет отвечать за всю "{}магию"{} плавной прокрутки. 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{smoothtextedit_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{smoothtextedit_8cpp_source}{smoothtextedit.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_smooth_text_edit_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99}\index{SmoothTextEdit@{SmoothTextEdit}!wheelEvent@{wheelEvent}}
+\index{wheelEvent@{wheelEvent}!SmoothTextEdit@{SmoothTextEdit}}
+\doxysubsubsection{\texorpdfstring{wheelEvent()}{wheelEvent()}}
+{\footnotesize\ttfamily \label{class_smooth_text_edit_a231372d86082e9bdcaff7f2dfb190e99} 
+void Smooth\+Text\+Edit\+::wheel\+Event (\begin{DoxyParamCaption}\item[{QWheel\+Event \texorpdfstring{$\ast$}{*}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Переопределенный обработчик событий колеса мыши. 
+
+Этот метод перехватывает событие прокрутки. Вместо того чтобы передавать его в базовый класс для стандартной обработки, он вычисляет новую целевую позицию скроллбара и запускает QProperty\+Animation для плавного перемещения к этой позиции.
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & Указатель на событие колеса мыши.\\
+\hline
+\end{DoxyParams}
+Этот метод является ядром функциональности. Он перехватывает стандартное событие прокрутки и вместо мгновенного перемещения скроллбара запускает плавную анимацию. 
+\begin{DoxyParams}{Parameters}
+{\em e} & Указатель на событие колеса мыши. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{smoothtextedit_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{smoothtextedit_8cpp_source}{smoothtextedit.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{smoothtextedit_8h}{smoothtextedit.\+h}}\item 
+\mbox{\hyperlink{smoothtextedit_8cpp}{smoothtextedit.\+cpp}}\end{DoxyCompactItemize}

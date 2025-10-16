@@ -1,0 +1,29 @@
+\doxysection{searchresultspopup.\+h}
+\hypertarget{searchresultspopup_8h_source}{}\label{searchresultspopup_8h_source}\mbox{\hyperlink{searchresultspopup_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ SEARCHRESULTSPOPUP\_H}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ SEARCHRESULTSPOPUP\_H}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QWidget>}\ \ \ \ \ \ \textcolor{comment}{//\ Базовый\ класс\ для\ всех\ виджетов.}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QListWidget>}\ \ \textcolor{comment}{//\ Виджет,\ используемый\ для\ отображения\ списка.}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QJsonArray>}\ \ \ \textcolor{comment}{//\ Для\ получения\ данных\ о\ пользователях\ в\ формате\ JSON.}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00018}\mbox{\hyperlink{class_search_results_popup}{00018}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8}{SearchResultsPopup}}\ :\ \textcolor{keyword}{public}\ QWidget}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00019}00019\ \{}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00020}00020\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ классов,\ использующих\ сигналы\ и\ слоты.}}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00022}00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_search_results_popup_a3455b387ed90eb7fa2ddc8e531e6d8e8}{SearchResultsPopup}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_search_results_popup_a1ccd139c582eb3efe382de659aaef2f4}{showResults}}(\textcolor{keyword}{const}\ QJsonArray\ \&users);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00042}00042\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00048}00048\ \ \ \ \ QListWidget\ *m\_listWidget;}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00050}00050\ signals:}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00055}\mbox{\hyperlink{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779}{00055}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_search_results_popup_ad488c35265a75f5462fa27ee8d3f8779}{userSelected}}(\textcolor{keyword}{const}\ QString\&\ username);}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00056}00056\ \};}
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{searchresultspopup_8h_source_l00058}00058\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SEARCHRESULTSPOPUP\_H}}
+
+\end{DoxyCode}

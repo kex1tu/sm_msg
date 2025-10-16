@@ -1,0 +1,41 @@
+<map id="structures.h" name="structures.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="604,5,694,32"/>
+<area shape="rect" id="Node000002" href="$chatmessagedelegate_8cpp.html" title="Реализация делегата для списка сообщений." alt="" coords="5,155,179,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="589,22,512,25,418,34,316,52,265,66,217,82,184,99,153,119,107,156,104,152,150,114,181,94,215,78,264,61,315,47,417,29,512,20,589,17"/>
+<area shape="rect" id="Node000003" href="$chatmessagedelegate_8h.html" title=" " alt="" coords="228,80,388,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="590,35,368,82,367,77,588,30"/>
+<area shape="rect" id="Node000005" href="$chatmessagemodel_8h.html" title=" " alt="" coords="411,80,557,107"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="608,41,514,82,512,77,605,36"/>
+<area shape="rect" id="Node000008" href="$chatviewwidget_8h.html" title=" " alt="" coords="588,80,710,107"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="652,48,652,80,647,80,647,48"/>
+<area shape="rect" id="Node000010" href="$contactlistmodel_8h.html" title=" " alt="" coords="944,80,1072,107"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="711,30,946,77,944,82,710,35"/>
+<area shape="rect" id="Node000013" href="$loginwidget_8h.html" title=" " alt="" coords="743,80,841,107"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="689,37,768,77,766,82,686,42"/>
+<area shape="rect" id="Node000015" href="$mainwindow_8h.html" title=" " alt="" coords="1152,80,1256,107"/>
+<area shape="poly" id="edge20_Node000001_Node000015" title=" " alt="" coords="710,25,1152,83,1152,88,709,30"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="257,114,131,157,129,151,255,109"/>
+<area shape="rect" id="Node000004" href="$mainwindow_8cpp.html" title="Реализация главного окна и центрального контроллера приложения." alt="" coords="733,155,851,181"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="404,105,722,152,733,154,733,159,721,157,403,110"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="401,113,161,157,160,151,400,107"/>
+<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="553,108,739,151,737,157,552,113"/>
+<area shape="rect" id="Node000006" href="$chatfilterproxymodel_8cpp.html" title=" " alt="" coords="386,155,550,181"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="481,123,473,155,468,154,475,122"/>
+<area shape="rect" id="Node000007" href="$chatmessagemodel_8cpp.html" title="Реализация модели данных для списка сообщений." alt="" coords="203,155,362,181"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="436,115,319,157,317,152,434,110"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="689,112,768,152,766,156,686,116"/>
+<area shape="rect" id="Node000009" href="$chatviewwidget_8cpp.html" title="Реализация виджета, отображающего интерфейс одного чата." alt="" coords="573,155,710,181"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="649,122,645,155,640,154,644,122"/>
+<area shape="poly" id="edge16_Node000010_Node000004" title=" " alt="" coords="957,114,831,157,829,151,955,109"/>
+<area shape="rect" id="Node000011" href="$contactlistdelegate_8cpp.html" title="Реализация кастомного делегата для отрисовки элементов в списке контактов." alt="" coords="1010,155,1166,181"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="1035,115,1076,152,1072,156,1031,119"/>
+<area shape="rect" id="Node000012" href="$contactlistmodel_8cpp.html" title="Реализация модели данных для списка контактов." alt="" coords="1189,155,1331,181"/>
+<area shape="poly" id="edge15_Node000010_Node000012" title=" " alt="" coords="1067,109,1216,151,1215,157,1066,114"/>
+<area shape="poly" id="edge19_Node000013_Node000004" title=" " alt="" coords="795,122,795,154,789,154,789,122"/>
+<area shape="rect" id="Node000014" href="$loginwidget_8cpp.html" title="Реализация виджета для аутентификации и регистрации пользователя." alt="" coords="875,155,986,181"/>
+<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="831,112,908,152,905,156,828,117"/>
+<area shape="poly" id="edge23_Node000015_Node000004" title=" " alt="" coords="1138,109,852,159,851,154,1137,104"/>
+<area shape="poly" id="edge21_Node000015_Node000012" title=" " alt="" coords="1225,117,1252,153,1248,156,1221,121"/>
+<area shape="rect" id="Node000016" href="$main_8cpp.html" title="Точка входа в приложение чат&#45;клиента." alt="" coords="1355,155,1429,181"/>
+<area shape="poly" id="edge22_Node000015_Node000016" title=" " alt="" coords="1252,110,1360,152,1358,157,1250,115"/>
+</map>

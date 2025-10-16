@@ -1,0 +1,17 @@
+<map id="mainwindow.h" name="mainwindow.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="175,5,278,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,112,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,35,103,76,101,71,196,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="136,80,192,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,34,187,70,183,66,214,31"/>
+<area shape="rect" id="Node000004" href="$chatfilterproxymodel_8h.html" title=" " alt="" coords="216,80,365,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,31,271,66,267,70,236,34"/>
+<area shape="rect" id="Node000006" href="$structures_8h.html" title=" " alt="" coords="389,80,480,107"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="264,30,385,72,383,77,262,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="214,155,367,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="293,107,293,139,288,139,288,107"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="396,155,462,181"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="436,107,434,139,429,139,431,107"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="486,155,538,181"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="450,105,489,142,486,146,446,109"/>
+</map>

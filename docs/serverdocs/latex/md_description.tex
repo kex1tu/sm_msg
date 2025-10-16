@@ -1,0 +1,123 @@
+\chapter{Описание архитектуры и структуры проекта\+: Чат-\/сервер (Версия 4) }
+\hypertarget{md_description}{}\label{md_description}\index{Описание архитектуры и структуры проекта: Чат-\/сервер (Версия 4)@{Описание архитектуры и структуры проекта: Чат-\/сервер (Версия 4)}}
+\label{md_description_autotoc_md0}%
+\Hypertarget{md_description_autotoc_md0}%
+\hypertarget{md_description_autotoc_md1}{}\doxysection{\texorpdfstring{1. Обзор проекта}{1. Обзор проекта}}\label{md_description_autotoc_md1}
+Серверная часть представляет собой асинхронное, многопользовательское ядро для чат-\/приложения, разработанное на C++ с использованием {\ttfamily QCore\+Application}. Он спроектирован для одновременной обработки подключений от множества клиентов, аутентификации пользователей, обработки и хранения сообщений, а также управления списками контактов и статусами присутствия.\hypertarget{md_description_autotoc_md2}{}\doxysubsection{\texorpdfstring{Ключевые технологии и парадигмы\+:}{Ключевые технологии и парадигмы\+:}}\label{md_description_autotoc_md2}
+
+\begin{DoxyItemize}
+\item {\bfseries{Язык\+:}} C++
+\item {\bfseries{Фреймворк\+:}} Qt 6 (без GUI-\/компонентов).
+\item {\bfseries{Сетевое взаимодействие\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{TCP/\+IP ({\ttfamily QTcp\+Server})\+:}} Для нативных десктопных клиентов (как ваш).
+\item {\bfseries{Web\+Sockets ({\ttfamily QWeb\+Socket\+Server})\+:}} Для потенциальных веб-\/клиентов, что делает архитектуру гибкой и готовой к расширению.
+\end{DoxyItemize}
+\item {\bfseries{База данных\+:}} {\bfseries{SQLite ({\ttfamily QSql\+Database})}} для хранения всех персистентных данных (пользователи, сообщения, контакты).
+\item {\bfseries{Архитектурные паттерны\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Событийно-\/ориентированная модель\+:}} Сервер построен вокруг асинхронной обработки событий Qt (новое подключение, получение данных, дисконнект).
+\item {\bfseries{Команда (Command Pattern)\+:}} Реализован через {\ttfamily QMap} с указателями на методы-\/обработчики, что обеспечивает слабую связанность и легкую расширяемость.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md4}{}\doxysection{\texorpdfstring{2. Ключевые архитектурные решения}{2. Ключевые архитектурные решения}}\label{md_description_autotoc_md4}
+\hypertarget{md_description_autotoc_md5}{}\doxysubsection{\texorpdfstring{2.\+1. Гибридный сетевой уровень (TCP + Web\+Socket)}{2.\+1. Гибридный сетевой уровень (TCP + Web\+Socket)}}\label{md_description_autotoc_md5}
+Сервер одновременно слушает два разных порта для двух протоколов, что является мощным решением для кросс-\/платформенности.
+\begin{DoxyItemize}
+\item {\ttfamily QTcp\+Server} принимает подключения от нативного Qt-\/клиента. Он использует {\ttfamily QData\+Stream} для разбора бинарного потока, где каждое сообщение предваряется его размером ({\ttfamily quint32}).
+\item {\ttfamily QWeb\+Socket\+Server} принимает подключения от клиентов, поддерживающих Web\+Sockets (например, браузеры). Он работает с текстовыми сообщениями в формате JSON.
+\item {\bfseries{Унификация\+:}} Важно, что после получения и парсинга данных оба типа подключений передают {\ttfamily QJson\+Object} в единый метод {\ttfamily process\+Json\+Request}. Это предотвращает дублирование кода и позволяет всей бизнес-\/логике быть независимой от транспортного протокола.
+\end{DoxyItemize}\hypertarget{md_description_autotoc_md6}{}\doxysubsection{\texorpdfstring{2.\+2. Обработка команд на основе карты обработчиков (Handler Map)}{2.\+2. Обработка команд на основе карты обработчиков (Handler Map)}}\label{md_description_autotoc_md6}
+Это ядро бизнес-\/логики сервера. Вместо громоздкой конструкции {\ttfamily if-\/else} или {\ttfamily switch} для разбора типов запросов, используется элегантный и масштабируемый подход.
+\begin{DoxyItemize}
+\item {\bfseries{Структура\+:}} В классе {\ttfamily \doxylink{class_server}{Server}} есть поле {\ttfamily QMap\texorpdfstring{$<$}{<}QString, Handler\texorpdfstring{$>$}{>} m\+\_\+handlers}, где {\ttfamily Handler} — это {\ttfamily using Handler = void (\doxylink{class_server}{Server}\+:\+:\texorpdfstring{$\ast$}{*})(QObject\texorpdfstring{$\ast$}{*}, const QJson\+Object\&)}.
+\item {\bfseries{Инициализация\+:}} В методе {\ttfamily init\+Handlers()} эта карта заполняется. Ключом является строковое имя команды (например, {\ttfamily "{}login"{}}, {\ttfamily "{}private\+\_\+message"{}}), а значением — указатель на метод, который должен обработать эту команду ({\ttfamily \&Server\+::handle\+Login}, {\ttfamily \&Server\+::handle\+Private\+Message}).
+\item {\bfseries{Исполнение\+:}} Метод {\ttfamily process\+Json\+Request} извлекает поле {\ttfamily "{}type"{}} из входящего JSON, находит соответствующий указатель на метод в {\ttfamily m\+\_\+handlers} и вызывает его, передавая сокет клиента и сам JSON-\/объект.
+\end{DoxyItemize}\hypertarget{md_description_autotoc_md7}{}\doxysubsection{\texorpdfstring{2.\+3. Управление состоянием клиентов}{2.\+3. Управление состоянием клиентов}}\label{md_description_autotoc_md7}
+Сервер должен в реальном времени знать, какие пользователи онлайн и через какой сокет с ними можно связаться. Для этого используется двойное отображение\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily QMap\texorpdfstring{$<$}{<}QString, QObject\texorpdfstring{$\ast$}{*}\texorpdfstring{$>$}{>} m\+\_\+clients;} (Имя пользователя -\/\texorpdfstring{$>$}{>} Указатель на сокет)
+\begin{DoxyItemize}
+\item {\bfseries{Назначение\+:}} Быстрый поиск сокета по имени пользователя. Необходимо, когда нужно отправить сообщение конкретному получателю (например, в {\ttfamily handle\+Private\+Message} или {\ttfamily handle\+Typing}).
+\end{DoxyItemize}
+\item {\ttfamily QMap\texorpdfstring{$<$}{<}QObject\texorpdfstring{$\ast$}{*}, QString\texorpdfstring{$>$}{>} m\+\_\+clients\+Reverse;} (Указатель на сокет -\/\texorpdfstring{$>$}{>} Имя пользователя)
+\begin{DoxyItemize}
+\item {\bfseries{Назначение\+:}} Быстрое определение аутентифицированного пользователя по сокету, с которого пришел запрос. Это используется практически в каждом обработчике для идентификации отправителя.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Эта связка обеспечивает быстрый доступ O(log n) в обе стороны и является центральным элементом управления онлайн-\/пользователями.\hypertarget{md_description_autotoc_md8}{}\doxysubsection{\texorpdfstring{2.\+4. Слой персистентности (База данных SQLite)}{2.\+4. Слой персистентности (База данных SQLite)}}\label{md_description_autotoc_md8}
+Все данные, которые должны пережить перезапуск сервера, хранятся в файловой базе данных SQLite.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Инициализация\+:}} Метод {\ttfamily init\+Database()} при старте сервера создает файл {\ttfamily messenger.\+db} (если он не существует) и определяет в нем три основные таблицы\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{{\ttfamily users}}}\+: Хранит информацию о пользователях (логин, хэш пароля, отображаемое имя, дата последнего визита и т.\+д.).
+\item {\bfseries{{\ttfamily messages}}}\+: Основная таблица, хранящая все сообщения. В ней есть поля {\ttfamily from\+User}, {\ttfamily to\+User}, текст ({\ttfamily payload}), временная метка, статусы ({\ttfamily is\+\_\+delivered}, {\ttfamily is\+\_\+read}), а также {\ttfamily reply\+\_\+to\+\_\+id} для связи ответов.
+\item {\bfseries{{\ttfamily contacts}}}\+: Таблица-\/связка для управления отношениями между пользователями. Хранит пары ID пользователей и их статус ({\ttfamily 0} — запрос отправлен, {\ttfamily 1} — подтвержден).
+\end{DoxyEnumerate}
+\item {\bfseries{Взаимодействие\+:}} Каждый метод-\/обработчик использует {\ttfamily QSql\+Query} для выполнения запросов к этой базе данных ({\ttfamily INSERT}, {\ttfamily SELECT}, {\ttfamily UPDATE}, {\ttfamily DELETE}).
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md10}{}\doxysection{\texorpdfstring{3. Компонентный разбор и жизненный цикл запроса}{3. Компонентный разбор и жизненный цикл запроса}}\label{md_description_autotoc_md10}
+Рассмотрим типичный сценарий\+: {\bfseries{отправка личного сообщения}}.
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Получение данных (Сетевой слой)\+:}}
+\begin{DoxyItemize}
+\item Клиент отправляет бинарные данные.
+\item {\ttfamily on\+Tcp\+Ready\+Read()} срабатывает на сервере.
+\item С помощью {\ttfamily QData\+Stream} и {\ttfamily m\+\_\+next\+Block\+Sizes} извлекается полный JSON-\/пакет.
+\item {\ttfamily QJson\+Object} передается в {\ttfamily process\+Json\+Request()}.
+\end{DoxyItemize}
+\item {\bfseries{Маршрутизация (Обработчик запросов)\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily process\+Json\+Request()} читает {\ttfamily "{}type"{}\+: "{}private\+\_\+message"{}}.
+\item В {\ttfamily m\+\_\+handlers} находится соответствующий указатель на {\ttfamily \&Server\+::handle\+Private\+Message}.
+\item Вызывается {\ttfamily handle\+Private\+Message(socket, request)}.
+\end{DoxyItemize}
+\item {\bfseries{Обработка (Бизнес-\/логика)\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Аутентификация\+:}} {\ttfamily handle\+Private\+Message} первым делом проверяет, что {\ttfamily from\+User} в запросе совпадает с именем пользователя, ассоциированным с этим сокетом в {\ttfamily m\+\_\+clients\+Reverse}. Это простая, но важная мера безопасности.
+\item {\bfseries{Сохранение в БД\+:}} Создается {\ttfamily QSql\+Query} для {\ttfamily INSERT} нового сообщения в таблицу {\ttfamily messages}. Все данные из JSON (отправитель, получатель, текст, {\ttfamily reply\+\_\+to\+\_\+id}) записываются в базу. Сервер получает {\ttfamily message\+Id} через {\ttfamily query.\+last\+Insert\+Id()}.
+\item {\bfseries{Echo-\/ответ отправителю\+:}} Сервер формирует "{}echo"{}-\/сообщение. Это копия исходного сообщения, но дополненная серверными данными\+: {\ttfamily id} из базы данных и {\ttfamily timestamp}. Наличие {\ttfamily temp\+\_\+id} из клиентского запроса позволяет клиенту сопоставить отправляемое сообщение с подтвержденным.
+\item {\bfseries{Доставка получателю\+:}}
+\begin{DoxyItemize}
+\item Сервер ищет получателя ({\ttfamily to\+User}) в {\ttfamily m\+\_\+clients}.
+\item {\bfseries{Если получатель онлайн\+:}} Сообщение (уже без {\ttfamily temp\+\_\+id}) отправляется на его сокет.
+\item {\bfseries{Если получатель офлайн\+:}} Ничего не происходит. Сообщение просто лежит в базе данных со статусом {\ttfamily is\+\_\+delivered = 0}. В будущем может быть реализована логика доставки офлайн-\/сообщений при входе пользователя.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\bfseries{Оповещение и обновление состояния\+:}}
+\begin{DoxyItemize}
+\item При подключении и отключении клиента ({\ttfamily on\+New...Connection}, {\ttfamily on\+Client\+Disconnected}) вызывается {\ttfamily broadcast\+User\+List()}, который рассылает всем онлайн-\/пользователям актуальный список тех, кто сейчас в сети.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md_description_autotoc_md12}{}\doxysection{\texorpdfstring{4. Итоги по архитектуре}{4. Итоги по архитектуре}}\label{md_description_autotoc_md12}
+Сервер V4 представляет собой хорошо спроектированную, надежную и эффективную систему.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Сильные стороны\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Гибкость\+:}} Поддержка TCP и Web\+Sockets открывает двери для разных типов клиентов.
+\item {\bfseries{Масштабируемость\+:}} Паттерн "{}\+Handler Map"{} позволяет легко добавлять новые функции, просто написав новый метод и добавив одну строчку в {\ttfamily init\+Handlers}.
+\item {\bfseries{Производительность\+:}} Использование {\ttfamily QMap} для управления клиентами и асинхронная природа Qt обеспечивают быструю обработку запросов без блокировок.
+\item {\bfseries{Надежность\+:}} Хранение всех данных в SQLite гарантирует их сохранность между сессиями.
+\end{DoxyItemize}
+\item {\bfseries{Потенциальные зоны для роста\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Безопасность\+:}} Текущая система аутентификации базовая. Можно добавить токены сессий вместо простого хранения связки "{}юзер-\/сокет"{}.
+\item {\bfseries{Масштабирование\+:}} Для высоконагруженного сервиса SQLite может стать узким местом; в будущем его можно заменить на более мощную СУБД (например, Postgre\+SQL).
+\item {\bfseries{Отказоустойчивость\+:}} Сервер является единой точкой отказа. В будущем можно рассмотреть архитектуру с балансировщиком нагрузки и несколькими инстансами сервера. 
+\end{DoxyItemize}
+\end{DoxyItemize}

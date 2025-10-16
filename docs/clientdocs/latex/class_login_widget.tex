@@ -1,0 +1,284 @@
+\doxysection{Login\+Widget Class Reference}
+\hypertarget{class_login_widget}{}\label{class_login_widget}\index{LoginWidget@{LoginWidget}}
+
+
+Виджет, отвечающий за интерфейс аутентификации и регистрации.  
+
+
+
+
+{\ttfamily \#include $<$loginwidget.\+h$>$}
+
+
+
+Inheritance diagram for Login\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{class_login_widget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Login\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{class_login_widget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_login_widget_a9a3fa3187e640990165071b37ac33a57}{set\+Ui\+Enabled}} (bool enabled)
+\begin{DoxyCompactList}\small\item\em Включает или отключает все интерактивные элементы на виджете. Вызывается, например, при потере соединения с сервером, чтобы пользователь не мог пытаться войти. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f}{clear\+Fields}} ()
+\begin{DoxyCompactList}\small\item\em Очищает все поля ввода на обеих формах (вход и регистрация). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_widget_a0d64d935de92dff39242bc6887a7c989}{on\+Registration\+Success}} ()
+\begin{DoxyCompactList}\small\item\em Слот, вызываемый после успешной регистрации. Показывает информационное сообщение и переключает на форму входа. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017}{login\+Requested}} (const QString \&\mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}}, const QString \&password)
+\begin{DoxyCompactList}\small\item\em Сигнал испускается, когда пользователь нажимает кнопку "{}Войти"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5}{register\+Requested}} (const QString \&\mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}}, const QString \&display\+Name, const QString \&password)
+\begin{DoxyCompactList}\small\item\em Сигнал испускается, когда пользователь нажимает кнопку "{}Зарегистрироваться"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{Login\+Widget}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Конструктор. \end{DoxyCompactList}\item 
+QString \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}} () const
+\begin{DoxyCompactList}\small\item\em Геттер для получения имени пользователя из поля ввода. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}{\texorpdfstring{$\sim$}{\string~}\+Login\+Widget}} ()
+\begin{DoxyCompactList}\small\item\em Деструктор. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Виджет, отвечающий за интерфейс аутентификации и регистрации. 
+
+Этот класс инкапсулирует всю логику, связанную с экраном входа\+:
+\begin{DoxyItemize}
+\item Отображение полей для ввода данных.
+\item Переключение между формами входа и регистрации.
+\item Сбор данных из полей и их передача в \doxylink{class_main_window}{Main\+Window} через сигналы.
+\end{DoxyItemize}
+
+Класс спроектирован так, чтобы быть полностью независимым от сетевой логики и бизнес-\/логики приложения. Он только генерирует события (сигналы). \begin{DoxyAuthor}{Author}
+kex1tu 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8h_source_l00030}{30}} of file \mbox{\hyperlink{loginwidget_8h_source}{loginwidget.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_login_widget_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}\index{LoginWidget@{LoginWidget}!LoginWidget@{LoginWidget}}
+\index{LoginWidget@{LoginWidget}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{LoginWidget()}{LoginWidget()}}
+{\footnotesize\ttfamily \label{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d} 
+Login\+Widget\+::\+Login\+Widget (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор. 
+
+Конструктор \doxylink{class_login_widget}{Login\+Widget}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет.\\
+\hline
+\end{DoxyParams}
+Инициализирует UI из формы, настраивает виджеты (например, кнопку видимости пароля) и соединяет все внутренние сигналы и слоты, а также сигналы, которые будут отправлены наружу (в \doxylink{class_main_window}{Main\+Window}). 
+\begin{DoxyParams}{Parameters}
+{\em parent} & Родительский виджет. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00022}{22}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}\index{LoginWidget@{LoginWidget}!````~LoginWidget@{\texorpdfstring{$\sim$}{\string~}LoginWidget}}
+\index{````~LoginWidget@{\texorpdfstring{$\sim$}{\string~}LoginWidget}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}LoginWidget()}{\string~LoginWidget()}}
+{\footnotesize\ttfamily \label{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759} 
+Login\+Widget\+::\texorpdfstring{$\sim$}{\string~}\+Login\+Widget (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Деструктор. 
+
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00076}{76}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_login_widget_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f}\index{LoginWidget@{LoginWidget}!clearFields@{clearFields}}
+\index{clearFields@{clearFields}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{clearFields}{clearFields}}
+{\footnotesize\ttfamily \label{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f} 
+void Login\+Widget\+::clear\+Fields (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Очищает все поля ввода на обеих формах (вход и регистрация). 
+
+Очищает все поля ввода на обеих формах. 
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00146}{146}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+\Hypertarget{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017}\index{LoginWidget@{LoginWidget}!loginRequested@{loginRequested}}
+\index{loginRequested@{loginRequested}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{loginRequested}{loginRequested}}
+{\footnotesize\ttfamily \label{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017} 
+void Login\+Widget\+::login\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+Сигнал испускается, когда пользователь нажимает кнопку "{}Войти"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Введенное имя пользователя. \\
+\hline
+{\em password} & Введенный пароль. \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_login_widget_a0d64d935de92dff39242bc6887a7c989}\index{LoginWidget@{LoginWidget}!onRegistrationSuccess@{onRegistrationSuccess}}
+\index{onRegistrationSuccess@{onRegistrationSuccess}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{onRegistrationSuccess}{onRegistrationSuccess}}
+{\footnotesize\ttfamily \label{class_login_widget_a0d64d935de92dff39242bc6887a7c989} 
+void Login\+Widget\+::on\+Registration\+Success (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Слот, вызываемый после успешной регистрации. Показывает информационное сообщение и переключает на форму входа. 
+
+Слот, вызываемый после успешной регистрации.
+
+Показывает пользователю сообщение и переключает на форму входа. 
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00114}{114}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+\Hypertarget{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5}\index{LoginWidget@{LoginWidget}!registerRequested@{registerRequested}}
+\index{registerRequested@{registerRequested}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{registerRequested}{registerRequested}}
+{\footnotesize\ttfamily \label{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5} 
+void Login\+Widget\+::register\+Requested (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{, }\item[{const QString \&}]{display\+Name}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+Сигнал испускается, когда пользователь нажимает кнопку "{}Зарегистрироваться"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Введенное имя пользователя. \\
+\hline
+{\em display\+Name} & Введенное отображаемое имя. \\
+\hline
+{\em password} & Введенный пароль. \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_login_widget_a9a3fa3187e640990165071b37ac33a57}\index{LoginWidget@{LoginWidget}!setUiEnabled@{setUiEnabled}}
+\index{setUiEnabled@{setUiEnabled}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{setUiEnabled}{setUiEnabled}}
+{\footnotesize\ttfamily \label{class_login_widget_a9a3fa3187e640990165071b37ac33a57} 
+void Login\+Widget\+::set\+Ui\+Enabled (\begin{DoxyParamCaption}\item[{bool}]{enabled}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Включает или отключает все интерактивные элементы на виджете. Вызывается, например, при потере соединения с сервером, чтобы пользователь не мог пытаться войти. 
+
+Включает или отключает все интерактивные элементы на виджете.
+
+
+\begin{DoxyParams}{Parameters}
+{\em enabled} & true -\/ включить, false -\/ выключить.\\
+\hline
+\end{DoxyParams}
+Используется для блокировки UI, например, во время ожидания ответа от сервера или при потере соединения. 
+\begin{DoxyParams}{Parameters}
+{\em enabled} & {\ttfamily true} чтобы включить элементы, {\ttfamily false} чтобы выключить. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00161}{161}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+\Hypertarget{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}\index{LoginWidget@{LoginWidget}!username@{username}}
+\index{username@{username}!LoginWidget@{LoginWidget}}
+\doxysubsubsection{\texorpdfstring{username()}{username()}}
+{\footnotesize\ttfamily \label{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3} 
+QString Login\+Widget\+::username (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Геттер для получения имени пользователя из поля ввода. 
+
+Возвращает имя пользователя, введенное на форме входа.
+
+\begin{DoxyReturn}{Returns}
+QString Имя пользователя, введенное на форме входа.
+
+QString Имя пользователя. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{loginwidget_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{loginwidget_8cpp_source}{loginwidget.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{loginwidget_8h}{loginwidget.\+h}}\item 
+\mbox{\hyperlink{loginwidget_8cpp}{loginwidget.\+cpp}}\end{DoxyCompactItemize}

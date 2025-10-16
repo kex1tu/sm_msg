@@ -1,0 +1,42 @@
+\doxysection{main.\+cpp}
+\hypertarget{main_8cpp_source}{}\label{main_8cpp_source}\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <QCoreApplication>}\ \textcolor{comment}{//\ Основной\ класс\ для\ консольных\ приложений\ Qt.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <QDebug>}\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ вывода\ критических\ ошибок\ (qCritical).}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{server_8h}{server.h}}"{}}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Включаем\ заголовочный\ файл\ нашего\ серверного\ класса.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}\mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00024}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *argv[])}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ 1.\ Создание\ объекта\ QCoreApplication.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Этот\ объект\ управляет\ циклом\ обработки\ событий,\ таймерами,\ сетевыми}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ \ \ \ операциями\ и\ другими\ асинхронными\ задачами\ без\ необходимости}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ \ \ \ создавать\ графический\ интерфейс.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030\ \ \ \ \ QCoreApplication\ a(argc,\ argv);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ 2.\ Создание\ главного\ объекта\ сервера.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Вся\ логика\ сервера\ инкапсулирована\ в\ классе\ \`{}Server`.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034\ \ \ \ \ \mbox{\hyperlink{class_server}{Server}}\ server;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ 3.\ Попытка\ запустить\ сервер\ для\ прослушивания\ портов.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Метод\ \`{}listen()`\ возвращает\ \`{}true`\ в\ случае\ успеха\ и\ \`{}false`\ в\ случае\ неудачи.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (!server.\mbox{\hyperlink{class_server_abb791768fde7d1871855b9cf0aebdcbe}{listen}}())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Если\ сервер\ не\ смог\ запуститься\ (например,\ порты\ уже\ заняты),}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ выводим\ критическую\ ошибку\ в\ консоль.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ qCritical()\ <<\ \textcolor{stringliteral}{"{}Server\ could\ not\ start!"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Завершаем\ приложение\ с\ ненулевым\ кодом,\ сигнализируя\ об\ ошибке.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ 4.\ Запуск\ главного\ цикла\ обработки\ событий\ Qt.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Эта\ функция\ блокирует\ выполнение\ и\ передает\ управление\ Qt.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ \ \ \ Она\ будет\ выполняться\ "{}вечно"{},\ пока\ приложение\ не\ будет\ завершено.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ \ \ \ В\ этом\ цикле\ Qt\ будет\ обрабатывать\ входящие\ подключения,\ поступление}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ \ \ \ данных\ в\ сокеты,\ срабатывание\ таймеров\ и\ т.д.,\ вызывая}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ \ \ \ соответствующие\ слоты\ в\ нашем\ объекте\ \`{}server`.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{return}\ a.exec();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,65 @@
+\doxysection{loginwidget.\+h}
+\hypertarget{loginwidget_8h_source}{}\label{loginwidget_8h_source}\mbox{\hyperlink{loginwidget_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ LOGINWIDGET\_H}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ LOGINWIDGET\_H}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}\ \textcolor{comment}{//\ Хотя\ этот\ include\ здесь\ напрямую\ не\ используется,}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00005}00005\ \textcolor{comment}{//\ он\ может\ быть\ полезен\ для\ будущего\ расширения}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00006}00006\ \textcolor{comment}{//\ (например,\ если\ нужно\ будет\ работать\ со\ структурой\ User).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <QWidget>}\ \ \ \ \ \ \textcolor{comment}{//\ Включаем\ базовый\ класс\ для\ всех\ виджетов\ Qt.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00009}00009\ \textcolor{comment}{//\ Прямое\ объявление\ (Forward\ Declaration).}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00010}00010\ \textcolor{comment}{//\ Мы\ используем\ указатель\ на\ QAction,\ поэтому\ полного\ определения\ класса\ не\ требуется.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00011}00011\ \textcolor{keyword}{class\ }QAction;}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00013}00013\ \textcolor{comment}{//\ Пространство\ имен,\ генерируемое\ Qt\ UI\ Compiler\ (uic)\ из\ loginwidget.ui.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00014}00014\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_ui}{Ui}}\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00015}00015\ \textcolor{keyword}{class\ }LoginWidget;}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00016}00016\ \}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00030}\mbox{\hyperlink{class_login_widget}{00030}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{LoginWidget}}\ :\ \textcolor{keyword}{public}\ QWidget}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00032}00032\ \ \ \ \ Q\_OBJECT\ \textcolor{comment}{//\ Обязательный\ макрос\ для\ классов,\ использующих\ сигналы\ и\ слоты.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00034}00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_login_widget_a031e07c8e32b288e982a0c23d0fe1d0d}{LoginWidget}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00045}00045\ \ \ \ \ QString\ \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00050}00050\ \ \ \ \ \mbox{\hyperlink{class_login_widget_a97bf0d57b1fdebda30f5ea738577d759}{\string~LoginWidget}}();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ Публичные\ слоты\ -\/\ это\ часть\ API,\ которую\ могут\ вызывать\ другие\ классы.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00053}00053\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a9a3fa3187e640990165071b37ac33a57}{setUiEnabled}}(\textcolor{keywordtype}{bool}\ enabled);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a9eefea5a7f5c538ff74e5b9ef061da9f}{clearFields}}();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00071}00071\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a0d64d935de92dff39242bc6887a7c989}{onRegistrationSuccess}}();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ Сигналы\ -\/\ способ,\ которым\ виджет\ сообщает\ внешнему\ миру\ (MainWindow)\ о\ действиях\ пользователя.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00074}00074\ signals:}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00080}\mbox{\hyperlink{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017}{00080}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_adbd0375e506207d9cf8420a0b5fa1017}{loginRequested}}(\textcolor{keyword}{const}\ QString\&\ \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}},\ \textcolor{keyword}{const}\ QString\&\ password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00088}\mbox{\hyperlink{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5}{00088}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_login_widget_a1945c6e523ef5d5d697e1b4db5881aa5}{registerRequested}}(\textcolor{keyword}{const}\ QString\&\ \mbox{\hyperlink{class_login_widget_a01a9e3569fdca13ae9a0c2cb2caa43f3}{username}},\ \textcolor{keyword}{const}\ QString\&\ displayName,\ \textcolor{keyword}{const}\ QString\&\ password);}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00090}00090\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ Указатель\ на\ UI-\/форму,\ сгенерированную\ из\ .ui\ файла.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ Позволяет\ получить\ доступ\ к\ виджетам,\ размещенным\ в\ Qt\ Designer.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00093}00093\ \ \ \ \ Ui::LoginWidget\ *ui;}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ Указатель\ на\ действие\ (QAction),\ которое\ представляет\ собой\ иконку\ "{}глаза"{}}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00096}00096\ \ \ \ \ \textcolor{comment}{//\ в\ поле\ ввода\ пароля\ для\ переключения\ его\ видимости.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00097}00097\ \ \ \ \ QAction*\ m\_passwordVisibilityAction;}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ Приватные\ слоты\ -\/\ используются\ для\ обработки\ внутренних\ событий\ виджета.}}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00100}00100\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00104}00104\ \ \ \ \ \textcolor{keywordtype}{void}\ ongoToRegisterButtonclicked();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00109}00109\ \ \ \ \ \textcolor{keywordtype}{void}\ ongoToLoginButtonclicked();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00115}00115\ \ \ \ \ \textcolor{keywordtype}{void}\ onTogglePasswordVisibilityTriggered();}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00116}00116\ \};}
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{loginwidget_8h_source_l00118}00118\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOGINWIDGET\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,14 @@
+<map id="chatfilterproxymodel.h" name="chatfilterproxymodel.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="131,5,280,32"/>
+<area shape="rect" id="Node000002" href="$chatfilterproxymodel_8cpp.html" title=" " alt="" coords="5,80,169,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,43,109,82,106,77,171,38"/>
+<area shape="rect" id="Node000003" href="$mainwindow_8cpp.html" title="Реализация главного окна и центрального контроллера приложения." alt="" coords="131,155,248,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,48,194,154,188,154,200,47"/>
+<area shape="rect" id="Node000004" href="$mainwindow_8h.html" title=" " alt="" coords="275,80,379,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="241,38,307,77,304,82,238,43"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="291,117,215,156,213,152,288,112"/>
+<area shape="rect" id="Node000005" href="$contactlistmodel_8cpp.html" title="Реализация модели данных для списка контактов." alt="" coords="272,155,414,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="336,122,343,154,338,155,330,123"/>
+<area shape="rect" id="Node000006" href="$main_8cpp.html" title="Точка входа в приложение чат&#45;клиента." alt="" coords="438,155,512,181"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="368,111,450,152,448,156,365,116"/>
+</map>

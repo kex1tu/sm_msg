@@ -1,0 +1,6 @@
+<map id="MainWindow::MainWindow" name="MainWindow::MainWindow">
+<area shape="rect" id="Node000001" title="Конструктор главного окна." alt="" coords="254,29,433,56"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="385,17,371,10,343,8,318,10,305,15,301,20,308,27,303,31,296,21,301,11,317,5,343,3,372,5,387,12"/>
+<area shape="rect" id="Node000002" href="$class_main_window.html#aca6f76d8507ea2e1a3ffce8e263eb901" title="Сигнал, который отправляется в ChatViewWidget." alt="" coords="5,21,206,64"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="238,45,206,45,206,40,238,40"/>
+</map>

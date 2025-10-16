@@ -1,0 +1,249 @@
+\doxysection{chatmessagedelegate.\+cpp}
+\hypertarget{chatmessagedelegate_8cpp_source}{}\label{chatmessagedelegate_8cpp_source}\mbox{\hyperlink{chatmessagedelegate_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{chatmessagedelegate_8h}{chatmessagedelegate.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{chatmessagemodel_8h}{chatmessagemodel.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structures_8h}{structures.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <QPainter>}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <QSvgRenderer>}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <QPainterPath>}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <algorithm>}\ \textcolor{comment}{//\ Для\ std::max}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00016}00016\ \textcolor{comment}{//\ Инициализируем\ статические\ члены\ класса.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00017}00017\ QMap<ChatMessage::MessageStatus,\ QSvgRenderer*>\ ChatMessageDelegate::m\_statusRenderers;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00018}00018\ \textcolor{keywordtype}{bool}\ ChatMessageDelegate::m\_renderersInitialized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00025}\mbox{\hyperlink{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}{00025}}\ \mbox{\hyperlink{class_chat_message_delegate_ae4d5546fd4ac51179f845540e249c7fe}{ChatMessageDelegate::ChatMessageDelegate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_chat_message_model}{ChatMessageModel}}*\ model,\ QObject\ *parent)}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00026}00026\ \ \ \ \ :\ QStyledItemDelegate(parent),\ m\_model(model)}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ Безопасно\ инициализируем\ SVG-\/ресурсы\ один\ раз.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00029}00029\ \ \ \ \ initRenderers(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00030}00030\ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00040}00040\ \textcolor{keywordtype}{void}\ ChatMessageDelegate::initRenderers(QObject*\ parent)}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_renderersInitialized)\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Предотвращаем\ повторную\ инициализацию.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00044}00044\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[Delegate]\ Инициализация\ SVG-\/рендереров..."{}};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00046}00046\ \ \ \ \ \textcolor{comment}{//\ Загружаем\ каждую\ SVG-\/иконку\ и\ связываем\ ее\ с\ соответствующим\ статусом\ сообщения.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00047}00047\ \ \ \ \ m\_statusRenderers[\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a5d1be0cec299edac99f74bd731be7b0a}{ChatMessage::Sending}}]\ =\ \textcolor{keyword}{new}\ QSvgRenderer(QString(\textcolor{stringliteral}{"{}:/icons/clock\_icon.svg"{}}),\ parent);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00048}00048\ \ \ \ \ m\_statusRenderers[\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ad068dce0d24135fd00ce316d86c66ade}{ChatMessage::Sent}}]\ =\ \textcolor{keyword}{new}\ QSvgRenderer(QString(\textcolor{stringliteral}{"{}:/icons/message\_send\_icon.svg"{}}),\ parent);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00049}00049\ \ \ \ \ m\_statusRenderers[\mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}{ChatMessage::Delivered}}]\ =\ \textcolor{keyword}{new}\ QSvgRenderer(QString(\textcolor{stringliteral}{"{}:/icons/message\_read\_icon.svg"{}}),\ parent);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00051}00051\ \ \ \ \ m\_renderersInitialized\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00052}00052\ \ \ \ \ qDebug()\ <<\ \textcolor{stringliteral}{"{}[Delegate]\ Рендереры\ созданы."{}};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00061}\mbox{\hyperlink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{00061}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_chat_message_delegate_a63a8d8680f60653282990409146e300b}{ChatMessageDelegate::paint}}(QPainter\ *painter,\ \textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00062}00062\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 1.\ Подготовка\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ Сбрасываем\ стандартное\ выделение\ и\ наведение,\ чтобы\ управлять\ ими\ вручную\ (hover-\/эффект\ пузыря).}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00065}00065\ \ \ \ \ QStyleOptionViewItem\ opt\ =\ option;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00066}00066\ \ \ \ \ opt.state\ \&=\ \string~(QStyle::State\_Selected\ |\ QStyle::State\_MouseOver\ |\ QStyle::State\_HasFocus);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00067}00067\ \ \ \ \ QStyledItemDelegate::paint(painter,\ opt,\ index);\ \textcolor{comment}{//\ Рисуем\ фон\ и\ другие\ базовые\ вещи.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00069}00069\ \ \ \ \ painter-\/>save();\ \textcolor{comment}{//\ Сохраняем\ текущее\ состояние\ painter'а\ (трансформации,\ кисти,\ перья).}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00070}00070\ \ \ \ \ painter-\/>setRenderHint(QPainter::Antialiasing);\ \textcolor{comment}{//\ Включаем\ сглаживание\ для\ красивых\ фигур.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ Получаем\ объект\ сообщения\ из\ модели.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00074}00074\ \ \ \ \ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ message\ =\ index.data(Qt::UserRole).value<\mbox{\hyperlink{struct_chat_message}{ChatMessage}}>();}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00075}00075\ \ \ \ \ QRect\ originalRect\ =\ option.rect;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ Определяем\ базовые\ константы\ геометрии.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordtype}{int}\ margin\ =\ 10;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Внешний\ отступ\ пузыря\ от\ краев\ элемента.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{int}\ padding\ =\ 10;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Внутренний\ отступ\ от\ краев\ пузыря\ до\ контента.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{int}\ borderRadius\ =\ 15;\ \ \ \ \textcolor{comment}{//\ Радиус\ скругления\ углов\ пузыря.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{int}\ verticalSpacing\ =\ 10;\ \textcolor{comment}{//\ Вертикальный\ отступ\ между\ сообщениями.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00082}00082\ \ \ \ \ QFontMetrics\ fm(painter-\/>font());}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ Уменьшаем\ рабочую\ область,\ чтобы\ учесть\ вертикальный\ отступ.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00086}00086\ \ \ \ \ QRect\ contentRect\ =\ originalRect.adjusted(0,\ verticalSpacing\ /\ 2,\ 0,\ -\/verticalSpacing\ /\ 2);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 2.\ Отрисовка\ цитаты\ (ответа)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00089}00089\ \ \ \ \ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ repliedMsg;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordtype}{int}\ quoteHeight\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keywordtype}{bool}\ foundReply\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{replyToId}}\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Запрашиваем\ данные\ цитируемого\ сообщения\ у\ модели\ по\ его\ ID.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ foundReply\ =\ m\_model-\/>getMessageById(message.\mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{replyToId}},\ repliedMsg);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00095}00095\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (foundReply)\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ quoteHeight\ =\ fm.height()\ *\ 2\ +\ 15;\ \textcolor{comment}{//\ Расчетная\ высота\ блока\ цитаты.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рассчитываем\ геометрию\ блока\ цитаты.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nameWidth\ =\ fm.horizontalAdvance(repliedMsg.\mbox{\hyperlink{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}{fromUser}});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ QString\ elidedText\ =\ fm.elidedText(repliedMsg.\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}},\ Qt::ElideRight,\ 250);\ \textcolor{comment}{//\ Обрезаем\ длинный\ текст.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ textWidth\ =\ fm.horizontalAdvance(elidedText);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ quoteContentWidth\ =\ std::max(nameWidth,\ textWidth);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ quoteTotalWidth\ =\ quoteContentWidth\ +\ padding\ +\ 4\ +\ 8;\ \textcolor{comment}{//\ Ширина\ =\ контент\ +\ отступы\ +\ полоса.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ QRectF\ quoteRect(0,\ 0,\ quoteTotalWidth,\ quoteHeight\ -\/\ 5);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Выравниваем\ блок\ цитаты\ по\ правому\ или\ левому\ краю.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{isOutgoing}})\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ quoteRect.moveTopRight(contentRect.topRight()\ -\/\ QPoint(margin,\ 0));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ quoteRect.moveTopLeft(contentRect.topLeft()\ +\ QPoint(margin,\ 0));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рисуем\ цветную\ вертикальную\ полосу\ слева\ от\ цитаты.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ QRectF\ colorBarRect\ =\ quoteRect.adjusted(padding,\ 4,\ 0,\ -\/4);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ colorBarRect.setWidth(4);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ painter-\/>setBrush(QColor(\textcolor{stringliteral}{"{}\#E072A4"{}}));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ painter-\/>setPen(Qt::NoPen);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ painter-\/>drawRoundedRect(colorBarRect,\ 2,\ 2);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рисуем\ имя\ автора\ и\ текст\ цитаты.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ QRectF\ quoteTextRect\ =\ quoteRect.adjusted(colorBarRect.width()\ +\ padding\ +\ 4,\ 5,\ -\/padding,\ -\/5);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ painter-\/>setPen(QColor(\textcolor{stringliteral}{"{}\#E072A4"{}}));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ painter-\/>drawText(quoteTextRect,\ Qt::AlignTop\ |\ Qt::AlignLeft,\ repliedMsg.\mbox{\hyperlink{struct_chat_message_ac320069d05d75cb668a2f0f209cb4cb1}{fromUser}});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ painter-\/>setPen(Qt::gray);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ QRectF\ repliedTextRect\ =\ quoteTextRect.adjusted(0,\ fm.height(),\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ painter-\/>drawText(repliedTextRect,\ Qt::AlignTop\ |\ Qt::AlignLeft,\ elidedText);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Сдвигаем\ область\ для\ отрисовки\ основного\ сообщения\ вниз.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ contentRect.setTop(contentRect.top()\ +\ quoteHeight);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00134}00134\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00137}00137\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 3.\ Расчет\ геометрии\ основного\ пузыря\ сообщения\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{comment}{//\ Ограничиваем\ максимальную\ ширину\ пузыря\ (75\%\ от\ ширины\ виджета).}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordtype}{int}\ textWidth\ =\ contentRect.width()\ *\ 0.75\ -\/\ 2\ *\ padding;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (textWidth\ <=\ 0)\ textWidth\ =\ 300;\ \textcolor{comment}{//\ Минимальная\ ширина\ на\ случай\ ошибок.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00142}00142\ \ \ \ \ \textcolor{comment}{//\ Рассчитываем\ прямоугольник,\ необходимый\ для\ отрисовки\ текста\ с\ переносами.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00143}00143\ \ \ \ \ QRect\ payloadRect\ =\ fm.boundingRect(QRect(0,\ 0,\ textWidth,\ 0),\ Qt::TextWrapAnywhere,\ message.\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{keywordtype}{int}\ metaDataHeight\ =\ fm.height();\ \textcolor{comment}{//\ Высота\ для\ строки\ с\ временем\ и\ статусом.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//\ Формируем\ строку\ метаданных.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00147}00147\ \ \ \ \ QString\ metaText;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_ab2ec47a0fc170d2573216ac6df7ea22c}{isEdited}})\ metaText\ +=\ \textcolor{stringliteral}{"{}(изм.)\ "{}};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00149}00149\ \ \ \ \ metaText\ +=\ message.\mbox{\hyperlink{struct_chat_message_a2eb9cb36cae0f4a1b8f53746e18b0e90}{timestamp}}.mid(11,\ 5);\ \textcolor{comment}{//\ "{}HH:mm"{}}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{keywordtype}{int}\ metaTextWidth\ =\ fm.horizontalAdvance(metaText);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//\ Ширина\ пузыря\ -\/\ это\ максимум\ из\ ширины\ текста\ и\ ширины\ метаданных.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00153}00153\ \ \ \ \ \textcolor{keywordtype}{int}\ bubbleContentWidth\ =\ std::max(payloadRect.width(),\ metaTextWidth);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordtype}{int}\ bubbleContentHeight\ =\ payloadRect.height()\ +\ metaDataHeight\ +\ 4;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00156}00156\ \ \ \ \ QRect\ bubbleRect(0,\ 0,\ bubbleContentWidth\ +\ 2\ *\ padding,\ bubbleContentHeight\ +\ 2\ *\ padding);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00158}00158\ \ \ \ \ \textcolor{comment}{//\ Устанавливаем\ минимальную\ ширину,\ чтобы\ короткие\ сообщения\ (типа\ "{}ок"{})\ не\ выглядели\ слишком\ узкими.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00159}00159\ \ \ \ \ \textcolor{keywordtype}{int}\ minBubbleWidth\ =\ 100;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00160}00160\ \ \ \ \ \textcolor{keywordflow}{if}\ (bubbleRect.width()\ <\ minBubbleWidth)\ bubbleRect.setWidth(minBubbleWidth);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00162}00162\ \ \ \ \ \textcolor{comment}{//\ Выравниваем\ пузырь\ по\ правому\ (исходящие)\ или\ левому\ (входящие)\ краю.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{isOutgoing}})\ bubbleRect.moveTopRight(contentRect.topRight()\ -\/\ QPoint(margin,\ 0));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{keywordflow}{else}\ bubbleRect.moveTopLeft(contentRect.topLeft()\ +\ QPoint(margin,\ 0));}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00166}00166\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 4.\ Отрисовка\ основного\ пузыря\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00167}00167\ \ \ \ \ QColor\ bubbleColor\ =\ message.\mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{isOutgoing}}\ ?\ QColor(\textcolor{stringliteral}{"{}\#E072A4"{}}).darker(150)\ :\ QColor(\textcolor{stringliteral}{"{}\#3D383A"{}});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00168}00168\ \ \ \ \ painter-\/>setBrush(bubbleColor);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00169}00169\ \ \ \ \ painter-\/>setPen(Qt::NoPen);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00170}00170\ \ \ \ \ painter-\/>drawRoundedRect(bubbleRect,\ borderRadius,\ borderRadius);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{comment}{//\ Рисуем\ текст\ сообщения.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00173}00173\ \ \ \ \ QRect\ textDrawRect\ =\ bubbleRect.adjusted(padding,\ padding,\ -\/padding,\ -\/padding);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00174}00174\ \ \ \ \ textDrawRect.setHeight(payloadRect.height());}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00175}00175\ \ \ \ \ painter-\/>setPen(Qt::white);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00176}00176\ \ \ \ \ QTextOption\ textOption(Qt::AlignLeft\ |\ Qt::AlignVCenter);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00177}00177\ \ \ \ \ textOption.setWrapMode(QTextOption::WrapAnywhere);\ \textcolor{comment}{//\ Включаем\ перенос\ слов.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00178}00178\ \ \ \ \ painter-\/>drawText(textDrawRect,\ message.\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}},\ textOption);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ 5.\ Отрисовка\ метаданных\ (время\ и\ статус)\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00181}00181\ \ \ \ \ QRect\ baseMetaRect\ =\ bubbleRect.adjusted(padding,\ padding,\ -\/padding,\ -\/padding);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00182}00182\ \ \ \ \ baseMetaRect.setTop(textDrawRect.bottom()\ +\ 4);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00183}00183\ \ \ \ \ baseMetaRect.setHeight(metaDataHeight);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_a3324498eabe9971a5e2843e44d3a87f4}{isOutgoing}})\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ исходящих\ сообщений\ рисуем\ и\ текст,\ и\ иконку\ статуса.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ iconSize\ =\ fm.height()\ -\/\ 2;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ iconPadding\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рассчитываем\ место\ для\ иконки\ справа.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ QRect\ iconRect(baseMetaRect.right()\ -\/\ iconSize,\ baseMetaRect.top()\ +\ (baseMetaRect.height()\ -\/\ iconSize)\ /\ 2,\ iconSize,\ iconSize);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Оставшееся\ место\ слева\ от\ иконки\ -\/\ для\ текста.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ QRect\ textMetaRect\ =\ baseMetaRect;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ textMetaRect.setRight(iconRect.left()\ -\/\ iconPadding);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Рисуем\ текст\ (время,\ "{}изм."{}).}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ QPen\ textPen\ =\ (message.\mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{status}}\ ==\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{ChatMessage::Read}})\ ?\ QColor(70,\ 150,\ 255)\ :\ Qt::gray;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ painter-\/>setPen(textPen);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ painter-\/>drawText(textMetaRect,\ Qt::AlignRight\ |\ Qt::AlignVCenter,\ metaText);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Продвинутая\ отрисовка\ и\ перекрашивание\ SVG\ иконки\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51}{ChatMessage::MessageStatus}}\ statusToRender\ =\ message.\mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{status}};}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (statusToRender\ ==\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{ChatMessage::Read}})\ statusToRender\ =\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51ace14df0cd78a223b8e59b4a0169f4dbe}{ChatMessage::Delivered}};\ \textcolor{comment}{//\ Для\ "{}прочитано"{}\ используем\ иконку\ "{}доставлено"{}.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ QSvgRenderer*\ renderer\ =\ m\_statusRenderers.value(statusToRender,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (renderer\ \&\&\ renderer-\/>isValid())\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ QPixmap\ pixmap(iconRect.size());}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ pixmap.fill(Qt::transparent);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1.\ Рендерим\ SVG\ на\ временный\ QPixmap.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ QPainter\ pixmapPainter(\&pixmap);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ renderer-\/>render(\&pixmapPainter);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ pixmapPainter.end();}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.\ "{}Заливаем"{}\ отрендеренное\ изображение\ нужным\ цветом.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ QPainter\ effectPainter(\&pixmap);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ effectPainter.setCompositionMode(QPainter::CompositionMode\_SourceIn);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ QColor\ iconColor\ =\ (message.\mbox{\hyperlink{struct_chat_message_a2b5290f67bfd10fde22aff9232b4ec9c}{status}}\ ==\ \mbox{\hyperlink{struct_chat_message_a6f51f3c62dff51663f3f136e5ebc4e51a2ab4f590a7fb430a7b4342a6368869d9}{ChatMessage::Read}})\ ?\ QColor(70,\ 150,\ 255)\ :\ Qt::gray;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ effectPainter.fillRect(pixmap.rect(),\ iconColor);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ effectPainter.end();}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 3.\ Рисуем\ итоговый\ перекрашенный\ QPixmap\ на\ основной\ холст.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ painter-\/>drawPixmap(iconRect,\ pixmap);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00225}00225\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Для\ входящих\ сообщений\ просто\ рисуем\ текст\ справа.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ painter-\/>setPen(Qt::gray);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ painter-\/>drawText(baseMetaRect,\ Qt::AlignRight\ |\ Qt::AlignVCenter,\ metaText);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00231}00231\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00233}00233\ \ \ \ \ painter-\/>restore();\ \textcolor{comment}{//\ Восстанавливаем\ состояние\ painter'а.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00234}00234\ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00245}\mbox{\hyperlink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{00245}}\ QSize\ \mbox{\hyperlink{class_chat_message_delegate_af2ea724e5de7a54e625e58d9e0383759}{ChatMessageDelegate::sizeHint}}(\textcolor{keyword}{const}\ QStyleOptionViewItem\ \&option,\ \textcolor{keyword}{const}\ QModelIndex\ \&index)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00246}00246\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00247}00247\ \ \ \ \ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ message\ =\ index.data(Qt::UserRole).value<\mbox{\hyperlink{struct_chat_message}{ChatMessage}}>();}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{keywordtype}{int}\ padding\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00249}00249\ \ \ \ \ \textcolor{keywordtype}{int}\ verticalSpacing\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00250}00250\ \ \ \ \ QFontMetrics\ fm(option.font);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{comment}{//\ 1.\ Рассчитываем\ высоту\ блока\ цитаты,\ если\ он\ есть.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00253}00253\ \ \ \ \ \textcolor{keywordtype}{int}\ quoteHeight\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00254}00254\ \ \ \ \ \textcolor{keywordflow}{if}\ (message.\mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{replyToId}}\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ repliedMsg;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_model-\/>getMessageById(message.\mbox{\hyperlink{struct_chat_message_a3df0e770167cb943d7a73bf4dedda13f}{replyToId}},\ repliedMsg))\ \{}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ quoteHeight\ =\ fm.height()\ *\ 2\ +\ 15;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00259}00259\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00261}00261\ \ \ \ \ \textcolor{comment}{//\ 2.\ Рассчитываем\ высоту\ основного\ текста\ с\ учетом\ переносов.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{keywordtype}{int}\ textWidth\ =\ option.rect.width()\ *\ 0.75\ -\/\ 2\ *\ padding;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{if}\ (textWidth\ <=\ 0)\ textWidth\ =\ 300;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00264}00264\ \ \ \ \ QRect\ payloadRect\ =\ fm.boundingRect(QRect(0,\ 0,\ textWidth,\ 0),\ Qt::TextWrapAnywhere,\ message.\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}});}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00266}00266\ \ \ \ \ \textcolor{comment}{//\ 3.\ Высота\ строки\ метаданных.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{keywordtype}{int}\ metaDataHeight\ =\ fm.height();}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{comment}{//\ 4.\ Суммарная\ высота\ пузыря.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{keywordtype}{int}\ bubbleHeight\ =\ payloadRect.height()\ +\ metaDataHeight\ +\ 4\ +\ (2\ *\ padding);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{comment}{//\ 5.\ Итоговая\ высота\ всего\ элемента.}}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{keywordtype}{int}\ totalHeight\ =\ quoteHeight\ +\ bubbleHeight\ +\ verticalSpacing;}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{keywordflow}{return}\ QSize(option.rect.width(),\ totalHeight);}
+\DoxyCodeLine{\Hypertarget{chatmessagedelegate_8cpp_source_l00276}00276\ \}}
+
+\end{DoxyCode}

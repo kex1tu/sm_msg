@@ -1,0 +1,22 @@
+\doxysection{chatfilterproxymodel.\+cpp}
+\hypertarget{chatfilterproxymodel_8cpp_source}{}\label{chatfilterproxymodel_8cpp_source}\mbox{\hyperlink{chatfilterproxymodel_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{chatmessagemodel_8h}{chatmessagemodel.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{chatfilterproxymodel_8h}{chatfilterproxymodel.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <QModelIndex>}}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00006}\mbox{\hyperlink{class_chat_filter_proxy_model_a1d1f4fa92b5a2aa413558e687fbc162a}{00006}}\ \mbox{\hyperlink{class_chat_filter_proxy_model_a1d1f4fa92b5a2aa413558e687fbc162a}{ChatFilterProxyModel::ChatFilterProxyModel}}(QObject\ *parent)}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00007}00007\ \ \ \ \ :\ QSortFilterProxyModel(parent)}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00009}00009\ \}}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00011}\mbox{\hyperlink{class_chat_filter_proxy_model_a14175ccb7545b61b415508a05bd3461e}{00011}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_chat_filter_proxy_model_a14175ccb7545b61b415508a05bd3461e}{ChatFilterProxyModel::filterAcceptsRow}}(\textcolor{keywordtype}{int}\ source\_row,\ \textcolor{keyword}{const}\ QModelIndex\ \&source\_parent)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00012}00012\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00013}00013\ \ \ \ \ QModelIndex\ index\ =\ sourceModel()-\/>index(source\_row,\ 0,\ source\_parent);}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00014}00014\ \ \ \ \ \mbox{\hyperlink{struct_chat_message}{ChatMessage}}\ msg\ =\ sourceModel()-\/>data(index,\ Qt::UserRole).value<\mbox{\hyperlink{struct_chat_message}{ChatMessage}}>();}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{keywordflow}{return}\ msg.\mbox{\hyperlink{struct_chat_message_a13c9abcd1f4c372481074a1182a9fb35}{payload}}.contains(filterRegularExpression());}
+\DoxyCodeLine{\Hypertarget{chatfilterproxymodel_8cpp_source_l00017}00017\ \}}
+
+\end{DoxyCode}
