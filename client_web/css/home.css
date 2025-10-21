@@ -1,0 +1,202 @@
+*{
+    border: none;
+    font-family: Segoe UI, sans-serif;
+    color: #EAEAEA;
+    margin: 0;
+    padding: 0; 
+    /* Убираем все отступы по умолчанию, напишу их сам */
+}
+
+html, body{
+    overflow-y: hidden;
+}
+
+.hidden{
+    display: none !important;
+}
+
+
+
+.Login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 703px;
+    height: 100%;
+    background-color: #353738;
+    gap: 20px;
+}
+
+.login_window{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login_window input {
+  width: 250px; 
+  padding: 12px;
+  border: 1px solid #ccc;
+  background-color: #494c4d;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.login_window input:focus {
+    outline: none;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.enter_button{
+    padding: 10px 0;
+    text-align: center;
+    width: 274px;
+    border: none;
+    border-radius: 6px;
+    background-color:#e76292;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;  
+}
+
+.to_register {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+}
+
+.Main{
+    display: flex;
+    flex-direction: row;
+    min-height: 703px;
+    height: 100vh;
+}
+
+
+.left_column{
+    background-color: #353738;
+    width: 30%;
+    padding: 0 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.right_column{
+    background-color: #18191A;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message_list{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.contact_list{
+    list-style-type: none;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.contact{
+    /* border: 1px, solid,#EAEAEA; */
+    border-radius: 8px;
+    background-color: #353738;
+    padding: 8px 15px;
+    margin: 5px 0;
+}
+
+.contact:hover{
+    background-color: #494c4d;
+}
+
+.current_contact{
+    background-color: #e76292;
+}
+
+.contact_search{
+    /* border: 1px, solid,#EAEAEA; */
+    border: none;
+    border-radius: 8px;
+    background-color: #494c4d;
+    padding: 8px 15px;
+    margin: 5px 0;
+    
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact_search:focus{
+    outline: none;
+}
+
+.message{
+    border-radius: 8px;
+    background-color: #353738;
+    padding: 8px 15px;
+    margin: 5px;
+    width: fit-content;
+}
+
+.my_message{
+    background-color: #e76292;
+}
+
+
+.message_input_area {
+    display: flex; 
+    align-items: center; 
+    padding: 10px;
+    /* background-color: #353738;  */
+    background-color: #18191A;
+    flex-shrink: 0; 
+}
+
+
+.message_input {
+    flex-grow: 1; 
+    padding: 10px 15px;
+    border: none;
+    border-radius: 18px;
+    background-color: #494c4d;
+    color: #EAEAEA;
+    font-size: 15px;
+    resize: none; 
+    outline: none;
+    max-height: 100px; 
+    overflow-y: auto; 
+}
+
+
+.send_button {
+    background-color: #e76292;
+    border: none;
+    border-radius: 50%; 
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.send_button:hover {
+    background-color: #d1527f;
+}
