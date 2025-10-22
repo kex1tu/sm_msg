@@ -21,6 +21,6 @@ export const update_html_message_list = function(message_array, new_user = false
             message_list_element.appendChild(message); 
         }
         
-        //TODO: Тут еще херова гора параметров, которые понадобятся позже.
+        //TODO: Тут еще много параметров, которые понадобятся позже.
     }
 }

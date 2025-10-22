@@ -12,12 +12,16 @@ const mainWrapper = document.getElementById('Main_wrapper');
 const message_list_html = document.getElementById('message_list');
 const contact_list_html = document.getElementById('contact_list');
 const right_column = document.getElementById('right_column');
+const send_button_html = document.getElementById('send_button');
+const message_input_html = document.getElementById('message_input');
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
 
 let current_chat_username; //Отслеживаем, с каким пользователем открыт чат
 let first_message_in_chat; //ID первого в списке сообщения в чате
 let previous_first_message; //Запоминаем переменную строчкой выше, когда происходит вызов функции на прокрутке
+let last_message_id;
+const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
 const user_array = []; //Массив с объектами user = 
 // {"username": "123", 
 // "displayname": "123", 
@@ -63,6 +67,31 @@ message_list_html.addEventListener('scroll', () => { //Обработка про
     }
 })
 
+send_button_html.addEventListener('click', () => {
+    last_message_id = message_list_html.lastChild.id;
+    let temp_id = '#' + sessionStorage.getItem('my_username') + '#' + current_chat_username + '#' + (parseInt(last_message_id.substring(1), 10) + 1).toString();
+    const request = {
+        "type": "private_message",
+        "fromUser": sessionStorage.getItem('my_username'),
+        "toUser": current_chat_username,
+        "payload": message_input_html.value,
+        "reply_to_id": '0',
+        "temp_id": temp_id
+    }
+
+    socket.send(JSON.stringify(request));
+    last_message_id;
+    private_message_queue.push('#' + temp_id);
+
+    const message = document.createElement('p');
+    message.textContent = request['payload'];
+    message.id = '#' + temp_id;
+    message.classList.add('message', 'my_message');
+    message_list_html.appendChild(message);
+    message_list_html.scrollTo(0, message_list_html.scrollHeight);
+    message_input_html.value = '';
+})
+
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
 socket.onmessage = function(event){
@@ -90,6 +119,8 @@ socket.onmessage = function(event){
             tmp_array = response["history"];
             messageHandle.update_html_message_list(tmp_array, true);
             first_message_in_chat = tmp_array[0]['id'];
+
+            // last_message_id = message_list_html.lastChild.id;
             message_list_html.scrollTo(0, message_list_html.scrollHeight);
             break;
         case "old_history_data":
@@ -99,5 +130,26 @@ socket.onmessage = function(event){
                 first_message_in_chat = tmp_array[0]['id'];
             }
             break;
+        case "private_message": //Стоит переписать
+            if (response['temp_id']){ //Наличие поля temp_id говорит о том, что сервер отправил эхо нашего же сообщения
+                let temp_id = response['temp_id'];
+                if (!(temp_id in private_message_queue)){ //Если такого сообщения мы не отправляли, игнорируем его
+                    break;
+                }
+                private_message_queue.slice(private_message_queue.indexOf('#' + temp_id), 1); //Удаляем временный ID из очереди, так как сервер отчитался о его доставке
+                const message_element = document.getElementById('#' + temp_id);
+                message_element.id = response['id'];
+            }
+            else{
+                const message = document.createElement('p');
+                message.textContent = response["payload"];
+                message.id = '#' + response["id"];
+                message.classList.add('message');
+                if (current_chat_username === response['fromUser']){
+                    message_list_html.appendChild(message);
+                    message_list_html.scrollTo(0, message_list_html.scrollHeight);
+                }
+                
+            }
     }
 }
