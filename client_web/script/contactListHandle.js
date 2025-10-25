@@ -40,7 +40,7 @@ export const user_array_manager = function(array, user, delete_user = false){
             }
         }
     }
-    if (!(user in array)){
+    if (!(user in array)){ //Переписать
         array.push(user);
     }
     

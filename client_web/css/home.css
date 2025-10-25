@@ -147,6 +147,9 @@ html, body{
     padding: 8px 15px;
     margin: 5px;
     width: fit-content;
+    max-width: 1000px; 
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .my_message{
@@ -175,7 +178,7 @@ html, body{
     resize: none; 
     outline: none;
     max-height: 100px; 
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 
@@ -190,7 +193,6 @@ html, body{
     font-size: 20px;
     color: white;
     
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -199,4 +201,61 @@ html, body{
 
 .send_button:hover {
     background-color: #d1527f;
+}
+
+.left_column_header{
+    display: flex;
+    flex-direction: row;
+}
+
+.pending_contact_button{
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.pending_contact_img{
+    width: 90%;
+    height: 90%;
+    
+}
+
+.pending_contact_button:hover{
+    background-color: #494c4d;
+}
+
+.pending_contact{
+    /* border: 1px, solid,#EAEAEA; */
+    border-radius: 8px;
+    background-color: #353738;
+    padding: 8px 15px;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.pending_contact:hover{
+    background-color: #494c4d;
+}
+
+.pending_contact_accept_button{
+    margin-left: auto;
+    border-radius: 8px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.pending_contact_accept_button:first-of-type{
+    color: rgb(4, 182, 4);
+}
+
+.pending_contact_accept_button:last-of-type{
+    color: rgb(213, 4, 4);
+}
+
+.pending_contact_accept_button:hover{
+    opacity: 0.5;
 }

@@ -1,4 +1,4 @@
-export const update_html_message_list = function(message_array, new_user = false){
+export const message_history_load_html = function(message_array, new_user = false){
     const message_list_element = document.getElementById('message_list');
     if (new_user === true){ //Удаляем все элементы из контейнера для сообщений на странице
         while(message_list_element.firstChild){
@@ -23,4 +23,13 @@ export const update_html_message_list = function(message_array, new_user = false
         
         //TODO: Тут еще много параметров, которые понадобятся позже.
     }
+}
+
+export const add_message_html = function(message){
+    const message_list_html = document.getElementById('message_list');
+    const message_html = document.createElement('p');
+    message_html.textContent = message["payload"];
+    message_html.id = '#' + message["id"];
+    message_html.classList.add('message');
+    message_list_html.appendChild(message_html);
 }

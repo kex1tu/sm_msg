@@ -25,7 +25,16 @@
 
     <div class="Main hidden" id="Main_wrapper">
         <div class = "left_column">
-            <input class = "contact_search" placeholder="Поиск контактов...">
+            <div class="left_column_header">
+                <a class="pending_contact_button" id="pending_contact_button">
+                    <img class="pending_contact_img" src="source/pending_contact.svg" id = "pending_contact_img">
+                    <img class="pending_contact_img hidden" src="source/chat.svg" id = "chat_image"> 
+                </a>
+                <input class = "contact_search" placeholder="Поиск контактов...">
+            </div>
+            <ul class="pending_contact_list hidden" id = "pending_contact_list">
+                
+            </ul>
             <ul class = "contact_list" id = "contact_list">
                 
             </ul>
