@@ -23,13 +23,23 @@ export const pending_contact_list_load_html = function(contact_array){
         contact.appendChild(accept_button);
         contact.appendChild(refuse_button);
 
-        accept_button.addEventListener('click', () => {
+        accept_button.addEventListener('click', () => { //Кнопка, принимающая запрос на добавление в контакты
             const parent_element = accept_button.parentElement;
-            alert(item['fromUsername']);
             const request = {
                 'type': 'contact_request_response',
                 'fromUsername': item['fromUsername'],
                 'response': 'accepted'
+            }
+            socket.send(JSON.stringify(request));
+            parent_element.remove();
+        });
+
+        refuse_button.addEventListener('click', () => { //Кнопка отказа
+            const parent_element = refuse_button.parentElement;
+            const request = {
+                'type': 'contact_request_response',
+                'fromUsername': item['fromUsername'],
+                'response': "declined"
             }
             socket.send(JSON.stringify(request));
             parent_element.remove();

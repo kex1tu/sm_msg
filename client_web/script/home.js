@@ -2,6 +2,7 @@ import * as contactListHandle from './contactListHandle.js';
 import * as messageHandle from './messageHandle.js';
 import * as privateMessageHandle from './privateMessageHandle.js';
 import * as pendingContactHandle from './pendingContactHandle.js';
+import * as contactSearchHandle from './contactSearchHandle.js';
 
 //--------ЭЛЕМЕНТЫ HTML СТРАНИЦЫ-----------
 
@@ -12,7 +13,8 @@ const loginWrapper = document.getElementById('Login_wrapper');
 const mainWrapper = document.getElementById('Main_wrapper');
 const message_list_html = document.getElementById('message_list');
 const contact_list_html = document.getElementById('contact_list');
-const right_column = document.getElementById('right_column');
+const contact_search_html = document.getElementById('contact_search');
+// const right_column = document.getElementById('right_column');
 const send_button_html = document.getElementById('send_button');
 const message_input_html = document.getElementById('message_input');
 const pending_contact_list_html = document.getElementById('pending_contact_list');
@@ -74,6 +76,7 @@ message_list_html.addEventListener('scroll', () => { //Обработка про
 
 send_button_html.addEventListener('click', () => {
     if (current_chat_username === undefined){return;}
+    if (message_input_html.value === ''){return;}
     const temp_id = '#temp' + temp_id_counter.toString();
     ++temp_id_counter;
 
@@ -113,11 +116,28 @@ pending_contact_button_html.addEventListener('click', () => { //Свап спи�
     }
 })
 
+contact_search_html.addEventListener('input', () => {
+    const request = {
+        'type': "search_users",
+        'term': contact_search_html.value
+    }
+    socket.send(JSON.stringify(request));
+})
+
+contact_search_html.addEventListener('keydown', function(event){
+    if (event.key === 'Enter'){
+        const request = {
+            'type': 'add_contact_request',
+            'username': contact_search_html.value
+        }
+        socket.send(JSON.stringify(request));
+    }
+})
+
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
 socket.onmessage = function(event){
     let response = JSON.parse(event.data);
-    alert(response['type']);
     let tmp_array = [];
     
     switch (response["type"]){
@@ -180,5 +200,17 @@ socket.onmessage = function(event){
             tmp_array = [];
             tmp_array.push(response);
             pendingContactHandle.pending_contact_list_load_html(tmp_array);
+            break;
+        case "search_results":
+            tmp_array = response['users'];
+            contactSearchHandle.update_html_search_database(tmp_array);
+            break;
+        case "add_contact_success":
+            alert(response['reason']);
+            contact_search_html.value = '';
+            break;
+        case "add_contact_failure":
+            alert(response['reason']);
+            break;
     }
 }
