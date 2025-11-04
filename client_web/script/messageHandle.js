@@ -79,7 +79,13 @@ export const create_message_html = function(message){ //Создает html эл
         replyTextP.classList.add('reply_payload');
 
         if (source_message){
-            replyTextP.textContent = source_text;
+            if (source_text.length > 40){
+                replyTextP.textContent = source_text.slice(0, 40) + '...';
+            }
+            else{
+                replyTextP.textContent = source_text;
+            }
+            
             replyUserP.textContent = source_message.classList.contains('my_message') ? sessionStorage.getItem('my_username') : "Собеседник";
         }
         else{
@@ -109,14 +115,24 @@ export const prepare_message_hat = function(targeted_message, current_chat_usern
     else{
         to_message.textContent = "В ответ на сообщение от " + current_chat_username;
     }
-    const text = targeted_message.children[0].textContent; //Текст из тега <p class = 'payload'>
-    message_header_field.textContent = text.slice(0, 15);
+    let text;
+    if (targeted_message.children[0].classList.contains('reply_area')){
+        text = targeted_message.children[1].textContent;
+    }
+    else{
+        text = targeted_message.children[0].textContent;
+    }
+
+    if (text.length > 40){
+        message_header_field.textContent = text.slice(0, 40) + '...';
+    }
+    else{
+        message_header_field.textContent = text;
+    }
+    
     message_top_area.classList.remove('hidden');
 }
 
-export const answer_handle = function(targeted_message){
-
-}
 
 export const cancel_message_hat = function(){
     const message_top_area = document.getElementById('message_top_area');

@@ -329,7 +329,8 @@ html, body{
 }
 
 .reply_area{
-    background-color: #d1527f;
+    /* background-color: #d1527f; */
+    background-color: rgba(0, 0, 0, 0.151);
     border-radius: 8px;
     padding: 3px 5px;
 }

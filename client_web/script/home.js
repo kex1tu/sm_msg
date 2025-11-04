@@ -24,6 +24,7 @@ const message_contextmenu = document.getElementById('message_contextmenu');
 const contextmenu_ans = document.getElementById('contextmenu_ans');
 const contextmenu_red = document.getElementById('contextmenu_red');
 const contextmenu_del = document.getElementById('contextmenu_del');
+const message_top_area = document.getElementById('message_top_area');
 const message_header_field = document.getElementById('message_header_field');
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
@@ -32,6 +33,7 @@ let current_chat_username; //Отслеживаем, с каким пользо�
 let first_message_in_chat; //ID первого в списке сообщения в чате
 let previous_first_message; //Запоминаем переменную строчкой выше, когда происходит вызов функции на прокрутке
 let temp_id_counter = 0;
+let targeted_message; //Выделенное пользователем сообщение, на которое будет отправлен ответ
 const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
 const user_array = []; //Массив с объектами user = 
 // {"username": "123", 
@@ -80,7 +82,8 @@ message_list_html.addEventListener('scroll', () => { //Обработка про
     }
 })
 
-send_button_html.addEventListener('click', () => {
+
+const send_message = function(reply_to_id = 0){
     if (current_chat_username === undefined){return;}
     if (message_input_html.value === ''){return;}
     const temp_id = 'temp' + temp_id_counter.toString();
@@ -91,12 +94,22 @@ send_button_html.addEventListener('click', () => {
         "fromUser": sessionStorage.getItem('my_username'),
         "toUser": current_chat_username,
         "payload": message_input_html.value,
-        "reply_to_id": '0',
+        "reply_to_id": reply_to_id,
         "temp_id": temp_id
     }
     socket.send(JSON.stringify(request));
     private_message_queue.push(temp_id);
+}
 
+
+send_button_html.addEventListener('click', () => {
+    if (!(message_top_area.classList.contains('hidden'))){
+        send_message(targeted_message.id.slice(1));
+        messageHandle.cancel_message_hat();
+    }
+    else{
+        send_message();
+    } 
     message_list_html.scrollTo(0, message_list_html.scrollHeight);
     message_input_html.value = '';
 });
@@ -142,8 +155,6 @@ contact_search_html.addEventListener('keydown', function(event){
     }
 })
 
-let targeted_message;
-
 message_list_html.addEventListener('contextmenu', function(event){
     if (current_chat_username === undefined){return;}
     event.preventDefault();
@@ -179,7 +190,18 @@ contextmenu_red.addEventListener('click', () => {
 });
 
 contextmenu_del.addEventListener('click', () => {
-
+    message_contextmenu.classList.add('hidden');
+    if (targeted_message.classList.contains('my_message')){
+        const request = {
+            'type': 'delete_message',
+            'id': parseInt(targeted_message.id.slice(1))
+        }
+        socket.send(JSON.stringify(request));
+    }
+    else{ 
+        alert("Соси хуй!!!\nНельзя удалять не свои сообщения!");
+        return;
+     }
 });
 
 message_header_field.addEventListener('click', () => {
@@ -265,5 +287,11 @@ socket.onmessage = function(event){
         case "add_contact_failure":
             alert(response['reason']);
             break;
+        case "delete_message":
+            if (current_chat_username === response['with_user']){
+                const msg_to_del = document.getElementById('#' + response['id']);
+                if (msg_to_del){msg_to_del.remove();}
+            }
+            
     }
 }
