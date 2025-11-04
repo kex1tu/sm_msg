@@ -41,13 +41,38 @@
             </ul>
         </div>
         <div class = "right_column" id = "right_column">
+            <ul class="message_contextmenu hidden" id="message_contextmenu">
+                    <li class="contextmenu_option" id="contextmenu_ans">Ответить</li>
+                    <li class="contextmenu_option" id="contextmenu_red">Редактировать</li>
+                    <li class="contextmenu_option" id="contextmenu_del">Удалить</li>
+                </ul>
             <div class = "message_list" id = "message_list">
-
+                <div class="message my_message" id="#159">
+                    <div class="reply_area">
+                        <p class="reply_username">1</p>
+                        <p class="reply_payload">123456</p>
+                    </div>
+                    <p class="message_payload">12222222222222221111111111</p>
+                    <div class="message_information">
+                        <p class="message_is_edit"></p>
+                        <p class="message_time">22:52</p>
+                        <p class="message_delivery_stamp">✓</p>
+                    </div>
+                </div>
             </div>
-            <div class="message_input_area">
-                 <textarea class="message_input" id = "message_input" placeholder="Введите сообщение..."></textarea>
+            <div class="right_column_footer">
+                <div class="message_top_area hidden" id="message_top_area">
+                    <p class="to_message" id="to_message"></p>
+                    <p class="message_header_field" id="message_header_field"></p>
+                </div>
+                
+                <div class="message_input_area">
+                <textarea class="message_input" id = "message_input" placeholder="Введите сообщение..."></textarea>
                 <button class="send_button" id = "send_button">➤</button>
             </div>
+            </div>
+            
+            
         </div>
     </div>
     

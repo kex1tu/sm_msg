@@ -144,63 +144,47 @@ html, body{
 .message{
     border-radius: 8px;
     background-color: #353738;
-    padding: 8px 15px;
+    padding: 8px 12px;
     margin: 5px;
+    min-width: 100px;
     width: fit-content;
-    max-width: 1000px; 
+    max-width: 800px; 
+    height: auto;
+}
+
+.message_payload{
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.message_information{
+    display: flex;
+    flex-direction: row;
+}
+
+.message_time{
+    margin-left: auto;
+    margin-top: auto;
+    font-size: 13px;
+    opacity: 50%;
+}
+
+.message_is_edit{
+    margin-right: auto;
+    margin-top: auto;
+    font-size: 13px;
+    opacity: 50%;
+}
+
+.message_delivery_stamp{
+    margin-left: 5px;
+    font-size: 15px;
+    opacity: 50%;
 }
 
 .my_message{
     background-color: #e76292;
-}
-
-
-.message_input_area {
-    display: flex; 
-    align-items: center; 
-    padding: 10px;
-    /* background-color: #353738;  */
-    background-color: #18191A;
-    flex-shrink: 0; 
-}
-
-
-.message_input {
-    flex-grow: 1; 
-    padding: 10px 15px;
-    border: none;
-    border-radius: 18px;
-    background-color: #494c4d;
-    color: #EAEAEA;
-    font-size: 15px;
-    resize: none; 
-    outline: none;
-    max-height: 100px; 
-    overflow-y: auto;
-}
-
-
-.send_button {
-    background-color: #e76292;
-    border: none;
-    border-radius: 50%; 
-    width: 40px;
-    height: 40px;
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: white;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.2s;
-}
-
-.send_button:hover {
-    background-color: #d1527f;
 }
 
 .left_column_header{
@@ -242,20 +226,114 @@ html, body{
 }
 
 .pending_contact_accept_button{
-    margin-left: auto;
     border-radius: 8px;
     font-size: 30px;
     text-align: center;
 }
 
 .pending_contact_accept_button:first-of-type{
+    margin-left: auto;
     color: rgb(4, 182, 4);
 }
 
 .pending_contact_accept_button:last-of-type{
+    margin-left: 5px;
     color: rgb(213, 4, 4);
 }
 
 .pending_contact_accept_button:hover{
     opacity: 0.5;
+}
+
+.message_contextmenu{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+    list-style: none;
+    border-radius: 8px;
+    background-color: #494c4d;
+    /* padding: 5px; */
+}
+
+.contextmenu_option{
+    border-radius: 8px;
+    width: 80%;
+    height: auto;
+    margin: 8px 15px;
+    text-align: center;
+}
+
+.contextmenu_option:hover{
+    background-color: #353738;
+}
+
+
+.message_input_area {
+    display: flex; 
+    align-items: center; 
+    /* padding: 10px; */
+    /* background-color: #353738;  */
+    background-color: #18191A;
+    flex-shrink: 0; 
+}
+
+.message_input {
+    flex-grow: 1; 
+    padding: 10px 15px;
+    border: none;
+    border-radius: 18px;
+    background-color: #494c4d;
+    color: #EAEAEA;
+    font-size: 15px;
+    resize: none; 
+    outline: none;
+    max-height: 100px; 
+    overflow-y: auto;
+}
+
+.send_button {
+    background-color: #e76292;
+    border: none;
+    border-radius: 50%; 
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.send_button:hover {
+    background-color: #d1527f;
+}
+
+.message_header_field{
+    margin-right: 50px;
+    background-color: #e76292;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.right_column_footer{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.reply_area{
+    background-color: #d1527f;
+    border-radius: 8px;
+    padding: 3px 5px;
+}
+
+.reply_username{
+    font-weight: 700;
 }

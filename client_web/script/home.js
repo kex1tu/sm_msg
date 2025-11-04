@@ -1,6 +1,5 @@
 import * as contactListHandle from './contactListHandle.js';
 import * as messageHandle from './messageHandle.js';
-import * as privateMessageHandle from './privateMessageHandle.js';
 import * as pendingContactHandle from './pendingContactHandle.js';
 import * as contactSearchHandle from './contactSearchHandle.js';
 
@@ -14,13 +13,18 @@ const mainWrapper = document.getElementById('Main_wrapper');
 const message_list_html = document.getElementById('message_list');
 const contact_list_html = document.getElementById('contact_list');
 const contact_search_html = document.getElementById('contact_search');
-// const right_column = document.getElementById('right_column');
+const right_column = document.getElementById('right_column');
 const send_button_html = document.getElementById('send_button');
 const message_input_html = document.getElementById('message_input');
 const pending_contact_list_html = document.getElementById('pending_contact_list');
 const pending_contact_button_html = document.getElementById('pending_contact_button');
 const pending_contact_image_html = document.getElementById('pending_contact_img');
 const chat_img_html = document.getElementById('chat_image');
+const message_contextmenu = document.getElementById('message_contextmenu');
+const contextmenu_ans = document.getElementById('contextmenu_ans');
+const contextmenu_red = document.getElementById('contextmenu_red');
+const contextmenu_del = document.getElementById('contextmenu_del');
+const message_header_field = document.getElementById('message_header_field');
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
 
@@ -41,6 +45,8 @@ const user_array = []; //Массив с объектами user =
 //         this.last_seen = last_seen;
 //     }
 // }
+
+
 
 //-----------ФУНКЦИИ-ПРОСЛУШКИ-----------
 
@@ -77,7 +83,7 @@ message_list_html.addEventListener('scroll', () => { //Обработка про
 send_button_html.addEventListener('click', () => {
     if (current_chat_username === undefined){return;}
     if (message_input_html.value === ''){return;}
-    const temp_id = '#temp' + temp_id_counter.toString();
+    const temp_id = 'temp' + temp_id_counter.toString();
     ++temp_id_counter;
 
     const request = {
@@ -88,18 +94,19 @@ send_button_html.addEventListener('click', () => {
         "reply_to_id": '0',
         "temp_id": temp_id
     }
-
     socket.send(JSON.stringify(request));
     private_message_queue.push(temp_id);
 
-    const message = document.createElement('p');
-    message.textContent = request['payload'];
-    message.id = temp_id;
-    message.classList.add('message', 'my_message');
-    message_list_html.appendChild(message);
     message_list_html.scrollTo(0, message_list_html.scrollHeight);
     message_input_html.value = '';
-})
+});
+
+message_input_html.addEventListener('keydown', function(event){
+    if (event.key === 'Enter' && !event.shiftKey){
+        event.preventDefault();
+        send_button_html.click();
+    }
+});
 
 pending_contact_button_html.addEventListener('click', () => { //Свап списков чатов и запросов на переписку
     if (contact_list_html.classList.contains('hidden')){
@@ -131,8 +138,53 @@ contact_search_html.addEventListener('keydown', function(event){
             'username': contact_search_html.value
         }
         socket.send(JSON.stringify(request));
+        contact_search_html.value = '';
     }
 })
+
+let targeted_message;
+
+message_list_html.addEventListener('contextmenu', function(event){
+    if (current_chat_username === undefined){return;}
+    event.preventDefault();
+    if (message_contextmenu.classList.contains('hidden')){
+        
+        const messages = message_list_html.children; //Список всех сообщений в контейнере 
+        let s_message; //Это будет ближайшим сообщением к точке клика по оси Y
+        let hitbox; //Информация о коллизии элемента-сообщения
+        for (const item of messages){ //Перебираем все сообщения
+            hitbox = item.getBoundingClientRect(); 
+            if (hitbox.top <= event.clientY && event.clientY <= hitbox.bottom){
+                s_message = item;
+                break;
+            }
+        }
+        message_contextmenu.style.left = hitbox.left + hitbox.width + 5 + 'px'; //Ставим меню относительно левого края сообщения
+        message_contextmenu.style.top = event.clientY + 'px'; //Ставим меню отсносительно середины сообщения
+        message_contextmenu.classList.remove('hidden'); //Делаем меню видимым
+        targeted_message = s_message;
+    }
+    else{
+        message_contextmenu.classList.add('hidden');
+    }
+});
+
+contextmenu_ans.addEventListener('click', () => {
+    message_contextmenu.classList.add('hidden');
+    messageHandle.prepare_message_hat(targeted_message, current_chat_username);
+});
+
+contextmenu_red.addEventListener('click', () => {
+
+});
+
+contextmenu_del.addEventListener('click', () => {
+
+});
+
+message_header_field.addEventListener('click', () => {
+    messageHandle.cancel_message_hat();
+});
 
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
@@ -182,15 +234,17 @@ socket.onmessage = function(event){
                     break;
                 }
                 private_message_queue.splice(private_message_queue.indexOf(temp_id), 1); //Удаляем временный ID из очереди, так как сервер отчитался о его доставке
-                const message_element = document.getElementById(temp_id);
-                message_element.id = response['id'];
+                
+                const message_html = messageHandle.create_message_html(response);
+                message_html.classList.add('my_message');
+                message_list_html.appendChild(message_html);
             }
             else{
                 if (current_chat_username === response['fromUser']){
-                    messageHandle.add_message_html(response);
-                    message_list_html.scrollTo(0, message_list_html.scrollHeight);
+                    message_list_html.appendChild(messageHandle.create_message_html(response));
                 }
             }
+            message_list_html.scrollTo(0, message_list_html.scrollHeight);
             break;
         case "pending_requests_list":
             tmp_array = response['requests'];
@@ -207,7 +261,6 @@ socket.onmessage = function(event){
             break;
         case "add_contact_success":
             alert(response['reason']);
-            contact_search_html.value = '';
             break;
         case "add_contact_failure":
             alert(response['reason']);
