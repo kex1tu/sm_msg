@@ -35,6 +35,7 @@ let previous_first_message; //Запоминаем переменную стро
 let temp_id_counter = 0;
 let targeted_message; //Выделенное пользователем сообщение, на которое будет отправлен ответ
 const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
+let for_edit = false; //Флаг для отслеживания редактирования сообщения, который меняет поведение кнопки отправки
 const user_array = []; //Массив с объектами user = 
 // {"username": "123", 
 // "displayname": "123", 
@@ -103,6 +104,18 @@ const send_message = function(reply_to_id = 0){
 
 
 send_button_html.addEventListener('click', () => {
+    if (for_edit){
+        const request = {
+            'type': 'edit_message',
+            'id': parseInt(targeted_message.id.slice(1)),
+            'payload': message_input_html.value,
+        }
+        socket.send(JSON.stringify(request));
+        message_input_html.value = '';
+        messageHandle.cancel_message_hat();
+        for_edit = false;
+        return;
+    }
     if (!(message_top_area.classList.contains('hidden'))){
         send_message(targeted_message.id.slice(1));
         messageHandle.cancel_message_hat();
@@ -174,6 +187,7 @@ message_list_html.addEventListener('contextmenu', function(event){
         message_contextmenu.style.top = event.clientY + 'px'; //Ставим меню отсносительно середины сообщения
         message_contextmenu.classList.remove('hidden'); //Делаем меню видимым
         targeted_message = s_message;
+        //Здесь нужно сделать кнопки "редактировать" и "удалить" невидимыми, если targeted_message не наше (не содержит класса my_message)
     }
     else{
         message_contextmenu.classList.add('hidden');
@@ -186,7 +200,14 @@ contextmenu_ans.addEventListener('click', () => {
 });
 
 contextmenu_red.addEventListener('click', () => {
-
+    message_contextmenu.classList.add('hidden');
+    if (!(targeted_message.classList.contains('my_message'))){
+        alert("Соси хуй!!!\nНельзя редактировать не свои сообщения!");
+        return;
+    }
+    messageHandle.prepare_message_hat(targeted_message);
+    message_input_html.value = targeted_message.querySelector('.message_payload').textContent;
+    for_edit = true; //Помечаем следующее действие кнопки отправки, как истину
 });
 
 contextmenu_del.addEventListener('click', () => {
@@ -206,6 +227,10 @@ contextmenu_del.addEventListener('click', () => {
 
 message_header_field.addEventListener('click', () => {
     messageHandle.cancel_message_hat();
+    if (for_edit){
+        message_input_html.value = '';
+    }
+    for_edit = false; //Больше не редактируем сообщение
 });
 
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
@@ -292,6 +317,13 @@ socket.onmessage = function(event){
                 const msg_to_del = document.getElementById('#' + response['id']);
                 if (msg_to_del){msg_to_del.remove();}
             }
-            
+            break;
+        case "edit_message":
+            const edited_message = document.getElementById('#' + response['id']);
+            if (edited_message){
+                edited_message.querySelector('.message_payload').textContent = response['payload'];
+                edited_message.querySelector('.message_is_edit').textContent = 'ред.';
+            }
+            break;
     }
 }
