@@ -2,6 +2,7 @@ QT = core
 QT += network
 QT += sql
 QT += websockets
+QT += httpserver
 CONFIG += c++17 cmdline
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -16,7 +17,10 @@ SOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+#LIBS += -lssl
 
 HEADERS += \
     server.h \
     structures.h
+
+

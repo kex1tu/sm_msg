@@ -1,4 +1,3 @@
-
 #ifndef SERVER_H
 #define SERVER_H
 
@@ -56,7 +55,7 @@ protected:
     void handleMessageRead(QObject* socket, const QJsonObject& request);
     void handleLogoutRequest(QObject* socket, const QJsonObject& request);
 
-private slots:
+public slots:
     // --- Слоты для обработки событий TCP-сервера ---
     void onNewTcpConnection();
     void onTcpReadyRead();
@@ -65,6 +64,7 @@ private slots:
     // --- Слоты для обработки событий WebSocket-сервера ---
     void onNewWebSocketConnection();
     void onWebSocketTextMessageReceived(const QString &message);
+
 
 private:
     /**
@@ -97,7 +97,22 @@ private:
     void sendOnlineStatusList(QObject* clientSocket);
     void sendUnreadCounts(QObject* socket, const QString& username); // Отправляет счетчики непрочитанных.
     void sendPendingContactRequests(QObject* socket, const QString& username);
+    void handleCallRequest(QObject* socket, const QJsonObject& request);
+    void handleCallAccepted(QObject* socket, const QJsonObject& request);
+    void handleCallRejected(QObject* socket, const QJsonObject& request);
+    void handleCallEnd(QObject* socket, const QJsonObject& request);
+    void handleGetCallHistory(QObject* socket, const QJsonObject& request);
+    void handleGetCallStats(QObject* socket, const QJsonObject& request);
+    void handleUpdateProfile(QObject* socket, const QJsonObject& request);
 
+    void processJsonRequest(const QJsonObject& request, QObject* clientSocket);
+    void removeClient(QObject* clientSocket); // (Заготовка/Не используется)
+    void createCallRecord(const QString& callId, const QString& from,
+                          const QString& to, const QString& fromIp, quint16 fromPort);
+
+    void updateCallConnected(const QString& callId, const QString& toIp, quint16 toPort);
+
+    void updateCallEnded(const QString& callId, const QString& status);
 private:
     // --- Указатели на серверные объекты ---
     QTcpServer *m_tcpServer;
@@ -106,15 +121,15 @@ private:
     // --- Структуры для управления состоянием онлайн-клиентов ---
     QMap<QString, QObject*> m_clients;       ///< Отображение `username` -> `указатель на сокет`. Для быстрого поиска сокета по имени.
     QMap<QObject*, QString> m_clientsReverse; ///< Отображение `указатель на сокет` -> `username`. Для быстрой идентификации клиента по сокету.
-
+    // Карта активных звонков: callId -> {"from": "", "to": "", "fromSocket": ptr, "toSocket": ptr}
+    QMap<QString, CallInfo> m_activeCalls;
     // --- Внутренние методы ---
     /**
      * @brief Общий метод-диспетчер, который вызывает нужный обработчик из `m_handlers`.
      * @param request JSON-запрос от клиента.
      * @param clientSocket Указатель на сокет, с которого пришел запрос.
      */
-    void processJsonRequest(const QJsonObject& request, QObject* clientSocket);
-    void removeClient(QObject* clientSocket); // (Заготовка/Не используется)
+
 
     // --- Специфично для TCP ---
     /**

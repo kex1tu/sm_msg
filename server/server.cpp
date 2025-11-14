@@ -18,6 +18,12 @@
 #include <QSqlRecord>
 #include <algorithm>
 #include <QWebSocket>
+#include <thread>
+#include <QUuid>
+//#include <QtCore>
+
+
+
 #include "structures.h"
 #include "server.h"
 
@@ -51,6 +57,7 @@ Server::Server(QObject *parent) : QObject(parent)
     //    - `this`: Родительский объект.
     m_webSocketServer = new QWebSocketServer("MessengerServer", QWebSocketServer::NonSecureMode, this);
 
+
     // 3. Соединяем сигналы серверов со слотами-обработчиками.
     //    - Когда `QTcpServer` получает новое входящее TCP-подключение, он
     //      испускает сигнал `newConnection`, который вызывает наш слот `onNewTcpConnection`.
@@ -58,6 +65,9 @@ Server::Server(QObject *parent) : QObject(parent)
 
     //    - Аналогично для WebSocket-сервера.
     connect(m_webSocketServer, &QWebSocketServer::newConnection, this, &Server::onNewWebSocketConnection);
+
+
+
 
     // 4. Инициализируем базу данных.
     if (!initDatabase()) {
@@ -86,19 +96,20 @@ bool Server::listen(const QHostAddress &address, quint16 tcpPort, quint16 wsPort
     // Пытаемся запустить каждый сервер на указанном адресе и порту.
     bool tcpSuccess = m_tcpServer->listen(address, tcpPort);
     bool wsSuccess = m_webSocketServer->listen(address, wsPort);
-
     // Если оба запустились успешно...
     if (tcpSuccess && wsSuccess) {
-        qDebug() << "TCP Server listening on port" << tcpPort;
-        qDebug() << "WebSocket Server listening on port" << wsPort;
-        return true; // ...возвращаем успех.
+        qDebug() << "TCP Server listening on port" <<address << tcpPort;
+        qDebug() << "WebSocket Server listening on port" << address << wsPort;
+        ///return true; // ...возвращаем успех.
     }
 
     // Если какой-либо из серверов не запустился, выводим подробную ошибку.
     if (!tcpSuccess) qDebug() << "TCP Server failed to start:" << m_tcpServer->errorString();
     if (!wsSuccess) qDebug() << "WebSocket Server failed to start:" << m_webSocketServer->errorString();
 
-    return false; // Возвращаем неудачу.
+
+
+    return tcpSuccess && wsSuccess;
 }
 
 /**
@@ -160,8 +171,51 @@ void Server::initHandlers() {
     m_handlers["message_delivered"] = &Server::handleMessageDelivered;
     m_handlers["message_read"] = &Server::handleMessageRead;
     m_handlers["logout_request"] = &Server::handleLogoutRequest;
+    m_handlers["call_request"] = &Server::handleCallRequest;
+    m_handlers["call_accepted"] = &Server::handleCallAccepted;
+    m_handlers["call_rejected"] = &Server::handleCallRejected;
+    m_handlers["call_end"] = &Server::handleCallEnd;
+    m_handlers["get_call_history"] = &Server::handleGetCallHistory;
+    m_handlers["update_profile"] = &Server::handleUpdateProfile;
 }
 
+void Server::handleUpdateProfile(QObject* socket, const QJsonObject& request)
+{
+    // Определяем имя пользователя по сокету
+    QString username = m_clientsReverse.value(socket);
+
+    // Вытаскиваем новые значения из запроса
+    QString displayName   = request.value("display_name").toString();
+    QString statusMessage = request.value("status_message").toString();
+    QString avatarUrl     = request.value("avatar_url").toString(); // если передаётся, опционально
+
+    // Готовим SQL-запрос на обновление профиля
+    QSqlQuery query;
+    query.prepare("UPDATE users SET display_name = :display_name, status_message = :status_message, avatar_url = :avatar_url WHERE username = :username");
+    query.bindValue(":display_name", displayName);
+    query.bindValue(":status_message", statusMessage);
+    query.bindValue(":avatar_url", avatarUrl);
+    query.bindValue(":username", username);
+
+    QJsonObject response;
+    response["type"] = "update_profile_result";
+
+    if (query.exec()) {
+        // Обновление прошло успешно
+        response["success"] = true;
+        response["username"] = username;
+        response["display_name"] = displayName;
+        response["status_message"] = statusMessage;
+        response["avatar_url"] = avatarUrl;
+        qDebug() << "[SERVER] User" << username << "updated their profile";
+    } else {
+        // Ошибка базы данных
+        response["success"] = false;
+        response["reason"] = query.lastError().text();
+        qWarning() << "[SERVER] Profile update FAILED for" << username << ":" << query.lastError().text();
+    }
+    sendJson(socket, response);
+}
 /**
  * @brief Обрабатывает уведомление от клиента о том, что сообщение было ему доставлено.
  *
@@ -318,7 +372,7 @@ void Server::onTcpReadyRead()
 
         // Фаза 1: Чтение размера пакета.
         if (nextBlockSize == 0) { // Если мы еще не знаем размер следующего пакета...
-            if (socket->bytesAvailable() < sizeof(quint32)) {
+            if (socket->bytesAvailable() < (qint64)sizeof(quint32)) {
                 break; // ...и данных в буфере недостаточно даже для чтения размера, выходим.
             }
             in >> nextBlockSize; // Читаем размер (4 байта).
@@ -537,6 +591,55 @@ bool Server::initDatabase()
         return false;
     }
 
+
+
+    // 6. Создаем таблицу для истории звонков
+    if (!query.exec("CREATE TABLE IF NOT EXISTS call_history (\n"
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                    "call_id TEXT UNIQUE NOT NULL,\n"
+                    "caller_username TEXT NOT NULL,\n"
+                    "callee_username TEXT NOT NULL,\n"
+                    "status VARCHAR(20) NOT NULL DEFAULT 'ringing',\n"  // ringing, connected, completed, rejected, missed
+                    "start_time TEXT NOT NULL,\n"
+                    "connect_time TEXT,\n"
+                    "end_time TEXT,\n"
+                    "duration_seconds INTEGER DEFAULT 0,\n"
+                    "caller_ip VARCHAR(45),\n"
+                    "caller_port INTEGER,\n"
+                    "callee_ip VARCHAR(45),\n"
+                    "callee_port INTEGER,\n"
+                    "FOREIGN KEY(caller_username) REFERENCES users(username),\n"
+                    "FOREIGN KEY(callee_username) REFERENCES users(username)\n"
+                    ");")) {
+        qCritical() << "[SERVER] DB Error: failed to create 'call_history' table:" << query.lastError().text();
+        return false;
+    }
+
+    qDebug() << "[SERVER] Call history table initialized successfully.";
+
+    // Индексы для быстрого поиска
+    query.exec("CREATE INDEX IF NOT EXISTS idx_call_caller ON call_history(caller_username);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_call_callee ON call_history(callee_username);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_call_start_time ON call_history(start_time DESC);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_call_id ON call_history(call_id);");
+
+
+
+
+    //FOR GO
+
+    if (!query.exec("CREATE TABLE IF NOT EXISTS files ("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    "file_uuid TEXT UNIQUE NOT NULL, "//       -- Уникальный ID, который мы генерируем
+                    "owner_username TEXT NOT NULL, " //      -- Кто загрузил
+                    "original_filename TEXT NOT NULL, "//  -- Исходное имя файла
+                    "filesize INTEGER NOT NULL, "//         -- Размер
+                    "status INTEGER NOT NULL DEFAULT 0, "// -- 0: pending, 1: uploaded, 2: error
+                    "upload_date TEXT NOT NULL);")){
+        qCritical() << "DB Error: failed to create 'files' table:" << query.lastError().text();
+        return false;
+    }
+
     qDebug() << "Database tables initialized successfully.";
     return true;
 }
@@ -654,10 +757,11 @@ void Server::handleGetHistory(QObject* socket, const QJsonObject& request)
     // --- 5. Отправка ответа клиенту ---
     QJsonObject response;
     // Тип ответа зависит от того, был ли это первоначальный запрос или подгрузка.
-    if (beforeId == 0) {
-        response["type"] = "history_data"; // Первоначальная загрузка.
-    } else {
+    if (beforeId > 0) {
         response["type"] = "old_history_data"; // Подгрузка старой истории.
+
+    } else {
+        response["type"] = "history_data"; // Первоначальная загрузка.
     }
 
     response["with_user"] = chatPartner;
@@ -963,13 +1067,13 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
 {
     QString username = request["username"].toString();
     QString password = request["password"].toString();
-
+    qDebug() << username << " : " << password;
     // Хэшируем полученный пароль тем же алгоритмом (SHA-256), что и при регистрации.
     QString passwordHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 
     // Ищем пользователя в БД.
     QSqlQuery query;
-    query.prepare("SELECT password_hash FROM users WHERE username = :username");
+    query.prepare("SELECT password_hash, display_name, avatar_url, status_message FROM users WHERE username = :username");
     query.bindValue(":username", username);
 
     QJsonObject response;
@@ -979,16 +1083,26 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
 
         // ...сравниваем хэши.
         if (storedHash == passwordHash) {
+            QString display_name = query.value(1).toString();
+            QString status_message = query.value(2).toString();
+            QString avatar_url = query.value(3).toString();
             // --- Успешный вход ---
             qDebug() << "[SERVER] User" << username << "logged in successfully.";
             response["type"] = "login_success";
+            response["username"] = username;
+            response["display_name"] = display_name;
+            response["status_message"] =status_message;       // если есть
+            response["avatar_url"] = avatar_url;      // если есть
+
+            sendJson(socket, response);
+
 
             // Регистрируем клиента в системе.
             m_clients[username] = socket;
             m_clientsReverse[socket] = username;
 
             // Отправляем клиенту подтверждение успеха.
-            sendJson(socket, response);
+            //sendJson(socket, response);
 
             // Отправляем всю необходимую для начала работы информацию этому клиенту.
             sendContactList(socket, username);
@@ -998,6 +1112,7 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
             // Оповещаем всех онлайн-пользователей (включая нового),
             // что список присутствия изменился.
             broadcastUserList();
+
 
         } else {
             // --- Неверный пароль ---
@@ -1423,8 +1538,12 @@ void Server::handleContactRequestResponse(QObject* clientSocket, const QJsonObje
             }
 
             // Также отправляем им обновленные списки онлайн-пользователей.
-            if (fromSocket) sendOnlineStatusList(fromSocket);
-            if (toSocket) sendOnlineStatusList(toSocket);
+            if (fromSocket){
+                sendOnlineStatusList(fromSocket);
+            }
+            if (toSocket){
+                sendOnlineStatusList(toSocket);
+            }
         }
     } else if (response == "declined") {
         // Если запрос отклонен, просто удаляем его из таблицы.
@@ -1466,7 +1585,7 @@ void Server::sendUnreadCounts(QObject* socket, const QString& username)
         return;
     }
     qint64 userId = idQuery.value(0).toLongLong();
-
+    Q_UNUSED(userId);
     // 2. Основной запрос: подсчитываем непрочитанные сообщения (`is_read = 0`)
     //    и группируем их по отправителю (`fromUser`).
     QSqlQuery query;
@@ -1600,4 +1719,307 @@ void Server::sendPendingContactRequests(QObject* socket, const QString& username
     else {
         qDebug() << "[SERVER][PENDING] No requests to send. Function finished.";
     }
+}
+void Server::handleCallRequest(QObject* socket, const QJsonObject& request)
+
+{
+    qDebug() << "[SERVER] Processing message of type: call_request";
+    QString fromUser = request["from"].toString();
+    QString toUser = request["to"].toString();
+    QString callId = request["call_id"].toString();
+    quint16 callerPort = request["caller_port"].toInt();
+
+    QString callerIp = request["caller_ip"].toString(); //static_cast<QTcpSocket*>(socket)->peerAddress().toString();
+    QObject* toUserSocket = m_clients.value(toUser, nullptr);
+
+    createCallRecord(callId, fromUser, toUser, callerIp, callerPort);
+
+    CallInfo callInfo;
+    callInfo.callId = callId;
+    callInfo.from = fromUser;
+    callInfo.to = toUser;
+    callInfo.fromSocket = socket;
+    callInfo.toSocket = toUserSocket;
+    callInfo.callerPort = callerPort;
+    callInfo.callerIp = callerIp;
+    m_activeCalls[callId] = callInfo;
+
+    // Отправляем "call_request" получателю (B)
+    QJsonObject incomingCall;
+    incomingCall["type"] = "call_request";
+    incomingCall["from"] = fromUser;
+    incomingCall["call_id"] = callId;
+    incomingCall["caller_ip"] = callerIp;
+    incomingCall["caller_port"] = (int)callerPort;
+
+    if(toUserSocket){
+        sendJson(toUserSocket, incomingCall);
+        qDebug() << "[CALL] Forwarded to" << toUser;
+    } else{
+        updateCallEnded(callId, "missed");
+        qDebug() << "[CALL]" << toUser << "is offline - marked as missed";
+    }
+}
+
+void Server::handleCallAccepted(QObject* socket, const QJsonObject& request)
+{
+    qDebug() << "[SERVER] Processing message of type: call_accepted";
+
+    QString respondingUser = m_clientsReverse.value(socket); // кто отправляет
+    QString callId = request.value("call_id").toString();
+    quint16 calleePort = request.value("callee_port").toInt();
+    QString calleeIp = request.value("callee_ip").toString(); //static_cast<QTcpSocket*>(info.toSocket)->peerAddress().toString();
+    // Защита
+    if (!m_activeCalls.contains(callId)) {
+        qWarning() << "[SERVER] Unknown call id!";
+        return;
+    }
+    updateCallConnected(callId, calleeIp, calleePort);
+
+    CallInfo& info = m_activeCalls[callId];
+
+
+
+    // Нужен инициатор звонка (A):
+    QObject* initiatorSocket = info.fromSocket;
+    if (initiatorSocket) {
+        QJsonObject response;
+        response["type"] = "call_accepted";
+        response["from"] = respondingUser;
+        response["call_id"] = callId;
+        response["callee_ip"] = calleeIp;
+        response["callee_port"] = (int)calleePort;
+
+        sendJson(initiatorSocket, response);
+    }
+}
+
+void Server::handleCallRejected(QObject* socket, const QJsonObject& request)
+{
+    QString callId = request["call_id"].toString();
+    QString toUser = request["to"].toString();
+
+    if (!m_activeCalls.contains(callId)) {
+        qWarning() << "[SERVER] Call rejected: unknown call ID" << callId;
+        return;
+    }
+    updateCallEnded(callId, "rejected");
+
+    CallInfo callInfo = m_activeCalls[callId];
+    QString fromUser = callInfo.from;
+    QObject* fromUserSocket = callInfo.fromSocket;
+
+    // Проверка безопасности
+    if (toUser != m_clientsReverse.value(socket)) {
+        qWarning() << "[SERVER] SECURITY: Unauthorized call rejection attempt";
+        return;
+    }
+
+    qDebug() << "[SERVER] Call rejected:" << fromUser << "<-" << toUser
+             << "| callId:" << callId;
+
+    // Удаляем звонок из активных
+    m_activeCalls.remove(callId);
+
+    // Уведомляем инициатора об отклонении
+    QJsonObject rejectionNotification;
+    rejectionNotification["type"] = "call_rejected";
+    rejectionNotification["call_id"] = callId;
+    rejectionNotification["from"] = toUser;
+
+    sendJson(fromUserSocket, rejectionNotification);
+
+    qDebug() << "[SERVER] Call rejection notification sent to" << fromUser;
+}
+
+void Server::handleCallEnd(QObject* socket, const QJsonObject& request)
+{
+    QString callId = request["call_id"].toString();
+    QString toUser = request["to"].toString();
+    updateCallEnded(callId, "completed");
+
+    if (!m_activeCalls.contains(callId)) {
+        qDebug() << m_activeCalls.keys();
+        qWarning() << "[SERVER] Call end: unknown call ID" << callId;
+        return;
+    }
+
+    CallInfo callInfo = m_activeCalls[callId];
+    QString currentUser = m_clientsReverse.value(socket);
+    QObject* otherSocket = nullptr;
+
+    // Определяем, кто завершает звонок, и находим "другую сторону"
+    if (currentUser == callInfo.from) {
+        otherSocket = callInfo.toSocket;
+    } else if (currentUser == callInfo.to) {
+        otherSocket = callInfo.fromSocket;
+    } else {
+        qWarning() << "[SERVER] SECURITY: Unauthorized call end attempt";
+        return;
+    }
+
+    qDebug() << "[SERVER] Call ended:" << currentUser << "| callId:" << callId;
+
+    // Удаляем звонок из активных
+    m_activeCalls.remove(callId);
+
+    // Уведомляем другую сторону, что звонок завершен
+    QJsonObject endNotification;
+    endNotification["type"] = "call_end";
+    endNotification["call_id"] = callId;
+    endNotification["from"] = currentUser;
+
+    if (otherSocket != nullptr) {
+        sendJson(otherSocket, endNotification);
+    }
+
+    qDebug() << "[SERVER] Call end notification sent";
+}
+
+/**
+ * @brief Создает новую запись звонка в БД при поступлении call_request
+ */
+void Server::createCallRecord(const QString& callId, const QString& from,
+                              const QString& to, const QString& fromIp, quint16 fromPort)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO call_history "
+                  "(call_id, caller_username, callee_username, status, start_time, "
+                  "caller_ip, caller_port) "
+                  "VALUES (:callId, :from, :to, 'ringing', :startTime, :fromIp, :fromPort)");
+
+    query.bindValue(":callId", callId);
+    query.bindValue(":from", from);
+    query.bindValue(":to", to);
+    query.bindValue(":startTime", QDateTime::currentDateTime().toString(Qt::ISODate));
+    query.bindValue(":fromIp", fromIp);
+    query.bindValue(":fromPort", fromPort);
+
+    if (!query.exec()) {
+        qWarning() << "[CALL] DB Error creating call record:" << query.lastError().text();
+    } else {
+        qDebug() << "[CALL] Created call record:" << callId;
+    }
+}
+
+/**
+ * @brief Обновляет запись при принятии звонка (call_accepted)
+ */
+void Server::updateCallConnected(const QString& callId, const QString& toIp, quint16 toPort)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE call_history "
+                  "SET status = 'connected', "
+                  "    connect_time = :connectTime, "
+                  "    callee_ip = :toIp, "
+                  "    callee_port = :toPort "
+                  "WHERE call_id = :callId");
+
+    query.bindValue(":callId", callId);
+    query.bindValue(":connectTime", QDateTime::currentDateTime().toString(Qt::ISODate));
+    query.bindValue(":toIp", toIp);
+    query.bindValue(":toPort", toPort);
+
+    if (!query.exec()) {
+        qWarning() << "[CALL] DB Error updating call connected:" << query.lastError().text();
+    } else {
+        qDebug() << "[CALL] Updated call as connected:" << callId;
+    }
+}
+
+/**
+ * @brief Завершает звонок с расчетом длительности
+ */
+void Server::updateCallEnded(const QString& callId, const QString& status)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE call_history "
+                  "SET status = :status, "
+                  "    end_time = :endTime, "
+                  "    duration_seconds = "
+                  "      CAST((julianday(:endTime) - julianday(connect_time)) * 86400 AS INTEGER) "
+                  "WHERE call_id = :callId");
+
+    query.bindValue(":callId", callId);
+    query.bindValue(":status", status);
+    query.bindValue(":endTime", QDateTime::currentDateTime().toString(Qt::ISODate));
+
+    if (!query.exec()) {
+        qWarning() << "[CALL] DB Error updating call ended:" << query.lastError().text();
+    } else {
+        qDebug() << "[CALL] Updated call as" << status << ":" << callId;
+    }
+}
+
+void Server::handleGetCallHistory(QObject* socket, const QJsonObject& request)
+{
+    QString username = request["username"].toString();
+
+    QSqlQuery query;
+    query.prepare("SELECT call_id, caller_username, callee_username, status, "
+                  "       start_time, end_time, duration_seconds "
+                  "FROM call_history "
+                  "WHERE caller_username = :user OR callee_username = :user "
+                  "ORDER BY start_time DESC LIMIT 50");
+    query.bindValue(":user", username);
+
+    if (!query.exec()) {
+        qWarning() << "[CALL] Error fetching call history:" << query.lastError().text();
+        sendJson(socket, {{"type", "error"}, {"reason", "Failed to fetch history"}});
+        return;
+    }
+
+    QJsonArray calls;
+    while (query.next()) {
+        QJsonObject call;
+        call["call_id"] = query.value("call_id").toString();
+        call["caller"] = query.value("caller_username").toString();
+        call["callee"] = query.value("callee_username").toString();
+        call["status"] = query.value("status").toString();
+        call["start_time"] = query.value("start_time").toString();
+        call["end_time"] = query.value("end_time").toString();
+        call["duration_seconds"] = query.value("duration_seconds").toInt();
+        call["call_type"] = (username == query.value("caller_username").toString()) ? "outgoing" : "incoming";
+
+        calls.append(call);
+    }
+
+    QJsonObject response;
+    response["type"] = "call_history";
+    response["calls"] = calls;
+    sendJson(socket, response);
+
+    qDebug() << "[CALL] Sent call history to" << username << ":" << calls.size() << "records";
+}
+
+void Server::handleGetCallStats(QObject* socket, const QJsonObject& request)
+{
+    QString username = request["username"].toString();
+
+    QSqlQuery query;
+    query.prepare("SELECT "
+                  "  COUNT(*) FILTER (WHERE caller_username = :user) as outgoing_count, "
+                  "  COUNT(*) FILTER (WHERE callee_username = :user) as incoming_count, "
+                  "  COUNT(*) FILTER (WHERE status = 'completed') as completed_count, "
+                  "  COUNT(*) FILTER (WHERE status = 'missed' AND callee_username = :user) as missed_count, "
+                  "  SUM(CASE WHEN status = 'completed' THEN duration_seconds ELSE 0 END) as total_duration "
+                  "FROM call_history "
+                  "WHERE caller_username = :user OR callee_username = :user");
+
+    query.bindValue(":user", username);
+
+    if (!query.exec() || !query.next()) {
+        sendJson(socket, {{"type", "error"}});
+        return;
+    }
+
+    QJsonObject stats;
+    stats["type"] = "call_stats";
+    stats["outgoing"] = query.value("outgoing_count").toInt();
+    stats["incoming"] = query.value("incoming_count").toInt();
+    stats["completed"] = query.value("completed_count").toInt();
+    stats["missed"] = query.value("missed_count").toInt();
+    stats["total_duration_sec"] = query.value("total_duration").toInt();
+
+    sendJson(socket, stats);
 }

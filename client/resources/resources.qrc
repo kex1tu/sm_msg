@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles.css</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>icons/audioCall.png</file>
+        <file>icons/backArrow.png</file>
+        <file>icons/clock_icon.svg</file>
+        <file>icons/cross.png</file>
+        <file>icons/crossed_eye.png</file>
+        <file>icons/dotsVertical.png</file>
+        <file>icons/down_arrow.png</file>
+        <file>icons/eye.png</file>
+        <file>icons/message_read_icon.svg</file>
+        <file>icons/message_send_icon.svg</file>
+        <file>icons/search.png</file>
+        <file>icons/videoCall.png</file>
+    </qresource>
+</RCC>

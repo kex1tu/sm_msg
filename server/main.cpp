@@ -52,3 +52,4 @@ int main(int argc, char *argv[])
     //    соответствующие слоты в нашем объекте `server`.
     return a.exec();
 }
+
