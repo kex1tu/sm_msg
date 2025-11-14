@@ -1,3 +1,5 @@
+import * as messageHandle from './messageHandle.js';
+
 export const update_html_contact_list = function(user_array){
     const contact_list_element = document.getElementById('contact_list'); //HTML элемент, представляющий список пользователей
     for (const item of user_array){
@@ -13,6 +15,7 @@ export const update_html_contact_list = function(user_array){
         contact.classList.add("contact");
         contact.id = '@' + item["username"];
         contact.addEventListener('click', () => { //Добавляем прослушку каждой кнопке. Она будет делать нажатую кнопку выбранной, отправлять запрос на сервер, забирать статус выбранной у другой кнопки, а так же проверять, не нажали ли одну и ту же кнопку дважды
+            messageHandle.cancel_message_hat();
             for (const elem of contact_list_element.children){ //Пробегаемся по всем контактам
                 if (elem.classList.contains('current_contact')){
                     if (elem.id === contact.id){
