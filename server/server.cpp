@@ -1251,6 +1251,7 @@ void Server::sendJson(QObject* socket, const QJsonObject& json)
         // Просто отправляем данные как одно текстовое сообщение.
         wsSocket->sendTextMessage(QString::fromUtf8(jsonData));
     }
+    qDebug() << "JSON send" << jsonData.size();
 }
 
 /**
