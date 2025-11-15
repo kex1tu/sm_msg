@@ -58,7 +58,7 @@ struct ChatMessage {
     };
 
     // --- Основные данные сообщения ---
-    quint64 id = 0;                 ///< Уникальный ID сообщения из базы данных сервера. 0 для еще не отправленных.
+    qint64 id = 0;                 ///< Уникальный ID сообщения из базы данных сервера. 0 для еще не отправленных.
     QString tempId;                 ///< Временный уникальный ID, генерируемый клиентом. Используется для сопоставления "отправленного" сообщения с "подтвержденным" от сервера.
     QString fromUser;               ///< `username` отправителя.
     QString toUser;                 ///< `username` получателя.
@@ -74,6 +74,9 @@ struct ChatMessage {
     QString mediaUrl;               ///< URL для загрузки медиа-контента (задел на будущее).
     bool isOutgoing;                ///< Флаг, определяемый на стороне клиента. `true`, если сообщение отправлено текущим пользователем.
 };
+inline bool operator==(const ChatMessage& lhs, const ChatMessage& rhs) {
+    return lhs.id == rhs.id;
+}
 
 /**
  * @struct ChatCache
@@ -87,5 +90,13 @@ struct ChatCache {
     qint64 oldestMessageId = -1;     ///< ID самого старого из загруженных сообщений. Используется для пагинации (запроса более старой истории). -1 означает, что история еще не загружалась.
     bool allMessagesLoaded = false;  ///< Флаг, указывающий, что вся история для этого чата была загружена и больше нет смысла отправлять запросы `get_history`.
 };
-
+struct CallInfo {
+    QString callId;
+    QString from;
+    QString to;
+    QObject* fromSocket;     // указатель на сокет инициатора
+    QObject* toSocket;       // указатель на сокет принимающего
+    quint16 callerPort;
+    QString callerIp;
+};
 #endif // STRUCTURES_H
