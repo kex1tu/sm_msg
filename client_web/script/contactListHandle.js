@@ -1,4 +1,12 @@
-import * as messageHandle from './messageHandle.js';
+const cancel_message_hat = function(){
+    const message_top_area = document.getElementById('message_top_area');
+    const message_header_field = document.getElementById('message_header_field');
+    const to_message = document.getElementById('to_message');
+    message_header_field.textContent = '';
+    to_message.textContent = '';
+    message_top_area.classList.add('hidden');
+}
+
 
 export const update_html_contact_list = function(user_array){
     const contact_list_element = document.getElementById('contact_list'); //HTML элемент, представляющий список пользователей
@@ -11,11 +19,16 @@ export const update_html_contact_list = function(user_array){
             "type": "get_history",
             "with_user": item["username"]
         } //Формируем запрос для отправки через прослушку
-        contact.textContent = item["displayname"];
+        if (item['displayname'].length > 40){
+            contact.textContent = item["displayname"].slice(0, 40);
+        }
+        else{
+            contact.textContent = item["displayname"];
+        }
         contact.classList.add("contact");
         contact.id = '@' + item["username"];
         contact.addEventListener('click', () => { //Добавляем прослушку каждой кнопке. Она будет делать нажатую кнопку выбранной, отправлять запрос на сервер, забирать статус выбранной у другой кнопки, а так же проверять, не нажали ли одну и ту же кнопку дважды
-            messageHandle.cancel_message_hat();
+            cancel_message_hat();
             for (const elem of contact_list_element.children){ //Пробегаемся по всем контактам
                 if (elem.classList.contains('current_contact')){
                     if (elem.id === contact.id){
@@ -27,24 +40,23 @@ export const update_html_contact_list = function(user_array){
                 }
             }
             contact.classList.add('current_contact');
-            
             socket.send(JSON.stringify(request));
         });
         contact_list_element.appendChild(contact);
     }
 }
 
-export const user_array_manager = function(array, user, delete_user = false){
-    if (delete_user === true){
-        for (i = 0; i < array.length(); ++i){
-            if (array[i] === user){
-                array.splice(i, 1); //Удаляем один элемент
-                return;
-            }
-        }
-    }
-    if (!(user in array)){ //Переписать
-        array.push(user);
-    }
+// export const user_array_manager = function(array, user, delete_user = false){
+//     if (delete_user === true){
+//         for (i = 0; i < array.length(); ++i){
+//             if (array[i] === user){
+//                 array.splice(i, 1); //Удаляем один элемент
+//                 return;
+//             }
+//         }
+//     }
+//     if (!(user in array)){ //Переписать
+//         array.push(user);
+//     }
     
-}
+// }

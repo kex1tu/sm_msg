@@ -26,6 +26,16 @@ const contextmenu_red = document.getElementById('contextmenu_red');
 const contextmenu_del = document.getElementById('contextmenu_del');
 const message_top_area = document.getElementById('message_top_area');
 const message_header_field = document.getElementById('message_header_field');
+const last_seen_html = document.getElementById('profile_last_seen');
+const profile_username_html = document.getElementById('profile_username');
+const profile_wrapper_html = document.getElementById('profile_wrapper');
+const user_profile_html = document.getElementById('user_profile');
+const profile_field_html = document.getElementById('profile_field');
+const profile_field_name_html = document.getElementById('profile_field_name');
+const profile_field_last_seen = document.getElementById('profile_field_last_seen');
+const profile_field_username_html = document.getElementById('profile_field_username');
+
+
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
 
@@ -36,7 +46,7 @@ let temp_id_counter = 0;
 let targeted_message; //Выделенное пользователем сообщение, на которое будет отправлен ответ
 const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
 let for_edit = false; //Флаг для отслеживания редактирования сообщения, который меняет поведение кнопки отправки
-const user_array = []; //Массив с объектами user = 
+let user_array = []; //Массив с объектами user = 
 // {"username": "123", 
 // "displayname": "123", 
 // "last_seen": ""}
@@ -134,6 +144,20 @@ message_input_html.addEventListener('keydown', function(event){
     }
 });
 
+
+let is_trottle = true;
+message_input_html.addEventListener('input', () => {
+    if (is_trottle){
+        is_trottle = false;
+        setTimeout(() => {is_trottle = true}, 2000); //2000мс = 2с задержки
+        const request = {
+            'type': 'typing',
+            'toUser': current_chat_username
+        };
+        socket.send(JSON.stringify(request));
+    }
+});
+
 pending_contact_button_html.addEventListener('click', () => { //Свап списков чатов и запросов на переписку
     if (contact_list_html.classList.contains('hidden')){
         contact_list_html.classList.remove('hidden');
@@ -170,6 +194,7 @@ contact_search_html.addEventListener('keydown', function(event){
 
 message_list_html.addEventListener('contextmenu', function(event){
     if (current_chat_username === undefined){return;}
+    messageHandle.cancel_message_hat();
     event.preventDefault();
     if (message_contextmenu.classList.contains('hidden')){
         
@@ -233,6 +258,25 @@ message_header_field.addEventListener('click', () => {
     for_edit = false; //Больше не редактируем сообщение
 });
 
+const prepare_profile = function(){
+    profile_field_username_html.textContent = '@' + current_chat_username;
+    profile_field_name_html.textContent = user_array[current_chat_username]['displayname'];
+    profile_field_last_seen.textContent = last_seen_html.textContent;
+}
+
+user_profile_html.addEventListener('click', function(event) {
+    event.preventDefault();
+    profile_wrapper_html.classList.remove('hidden');
+    prepare_profile();
+});
+
+profile_wrapper_html.addEventListener('click', function(event) {
+    const hitbox = profile_field_html.getBoundingClientRect();
+    if (!(hitbox.top <= event.clientY && event.clientY <= hitbox.bottom && hitbox.left <= event.clientX && event.clientX <= hitbox.right)){
+        profile_wrapper_html.classList.add('hidden');
+    }
+});
+
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
 socket.onmessage = function(event){
@@ -249,12 +293,12 @@ socket.onmessage = function(event){
             alert("login failure. Reason: " + response["reason"]);
             break;
         case "contact_list":
-            tmp_array = response["users"];
-            tmp_array.forEach(element => {
-                // contactListHandle.user_array_manager(user_array, element);
-                user_array.push(element);
-            });
+            tmp_array = response['users'];
             contactListHandle.update_html_contact_list(tmp_array);
+            for (const elem of tmp_array){
+                const {username, ...new_contact} = elem; //Убираем поле username, так как оно теперь является ключем значения
+                user_array[elem['username']] = new_contact;
+            }
             break;
         case "history_data":
             current_chat_username = response["with_user"];
@@ -263,8 +307,25 @@ socket.onmessage = function(event){
             if (tmp_array.length !== 0){
                 first_message_in_chat = tmp_array[0]['id'];
             }
-
             // last_message_id = message_list_html.lastChild.id;
+            if (current_chat_username.length > 40){
+                profile_username_html.textContent = current_chat_username.slice(0, 40) + '...';
+            }
+            else{
+                profile_username_html.textContent = user_array[current_chat_username]['displayname'];
+            }
+            
+            const date = new Date(user_array[current_chat_username]['last_seen']);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            if (hours !== 'NaN' && minutes !== 'NaN'){
+                last_seen_html.textContent = `Был(а) в сети в ${hours}:${minutes}`;
+            }
+            else{
+                last_seen_html.textContent = 'Не в сети';
+            }
+            
+            
             message_list_html.scrollTo(0, message_list_html.scrollHeight);
             break;
         case "old_history_data":
@@ -323,6 +384,16 @@ socket.onmessage = function(event){
             if (edited_message){
                 edited_message.querySelector('.message_payload').textContent = response['payload'];
                 edited_message.querySelector('.message_is_edit').textContent = 'ред.';
+            }
+            break;
+        case 'user_list':
+            //Здесь будет обработка онлайн-списка
+            break;
+        case 'typing':
+            if (response['fromUser'] === current_chat_username){
+                const tmp = last_seen_html.textContent;
+                last_seen_html.textContent = 'Печатает...';
+                const timer = setTimeout(() => {last_seen_html.textContent = tmp}, 2000);
             }
             break;
     }

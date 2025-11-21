@@ -1,8 +1,8 @@
 const registerButton = document.getElementById('register');
 const responseMessage = document.getElementById('response-message');
-const displaynameInput = document.getElementById('displayname-field');
-const usernameInput = document.getElementById('username-field');
-const passwordInput = document.getElementById('password-field');
+const displaynameInput = document.getElementById('displayname_field');
+const usernameInput = document.getElementById('username_field');
+const passwordInput = document.getElementById('password_field');
 
 function register(){
     const displayname = displaynameInput.value;

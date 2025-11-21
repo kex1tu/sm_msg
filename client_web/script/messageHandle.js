@@ -106,6 +106,7 @@ export const create_message_html = function(message){ //Создает html эл
 }
 
 export const prepare_message_hat = function(targeted_message, current_chat_username){
+    if (!targeted_message){return;}
     const message_top_area = document.getElementById('message_top_area');
     const message_header_field = document.getElementById('message_header_field');
     const to_message = document.getElementById('to_message');

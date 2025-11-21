@@ -24,8 +24,29 @@
     </div>
 
     <div class="Main hidden" id="Main_wrapper">
+        <div class="profile_wrapper hidden" id="profile_wrapper">
+            <div class="profile_field" id="profile_field">
+                <div class="profile_field_header">
+                    <img class="profile_field_img" src="source/profile_img_default.svg">
+                    <p class="profile_field_name" id = "profile_field_name"></p>
+                    <p class="profile_field_p" id = "profile_field_last_seen"></p>
+                </div>
+                <div class="profile_field_username_field">
+                    <p class="profile_field_username" id = "profile_field_username"></p>
+                    <p class="profile_field_p">Имя пользователя</p>
+                </div>
+                <div class="profile_field_about">
+                    <p class="about_user">Пока ничего нет</p>
+                    <p class="profile_field_p">О себе</p>
+                </div>
+            </div>
+        </div>
+
         <div class = "left_column">
             <div class="left_column_header">
+                <a class="settings_button" id="settings_button">
+                    <img class="settings_img" src="source/hlines.svg">
+                </a>
                 <a class="pending_contact_button" id="pending_contact_button">
                     <img class="pending_contact_img" src="source/pending_contact.svg" id = "pending_contact_img">
                     <img class="pending_contact_img hidden" src="source/chat.svg" id = "chat_image"> 
@@ -42,7 +63,16 @@
         </div>
         <div class = "right_column" id = "right_column">
             <div class="right_column_header">
-                
+                <input class="message_search hidden" id="message_search" placeholder="Поиск...">
+                <div class="user_profile" id="user_profile">
+                    <p class="profile_username" id="profile_username"></p>
+                    <p class="profile_last_seen" id="profile_last_seen"></p>
+                </div>
+                <div class="header_options">
+                    <img class="header_options_img" src="source/search.svg">
+                    <img class="header_options_img" src="source/audio_call.svg">
+                    <img class="header_options_img" src="source/video_call.svg">
+                </div>
             </div>
             <ul class="message_contextmenu hidden" id="message_contextmenu">
                     <li class="contextmenu_option" id="contextmenu_ans">Ответить</li>
