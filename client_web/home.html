@@ -42,6 +42,42 @@
             </div>
         </div>
 
+        <div class="profile_wrapper hidden" id="my_profile_wrapper">
+            <div class="settings_menu" id="settings_menu">
+                <a class="profile_field_button" id="settings_cancel">
+                    <img class="profile_field_button_img" src="source/cross.svg">
+                </a>
+                <p class="settings_option" id="my_profile_option">Мой профиль</p>
+                <p class="settings_option">Журнал звонков</p>
+                <p class="settings_option">Выйти из профиля</p>
+            </div>
+
+            <div class="profile_field hidden" id="my_profile_field">
+                <div class="profile_field_buttons">
+                    <a class="profile_field_button" id="profile_field_cancel">
+                    <img class="profile_field_button_img" src="source/cross.svg">
+                </a>
+                <a class="profile_field_button" id="profile_field_edit">
+                    <img class="profile_field_button_img" id="profile_field_button_img_edit" src="source/edit.svg">
+                    <img class="profile_field_button_img hidden" id="profile_field_button_img_complete" src="source/complete.svg">
+                </a>
+                </div>
+                
+                <div class="profile_field_header">
+                    <img class="profile_field_img" src="source/profile_img_default.svg">
+                    <input class="my_profile_input my_profile_displayname" id="my_profile_displayname" disabled="true">
+                </div>
+                <div class="profile_field_username_field">
+                    <input class="my_profile_input" id="my_profile_username" disabled="true">
+                    <p class="profile_field_p">Имя пользователя</p>
+                </div>
+                <div class="profile_field_about">
+                    <input class="my_profile_input" id="about_me" disabled="true">
+                    <p class="profile_field_p">О себе</p>
+                </div>       
+            </div>
+        </div>
+
         <div class = "left_column">
             <div class="left_column_header">
                 <a class="settings_button" id="settings_button">
@@ -49,10 +85,13 @@
                 </a>
                 <a class="pending_contact_button" id="pending_contact_button">
                     <img class="pending_contact_img" src="source/pending_contact.svg" id = "pending_contact_img">
-                    <img class="pending_contact_img hidden" src="source/chat.svg" id = "chat_image"> 
+                    <img class="pending_contact_img hidden" src="source/chat.svg" id = "chat_image">
+                </a>
+                <a class="pending_contact_button hidden" id="search_cancel_button">
+                    <img class="cancel_button_img" src="source/cancel.svg">
                 </a>
                 <input class = "contact_search" id="contact_search" list="contact_search_datalist" placeholder="Поиск контактов...">
-                <datalist class="contact_search_datalist" id = "contact_search_datalist"></datalist>
+                <!-- <datalist class="contact_search_datalist" id = "contact_search_datalist"></datalist> -->
             </div>
             <ul class="pending_contact_list hidden" id = "pending_contact_list">
                 
@@ -60,6 +99,9 @@
             <ul class = "contact_list" id = "contact_list">
                 
             </ul>
+            <div class="contact_search_list hidden" id="contact_search_list">
+                
+            </div>
         </div>
         <div class = "right_column" id = "right_column">
             <div class="right_column_header">
@@ -80,18 +122,7 @@
                     <li class="contextmenu_option" id="contextmenu_del">Удалить</li>
                 </ul>
             <div class = "message_list" id = "message_list">
-                <div class="message my_message" id="#1488">
-                    <div class="reply_area">
-                        <p class="reply_username">Кто-то</p>
-                        <p class="reply_payload">Это пример сообщения</p>
-                    </div>
-                    <p class="message_payload">Для корректировки стилей и отображения</p>
-                    <div class="message_information">
-                        <p class="message_is_edit"></p>
-                        <p class="message_time">22:52</p>
-                        <p class="message_delivery_stamp">✓</p>
-                    </div>
-                </div>
+                
             </div>
             <div class="right_column_footer">
                 <div class="message_top_area hidden" id="message_top_area">

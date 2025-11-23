@@ -1,4 +1,4 @@
-export const message_history_load_html = function(message_array, new_user = false){
+export const message_history_load_html = function(message_array, new_user = false, current_chat_username){
     const message_list_element = document.getElementById('message_list');
     const menu = document.getElementById('message_contextmenu');
     if (new_user === true){ //Удаляем все элементы из контейнера для сообщений на странице
@@ -8,11 +8,7 @@ export const message_history_load_html = function(message_array, new_user = fals
     }
 
     for (const item of new_user === true? message_array : message_array.slice().reverse()){
-        // const message = document.createElement('p');
-        // message.textContent = item["payload"];
-        // message.id = '#' + item["id"];
-        // message.classList.add('message');
-        const message = create_message_html(item);
+        const message = create_message_html(item, current_chat_username);
 
         if (item["fromUser"] === sessionStorage.getItem('my_username')){
             message.classList.add('my_message');
@@ -28,7 +24,7 @@ export const message_history_load_html = function(message_array, new_user = fals
     }
 }
 
-export const create_message_html = function(message){ //Создает html элемент - сообщение для чата
+export const create_message_html = function(message, current_chat_username){ //Создает html элемент - сообщение для чата
     //Создаем элементы
     const messageDiv = document.createElement('div');
     const messagePayloadP = document.createElement('p');
@@ -86,7 +82,7 @@ export const create_message_html = function(message){ //Создает html эл
                 replyTextP.textContent = source_text;
             }
             
-            replyUserP.textContent = source_message.classList.contains('my_message') ? sessionStorage.getItem('my_username') : "Собеседник";
+            replyUserP.textContent = source_message.classList.contains('my_message') ? sessionStorage.getItem('my_displayname') : current_chat_username;
         }
         else{
             replyTextP.textContent = "*Сообщение не загружено*";

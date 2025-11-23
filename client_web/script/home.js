@@ -6,18 +6,20 @@ import * as contactSearchHandle from './contactSearchHandle.js';
 //--------ЭЛЕМЕНТЫ HTML СТРАНИЦЫ-----------
 
 const loginButton = document.getElementById('login');
-const usernameInput = document.getElementById('username_field');
-const passwordInput = document.getElementById('password_field');
+const username_input_html = document.getElementById('username_field');
+const password_input_html = document.getElementById('password_field');
 const loginWrapper = document.getElementById('Login_wrapper');
 const mainWrapper = document.getElementById('Main_wrapper');
 const message_list_html = document.getElementById('message_list');
 const contact_list_html = document.getElementById('contact_list');
 const contact_search_html = document.getElementById('contact_search');
+const contact_search_list_html = document.getElementById('contact_search_list');
 const right_column = document.getElementById('right_column');
 const send_button_html = document.getElementById('send_button');
 const message_input_html = document.getElementById('message_input');
 const pending_contact_list_html = document.getElementById('pending_contact_list');
 const pending_contact_button_html = document.getElementById('pending_contact_button');
+const search_cancel_button_html = document.getElementById('search_cancel_button');
 const pending_contact_image_html = document.getElementById('pending_contact_img');
 const chat_img_html = document.getElementById('chat_image');
 const message_contextmenu = document.getElementById('message_contextmenu');
@@ -34,8 +36,19 @@ const profile_field_html = document.getElementById('profile_field');
 const profile_field_name_html = document.getElementById('profile_field_name');
 const profile_field_last_seen = document.getElementById('profile_field_last_seen');
 const profile_field_username_html = document.getElementById('profile_field_username');
-
-
+const settings_button_html = document.getElementById('settings_button');
+const my_profile_wrapper_html = document.getElementById('my_profile_wrapper');
+const settings_menu_html = document.getElementById('settings_menu');
+const my_profile_option_html = document.getElementById('my_profile_option');
+const my_profile_field_html = document.getElementById('my_profile_field');
+const profile_field_cancel_html = document.getElementById('profile_field_cancel');
+const settings_cancel_button_html = document.getElementById('settings_cancel');
+const my_profile_displayname_html = document.getElementById('my_profile_displayname');
+const my_profile_username_html = document.getElementById('my_profile_username');
+const about_me_html = document.getElementById('about_me');
+const profile_field_edit_html = document.getElementById('profile_field_edit');
+const img_edit_html = document.getElementById('profile_field_button_img_edit');
+const img_complete_html = document.getElementById('profile_field_button_img_complete');
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
 
@@ -43,6 +56,7 @@ let current_chat_username; //Отслеживаем, с каким пользо�
 let first_message_in_chat; //ID первого в списке сообщения в чате
 let previous_first_message; //Запоминаем переменную строчкой выше, когда происходит вызов функции на прокрутке
 let temp_id_counter = 0;
+let profile_editing = false;
 let targeted_message; //Выделенное пользователем сообщение, на которое будет отправлен ответ
 const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
 let for_edit = false; //Флаг для отслеживания редактирования сообщения, который меняет поведение кнопки отправки
@@ -64,8 +78,8 @@ let user_array = []; //Массив с объектами user =
 //-----------ФУНКЦИИ-ПРОСЛУШКИ-----------
 
 function login(){
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+    const username = username_input_html.value;
+    const password = password_input_html.value;
 
     const loginData = {
         type: "login",
@@ -75,10 +89,24 @@ function login(){
     sessionStorage.setItem('my_username', username);
     socket.send(JSON.stringify(loginData));
 }
-if (loginButton){
-    loginButton.addEventListener('click', login);
-}
+loginButton.addEventListener('click', login);
 
+username_input_html.addEventListener('keydown', function(event){
+    if (event.key === 'ArrowDown' || event.key === 'Enter'){
+        password_input_html.focus();
+    }
+});
+
+password_input_html.addEventListener('keydown', function(event){
+    if (event.key === 'Enter'){
+        login();
+        return;
+    }
+    if (event.key === 'ArrowUp'){
+        username_input_html.focus();
+    }
+    
+});
 
 message_list_html.addEventListener('scroll', () => { //Обработка прокручивания списка сообщений
     if (previous_first_message === first_message_in_chat){return;} //Не отправляем запрос, если достигли начала истории или если происходит слишком частый вызов функции
@@ -174,6 +202,7 @@ pending_contact_button_html.addEventListener('click', () => { //Свап спи�
 })
 
 contact_search_html.addEventListener('input', () => {
+    if (contact_search_html.value === ''){return;}
     const request = {
         'type': "search_users",
         'term': contact_search_html.value
@@ -182,6 +211,7 @@ contact_search_html.addEventListener('input', () => {
 })
 
 contact_search_html.addEventListener('keydown', function(event){
+    if (contact_search_html.value === '') {return;}
     if (event.key === 'Enter'){
         const request = {
             'type': 'add_contact_request',
@@ -189,7 +219,44 @@ contact_search_html.addEventListener('keydown', function(event){
         }
         socket.send(JSON.stringify(request));
         contact_search_html.value = '';
+         contact_search_html.blur();
     }
+})
+
+contact_search_html.addEventListener('focus', function(event){
+    contact_list_html.classList.add('hidden');
+    search_cancel_button_html.classList.remove('hidden');
+    pending_contact_button_html.classList.add('hidden');
+    pending_contact_list_html.classList.add('hidden');
+    contact_search_html.placeholder = '\"Enter\" для добавления в друзья';
+    contact_search_list_html.classList.remove('hidden');
+})
+
+search_cancel_button_html.addEventListener('click', function(event){
+    contact_search_html.placeholder = 'Поиск контактов...';
+    contact_list_html.classList.remove('hidden');
+    chat_img_html.classList.add('hidden');
+    pending_contact_image_html.classList.remove('hidden');
+    contact_search_list_html.classList.add('hidden');
+    pending_contact_button_html.classList.remove('hidden');
+    search_cancel_button_html.classList.add('hidden');
+    while (contact_search_list_html.firstChild){
+        contact_search_list_html.removeChild(contact_search_list_html.firstChild);
+    }
+})
+
+contact_search_list_html.addEventListener('click', function(event){
+    contact_search_list_html.classList.remove('hidden');
+    const found_contacts = contact_search_list_html.children;
+    let hitbox;
+    for (const item of found_contacts){
+        hitbox = item.getBoundingClientRect();
+        if (hitbox.top <= event.clientY && event.clientY <= hitbox.bottom){
+            contact_search_html.value = item.children[1].textContent.slice(1); //Содержание элемента p "username"
+            break;
+        }
+    }
+    contact_search_html.focus();
 })
 
 message_list_html.addEventListener('contextmenu', function(event){
@@ -277,6 +344,62 @@ profile_wrapper_html.addEventListener('click', function(event) {
     }
 });
 
+settings_button_html.addEventListener('click', () => {
+    my_profile_wrapper_html.classList.remove('hidden');
+});
+
+settings_cancel_button_html.addEventListener('click', () => {
+    my_profile_wrapper_html.classList.add('hidden');
+});
+
+my_profile_option_html.addEventListener('click', () => {
+    //Подготавливаем профиль
+    my_profile_displayname_html.value = sessionStorage.getItem('my_displayname');
+    my_profile_username_html.value = sessionStorage.getItem('my_username');
+    about_me_html.value = sessionStorage.getItem('about_me');
+    settings_menu_html.classList.add('hidden');
+    my_profile_field_html.classList.remove('hidden');
+});
+
+profile_field_cancel_html.addEventListener('click', () => {
+    my_profile_field_html.classList.add('hidden');
+    settings_menu_html.classList.remove('hidden');
+});
+
+let old_displayname;
+let old_about;
+profile_field_edit_html.addEventListener('click', () => {
+    if (profile_editing === false){
+        profile_editing = true;
+        old_displayname = my_profile_displayname_html.value;
+        old_about = about_me_html.value;
+        img_edit_html.classList.add('hidden');
+        img_complete_html.classList.remove('hidden');
+        my_profile_displayname_html.disabled = false;
+        about_me_html.disabled = false;
+        my_profile_displayname_html.classList.add('input_editing');
+        about_me_html.classList.add('input_editing');
+    }
+    else{
+        profile_editing = false;
+        img_edit_html.classList.remove('hidden');
+        img_complete_html.classList.add('hidden');
+        my_profile_displayname_html.classList.remove('input_editing');
+        about_me_html.classList.remove('input_editing');
+        my_profile_displayname_html.disabled = true;
+        about_me_html.disabled = true;
+        if (old_displayname !== my_profile_displayname_html.value || old_about !== about_me_html.value){
+            const request = {
+                'type': 'update_profile',
+                'display_name': my_profile_displayname_html.value,
+                'status_message': about_me_html.value,
+                //Здесь будет новый аватар
+            }
+            socket.send(JSON.stringify(request));
+        }
+    }
+});
+
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
 socket.onmessage = function(event){
@@ -288,6 +411,8 @@ socket.onmessage = function(event){
             alert("Выполнен вход");
             loginWrapper.classList.add("hidden");
             mainWrapper.classList.remove("hidden");
+            sessionStorage.setItem('my_displayname', response['display_name']);
+            sessionStorage.setItem('about_me', response['status_message']);
             break;
         case "login_failure":
             alert("login failure. Reason: " + response["reason"]);
@@ -303,7 +428,7 @@ socket.onmessage = function(event){
         case "history_data":
             current_chat_username = response["with_user"];
             tmp_array = response["history"];
-            messageHandle.message_history_load_html(tmp_array, true);
+            messageHandle.message_history_load_html(tmp_array, true, user_array[current_chat_username]['displayname']);
             if (tmp_array.length !== 0){
                 first_message_in_chat = tmp_array[0]['id'];
             }
@@ -330,7 +455,7 @@ socket.onmessage = function(event){
             break;
         case "old_history_data":
             tmp_array = response["history"];
-            messageHandle.message_history_load_html(tmp_array, false);
+            messageHandle.message_history_load_html(tmp_array, false, user_array[current_chat_username]['displayname']);
             if (tmp_array.length !== 0){
                 first_message_in_chat = tmp_array[0]['id'];
             }
@@ -343,13 +468,13 @@ socket.onmessage = function(event){
                 }
                 private_message_queue.splice(private_message_queue.indexOf(temp_id), 1); //Удаляем временный ID из очереди, так как сервер отчитался о его доставке
                 
-                const message_html = messageHandle.create_message_html(response);
+                const message_html = messageHandle.create_message_html(response, user_array[current_chat_username]['displayname']);
                 message_html.classList.add('my_message');
                 message_list_html.appendChild(message_html);
             }
             else{
                 if (current_chat_username === response['fromUser']){
-                    message_list_html.appendChild(messageHandle.create_message_html(response));
+                    message_list_html.appendChild(messageHandle.create_message_html(response, user_array[current_chat_username]['displayname']));
                 }
             }
             message_list_html.scrollTo(0, message_list_html.scrollHeight);
@@ -394,6 +519,18 @@ socket.onmessage = function(event){
                 const tmp = last_seen_html.textContent;
                 last_seen_html.textContent = 'Печатает...';
                 const timer = setTimeout(() => {last_seen_html.textContent = tmp}, 2000);
+            }
+            break;
+        case 'update_profile_result':
+            if (response['success'] === true){
+                alert('Профиль успешно обновлен');
+                sessionStorage.setItem('my_displayname', response['display_name']);
+                sessionStorage.setItem('about_me', response['status_message']);
+            }
+            else{
+                alert('Оишбка изенения профиля. Причина ' + response['reason']);
+                about_me_html.value = old_about;
+                my_profile_displayname_html.value = old_displayname;
             }
             break;
     }

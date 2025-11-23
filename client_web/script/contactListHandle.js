@@ -46,17 +46,3 @@ export const update_html_contact_list = function(user_array){
     }
 }
 
-// export const user_array_manager = function(array, user, delete_user = false){
-//     if (delete_user === true){
-//         for (i = 0; i < array.length(); ++i){
-//             if (array[i] === user){
-//                 array.splice(i, 1); //Удаляем один элемент
-//                 return;
-//             }
-//         }
-//     }
-//     if (!(user in array)){ //Переписать
-//         array.push(user);
-//     }
-    
-// }
