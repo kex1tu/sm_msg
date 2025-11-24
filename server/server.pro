@@ -11,7 +11,9 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         main.cpp \
-        server.cpp
+        server.cpp \
+        cryptoutils.cpp \
+        monocypher.c
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -21,6 +23,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     server.h \
-    structures.h
+    structures.h \
+    cryptoutils.h \
+    monocypher.h
 
 
