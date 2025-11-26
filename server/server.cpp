@@ -377,7 +377,7 @@ void Server::handleUpdateProfile(QObject* socket, const QJsonObject& request)
         // Успешное обновление
         response["success"] = true;
         response["username"] = username; // Возвращаем, чтобы клиент мог подтвердить свои данные
-        response["display_name"] = display_name;
+        response["displayname"] = display_name;
         response["status_message"] = statusMessage;
         response["avatar_url"] = avatarUrl;
         
@@ -1195,7 +1195,10 @@ bool Server::initDatabase()
                     "reply_to_id INTEGER, "
                     "forwarded_from TEXT, "
                     "message_type INTEGER NOT NULL DEFAULT 0, "
-                    "media_url TEXT"
+                    "media_url TEXT, "
+                    "file_id TEXT, "
+                    "file_name TEXT, "
+                    "file_url TEXT"
                     ");")) {
         qCritical() << "[DB] Error: Failed to create 'messages' table:" << query.lastError().text();
         return false;
@@ -1469,7 +1472,7 @@ void Server::handleGetHistory(QObject* socket, const QJsonObject& request)
     QString chatPartner = request["with_user"].toString();
     
     if (chatPartner.isEmpty()) {
-        qWarning() << "[SERVER] History request missing 'with_user' field from" << requestingUser;
+        qWarning() << "[SERVER]History request missing 'with_user' field from" << requestingUser;
         return;
     }
     
@@ -1483,7 +1486,7 @@ void Server::handleGetHistory(QObject* socket, const QJsonObject& request)
     // 2. Формирование SQL-запроса с поддержкой пагинации
     // -----------------------------------------------------------------------
     QString queryString =
-        "SELECT id, fromUser, toUser, payload, timestamp, reply_to_id, is_read, is_edited, is_delivered "
+        "SELECT id, fromUser, toUser, payload, timestamp, reply_to_id, is_read, is_edited, is_delivered, file_id, file_name, file_url "
         "FROM messages "
         "WHERE ((fromUser = :user1 AND toUser = :user2) OR (fromUser = :user2 AND toUser = :user1)) ";
 
@@ -1539,6 +1542,9 @@ void Server::handleGetHistory(QObject* socket, const QJsonObject& request)
         messageObject["is_delivered"] = record.value("is_delivered").toInt();
         messageObject["is_edited"] = record.value("is_edited").toInt();
         messageObject["reply_to_id"] = record.value("reply_to_id").toLongLong();
+        messageObject["file_id"] = record.contains("file_id") ? record.value("file_id").toString() : "";
+        messageObject["file_name"] = record.contains("file_name") ? record.value("file_name").toString() : "";
+        messageObject["file_url"] = record.contains("file_url") ? record.value("file_url").toString() : "";
 
         historyArray.append(messageObject);
     }
@@ -2454,7 +2460,7 @@ void Server::handleLogin(QObject* socket, const QJsonObject& request)
         response["username"] = username;
         response["displayname"] = displayname;
         response["statusmessage"] = statusmessage;
-        response["avatarurl"] = avatarurl;
+        response["avatar_url"] = avatarurl;
         response["token"] = token; // Клиент сохранит для автологина
         
         // --- 8.3. Добавление в список онлайн-пользователей ---
@@ -2570,6 +2576,11 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
     QString payload = request["payload"].toString();
     qint64 replyToId = request["reply_to_id"].toVariant().toLongLong();
     QString tempId = request["temp_id"].toString();
+    QString fileId = request.contains("file_id") ? request["file_id"].toVariant().toString() : "";
+    QString fileName = request.contains("file_name") ? request.value("file_name").toString() : "";
+    QString fileUrl = request.contains("file_url") ? request.value("file_url").toString() : "";
+
+
     
     // Генерируем серверную временную метку (единый источник правды для времени)
     QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
@@ -2603,12 +2614,15 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
     // 3. Сохранение сообщения в базу данных
     // ═══════════════════════════════════════════════════════════════════════
     QSqlQuery query;
-    query.prepare("INSERT INTO messages (fromUser, toUser, payload, timestamp, reply_to_id) "
-                  "VALUES (:fromUser, :toUser, :payload, :timestamp, :reply_to_id)");
+    query.prepare("INSERT INTO messages (fromUser, toUser, payload, timestamp, file_id, file_name, file_url,  reply_to_id) "
+                  "VALUES (:fromUser, :toUser, :payload, :timestamp,:fileId, :fileName, :fileUrl, :reply_to_id)");
     query.bindValue(":fromUser", fromUser);
     query.bindValue(":toUser", toUser);
     query.bindValue(":payload", payload);
     query.bindValue(":timestamp", timestamp);
+    query.bindValue(":fileId", fileId);
+    query.bindValue(":fileName", fileName);
+    query.bindValue(":fileUrl", fileUrl);
     
     // Обрабатываем reply_to_id: если 0, сохраняем NULL в БД
     query.bindValue(":reply_to_id", (replyToId > 0) ? QVariant(replyToId) : QVariant());
@@ -2658,6 +2672,9 @@ void Server::handlePrivateMessage(QObject* socket, const QJsonObject& request)
     echoMessage["is_delivered"] = 0; // Ещё не доставлено
     echoMessage["is_read"] = 0;
     echoMessage["is_edited"] = 0;
+    echoMessage["file_id"] = fileId;
+    echoMessage["file_name"] = fileName;
+    echoMessage["file_url"] = fileUrl;
     
     if (replyToId > 0) {
         echoMessage["reply_to_id"] = static_cast<double>(replyToId);
@@ -3950,4 +3967,3 @@ void Server::handleTokenLogin(QObject* socket, const QJsonObject& request)
     // Обновляем онлайн-списки у всех клиентов
     broadcastUserList();
 }
-    

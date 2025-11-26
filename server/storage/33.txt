@@ -1,0 +1,1037 @@
+#include "biginteger.hpp"
+
+#define minus true
+#define plus false
+
+/* C O N S T R U C T O R S*/
+BigInteger::BigInteger() {
+  array_num_ = new unsigned int[1];
+  array_num_[0] = 0;
+  size_ = 1;
+  capacity_ = 1;
+  sign_ = plus;
+}
+BigInteger::BigInteger(const BigInteger& other) {
+  delete[] array_num_;
+  array_num_ = nullptr;
+  array_num_ = new unsigned int[other.capacity_];
+  capacity_ = other.capacity_;
+  copy(other.array_num_, array_num_, other.size_, capacity_);
+  size_ = other.size_;
+  sign_ = other.sign_;
+  remove_leading_zeros();
+}
+BigInteger::BigInteger(int nm) {
+  delete[] array_num_;
+  if (nm < 0) {
+    sign_ = minus;
+    nm = -nm;
+  } else {
+    sign_ = plus;
+  }
+  array_num_ = new unsigned int[1]();
+  size_ = 1;
+  capacity_ = 1;
+  array_num_[0] = nm;
+}
+BigInteger::BigInteger(unsigned int nm) {
+  delete[] array_num_;
+  array_num_ = new unsigned int[1]();
+  array_num_[0] = nm;
+  size_ = 1;
+  capacity_ = 1;
+  sign_ = plus;
+}
+BigInteger::BigInteger(long nm) {
+  *this = BigInteger(static_cast<long long>(nm));
+}
+BigInteger::BigInteger(unsigned long nm) {
+  *this = BigInteger(static_cast<unsigned long long>(nm));
+}
+BigInteger::BigInteger(long long nm) {
+  delete[] array_num_;
+  if (nm < 0) {
+    sign_ = minus;
+    nm = -nm;
+  } else {
+    sign_ = plus;
+  }
+  array_num_ = new unsigned int[1]();
+  size_ = 0;
+  capacity_ = 1;
+  while (nm > 0) {
+    if (size_ >= capacity_) {
+      expand(size_ + 2);
+    }
+    array_num_[size_] = static_cast<unsigned int>(nm % base);
+    ++size_;
+    nm /= base;
+  }
+  if (size_ == 0) {
+    size_ = 1;
+  }
+}
+BigInteger::BigInteger(unsigned long long nm) {
+  delete[] array_num_;
+  sign_ = plus;
+  array_num_ = new unsigned int[1]();
+  size_ = 0;
+  capacity_ = 1;
+  while (nm > 0) {
+    if (size_ >= capacity_) {
+      expand(size_ + 2);
+    }
+    array_num_[size_] = static_cast<unsigned int>(nm % base);
+    ++size_;
+    nm /= base;
+  }
+  if (size_ == 0) {
+    size_ = 1;
+  }
+}
+BigInteger::BigInteger(const std::string& str, biginteger_base base) {
+  delete[] array_num_;
+  if (str.empty()) {
+    throw std::invalid_argument("Empty string is not a valid number");
+  }
+
+  size_t start_idx = 0;
+  if (str[0] == '+' || str[0] == '-') {
+    start_idx = 1;
+  }
+  if (start_idx == str.size()) {
+    throw std::invalid_argument("Invalid string");
+  }
+  for (size_t i = start_idx; i < str.size(); ++i) {
+    if (base == biginteger_base::dec) {
+      if (!my_isdigit(str[i])) {
+        throw std::invalid_argument(
+            "Invalid character in decimal number string");
+      }
+    } else if (base == biginteger_base::hex) {
+      if (!my_isxdigit(str[i])) {
+        throw std::invalid_argument(
+            "Invalid character in hexadecimal number string");
+      }
+    }
+  }
+  size_ = 1;
+  capacity_ = 1;
+  array_num_ = new unsigned int[capacity_]();
+
+  if (base == biginteger_base::dec) {
+    for (size_t i = start_idx; i < str.size(); ++i) {
+      *this *= 10;
+      *this += (str[i] - '0');
+    }
+  } else if (base == biginteger_base::hex) {
+    for (size_t i = start_idx; i < str.size(); ++i) {
+      *this *= 16;
+      *this += hex_char_to_int(str[i]);
+    }
+  }
+  sign_ = (str[0] == '-');
+  this->remove_leading_zeros();
+}
+BigInteger::BigInteger(BigInteger&& other) noexcept
+    : size_(other.size_), capacity_(other.capacity_), sign_(other.sign_) {
+  array_num_ = other.array_num_;
+  other.array_num_ = nullptr;
+  other.size_ = 1;
+  other.capacity_ = 0;
+  other.sign_ = plus;
+}
+
+/* D E S T R U C T O R */
+BigInteger::~BigInteger() {
+  // std::cout << &array_num_ << std::endl;
+
+  delete[] array_num_;
+}
+
+/*B O O L	O P E R A T O R S*/
+bool BigInteger::operator==(BigInteger const& other) const {
+  if (this->size_ == 1 && other.size_ == this->size()) {
+    if (this->array_num_[0] == 0 &&
+        other.array_num_[0] == this->array_num_[0]) {
+      return true;
+    }
+  }
+
+  if (this->sign_ != other.sign_) {
+    return false;
+  }
+
+  if (this->size_ != other.size_) {
+    return false;
+  }
+
+  if (cmp_arr(this->array_num_, other.array_num_, other.size_) != 0) {
+    return false;
+  }
+
+  return true;
+}
+bool BigInteger::operator!=(BigInteger const& other) const {
+  return !(*this == other);
+}
+bool BigInteger::operator<(BigInteger const& other) const {
+  if (!this->sign_) {    // plus
+    if (!other.sign_) {  // plus
+      if (this->size_ > other.size_) {
+        return false;
+      }
+      if (this->size_ < other.size_) {
+        return true;
+      }
+      return (cmp_arr(this->array_num_, other.array_num_, this->size_) == -1);
+    }
+    return false;
+  }
+  if (this->sign_) {     // minus
+    if (!other.sign_) {  // plus
+      return true;
+    }
+    if (this->size_ > other.size_) {
+      return true;
+    }
+    if (this->size_ < other.size_) {
+      return false;
+    }
+    return (cmp_arr(this->array_num_, other.array_num_, this->size_) == 1);
+  }
+  if (static_cast<int>(other.sign_) == plus) {
+    return true;
+  }
+  if (this->size_ > other.size_) {
+    return true;
+  }
+  if (this->size_ < other.size()) {
+    return false;
+  }
+  return !(cmp_arr(this->array_num_, other.array_num_, this->size_) == -1);
+}
+bool BigInteger::operator>(BigInteger const& other) const {
+  if (*this != other) {
+    return !(*this < other);
+  }
+  return false;
+}
+bool BigInteger::operator<=(BigInteger const& other) const {
+  return !(*this > other);
+}
+bool BigInteger::operator>=(BigInteger const& other) const {
+  return !(*this < other);
+}
+
+/*B I N A R Y	O P E R A T O R S*/
+BigInteger& BigInteger::operator+=(BigInteger const& other) {
+  this->sum_basic(other);
+  return *this;
+}
+BigInteger BigInteger::operator+(BigInteger const& other) const {
+  BigInteger result(*this);
+  result += other;
+  return result;
+}
+BigInteger& BigInteger::operator*=(BigInteger const& other) {
+  this->mul_basic(other);
+  return *this;
+}
+BigInteger BigInteger::operator*(BigInteger const& other) const {
+  BigInteger result(*this);
+  result *= other;
+  return result;
+}
+BigInteger& BigInteger::operator/=(BigInteger const& other) {
+  if (other.size_ == 1 && other.array_num_[0] == 0) {
+    throw std::runtime_error("Division by zero");
+  }
+
+  if (*this == 0) {
+    *this = 0;
+    this->sign_ = plus;
+    return *this;
+  }
+  if (other == 1) {
+    return *this;
+  }
+  if (other == -1) {
+    this->sign_ = !(this->sign_);
+    return *this;
+  }
+  if (this->size() == other.size()) {
+    if (cmp_arr(this->array_num_, other.array_num_, this->size()) == 0) {
+      *this = 1;
+      this->sign_ = (this->sign() != other.sign());
+      return *this;
+    }
+  }
+  BigInteger remainder(0);
+  BigInteger& rem = remainder;
+  if (this->abs() < other.abs()) {
+    *this = 0;
+    return *this;
+  }
+  this->div_basic(other, remainder);
+  return *this;
+}
+BigInteger BigInteger::operator/(BigInteger const& other) const {
+  BigInteger result(*this);
+  result /= other;
+  return result;
+}
+BigInteger& BigInteger::operator-=(BigInteger const& other) {
+  this->dif_basic(other);
+  return *this;
+}
+BigInteger BigInteger::operator-(BigInteger const& other) const {
+  BigInteger result(*this);
+  result -= other;
+  return result;
+}
+BigInteger& BigInteger::operator%=(BigInteger const& other) {
+  if (other.is_zero()) {
+    throw std::runtime_error("Modulo by zero");
+  }
+
+  if (this->abs() < other.abs()) {
+    return *this;
+  }
+
+  if (*this == 0) {
+    *this = 0;
+    this->sign_ = plus;
+    return *this;
+  }
+  if (other == 1) {
+    *this = 0;
+    this->sign_ = plus;
+    return *this;
+  }
+  if (other == -1) {
+    *this = 0;
+    this->sign_ = plus;
+    return *this;
+  }
+
+  if (this->size() == other.size()) {
+    if (cmp_arr(this->array_num_, other.array_num_, this->size()) == 0) {
+      *this = 0;
+      this->sign_ = plus;
+      return *this;
+    }
+  }
+  if (other == 2) {
+    *this = this->array_num_[0] % 2;
+    return *this;
+  }
+
+  this->mod_basic(other);
+  return *this;
+}
+BigInteger BigInteger::operator%(BigInteger const& other) const {
+  BigInteger result(*this);
+  result %= other;
+  return result;
+}
+
+BigInteger& BigInteger::operator=(const BigInteger& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  unsigned int* new_array = new unsigned int[other.capacity_];
+  capacity_ = other.capacity_;
+  copy(other.array_num_, new_array, other.size_, capacity_);
+  delete[] array_num_;
+  array_num_ = new_array;
+  size_ = other.size_;
+  capacity_ = other.capacity_;
+  sign_ = other.sign_;
+  return *this;
+}  // îïåðàòîð ïðèñâàèâàíèÿ
+BigInteger& BigInteger::operator=(BigInteger&& other) noexcept {
+  if (this != &other) {
+    delete[] array_num_;
+
+    array_num_ = other.array_num_;
+    size_ = other.size_;
+    capacity_ = other.capacity_;
+    sign_ = other.sign_;
+
+    other.array_num_ = nullptr;
+    other.size_ = 1;
+    other.capacity_ = 0;
+    other.sign_ = plus;
+  }
+  return *this;
+}  // îïåðàòîð ïðèñâàèâàíèÿ ïåðåìåùåíèåì
+
+/*U N A R Y		O P E R A T O R S*/
+BigInteger BigInteger::operator-() const {
+  BigInteger tmp = *this;
+  tmp.sign_ = !tmp.sign_;
+  return tmp;
+}
+BigInteger BigInteger::operator+() const { return BigInteger(*this); }
+BigInteger& BigInteger::operator++() {
+  *this += BigInteger(1);
+  return *this;
+}
+BigInteger& BigInteger::operator--() {
+  *this -= BigInteger(1);
+  return *this;
+}
+BigInteger BigInteger::operator++(int) {
+  BigInteger tmp = *this;
+  ++(*this);
+  return tmp;
+}
+BigInteger BigInteger::operator--(int) {
+  BigInteger tmp = *this;
+  --(*this);
+  return tmp;
+}
+
+/*F U N C T I O N S*/
+std::string BigInteger::to_hex_string() const {
+  if (this->is_zero()) {
+    return "0";
+  }
+
+  size_t max_len = 1 + this->size_ * 8 + 1;
+  char* buffer = new char[max_len];
+
+  char* write_ptr = buffer;
+
+  if (sign_) {
+    *write_ptr++ = '-';
+  }
+
+  bool is_first_block = true;
+  bool non_zero_found = false;
+
+  for (size_t i = this->size_; i > 0; --i) {
+    unsigned int chunk = this->array_num_[i - 1];
+
+    for (int k = 7; k >= 0; --k) {
+      unsigned int hex_block = (chunk >> (k * 4)) & 0xF;
+
+      if (is_first_block) {
+        if (hex_block == 0 && !non_zero_found && k > 0) {
+          continue;
+        }
+        *write_ptr++ = hex_block_to_hex_char(hex_block);
+        non_zero_found = true;
+      } else {
+        *write_ptr++ = hex_block_to_hex_char(hex_block);
+        non_zero_found = true;
+      }
+    }
+    is_first_block = false;
+  }
+
+  *write_ptr = '\0';
+
+  std::string result(buffer);
+  delete[] buffer;
+
+  return result;
+}
+std::string BigInteger::to_dec_string() const {
+  if (this->is_zero()) {
+    return "0";
+  }
+
+  BigInteger copy_current = (*this);
+  copy_current.sign_ = plus;
+  BigInteger bs(10);
+
+  size_t buff_size = copy_current.size() * 10 + 3;
+  char* buff = new char[buff_size];
+
+  char* write_ptr = buff + buff_size - 1;
+  *write_ptr = '\0';
+
+  while (copy_current > 0) {
+    if (write_ptr == buff) {
+      delete[] buff;
+      throw std::runtime_error(
+          "to_string: Buffer overflow, estimated size was too small");
+    }
+    BigInteger remainder = copy_current % bs;
+
+    --write_ptr;
+    *write_ptr = static_cast<char>('0' + remainder.array_num_[0]);
+    copy_current /= bs;
+  }
+
+  if (static_cast<int>(this->sign()) == minus) {
+    if (write_ptr == buff) {
+      delete[] buff;
+      throw std::runtime_error("to_string: Buffer overflow when adding sign");
+    }
+    --write_ptr;
+    *write_ptr = '-';
+  }
+
+  std::string res(write_ptr);
+
+  delete[] buff;
+
+  return res;
+}
+BigInteger BigInteger::abs() const {
+  BigInteger result(*this);
+  result.sign_ = plus;
+  return result;
+}
+
+/*H E L P F U L		F U N C T I O N S*/
+void copy(const unsigned int* from, unsigned int*& to, size_t size_from,
+          size_t& size_to) {
+  if (size_from > size_to) {
+    unsigned int* new_array = new unsigned int[size_from]();
+    delete[] to;
+    to = new_array;
+    size_to = size_from;
+  }
+
+  for (size_t idx = 0; idx < size_from; ++idx) {
+    to[idx] = from[idx];
+  }
+}
+
+bool my_isdigit(char c) { return c >= '0' && c <= '9'; }
+bool my_isxdigit(char c) {
+  return my_isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+}
+char my_tolower(char c) {
+  if (c >= 'A' && c <= 'Z') {
+    return static_cast<char>(c + ('a' - 'A'));
+  }
+  return c;
+}
+int hex_char_to_int(char c) {
+  if (my_isdigit(c)) {
+    return c - '0';
+  }
+  char lower_c = my_tolower(c);
+  if (lower_c >= 'a' && lower_c <= 'f') {
+    return 10 + (lower_c - 'a');
+  }
+  return -1;
+}
+int cmp_arr(const unsigned int* a, const unsigned int* b, size_t size) {
+  for (size_t i = size; i > 0; --i) {
+    if (a[i - 1] > b[i - 1]) {
+      return 1;  // a greater b
+    }
+    if (a[i - 1] < b[i - 1]) {
+      return -1;  // a smaller b
+    }
+  }
+  return 0;  // a equal b
+}
+char hex_block_to_hex_char(unsigned int symbol) {
+  if (symbol < 10) {
+    return static_cast<char>('0' + symbol);
+  }
+  return static_cast<char>(('A' + symbol - 10));
+}
+void BigInteger::remove_leading_zeros() {  // try to fux
+  if (this->size_ <= 1) {
+    return;
+  }
+
+  while (this->size_ > 1 && this->array_num_[this->size_ - 1] == 0) {
+    --this->size_;
+  }
+}
+void BigInteger::print() {
+  (this->sign_) ? std::cout << '-' : std::cout << '+';
+  std::cout << ' ';
+  for (size_t i = 0; i < this->size_; ++i) {
+    std::cout << this->array_num_[size_ - i - 1] << ' ';
+  }
+  std::cout << std::endl;
+}
+void BigInteger::expand(unsigned long long new_capacity) {
+  if (capacity_ >= new_capacity) {
+    new_capacity = new_capacity + (new_capacity / 10) + 1;
+  }
+  unsigned int* new_arr = new unsigned int[new_capacity]();
+  for (size_t i = 0; i < this->size_; ++i) {
+    new_arr[i] = this->array_num_[i];
+  }
+  delete[] this->array_num_;
+  this->array_num_ = new_arr;
+  this->capacity_ = new_capacity;
+}
+bool BigInteger::is_zero() const { return (this->abs() == 0); }
+
+BigInteger BigInteger::sum_basic(const BigInteger& other) {
+  if (this->sign_ != other.sign_) {
+    BigInteger temp = other;
+    temp.sign_ = !temp.sign_;
+    *this -= temp;
+    return *this;
+  }
+
+  if (other.size_ > this->size_) {
+    this->expand(other.size_ + 2);
+    this->size_ = other.size_;
+  } else {
+    this->expand(this->size_ + 2);
+  }
+
+  unsigned long long sum = 0;
+  unsigned long long carry = 0;
+
+  for (size_t idx = 0; idx < other.size_; ++idx) {
+    sum = static_cast<unsigned long long>(this->array_num_[idx]) +
+          static_cast<unsigned long long>(other.array_num_[idx]) + carry;
+    this->array_num_[idx] = static_cast<unsigned long long>(sum % base);
+    carry = sum / base;
+  }
+
+  for (size_t idx = other.size_; idx < this->size_ && carry != 0; ++idx) {
+    sum = static_cast<unsigned long long>(this->array_num_[idx]) + carry;
+    this->array_num_[idx] = static_cast<unsigned long long>(sum % (base));
+    carry = sum / base;
+  }
+
+  if (carry != 0) {
+    this->array_num_[this->size_] = 0;  // try to fix
+    this->array_num_[this->size_] += static_cast<unsigned int>(carry);
+    ++size_;
+  }
+
+  this->sign_ = other.sign_;
+  this->remove_leading_zeros();
+  return *this;
+}
+BigInteger BigInteger::dif_basic(const BigInteger& other) {
+  if (this->sign_ != other.sign_) {
+    BigInteger temp = other;
+    temp.sign_ = !temp.sign_;
+    *this += temp;
+    return *this;
+  }
+  if (*this == other) {
+    this->sign_ = plus;
+    *this = 0;
+    this->size_ = 1;
+    this->remove_leading_zeros();
+    return *this;
+  }
+
+  bool result_sign = this->sign_;
+
+  const BigInteger* larger = this;
+  const BigInteger* smaller = &other;
+
+  if (this->size_ < other.size_ ||
+      (this->size_ == other.size_ &&
+       cmp_arr(this->array_num_, other.array_num_, this->size_) < 0)) {
+    larger = &other;
+    smaller = this;
+    result_sign = !result_sign;
+  }
+  unsigned long long diff = 0;
+  unsigned long long carry = 0;
+
+  size_t result_capacity = larger->size_;
+  unsigned int* result_array = new unsigned int[result_capacity]();
+  unsigned long long L;
+  unsigned long long S;
+  for (size_t idx = 0; idx < smaller->size_; ++idx) {
+    L = static_cast<unsigned long long>(larger->array_num_[idx]);
+    S = static_cast<unsigned long long>(smaller->array_num_[idx]);
+    diff = L - S - carry;
+    if (diff < base) {
+      result_array[idx] = static_cast<unsigned int>(diff);
+      carry = 0;
+    } else {
+      result_array[idx] = static_cast<unsigned int>(L + base - S - carry);
+      carry = 1;
+    }
+  }
+
+  for (size_t idx = smaller->size_; idx < larger->size_; ++idx) {
+    L = static_cast<unsigned long long>(larger->array_num_[idx]);
+    unsigned long long diff = L - carry;
+    if (diff < base) {
+      result_array[idx] = static_cast<unsigned int>(diff);
+      carry = 0;
+    } else {
+      result_array[idx] = static_cast<unsigned int>(diff + base);
+      carry = 1;
+    }
+  }
+
+  delete[] this->array_num_;
+  this->array_num_ = result_array;
+  this->capacity_ = result_capacity;
+  this->size_ = result_capacity;
+  this->sign_ = result_sign;
+
+  this->remove_leading_zeros();
+
+  return *this;
+}
+BigInteger BigInteger::mul_basic(const BigInteger& other) {
+  if ((this->size_ == 1 && this->array_num_[0] == 0) ||
+      (other.size_ == 1 && other.array_num_[0] == 0)) {
+    *this = BigInteger(0);
+    this->size_ = 1;
+    return *this;
+  }
+  if ((this->size_ == 1 && this->array_num_[0] == 1)) {
+    *this = other;
+    this->sign_ = (this->sign_ != other.sign_);
+    return *this;
+  }
+  if ((other.size_ == 1 && other.array_num_[0] == 1)) {
+    this->sign_ = (this->sign_ != other.sign_);
+    return *this;
+  }
+
+  bool result_sign = this->sign_ != other.sign_;
+
+  size_t result_size = this->size_ + other.size_;
+  unsigned int* result = new unsigned int[result_size]();
+  for (int i = 0; i < result_size; ++i) {
+    result[i] = 0;
+  }
+  unsigned long long carry = 0;
+  unsigned long long this_i = 0;
+  for (size_t i = 0; i < this->size_; ++i) {
+    if (this->array_num_[i] == 0) {
+      continue;
+    }
+    this_i = static_cast<unsigned long long>(this->array_num_[i]);
+    for (size_t j = 0; j < other.size_; ++j) {
+      unsigned long long current =
+          result[i + j] + this_i * (other.array_num_[j]) + carry;
+
+      result[i + j] = static_cast<unsigned int>(current % base);
+      carry = current / base;
+    }
+    if (carry > 0) {
+      size_t carry_idx = i + other.size_;
+      while (carry_idx < result_size && carry > 0) {
+        unsigned long long current = result[carry_idx] + carry;
+        result[carry_idx] = static_cast<unsigned int>(current % base);
+        carry = current / base;
+        carry_idx++;
+      }
+    }
+  }
+  if (carry > 0) {
+    throw std::invalid_argument("unexpected error");
+  }
+
+  delete[] this->array_num_;
+  this->array_num_ = result;
+  this->size_ = result_size;
+  this->capacity_ = result_size;
+  this->sign_ = result_sign;
+
+  this->remove_leading_zeros();
+
+  return *this;
+}
+
+int nlz(unsigned int x) {  // нормализация макс сдвиг на 31, размер не
+                           // изменяется
+  if (x == 0) return 32;  // Все нули
+  int n = 0;
+  if ((x >> 16) == 0) {
+    n += 16;
+    x <<= 16;
+  }
+  if ((x >> 24) == 0) {
+    n += 8;
+    x <<= 8;
+  }
+  if ((x >> 28) == 0) {
+    n += 4;
+    x <<= 4;
+  }
+  if ((x >> 30) == 0) {
+    n += 2;
+    x <<= 2;
+  }
+  if ((x >> 31) == 0) {
+    n += 1;
+  }
+  return n;
+}
+
+
+int shift_for_norm(
+    unsigned int x) {  // нормализация, макс сдвиг на 31, размер не изменяется
+  if (x == 0) return 32;  //
+  int n = 0;
+  if ((x >> 16) == 0) {
+    n += 16;
+    x <<= 16;
+  }
+  if ((x >> 24) == 0) {
+    n += 8;
+    x <<= 8;
+  }
+  if ((x >> 28) == 0) {
+    n += 4;
+    x <<= 4;
+  }
+  if ((x >> 30) == 0) {
+    n += 2;
+    x <<= 2;
+  }
+  if ((x >> 31) == 0) {
+    n += 1;
+  }
+  return n;
+}
+
+int div_knut(unsigned int quot[], unsigned int rem[],
+             const unsigned int dividend[], const unsigned int divisor[],
+             int dividend_size, int divisor_size) {
+  unsigned int *dividend_normalized, *divisor_normalized;  // normalized
+  long long int i, j;  // индексы для работы
+  long long int borrow;
+
+  if (divisor_size == 1)  // деление на один разряд
+  {
+    borrow = 0;  // остаток от старшего разряда
+    for (j = dividend_size - 1; j >= 0; j--) {
+      quot[j] = (borrow * base + dividend[j]) / divisor[0];
+      borrow = (borrow * base + dividend[j]) - quot[j] * divisor[0];
+    }
+    if (rem != nullptr) {  // если остаток нужен
+      rem[0] = borrow;
+    }
+    return 0;
+  }
+
+  int s = shift_for_norm(divisor[divisor_size - 1]);  // сдвиг при нормализации
+  int xshift = 32 - s;
+
+  divisor_normalized =
+      new unsigned int[divisor_size]();  // массив под нормализованный делитель
+  dividend_normalized =
+      new unsigned int[dividend_size +
+                       1]();  // массив под нормализованное делимое
+
+  if (s == 0) {  // сдвиг на 32 не заработал(((
+    for (i = divisor_size - 1; i >= 0; i--) {
+      divisor_normalized[i] = divisor[i];
+    }
+    for (i = dividend_size - 1; i >= 0; i--) {
+      dividend_normalized[i] = dividend[i];
+    }
+  } else {
+    for (i = divisor_size - 1; i > 0; i--) {
+      divisor_normalized[i] = (divisor[i] << s) | (divisor[i - 1] >> xshift);
+    }
+    divisor_normalized[0] = divisor[0] << s;
+
+    dividend_normalized[dividend_size] =
+        dividend[dividend_size - 1] >>
+        (xshift);  // если при сдвиге появится новый рразряд
+
+    for (i = dividend_size - 1; i > 0; i--) {
+      dividend_normalized[i] = (dividend[i] << s) | (dividend[i - 1] >> xshift);
+    }
+    dividend_normalized[0] = dividend[0] << s;
+  }
+
+  for (j = dividend_size - divisor_size; j >= 0; j--) {  // главный цикл
+
+    unsigned long long nt_2 =
+        static_cast<unsigned long long>(
+            base * (dividend_normalized[j + divisor_size])) +
+        static_cast<unsigned long long>(
+            dividend_normalized[j + divisor_size - 1]);
+
+    // vn1 это v'_{n-1}
+    unsigned long long vn1 =
+        static_cast<unsigned long long>(divisor_normalized[divisor_size - 1]);
+
+    unsigned long long appr_digit_quot = nt_2 / vn1;
+
+    // - q_hat * v_lead
+    unsigned long long ost_tek =
+        nt_2 - appr_digit_quot * vn1;  // остаток от текущего деления
+    while (true) {
+      if (appr_digit_quot >= base ||
+          appr_digit_quot * divisor_normalized[divisor_size - 2] >
+              base * ost_tek + dividend_normalized[j + divisor_size - 2]) {
+        // если перебрали с appr_digit_quot, то уменьшаем
+        --appr_digit_quot;
+        ost_tek = ost_tek + divisor_normalized[divisor_size - 1];
+        if (ost_tek < base) continue;
+      }
+      break;
+    }
+
+    // умножение и вычитание
+    borrow = 0;
+    long long int tmp;
+    for (i = 0; i < divisor_size; i++) {
+      unsigned long long p =
+          (unsigned long long)appr_digit_quot * divisor_normalized[i];
+      tmp = dividend_normalized[i + j] - borrow - (p & 0xFFFFFFFF);
+      dividend_normalized[i + j] = tmp;
+      borrow = (p >> 32) - (tmp >> 32);
+    }
+    tmp = dividend_normalized[j + divisor_size] - borrow;
+    dividend_normalized[j + divisor_size] = tmp;
+    quot[j] = appr_digit_quot;  // сохранение цифры частного
+
+    if (tmp < 0)  // если вычли слишком много,
+    {
+      quot[j] = quot[j] - 1;
+      borrow = 0;
+      for (i = 0; i < divisor_size; i++) {
+        tmp = dividend_normalized[i + j] + divisor_normalized[i] + borrow;
+        dividend_normalized[i + j] = tmp;
+        borrow = tmp >> 32;
+      }
+      dividend_normalized[j + divisor_size] =
+          dividend_normalized[j + divisor_size] + borrow;
+    }
+  }
+
+  if (rem != nullptr) {  // денормализуем остаток
+    if (s == 0) {
+      for (int i_cpy = 0; i_cpy < divisor_size; i_cpy++) {
+        rem[i_cpy] = dividend_normalized[i_cpy];
+      }
+    } else {
+      if (divisor_size > 0) {
+        rem[0] = dividend_normalized[0] >> s;  // младшая цифра
+        for (int i_denorm = 1; i_denorm < divisor_size; ++i_denorm) {
+          rem[i_denorm - 1] |= (dividend_normalized[i_denorm] << (xshift));
+          rem[i_denorm] = dividend_normalized[i_denorm] >> s;
+        }
+      }
+    }
+  }
+  delete[] divisor_normalized;
+  delete[] dividend_normalized;
+  return 0;
+}
+
+BigInteger BigInteger::div_basic(const BigInteger& other,
+                                 BigInteger& remainder) {
+  bool result_sign = this->sign_ != other.sign_;
+  bool remainder_sign = this->sign_;
+
+  BigInteger divisible = *this;
+  // BigInteger rem = remainder;
+  BigInteger dividor = other;
+  BigInteger quotient = 0;
+  unsigned int* q = new unsigned int[this->size_ - other.size_ + 1]();
+  unsigned int* r = new unsigned int[other.size_]();
+  BigInteger quotient_val;
+  BigInteger remainder_val;
+  BigInteger tmp = 0;
+  unsigned int*& res = this->array_num_;
+  unsigned long long res_size = this->size_ - other.size_ + 1;
+  int divknut_ret = div_knut(q, r, this->array_num_, other.array_num_,
+                            this->size_, other.size_);
+
+  if (divknut_ret != 0) {
+    // Обработка ошибки от divknut
+    throw std::runtime_error("divknut failed");
+  }
+  quotient_val.array_num_ = q;
+  quotient_val.size_ = this->size_ - other.size_ + 1;
+  quotient_val.sign_ = result_sign;
+  quotient_val.remove_leading_zeros();
+
+  remainder_val.array_num_ = r;
+  remainder_val.size_ = other.size_;
+  remainder_val.remove_leading_zeros();
+  remainder_val.sign_ = remainder_sign;
+
+  if (this == &remainder) {  // Вызывалось как operator%=
+    *this = remainder_val;
+  } else {  // Вызывалось как operator/=
+    *this = quotient_val;
+    remainder = remainder_val;
+  }
+  return *this;
+}
+BigInteger BigInteger::mod_basic(const BigInteger& other) {
+  this->div_basic(other, *this);
+  return *this;
+}
+void BigInteger::print_dec() const {
+  std::cout << this->to_dec_string() << std::endl;
+}
+void BigInteger::sdvig_left(size_t sdvig) {
+  if (this->is_zero()) {
+    return;
+  }
+  unsigned int* new_array = new unsigned int[this->size_ + sdvig]();
+  for (size_t idx = 0; idx < this->size_; ++idx) {
+    new_array[idx + sdvig] = this->array_num_[idx];
+  }
+  delete[] this->array_num_;
+  this->array_num_ = new_array;
+  this->capacity_ = this->size_ + sdvig;
+  this->size_ = this->size_ + sdvig;
+}
+
+BigInteger binpow(BigInteger bs, BigInteger exp) {
+  if (exp < 0) {
+    throw std::invalid_argument("Exponent should be not negative");
+  }
+  BigInteger res = 1;
+  while (exp != 0) {
+    if (exp % 2 == 1) {
+      res *= bs;
+    }
+    bs = bs * bs;
+    exp /= 2;
+  }
+  return res;
+}
+BigInteger binmodpow(BigInteger bs, BigInteger exp, const BigInteger& modulus) {
+  if (exp < 0) {
+    throw std::invalid_argument("Exponent should be not negative");
+  }
+
+  if (modulus == 1) {
+    return 0;
+  }
+  bs %= modulus;
+
+  BigInteger res = 1;
+  if (exp == 0) {
+    res = 1;
+  }
+  while (exp != 0) {
+    if (exp % 2 == 1) {
+      res = (res * bs) % modulus;
+    }
+    bs %= modulus;
+    bs *= bs;
+    bs %= modulus;
+    // bs = (bs * bs) % modulus;
+    exp /= 2;
+  }
+  return res;
+}
+
+std::string to_string(const BigInteger& current) {
+  return current.to_dec_string();
+}
+std::string to_hex(const BigInteger& current) {
+  return current.to_hex_string();
+}

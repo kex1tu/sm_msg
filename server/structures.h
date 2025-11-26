@@ -158,6 +158,9 @@ struct ChatMessage {
     QString mediaUrl;                ///< Локальный путь или URL для медиа-файлов.
     bool isOutgoing;                 ///< Флаг: сообщение исходящее (от текущего пользователя).
     bool isFailed = false;           ///< Флаг: отправка окончательно не удалась.
+    QString fileId;    // <-- новое поле
+    QString fileName;  // <-- новое поле
+    QString fileUrl;
 };
 
 /**
