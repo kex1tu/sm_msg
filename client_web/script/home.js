@@ -49,6 +49,7 @@ const about_me_html = document.getElementById('about_me');
 const profile_field_edit_html = document.getElementById('profile_field_edit');
 const img_edit_html = document.getElementById('profile_field_button_img_edit');
 const img_complete_html = document.getElementById('profile_field_button_img_complete');
+const logout_option_html = document.getElementById('logout_option');
 
 //----------------ПЕРЕМЕННЫЕ С ОБЩЕЙ ОБЛАСТЬЮ ВИДИМОСТИ-----------------
 
@@ -58,7 +59,7 @@ let previous_first_message; //Запоминаем переменную стро
 let temp_id_counter = 0;
 let profile_editing = false;
 let targeted_message; //Выделенное пользователем сообщение, на которое будет отправлен ответ
-const private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
+let private_message_queue = []; //Очередь из личных сообщений с временными ID. Будем убирать сообщения отсюда, если сервер подтвердит отправку
 let for_edit = false; //Флаг для отслеживания редактирования сообщения, который меняет поведение кнопки отправки
 let user_array = []; //Массив с объектами user = 
 // {"username": "123", 
@@ -72,7 +73,9 @@ let user_array = []; //Массив с объектами user =
 //         this.last_seen = last_seen;
 //     }
 // }
-
+let old_displayname;
+let old_about;
+let is_trottle = true;
 
 
 //-----------ФУНКЦИИ-ПРОСЛУШКИ-----------
@@ -80,6 +83,7 @@ let user_array = []; //Массив с объектами user =
 function login(){
     const username = username_input_html.value;
     const password = password_input_html.value;
+    password_input_html.value = '';
 
     const loginData = {
         type: "login",
@@ -110,7 +114,7 @@ password_input_html.addEventListener('keydown', function(event){
 
 message_list_html.addEventListener('scroll', () => { //Обработка прокручивания списка сообщений
     if (previous_first_message === first_message_in_chat){return;} //Не отправляем запрос, если достигли начала истории или если происходит слишком частый вызов функции
-    if (message_list_html.scrollTop <= 50){
+    if (message_list_html.scrollTop <= 200){
         const request = {
             "type": "get_history",
             "with_user": current_chat_username,
@@ -172,8 +176,6 @@ message_input_html.addEventListener('keydown', function(event){
     }
 });
 
-
-let is_trottle = true;
 message_input_html.addEventListener('input', () => {
     if (is_trottle){
         is_trottle = false;
@@ -219,7 +221,7 @@ contact_search_html.addEventListener('keydown', function(event){
         }
         socket.send(JSON.stringify(request));
         contact_search_html.value = '';
-         contact_search_html.blur();
+        contact_search_html.blur();
     }
 })
 
@@ -294,7 +296,6 @@ contextmenu_ans.addEventListener('click', () => {
 contextmenu_red.addEventListener('click', () => {
     message_contextmenu.classList.add('hidden');
     if (!(targeted_message.classList.contains('my_message'))){
-        alert("Соси хуй!!!\nНельзя редактировать не свои сообщения!");
         return;
     }
     messageHandle.prepare_message_hat(targeted_message);
@@ -312,7 +313,6 @@ contextmenu_del.addEventListener('click', () => {
         socket.send(JSON.stringify(request));
     }
     else{ 
-        alert("Соси хуй!!!\nНельзя удалять не свои сообщения!");
         return;
      }
 });
@@ -366,8 +366,6 @@ profile_field_cancel_html.addEventListener('click', () => {
     settings_menu_html.classList.remove('hidden');
 });
 
-let old_displayname;
-let old_about;
 profile_field_edit_html.addEventListener('click', () => {
     if (profile_editing === false){
         profile_editing = true;
@@ -400,6 +398,50 @@ profile_field_edit_html.addEventListener('click', () => {
     }
 });
 
+const logout = function(){
+    sessionStorage.clear();
+    while(message_list_html.firstChild){
+        message_list_html.removeChild(message_list_html.firstChild);
+    }
+    while(contact_list_html.firstChild){
+        contact_list_html.removeChild(contact_list_html.firstChild);
+    }
+    while(pending_contact_list_html.firstChild){
+        pending_contact_list_html.removeChild(pending_contact_list_html.firstChild);
+    }
+    while(contact_search_list_html.firstChild){
+        contact_search_list_html.removeChild(contact_search_list_html.firstChild);
+    }
+
+    profile_username_html.textContent = '';
+    last_seen_html.textContent = '';
+    messageHandle.cancel_message_hat();
+    message_contextmenu.classList.add('hidden');
+    my_profile_wrapper_html.classList.add('hidden');
+
+    current_chat_username = undefined;
+    first_message_in_chat = undefined; 
+    previous_first_message = undefined; 
+    temp_id_counter = 0;
+    profile_editing = false;
+    targeted_message = undefined; 
+    private_message_queue = []; 
+    for_edit = false;
+    user_array = [];
+    old_displayname = undefined;
+    old_about = undefined;
+    is_trottle = true;
+    const request = {
+        'type': 'logout_request'
+    }
+    socket.send(JSON.stringify(request));
+
+    loginWrapper.classList.remove("hidden");
+    mainWrapper.classList.add("hidden");
+}
+
+logout_option_html.addEventListener('click', logout);
+
 //----------ЕДИНСТВЕННАЯ ПРОСЛУШКА СОКЕТА----------
 
 socket.onmessage = function(event){
@@ -411,8 +453,8 @@ socket.onmessage = function(event){
             alert("Выполнен вход");
             loginWrapper.classList.add("hidden");
             mainWrapper.classList.remove("hidden");
-            sessionStorage.setItem('my_displayname', response['display_name']);
-            sessionStorage.setItem('about_me', response['status_message']);
+            sessionStorage.setItem('my_displayname', response['displayname']);
+            sessionStorage.setItem('about_me', response['statusmessage']);
             break;
         case "login_failure":
             alert("login failure. Reason: " + response["reason"]);
@@ -449,8 +491,10 @@ socket.onmessage = function(event){
             else{
                 last_seen_html.textContent = 'Не в сети';
             }
-            
-            
+            var contact_html = document.getElementById('@' + current_chat_username);
+            var last_message = message_list_html.lastChild;  
+            contactListHandle.update_contact_html(contact_html, last_message);
+
             message_list_html.scrollTo(0, message_list_html.scrollHeight);
             break;
         case "old_history_data":
@@ -471,12 +515,21 @@ socket.onmessage = function(event){
                 const message_html = messageHandle.create_message_html(response, user_array[current_chat_username]['displayname']);
                 message_html.classList.add('my_message');
                 message_list_html.appendChild(message_html);
+                contactListHandle.update_contact_html(document.getElementById('@' + response['toUser']), message_html);
             }
             else{
+                const message_html = messageHandle.create_message_html(response, user_array[current_chat_username]['displayname'])
                 if (current_chat_username === response['fromUser']){
-                    message_list_html.appendChild(messageHandle.create_message_html(response, user_array[current_chat_username]['displayname']));
+                    message_list_html.appendChild(message_html);
+                    contactListHandle.update_contact_html(document.getElementById('@' + response['fromUser']), message_html);
+                }
+                else{
+                    contactListHandle.update_contact_html(document.getElementById('@' + response['fromUser']), message_html, true);
                 }
             }
+
+            
+
             message_list_html.scrollTo(0, message_list_html.scrollHeight);
             break;
         case "pending_requests_list":
@@ -531,6 +584,17 @@ socket.onmessage = function(event){
                 alert('Оишбка изенения профиля. Причина ' + response['reason']);
                 about_me_html.value = old_about;
                 my_profile_displayname_html.value = old_displayname;
+            }
+            break;
+        case 'unread_counts':
+            tmp_array = response['counts'];
+            for (const elem of response['counts']){
+                const contact = document.getElementById('@' + elem['username']);
+                if (contact){
+                    const counter = contact.querySelector('.contact_unread_count');
+                    counter.textContent = elem['count'].toString();
+                    counter.classList.remove('hidden');
+                }
             }
             break;
     }

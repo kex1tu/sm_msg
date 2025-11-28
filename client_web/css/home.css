@@ -135,10 +135,40 @@ html, body{
     background-color: #353738;
     padding: 8px 15px;
     margin: 5px 0;
+    display: flex;
+    
 }
+
+.contact_f2{
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact_p{
+    font-size: 13px;
+    opacity: 50%;
+    margin-top: auto;
+}
+
 
 .contact:hover{
     background-color: #494c4d;
+}
+
+.contact_unread_count{
+    font-size: 15px;
+    display: flex;
+    border-radius: 100%;
+    background-color: #17bcfd;
+    min-width: 15px;
+    width: fit-content;
+    height: 15px;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    margin-bottom: auto;
 }
 
 .current_contact{

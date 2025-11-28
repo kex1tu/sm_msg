@@ -26,12 +26,7 @@ socket.onmessage = function(event){
         alert("Регистрация успешна!");
     } 
     else{
-        if (response["type"] === "register_failure" && response["reason"] === "Username already exists."){
-            alert("Пользователь уже существует");
-        }
-        else{
-            alert("Неизвестная ошибка. Причина: ", response["reason"]);
-        }
+        alert('Ошибка регистрации. Причина: ' + response['reason']);
     }
     
 }
