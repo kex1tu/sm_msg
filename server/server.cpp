@@ -2754,7 +2754,7 @@ void Server::sendJson(QObject* socket, const QJsonObject& response)
 {
     qDebug() << "---------------------------------";
     qDebug() << "[SERVER] Preparing to send JSON of type:" << response["type"].toString();
-    qDebug() << "[SERVER] Full JSON content:" << response;
+    //qDebug() << "[SERVER] Full JSON content:" << response;
     qDebug() << "---------------------------------";
 
     QByteArray jsonData = QJsonDocument(response).toJson(QJsonDocument::Compact);
