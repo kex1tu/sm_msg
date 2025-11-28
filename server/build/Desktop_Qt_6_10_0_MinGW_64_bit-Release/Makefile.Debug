@@ -292,6 +292,7 @@ debug/moc_server.cpp: ../../server.h \
 		../../monocypher.h \
 		../../structures.h \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QList \
+		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QMetaType \
 		debug/moc_predefs.h \
 		C:/dev/Qt/6.10.0/mingw_64/bin/moc.exe
 	C:\dev\Qt\6.10.0\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/kexit/Desktop/chat_messenger_v_1/server/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/debug/moc_predefs.h -IC:/dev/Qt/6.10.0/mingw_64/mkspecs/win32-g++ -IC:/Users/kexit/Desktop/chat_messenger_v_1/server -IC:/dev/Qt/6.10.0/mingw_64/include -IC:/dev/Qt/6.10.0/mingw_64/include/QtHttpServer -IC:/dev/Qt/6.10.0/mingw_64/include/QtWebSockets -IC:/dev/Qt/6.10.0/mingw_64/include/QtNetwork -IC:/dev/Qt/6.10.0/mingw_64/include/QtSql -IC:/dev/Qt/6.10.0/mingw_64/include/QtCore -I. -IC:/dev/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -IC:/dev/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -IC:/dev/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -IC:/dev/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -IC:/dev/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -IC:/dev/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\server.h -o debug\moc_server.cpp
@@ -501,7 +502,8 @@ debug/main.o: ../../main.cpp C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QCoreAppli
 		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/qrandom.h \
 		../../monocypher.h \
 		../../structures.h \
-		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QList
+		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QList \
+		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QMetaType
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\main.cpp
 
 debug/server.o: ../../server.cpp C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QCoreApplication \
@@ -719,8 +721,9 @@ debug/server.o: ../../server.cpp C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QCoreA
 		../../monocypher.h \
 		../../structures.h \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QList \
-		../../server.h \
+		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QMetaType \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtCore/QObject \
+		../../server.h \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtNetwork/QHostAddress \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtWebSockets/QWebSocketServer \
 		C:/dev/Qt/6.10.0/mingw_64/include/QtWebSockets/qwebsocketserver.h \

@@ -122,6 +122,7 @@ Server::Server(QObject *parent) : QObject(parent)
 bool Server::listen(const QHostAddress &address, quint16 tcpPort, quint16 wsPort)
 {
     // 1. Попытка запуска защищенного TCP-сервера
+    //QHostAddress address("26.57.175.166");
     bool tcpSuccess = m_secureTcpServer->listen(address, tcpPort);
 
     // 2. Попытка запуска WebSocket-сервера
@@ -1984,7 +1985,7 @@ void Server::sendContactList(QObject* socket, const QString& username)
      */
     QSqlQuery query;
     query.prepare(
-        "SELECT u.username, u.display_name, u.last_seen, u.status_message "
+        "SELECT u.username, u.display_name, u.last_seen, u.status_message, u.avatar_url "
         "FROM users u "
         "JOIN contacts c ON (u.id = c.user_id_1 OR u.id = c.user_id_2) "
         "WHERE (c.user_id_1 = :userId OR c.user_id_2 = :userId) "
@@ -2016,6 +2017,7 @@ void Server::sendContactList(QObject* socket, const QString& username)
         userObject["displayname"] = query.value("display_name").toString();
         userObject["last_seen"] = query.value("last_seen").toString();
         userObject["statusmessage"] = query.value("status_message").toString();
+        userObject["avatar_url"] = query.value("avatar_url").toString();
         
         contactsArray.append(userObject);
     }
@@ -2254,10 +2256,28 @@ void Server::handleAddContactRequest(QObject* socket, const QJsonObject& request
     QObject* toSocket = m_clients.value(toUsername, nullptr);
     
     if (toSocket) {
+        QString avatarUrl = "";
+
+        // Корректный SQL-запрос: указать поля после SELECT, убрать лишнюю скобку
+        QSqlQuery query;
+        query.prepare("SELECT avatar_url FROM users WHERE username = :usernameFrom");
+        query.bindValue(":usernameFrom", fromUsername);
+
+        // Выполняем запрос
+        if (!query.exec()) {
+            qDebug() << "cannot select avatar_url";
+        } else if (query.next()) { // Переходим к первой строке результата
+            avatarUrl = query.value("avatar_url").toString();
+        } else {
+            qDebug() << "avatar_url not found for user" << fromUsername;
+        }
+
+
         QJsonObject notification;
         notification["type"] = "incoming_contact_request";
         notification["fromUsername"] = fromUsername;
         notification["fromDisplayname"] = fromDisplayName;
+        notification["fromAvatarUrl"] = avatarUrl; // передаём аватарку!
         
         sendJson(toSocket, notification);
         qDebug() << "[SERVER] Push notification sent to" << toUsername;
@@ -3261,7 +3281,7 @@ void Server::sendPendingContactRequests(QObject* socket, const QString& username
     // 2. Выполняем основной запрос для поиска входящих запросов на добавление в друзья
     QSqlQuery query;
     query.prepare(
-        "SELECT u.username, u.display_name FROM users u "
+        "SELECT u.username, u.display_name, u.avatar_url FROM users u "
         "JOIN contacts c ON u.id = (CASE WHEN c.user_id_1 = :userId THEN c.user_id_2 ELSE c.user_id_1 END) "
         "WHERE (c.user_id_1 = :userId OR c.user_id_2 = :userId) AND c.status = 0"
     );
@@ -3276,16 +3296,19 @@ void Server::sendPendingContactRequests(QObject* socket, const QString& username
 
     // 3. Формируем JSON-массив с запросами
     QJsonArray pendingRequests;
+
     while (query.next()) {
         QString fromUser = query.value(0).toString();
-        qDebug() << "[SERVER][PENDING] Found a pending request from:" << fromUser;
+        QString displayName = query.value(1).toString();
+        QString avatarUrl = query.value(2).toString();
+        qDebug() << "[SERVER][PENDING] Found a pending request from:" << fromUser << displayName << avatarUrl;
 
         QJsonObject reqObject;
         reqObject["fromUsername"] = fromUser;
-        reqObject["fromDisplayname"] = query.value(1).toString();
+        reqObject["fromDisplayname"] = displayName;
+        reqObject["fromAvatarUrl"] = avatarUrl; // обязательно поле!
         pendingRequests.append(reqObject);
     }
-
     qDebug() << "[SERVER][PENDING] Total pending requests found:" << pendingRequests.count();
 
     // 4. Отправляем JSON с запросами, если есть хоть один
@@ -3298,6 +3321,7 @@ void Server::sendPendingContactRequests(QObject* socket, const QString& username
     } else {
         qDebug() << "[SERVER][PENDING] No pending contact requests found for user:" << username;
     }
+
 }
 
 
